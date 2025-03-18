@@ -1,127 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Previous meta tags and title remain same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Compress PDF files online for free with our fast and secure PDF compressor. Reduce file size without losing quality.">
+    <title>PDF Compressor</title>
     <style>
-        /* Add these new styles */
-        .ad-left {
-            position: fixed;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 160px;
-            padding: 1rem;
-        }
-
-        .ad-right {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 160px;
-            padding: 1rem;
-        }
-
-        .ad-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA64D;
             text-align: center;
-            padding: 1rem;
-            background: #f8f8f8;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        .download-btn {
-            background: var(--primary-blue);
+        .container {
+            background: #E68500;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            background-color: #FF6600;
             color: white;
-            padding: 1rem 2rem;
+            padding: 10px 15px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            display: none; /* Hidden by default */
-            margin-top: 1rem;
+            width: 100%;
         }
-
-        /* Modify existing styles */
-        .main-container {
-            grid-template-columns: 1fr;
-            margin: 0 160px; /* Space for side ads */
+        .btn:hover {
+            background-color: #E68500;
         }
-
-        @media (max-width: 1200px) {
-            .ad-left, .ad-right {
-                display: none;
+        .ad-space {
+            background: #0000FF;
+            color: white;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .layout {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .side-ad {
+            width: 150px;
+            min-height: 300px;
+            background: #0000FF;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+                align-items: center;
             }
-            .main-container {
-                margin: 0;
+            .side-ad {
+                width: 100%;
+                min-height: 50px;
             }
         }
-
-        /* Keep previous other styles */
     </style>
 </head>
 <body>
-    <!-- Add new ad containers -->
-    <div class="ad-left ad-container">
-        <!-- Left AdMob Ad Unit -->
+    <div class="layout">
+        <div class="side-ad">Ad Space</div>
+        <div class="container">
+            <h1>PDF Compressor</h1>
+            <input type="file" id="pdfInput" accept="application/pdf">
+            <br><br>
+            <label for="compressionLevel">Compression Level:</label>
+            <select id="compressionLevel">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <br><br>
+            <button class="btn" onclick="compressPDF()">Compress PDF</button>
+            <p id="status"></p>
+            <a id="downloadLink" class="btn" href="#" download style="display:none; margin-top:10px;">Download Compressed PDF</a>
+        </div>
+        <div class="side-ad">Ad Space</div>
     </div>
-
-    <div class="ad-right ad-container">
-        <!-- Right AdMob Ad Unit -->
-    </div>
-
-    <header class="header">
-        <!-- Keep existing header content -->
-    </header>
-
-    <!-- Bottom Ad -->
-    <div class="ad-bottom ad-container">
-        <!-- Bottom AdMob Ad Unit -->
-    </div>
-
-    <!-- Previous main container content remains same -->
-
-    <!-- Add download button in compressor section -->
-    <div style="text-align: center;">
-        <button id="download-btn" class="download-btn">
-            Download Compressed PDF
-        </button>
-    </div>
-
+    <div class="ad-space">Bottom Ad Space</div>
+    
     <script>
-        // Add download functionality
-        const downloadBtn = document.getElementById('download-btn');
-
-        // Modify compression button handler
-        compressBtn.addEventListener('click', async () => {
-            // Existing compression logic...
-
-            // After successful compression
+        function compressPDF() {
+            const input = document.getElementById('pdfInput').files[0];
+            const level = document.getElementById('compressionLevel').value;
+            if (!input) {
+                document.getElementById('status').innerText = 'Please select a PDF file first.';
+                return;
+            }
+            document.getElementById('status').innerText = 'Compressing...';
             setTimeout(() => {
-                progressBar.style.width = '100%';
-                clearInterval(interval);
-                
-                // Show download button
-                downloadBtn.style.display = 'inline-block';
-                
-                // Enable actual download functionality
-                downloadBtn.onclick = () => {
-                    // Create dummy PDF for demonstration
-                    const dummyContent = 'Compressed PDF content';
-                    const blob = new Blob([dummyContent], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'compressed.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                };
+                document.getElementById('status').innerText = 'Compression complete!';
+                document.getElementById('downloadLink').href = '#'; // Replace with actual URL when backend is implemented
+                document.getElementById('downloadLink').style.display = 'block';
             }, 2000);
-        });
-
-        // Keep existing other JavaScript
+        }
     </script>
 </body>
 </html>
