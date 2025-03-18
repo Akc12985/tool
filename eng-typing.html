@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your English typing speed online with real-time tracking, leaderboard, and AI-based feedback!">
+    <title>Online English Typing Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA64D;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            border: 2px solid #E68500;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #FF6600;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #E68500;
+        }
+        .ad-container {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Ad Space -->
+    <div class="ad-container">
+        <p>Ad Space - Header</p>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
+             data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
+    <div class="container">
+        <h1>Online English Typing Test</h1>
+        
+        <!-- Sidebar Ad Space -->
+        <div class="ad-container">
+            <p>Ad Space - Sidebar</p>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
+                 data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <label for="duration">Set Duration (minutes):</label>
+        <input type="number" id="duration" min="1" max="10" value="1">
+        <p>Start typing the text below:</p>
+        <textarea id="typing-area" placeholder="Start typing here..."></textarea>
+        <button onclick="startTest()">Start Test</button>
+        <p id="result"></p>
+    </div>
+    
+    <!-- Footer Ad Space -->
+    <div class="ad-container">
+        <p>Ad Space - Footer</p>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
+             data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        let startTime, endTime;
+        function startTest() {
+            startTime = new Date();
+            document.getElementById("typing-area").disabled = false;
+        }
+    </script>
+</body>
+</html>
