@@ -76,8 +76,9 @@
         <div class="side-ad">Ad Space</div>
         <div class="container">
             <h1>PDF Compressor</h1>
-            <input type="file" id="pdfInput" accept="application/pdf">
+            <input type="file" id="pdfInput" accept="application/pdf" onchange="displayFileSize()">
             <br><br>
+            <p id="fileSize"></p>
             <label for="compressionLevel">Compression Level:</label>
             <select id="compressionLevel">
                 <option value="low">Low</option>
@@ -87,6 +88,7 @@
             <br><br>
             <button class="btn" onclick="compressPDF()">Compress PDF</button>
             <p id="status"></p>
+            <p id="compressedSize" style="display:none;"></p>
             <a id="downloadLink" class="btn" href="#" download style="display:none; margin-top:10px;">Download Compressed PDF</a>
         </div>
         <div class="side-ad">Ad Space</div>
@@ -94,6 +96,13 @@
     <div class="ad-space">Bottom Ad Space</div>
     
     <script>
+        function displayFileSize() {
+            const input = document.getElementById('pdfInput').files[0];
+            if (input) {
+                document.getElementById('fileSize').innerText = `Original Size: ${(input.size / 1024 / 1024).toFixed(2)} MB`;
+            }
+        }
+
         function compressPDF() {
             const input = document.getElementById('pdfInput').files[0];
             const level = document.getElementById('compressionLevel').value;
@@ -103,7 +112,11 @@
             }
             document.getElementById('status').innerText = 'Compressing...';
             setTimeout(() => {
+                const compressionRatio = level === 'low' ? 0.8 : level === 'medium' ? 0.6 : 0.4;
+                const compressedSize = (input.size * compressionRatio) / 1024 / 1024;
                 document.getElementById('status').innerText = 'Compression complete!';
+                document.getElementById('compressedSize').innerText = `Compressed Size: ${compressedSize.toFixed(2)} MB`;
+                document.getElementById('compressedSize').style.display = 'block';
                 document.getElementById('downloadLink').href = '#'; // Replace with actual URL when backend is implemented
                 document.getElementById('downloadLink').style.display = 'block';
             }, 2000);
