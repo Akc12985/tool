@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resize images easily with our online image resizer tool. Upload multiple images, set your desired dimensions, and download resized images instantly.">
+    <title>Image Resizer Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA64D;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: #E68500;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            margin: 10px 0;
+        }
+        .ad-space {
+            margin: 20px;
+            background: #FF6600;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+        }
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bottom-ad {
+            width: 100%;
+            text-align: center;
+            background: #FF6600;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-space">Ad Space (Google AdSense)</div>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>Image Resizer Tool</h1>
+            <input type="file" id="imageInput" multiple accept="image/*">
+            <input type="number" id="widthInput" placeholder="Width" min="1">
+            <input type="number" id="heightInput" placeholder="Height" min="1">
+            <button onclick="resizeImages()">Resize Images</button>
+            <p id="fileInfo"></p>
+            <div id="downloadSection"></div>
+        </div>
+    </div>
+    
+    <div class="ad-space">Ad Space (Google AdSense)</div>
+    <div class="bottom-ad">Bottom Ad Space (Google AdSense)</div>
+
+    <script>
+        function resizeImages() {
+            const files = document.getElementById('imageInput').files;
+            const width = parseInt(document.getElementById('widthInput').value);
+            const height = parseInt(document.getElementById('heightInput').value);
+            const downloadSection = document.getElementById('downloadSection');
+            const fileInfo = document.getElementById('fileInfo');
+            downloadSection.innerHTML = '';
+            fileInfo.textContent = '';
+            
+            if (files.length === 0 || isNaN(width) || isNaN(height)) {
+                alert('Please select images and enter valid dimensions.');
+                return;
+            }
+            
+            let resizedCount = 0;
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        canvas.toBlob(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'resized-' + file.name;
+                            a.textContent = 'Download ' + file.name;
+                            downloadSection.appendChild(a);
+                            downloadSection.appendChild(document.createElement('br'));
+                            resizedCount++;
+                            fileInfo.textContent = `${resizedCount} image(s) resized successfully.`;
+                        }, 'image/png');
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
