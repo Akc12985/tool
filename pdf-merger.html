@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Merger Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFA64D;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .container {
+            background: #E68500;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-width: 500px;
+            margin: auto;
+            position: relative;
+        }
+        button {
+            background: #FF6600;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #cc5500;
+        }
+        .ads-container {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            background: #0000FF;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .ads-left { left: -140px; }
+        .ads-right { right: -140px; }
+        .ads-bottom {
+            width: 100%;
+            height: 90px;
+            margin-top: 20px;
+            background: #0000FF;
+            color: white;
+            text-align: center;
+            line-height: 90px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ads-container ads-left">Ad Space (Left)</div>
+    <div class="container">
+        <h2>Merge Multiple PDFs</h2>
+        <input type="file" id="pdfFiles" multiple accept="application/pdf">
+        <p id="fileCount">No files selected</p>
+        <button onclick="mergePDFs()">Merge PDFs</button>
+        <a id="downloadLink" style="display: none;" download="merged.pdf">Download Merged PDF</a>
+    </div>
+    <div class="ads-container ads-right">Ad Space (Right)</div>
+    <div class="ads-bottom">Ad Space (Bottom)</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+    <script>
+        async function mergePDFs() {
+            const input = document.getElementById('pdfFiles');
+            const files = input.files;
+            
+            if (files.length === 0) {
+                alert('Please select PDF files to merge');
+                return;
+            }
+
+            const mergedPdf = await PDFLib.PDFDocument.create();
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                await new Promise(resolve => {
+                    reader.onload = async function() {
+                        const pdfBytes = new Uint8Array(reader.result);
+                        const pdf = await PDFLib.PDFDocument.load(pdfBytes);
+                        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                        copiedPages.forEach(page => mergedPdf.addPage(page));
+                        resolve();
+                    };
+                });
+            }
+
+            const mergedPdfBytes = await mergedPdf.save();
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            downloadLink.style.display = 'block';
+            downloadLink.innerText = 'Download Merged PDF';
+        }
+    </script>
+</body>
+</html>
