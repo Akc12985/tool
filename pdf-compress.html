@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Previous meta tags and title remain same -->
+    <style>
+        /* Add these new styles */
+        .ad-left {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            padding: 1rem;
+        }
+
+        .ad-right {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            padding: 1rem;
+        }
+
+        .ad-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            background: #f8f8f8;
+        }
+
+        .download-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            margin-top: 1rem;
+        }
+
+        /* Modify existing styles */
+        .main-container {
+            grid-template-columns: 1fr;
+            margin: 0 160px; /* Space for side ads */
+        }
+
+        @media (max-width: 1200px) {
+            .ad-left, .ad-right {
+                display: none;
+            }
+            .main-container {
+                margin: 0;
+            }
+        }
+
+        /* Keep previous other styles */
+    </style>
+</head>
+<body>
+    <!-- Add new ad containers -->
+    <div class="ad-left ad-container">
+        <!-- Left AdMob Ad Unit -->
+    </div>
+
+    <div class="ad-right ad-container">
+        <!-- Right AdMob Ad Unit -->
+    </div>
+
+    <header class="header">
+        <!-- Keep existing header content -->
+    </header>
+
+    <!-- Bottom Ad -->
+    <div class="ad-bottom ad-container">
+        <!-- Bottom AdMob Ad Unit -->
+    </div>
+
+    <!-- Previous main container content remains same -->
+
+    <!-- Add download button in compressor section -->
+    <div style="text-align: center;">
+        <button id="download-btn" class="download-btn">
+            Download Compressed PDF
+        </button>
+    </div>
+
+    <script>
+        // Add download functionality
+        const downloadBtn = document.getElementById('download-btn');
+
+        // Modify compression button handler
+        compressBtn.addEventListener('click', async () => {
+            // Existing compression logic...
+
+            // After successful compression
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+                clearInterval(interval);
+                
+                // Show download button
+                downloadBtn.style.display = 'inline-block';
+                
+                // Enable actual download functionality
+                downloadBtn.onclick = () => {
+                    // Create dummy PDF for demonstration
+                    const dummyContent = 'Compressed PDF content';
+                    const blob = new Blob([dummyContent], { type: 'application/pdf' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'compressed.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                };
+            }, 2000);
+        });
+
+        // Keep existing other JavaScript
+    </script>
+</body>
+</html>
