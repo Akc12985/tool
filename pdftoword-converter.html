@@ -21,11 +21,13 @@
 
         body {
             background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
             padding: 20px;
         }
 
@@ -85,12 +87,41 @@
             border-radius: 5px;
         }
 
+        .ad-section {
+            text-align: center;
+            margin: 2rem 0;
+            min-height: 100px;
+            background: #fff;
+            padding: 1rem;
+        }
+
+        .ad-left, .ad-right {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 600px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .ad-left {
+            left: 10px;
+        }
+
+        .ad-right {
+            right: 10px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
             .upload-section {
                 padding: 1rem;
+            }
+            .ad-left, .ad-right {
+                display: none;
             }
         }
     </style>
@@ -101,7 +132,12 @@
         <p>Convert multiple PDF files to editable Word documents instantly</p>
     </header>
 
+    <div class="ad-left">Ad Space</div>
+    <div class="ad-right">Ad Space</div>
+
     <div class="container">
+        <div class="ad-section">Top Ad Space</div>
+
         <div class="upload-section">
             <input type="file" class="file-input" id="pdfInput" accept=".pdf" multiple>
             <button class="convert-btn" onclick="handleConversion()">Convert to Word</button>
@@ -109,6 +145,8 @@
         </div>
 
         <div class="download-section" id="downloadSection"></div>
+
+        <div class="ad-section">Bottom Ad Space</div>
     </div>
 
     <script>
