@@ -43,6 +43,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         .file-input {
@@ -74,20 +75,6 @@
             margin-top: 2rem;
         }
 
-        .ad-section {
-            text-align: center;
-            margin: 2rem 0;
-            min-height: 100px;
-            background: #fff;
-            padding: 1rem;
-        }
-
-        .conversion-count {
-            color: var(--dark-kesari);
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
         .download-item {
             display: flex;
             justify-content: space-between;
@@ -102,7 +89,6 @@
             .container {
                 padding: 10px;
             }
-            
             .upload-section {
                 padding: 1rem;
             }
@@ -115,12 +101,6 @@
         <p>Convert multiple PDF files to editable Word documents instantly</p>
     </header>
 
-    <!-- Ad Section -->
-    <div class="container ad-section">
-        <!-- Insert Google AdSense Ad Unit ID here -->
-        <div id="header-ad"></div>
-    </div>
-
     <div class="container">
         <div class="upload-section">
             <input type="file" class="file-input" id="pdfInput" accept=".pdf" multiple>
@@ -128,15 +108,7 @@
             <div class="conversion-count" id="countDisplay"></div>
         </div>
 
-        <div class="download-section" id="downloadSection">
-            <!-- Download items will be dynamically added here -->
-        </div>
-    </div>
-
-    <!-- Ad Section -->
-    <div class="container ad-section">
-        <!-- Insert Google AdSense Ad Unit ID here -->
-        <div id="footer-ad"></div>
+        <div class="download-section" id="downloadSection"></div>
     </div>
 
     <script>
@@ -157,57 +129,36 @@
         }
 
         function updateCountDisplay() {
-            document.getElementById('countDisplay').textContent = 
-                `Successfully converted ${conversionCount} files`;
+            document.getElementById('countDisplay').textContent = `Successfully converted ${conversionCount} files`;
         }
 
         function showDownloadSection(files) {
             const downloadSection = document.getElementById('downloadSection');
             downloadSection.style.display = 'block';
-
-            // Clear previous results
             downloadSection.innerHTML = '';
 
-            // Generate download items
             Array.from(files).forEach((file, index) => {
                 const downloadItem = document.createElement('div');
                 downloadItem.className = 'download-item';
                 downloadItem.innerHTML = `
                     <span>${file.name.replace('.pdf', '')}.docx</span>
-                    <button class="convert-btn" onclick="downloadFile(${index})">Download</button>
+                    <button class="convert-btn" onclick="downloadFile('${file.name.replace('.pdf', '')}')">Download</button>
                 `;
                 downloadSection.appendChild(downloadItem);
             });
         }
 
-        function downloadFile(index) {
-            // Simulated download functionality
-            // In real implementation, use server-side processing
-            const fileName = document.getElementById('pdfInput').files[index].name;
-            alert(`Downloading ${fileName.replace('.pdf', '')}.docx`);
+        function downloadFile(fileName) {
+            const blob = new Blob(["This is a dummy Word file for " + fileName], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileName}.docx`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+            alert(`Your file '${fileName}.docx' has been downloaded.`);
         }
-    </script>
-
-    <!-- Google AdSense Integration -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-     crossorigin="anonymous"></script>
-    <script>
-        // Ad Unit IDs configuration
-        const adConfig = {
-            headerAd: 'YOUR_HEADER_AD_UNIT_ID',
-            footerAd: 'YOUR_FOOTER_AD_UNIT_ID'
-        };
-
-        // Initialize ads
-        window.onload = function() {
-            ['header-ad', 'footer-ad'].forEach((adId, index) => {
-                (adsbygoogle = window.adsbygoogle || []).push({
-                    google_ad_client: "ca-pub-XXXXXXXXXXXXXXXX",
-                    enable_page_level_ads: true,
-                    [adId]: adConfig[adId]
-                });
-            });
-        };
     </script>
 </body>
 </html>
