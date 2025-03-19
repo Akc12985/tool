@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Voice & Voice-to-Text Converter</title>
+    <meta name="description" content="A fully responsive text-to-voice (TTS) and voice-to-text (STT) converter with multi-language support and customizable voice settings.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Ad Space (Top) -->
+    <div class="ad-space" id="top-ad">
+        <p>xxxx</p>
+    </div>
+    
+    <div class="container">
+        <h1>Text-to-Voice & Voice-to-Text Converter</h1>
+        
+        <!-- Text to Speech Section -->
+        <div class="tts-section">
+            <h2>Text to Speech (TTS)</h2>
+            <textarea id="textInput" placeholder="Enter text here..."></textarea>
+            <select id="voiceSelect"></select>
+            <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+            <label for="rate">Speed</label>
+            <button onclick="speakText()">Convert to Voice</button>
+        </div>
+        
+        <!-- Ad Space (Middle) -->
+        <div class="ad-space" id="middle-ad">
+            <p>xxxx</p>
+        </div>
+        
+        <!-- Speech to Text Section -->
+        <div class="stt-section">
+            <h2>Voice to Text (STT)</h2>
+            <button onclick="startListening()">Start Listening</button>
+            <p id="outputText">Your speech will appear here...</p>
+        </div>
+        
+        <!-- Ad Space (Bottom) -->
+        <div class="ad-space" id="bottom-ad">
+            <p>xxxx</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
