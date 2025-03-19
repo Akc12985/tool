@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ultimate Love Calculator - Find your love compatibility using names or Rashi (Zodiac Signs). Try now!">
+    <title>Love Calculator - Find Your Love Compatibility</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="ad-left">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="container">
+        <h1>❤️ Love Calculator ❤️</h1>
+        <p>Enter your name and your partner's name or Rashi to calculate your love percentage!</p>
+        
+        <div class="input-box">
+            <input type="text" id="yourName" placeholder="Your Name / Rashi">
+            <input type="text" id="partnerName" placeholder="Partner's Name / Rashi">
+            <button onclick="calculateLove()">Calculate Love</button>
+        </div>
+        
+        <div class="heart-container">
+            <div class="heart" id="heart">
+                <span id="lovePercentage">❤️ 0% ❤️</span>
+            </div>
+        </div>
+
+        <p id="loveMessage"></p>
+        <button onclick="shareResult()">Share Result</button>
+    </div>
+    
+    <div class="ad-right">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <script>
+        function calculateLove() {
+            let yourName = document.getElementById("yourName").value.trim();
+            let partnerName = document.getElementById("partnerName").value.trim();
+            
+            if (yourName === "" || partnerName === "") {
+                alert("Please enter both names or Rashis!");
+                return;
+            }
+            
+            let loveScore = Math.floor(Math.random() * (95 - 70 + 1)) + 70;
+            document.getElementById("lovePercentage").innerText = `❤️ ${loveScore}% ❤️`;
+            document.getElementById("heart").classList.add("pulse");
+            
+            let loveMessage;
+            if (loveScore > 80) {
+                loveMessage = "🔥 Soulmates! Your love is truly magical!";
+            } else if (loveScore > 50) {
+                loveMessage = "💖 A strong connection! Keep nurturing your love.";
+            } else {
+                loveMessage = "💔 Work on your bond to make it stronger!";
+            }
+            document.getElementById("loveMessage").innerText = loveMessage;
+        }
+
+        function shareResult() {
+            let result = document.getElementById("lovePercentage").innerText;
+            let message = `Check out our Love Compatibility: ${result} 💕 Try it now!`;
+            let shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+            window.open(shareUrl, '_blank');
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #FFA64D;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .container {
+            margin: 50px;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #E68500;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .input-box input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .heart-container {
+            margin: 20px auto;
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .heart {
+            width: 100px;
+            height: 100px;
+            background-color: #FF6600;
+            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 85%, 15% 100%, 0% 35%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .ad-left, .ad-right {
+            width: 160px;
+            height: 600px;
+        }
+    </style>
+</body>
+</html>
