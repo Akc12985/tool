@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Design Tool - 1 BHK, 2 BHK, 3 BHK</title>
+    <meta name="description" content="Design your ideal 1 BHK, 2 BHK, or 3 BHK home layout based on your family needs. Fully responsive and SEO-optimized.">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #FF9800; /* Bhagwa (Orange) Theme */
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #E65100; /* Darker Orange */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        select, button, input {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #FF6F00;
+            color: white;
+            cursor: pointer;
+        }
+        .layout {
+            display: none;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .ad-space {
+            margin-top: 20px;
+            padding: 15px;
+            background: #BF360C; /* Deep Orange */
+            text-align: center;
+            color: white;
+        }
+        .color-picker, .room-selection {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏡 Home Design Tool 🏡</h1>
+        <p>Select your preferred home layout:</p>
+        <select id="bhkSelector">
+            <option value="">-- Choose BHK --</option>
+            <option value="1bhk">1 BHK</option>
+            <option value="2bhk">2 BHK</option>
+            <option value="3bhk">3 BHK</option>
+        </select>
+        <button onclick="showLayout()">View Design</button>
+
+        <div class="room-selection">
+            <label for="roomSelector">Choose Number of Rooms:</label>
+            <input type="number" id="roomSelector" min="1" max="10" value="1" onchange="updateRooms()">
+        </div>
+
+        <div class="color-picker">
+            <label for="colorPicker">Choose Wall Color:</label>
+            <input type="color" id="colorPicker" value="#ffffff" onchange="changeColor()">
+        </div>
+
+        <div id="layoutContainer" class="layout">
+            <h2 id="layoutTitle"></h2>
+            <img id="layoutImage" src="" alt="Home Layout">
+            <p id="roomInfo"></p>
+        </div>
+    </div>
+
+    <div class="ad-space">
+        <!-- Google AdSense Ad Unit -->
+        <p>Ad Space</p>
+    </div>
+
+    <script>
+        function showLayout() {
+            let bhkType = document.getElementById("bhkSelector").value;
+            let layoutContainer = document.getElementById("layoutContainer");
+            let layoutTitle = document.getElementById("layoutTitle");
+            let layoutImage = document.getElementById("layoutImage");
+
+            if (bhkType) {
+                layoutTitle.innerText = bhkType.toUpperCase() + " Layout";
+                layoutImage.src = bhkType + ".jpg"; // Replace with actual images
+                layoutContainer.style.display = "block";
+                updateRooms();
+            } else {
+                layoutContainer.style.display = "none";
+            }
+        }
+
+        function changeColor() {
+            let selectedColor = document.getElementById("colorPicker").value;
+            document.body.style.backgroundColor = selectedColor;
+        }
+
+        function updateRooms() {
+            let numRooms = document.getElementById("roomSelector").value;
+            document.getElementById("roomInfo").innerText = "This home includes " + numRooms + " room(s).";
+        }
+    </script>
+</body>
+</html>
