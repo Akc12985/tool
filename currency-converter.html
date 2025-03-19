@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff3e0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #E68500;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #fff;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #FF6600;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FFA64D;
+        }
+        .result {
+            font-size: 18px;
+            color: #000;
+            margin-top: 15px;
+        }
+        .ad-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google AdSense Banner Ad -->
+    <div class="ad-container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXX"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
+    <div class="container">
+        <h2>Currency Converter</h2>
+        <input type="number" id="amount" placeholder="Enter amount" required>
+        <select id="fromCurrency"></select>
+        <select id="toCurrency"></select>
+        <button onclick="convertCurrency()">Convert</button>
+        <div class="result" id="result"></div>
+    </div>
+    
+    <!-- Another Ad Space Below the Converter -->
+    <div class="ad-container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXX"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
+    <script>
+        const apiURL = "https://api.exchangerate-api.com/v4/latest/USD";
+
+        async function loadCurrencies() {
+            const response = await fetch(apiURL);
+            const data = await response.json();
+            const currencies = Object.keys(data.rates);
+            const fromCurrency = document.getElementById("fromCurrency");
+            const toCurrency = document.getElementById("toCurrency");
+            
+            currencies.forEach(currency => {
+                let option1 = document.createElement("option");
+                let option2 = document.createElement("option");
+                option1.value = option2.value = currency;
+                option1.textContent = option2.textContent = currency;
+                fromCurrency.appendChild(option1);
+                toCurrency.appendChild(option2);
+            });
+            fromCurrency.value = "USD";
+            toCurrency.value = "INR";
+        }
+
+        async function convertCurrency() {
+            let amount = document.getElementById("amount").value;
+            let fromCurrency = document.getElementById("fromCurrency").value;
+            let toCurrency = document.getElementById("toCurrency").value;
+            
+            if (amount === "" || amount <= 0) {
+                document.getElementById("result").innerHTML = "Please enter a valid amount";
+                return;
+            }
+            
+            const response = await fetch(apiURL);
+            const data = await response.json();
+            let rate = data.rates[toCurrency] / data.rates[fromCurrency];
+            let convertedAmount = (amount * rate).toFixed(2);
+            
+            document.getElementById("result").innerHTML = `${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}`;
+        }
+        
+        loadCurrencies();
+    </script>
+</body>
+</html>
