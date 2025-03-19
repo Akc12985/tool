@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shirt Size Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #FFA64D;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #FF6600;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+        }
+        .content {
+            flex-grow: 1;
+            text-align: left;
+            padding-left: 20px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #E68500;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #E68500;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #FF6600;
+        }
+        .ad-space {
+            margin-top: 20px;
+            background: #E68500;
+            height: 90px;
+            text-align: center;
+            line-height: 90px;
+            color: white;
+            font-size: 14px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="shirt-logo.png" alt="Shirt Logo" class="logo">
+        <div class="content">
+            <h2>Find Your Shirt Size</h2>
+            <label for="height">Enter Your Height (cm):</label>
+            <input type="number" id="height" placeholder="e.g., 175">
+            <button onclick="calculateSize()">Get My Shirt Size</button>
+            <h3 id="result"></h3>
+        </div>
+    </div>
+    
+    <div class="ad-space">XXXX Ad Space - Google AdMob XXXX</div>
+    
+    <script>
+        function calculateSize() {
+            let height = document.getElementById("height").value;
+            let result = document.getElementById("result");
+            if (!height || height <= 0) {
+                result.innerText = "Please enter a valid height.";
+                return;
+            }
+            let size = "Unknown";
+            let numberSize = "-";
+            if (height < 160) { size = "Small (S)"; numberSize = "36"; }
+            else if (height >= 160 && height < 175) { size = "Medium (M)"; numberSize = "38-40"; }
+            else if (height >= 175 && height < 190) { size = "Large (L)"; numberSize = "42-44"; }
+            else { size = "Extra Large (XL)"; numberSize = "46+"; }
+            result.innerText = `Your recommended shirt size is: ${size} (Number: ${numberSize})`;
+        }
+    </script>
+</body>
+</html>
