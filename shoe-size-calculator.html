@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Size Calculator</title>
+    <meta name="description" content="Find your ideal shoe size based on your height with this easy-to-use Shoe Size Calculator. Fully responsive and SEO-optimized.">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #FF6600, #E68500);
+            padding: 20px;
+            color: white;
+            position: relative;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            border: 2px solid #FF6600;
+        }
+        button {
+            background-color: #FF6600;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #E68500;
+        }
+        .ad-space {
+            margin-top: 20px;
+            background: #FFD580;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .left-ad, .right-ad {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 300px;
+            background: #FFD580;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .left-ad {
+            left: 10px;
+        }
+        .right-ad {
+            right: 10px;
+        }
+        .bottom-ad {
+            margin-top: 20px;
+            background: #FFD580;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+<body>
+    <!-- Left Ad Space XXXX -->
+    <div class="left-ad">XXXX (Ad Here)</div>
+    
+    <div class="container">
+        <h1>Shoe Size Calculator</h1>
+        <p>Enter your height to find your recommended shoe size.</p>
+        
+        <label for="height">Enter your Height (cm):</label>
+        <input type="number" id="height" placeholder="e.g. 170" required>
+        <button onclick="calculateShoeSize()">Calculate</button>
+        
+        <div id="result"></div>
+        
+        <!-- Ad Space XXXX -->
+        <div class="ad-space">
+            <p>XXXX (Ad will be displayed here)</p>
+            <!-- XXXX Replace with AdSense Code XXXX -->
+        </div>
+    </div>
+    
+    <!-- Right Ad Space XXXX -->
+    <div class="right-ad">XXXX (Ad Here)</div>
+    
+    <!-- Bottom Ad Space XXXX -->
+    <div class="bottom-ad">
+        <p>XXXX (Bottom Ad Here)</p>
+        <!-- XXXX Replace with AdSense Code XXXX -->
+    </div>
+    
+    <script>
+        function calculateShoeSize() {
+            let height = document.getElementById("height").value;
+            let resultDiv = document.getElementById("result");
+
+            if (height === "" || height <= 0) {
+                resultDiv.innerHTML = "<p style='color:red;'>Please enter a valid height.</p>";
+                return;
+            }
+
+            let shoeSize = (height * 0.15).toFixed(1);
+            
+            resultDiv.innerHTML = `<p>Your estimated shoe size is: <strong>${shoeSize}</strong></p>`;
+        }
+    </script>
+</body>
+</html>
