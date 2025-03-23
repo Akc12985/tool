@@ -9,18 +9,21 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #FF9800; /* Bhagwa (Orange) Theme */
+            background-color: #FFFFFF; /* White Background */
             margin: 0;
             padding: 20px;
-            color: white;
+            color: black; /* Black Font Color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .container {
             max-width: 800px;
-            margin: auto;
             background: #E65100; /* Darker Orange */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            color: black; /* Ensuring text inside remains black */
         }
         select, button, input {
             padding: 10px;
@@ -49,43 +52,72 @@
             text-align: center;
             color: white;
         }
-        .color-picker, .room-selection {
-            margin-top: 20px;
+        .ad-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 10px 0;
+        }
+        .ad-left, .ad-right {
+            width: 160px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏡 Home Design Tool 🏡</h1>
-        <p>Select your preferred home layout:</p>
-        <select id="bhkSelector">
-            <option value="">-- Choose BHK --</option>
-            <option value="1bhk">1 BHK</option>
-            <option value="2bhk">2 BHK</option>
-            <option value="3bhk">3 BHK</option>
-        </select>
-        <button onclick="showLayout()">View Design</button>
-
-        <div class="room-selection">
-            <label for="roomSelector">Choose Number of Rooms:</label>
-            <input type="number" id="roomSelector" min="1" max="10" value="1" onchange="updateRooms()">
+    <div class="ad-container">
+        <div class="ad-left">
+            <!-- Left Side Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-app-pub-7057695873482887/8167485814"
+                data-ad-slot="8167485814"
+                data-ad-format="auto"></ins>
         </div>
+        <div class="container">
+            <h1>🏡 Home Design Tool 🏡</h1>
+            <p>Select your preferred home layout:</p>
+            <select id="bhkSelector">
+                <option value="">-- Choose BHK --</option>
+                <option value="1bhk">1 BHK</option>
+                <option value="2bhk">2 BHK</option>
+                <option value="3bhk">3 BHK</option>
+            </select>
+            <button onclick="showLayout()">View Design</button>
 
-        <div class="color-picker">
-            <label for="colorPicker">Choose Wall Color:</label>
-            <input type="color" id="colorPicker" value="#ffffff" onchange="changeColor()">
+            <div class="room-selection">
+                <label for="roomSelector">Choose Number of Rooms:</label>
+                <input type="number" id="roomSelector" min="1" max="10" value="1" onchange="updateRooms()">
+            </div>
+
+            <div class="color-picker">
+                <label for="colorPicker">Choose Wall Color:</label>
+                <input type="color" id="colorPicker" value="#ffffff" onchange="changeColor()">
+            </div>
+
+            <div id="layoutContainer" class="layout">
+                <h2 id="layoutTitle"></h2>
+                <img id="layoutImage" src="" alt="Home Layout">
+                <p id="roomInfo"></p>
+            </div>
         </div>
-
-        <div id="layoutContainer" class="layout">
-            <h2 id="layoutTitle"></h2>
-            <img id="layoutImage" src="" alt="Home Layout">
-            <p id="roomInfo"></p>
+        <div class="ad-right">
+            <!-- Right Side Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-app-pub-7057695873482887/5680923275"
+                data-ad-slot="5680923275"
+                data-ad-format="auto"></ins>
         </div>
     </div>
 
     <div class="ad-space">
-        <!-- Google AdSense Ad Unit -->
-        <p>Ad Space</p>
+        <!-- Bottom Side Ad -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887/5134128362"
+            data-ad-slot="5134128362"
+            data-ad-format="auto"></ins>
     </div>
 
     <script>
@@ -114,6 +146,8 @@
             let numRooms = document.getElementById("roomSelector").value;
             document.getElementById("roomInfo").innerText = "This home includes " + numRooms + " room(s).";
         }
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
