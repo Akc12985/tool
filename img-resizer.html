@@ -8,7 +8,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #FFA64D;
+            background-color: #FFFFFF;
+            color: #000000;
             text-align: center;
             padding: 20px;
             display: flex;
@@ -16,7 +17,7 @@
             align-items: center;
         }
         .container {
-            background: #E68500;
+            background: #FFA64D;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -33,10 +34,10 @@
             text-align: center;
             width: 200px;
         }
-        .ad-container {
+        .content-wrapper {
             display: flex;
-            justify-content: space-between;
-            width: 100%;
+            justify-content: center;
+            align-items: center;
         }
         .bottom-ad {
             width: 100%;
@@ -46,22 +47,11 @@
             margin-top: 20px;
         }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
-    <div class="ad-container">
-        <div class="ad-space">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-app-pub-7057695873482887/5970699329"
-                data-ad-slot="5970699329"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        
+    <div class="ad-space">Ad Space (Google AdSense)</div>
+    
+    <div class="content-wrapper">
         <div class="container">
             <h1>Image Resizer Tool</h1>
             <input type="file" id="imageInput" multiple accept="image/*">
@@ -71,31 +61,10 @@
             <p id="fileInfo"></p>
             <div id="downloadSection"></div>
         </div>
-        
-        <div class="ad-space">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-app-pub-7057695873482887/7025794537"
-                data-ad-slot="7025794537"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
     </div>
     
-    <div class="bottom-ad">
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887/2487783727"
-            data-ad-slot="2487783727"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <div class="ad-space">Ad Space (Google AdSense)</div>
+    <div class="bottom-ad">Bottom Ad Space (Google AdSense)</div>
 
     <script>
         function resizeImages() {
