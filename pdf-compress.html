@@ -35,11 +35,7 @@
         .btn:hover {
             background-color: #E68500;
         }
-        .ad-space {
-            background: #0000FF;
-            color: white;
-            padding: 10px;
-            margin: 10px;
+        .ad-space, .side-ad {
             text-align: center;
             width: 100%;
         }
@@ -52,12 +48,6 @@
         .side-ad {
             width: 150px;
             min-height: 300px;
-            background: #0000FF;
-            color: white;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         @media (max-width: 768px) {
             .layout {
@@ -70,10 +60,21 @@
             }
         }
     </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
     <div class="layout">
-        <div class="side-ad">Ad Space</div>
+        <div class="side-ad">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-app-pub-7057695873482887/6255638346"
+                data-ad-slot="6255638346"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
         <div class="container">
             <h1>PDF Compressor</h1>
             <input type="file" id="pdfInput" accept="application/pdf" onchange="displayFileSize()">
@@ -91,9 +92,29 @@
             <p id="compressedSize" style="display:none;"></p>
             <a id="downloadLink" class="btn" href="#" download style="display:none; margin-top:10px;">Download Compressed PDF</a>
         </div>
-        <div class="side-ad">Ad Space</div>
+        <div class="side-ad">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-app-pub-7057695873482887/5680923275"
+                data-ad-slot="5680923275"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
-    <div class="ad-space">Bottom Ad Space</div>
+    <div class="ad-space">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887/5134128362"
+            data-ad-slot="5134128362"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
     
     <script>
         function displayFileSize() {
