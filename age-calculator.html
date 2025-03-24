@@ -6,51 +6,99 @@
     <meta name="description" content="Fully Responsive Age Calculator - Calculate your age in years, months, days, hours, minutes, and seconds.">
     <title>Age Calculator</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFA64D;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #FFA64D, #FF6600);
+            color: white;
             text-align: center;
             padding: 20px;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        .container {
-            background: #E68500;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            margin: auto;
-            position: relative;
+            justify-content: center;
+            min-height: 100vh;
         }
         h1 {
-            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
-        label, p {
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        /* Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+        }
+
+        /* Dropdowns and Buttons */
+        select {
+            padding: 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        select:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
         button {
             background: #FF6600;
             color: white;
             border: none;
-            padding: 10px;
-            margin-top: 10px;
+            padding: 12px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            font-size: 1rem;
             cursor: pointer;
-            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         button:hover {
             background: #E68500;
+            transform: translateY(-2px);
         }
-        input {
-            padding: 8px;
-            margin: 5px;
-            border-radius: 5px;
-            border: none;
-        }
-        .adsense {
+
+        /* Result Display */
+        #result {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             margin-top: 20px;
+            line-height: 1.5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        /* Ad Space Styling */
         .ads-left, .ads-right {
             position: fixed;
             top: 50%;
@@ -63,12 +111,14 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .ads-left {
-            left: 0;
+            left: 20px;
         }
         .ads-right {
-            right: 0;
+            right: 20px;
         }
         .ads-bottom {
             width: 100%;
@@ -78,6 +128,18 @@
             color: white;
             font-weight: bold;
             margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .ads-left, .ads-right {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -87,12 +149,19 @@
     
     <div class="container">
         <h1>Age Calculator</h1>
-        <label for="dob">Enter Your Birth Date:</label>
-        <input type="date" id="dob">
-        <br>
-        <label for="compareDate">Compare With Date:</label>
-        <input type="date" id="compareDate">
-        <br>
+        
+        <!-- Birth Date Selection -->
+        <label for="dob">Enter Your Birth Date:</label><br>
+        <select id="dob-day"></select>
+        <select id="dob-month"></select>
+        <select id="dob-year"></select><br><br>
+        
+        <!-- Compare Date Selection -->
+        <label for="compareDate">Compare With Date:</label><br>
+        <select id="compare-day"></select>
+        <select id="compare-month"></select>
+        <select id="compare-year"></select><br><br>
+        
         <button onclick="calculateAge()">Calculate Age</button>
         <p id="result"></p>
         <button onclick="copyResult()">Copy</button>
@@ -103,20 +172,67 @@
     <div class="ads-bottom">Ad Space</div>
     
     <script>
+        // Function to populate day, month, and year dropdowns
+        function populateDropdowns(dayId, monthId, yearId) {
+            const dayDropdown = document.getElementById(dayId);
+            const monthDropdown = document.getElementById(monthId);
+            const yearDropdown = document.getElementById(yearId);
+
+            // Populate days (1-31)
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i < 10 ? `0${i}` : i;
+                dayDropdown.appendChild(option);
+            }
+
+            // Populate months (1-12)
+            const months = ["January", "February", "March", "April", "May", "June", 
+                            "July", "August", "September", "October", "November", "December"];
+            for (let i = 0; i < months.length; i++) {
+                const option = document.createElement("option");
+                option.value = i + 1;
+                option.text = months[i];
+                monthDropdown.appendChild(option);
+            }
+
+            // Populate years (1900 to current year)
+            const currentYear = new Date().getFullYear();
+            for (let i = currentYear; i >= 1900; i--) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                yearDropdown.appendChild(option);
+            }
+        }
+
+        // Initialize dropdowns
+        populateDropdowns("dob-day", "dob-month", "dob-year");
+        populateDropdowns("compare-day", "compare-month", "compare-year");
+
+        // Function to get selected date from dropdowns
+        function getSelectedDate(dayId, monthId, yearId) {
+            const day = parseInt(document.getElementById(dayId).value);
+            const month = parseInt(document.getElementById(monthId).value) - 1; // Months are zero-indexed
+            const year = parseInt(document.getElementById(yearId).value);
+            return new Date(year, month, day);
+        }
+
+        // Age calculation logic
         function calculateAge() {
-            let dob = new Date(document.getElementById('dob').value);
-            let compareDate = new Date(document.getElementById('compareDate').value || new Date());
-            
-            if (!dob) {
+            const dob = getSelectedDate("dob-day", "dob-month", "dob-year");
+            const compareDate = getSelectedDate("compare-day", "compare-month", "compare-year") || new Date();
+
+            if (!dob || isNaN(dob)) {
                 alert("Please enter a valid birth date.");
                 return;
             }
-            
+
             let diff = compareDate - dob;
             let years = compareDate.getFullYear() - dob.getFullYear();
             let months = compareDate.getMonth() - dob.getMonth();
             let days = compareDate.getDate() - dob.getDate();
-            
+
             if (days < 0) {
                 months--;
                 days += new Date(compareDate.getFullYear(), compareDate.getMonth(), 0).getDate();
@@ -125,22 +241,24 @@
                 years--;
                 months += 12;
             }
-            
+
             let hours = Math.floor(diff / (1000 * 60 * 60));
             let minutes = Math.floor(diff / (1000 * 60));
             let seconds = Math.floor(diff / 1000);
-            
+
             let result = `Age: ${years} Years, ${months} Months, ${days} Days \n` +
                          `(${hours} Hours, ${minutes} Minutes, ${seconds} Seconds)`;
             document.getElementById("result").innerText = result;
         }
-        
+
+        // Copy result to clipboard
         function copyResult() {
             let resultText = document.getElementById("result").innerText;
             navigator.clipboard.writeText(resultText);
             alert("Age copied to clipboard!");
         }
-        
+
+        // Download report as text file
         function downloadReport() {
             let resultText = document.getElementById("result").innerText;
             let blob = new Blob([resultText], { type: "text/plain" });
@@ -149,7 +267,8 @@
             link.download = "Age_Report.txt";
             link.click();
         }
-        
+
+        // Share result
         function shareResult() {
             let resultText = document.getElementById("result").innerText;
             if (navigator.share) {
