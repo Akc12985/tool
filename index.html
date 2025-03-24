@@ -12,6 +12,7 @@
             --accent: #FF3E6D;
             --dark: #0A0A2E;
             --light: #F5F6FA;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
 
         * {
@@ -24,6 +25,7 @@
         body {
             background: var(--light);
             color: var(--dark);
+            line-height: 1.6;
         }
 
         .header {
@@ -32,21 +34,61 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .logo {
             color: var(--secondary);
             font-size: 2rem;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
         }
 
         .hero {
             padding: 6rem 2rem 4rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--gradient);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            animation: moveHero 8s infinite linear;
+        }
+
+        @keyframes moveHero {
+            0% { transform: rotate(30deg) translateX(-50%); }
+            100% { transform: rotate(30deg) translateX(50%); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .tools-grid {
@@ -62,7 +104,7 @@
             background: white;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -75,17 +117,14 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(
-                transparent, 
-                var(--accent),
-                transparent 30%
-            );
-            animation: rotate 4s linear infinite;
+            background: conic-gradient(transparent, var(--accent), transparent 30%);
+            animation: rotate 6s linear infinite;
+            opacity: 0.1;
         }
 
         .tool-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .tool-card-content {
@@ -103,6 +142,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            animation: fadeIn 0.8s ease-out;
         }
 
         .tool-list {
@@ -136,8 +176,23 @@
             text-align: center;
         }
 
+        .footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
         @keyframes rotate {
             100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
@@ -145,7 +200,7 @@
                 grid-template-columns: 1fr;
                 padding: 2rem 1rem;
             }
-            
+
             .hero {
                 padding: 5rem 1rem 3rem;
             }
@@ -154,12 +209,12 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">SuperTools</div>
+        <div class="logo">SuperTools360</div>
     </header>
 
     <section class="hero">
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Your Ultimate Digital Swiss Army Knife</h1>
-        <p style="font-size: 1.2rem; opacity: 0.95;">Transform your workflow with 10+ cutting-edge tools</p>
+        <h1>Your Ultimate Digital Swiss Army Knife</h1>
+        <p>Transform your workflow with 10+ cutting-edge tools</p>
     </section>
 
     <main class="tools-grid">
@@ -168,10 +223,10 @@
             <div class="tool-card-content">
                 <h3><i class="fas fa-magic"></i> Image Magic</h3>
                 <ul class="tool-list">
-                    <li><i class="fas fa-compress"></i> <a href="/tool/img-compress.html"> Image Compressor</li>
-                    <li><i class="fas fa-sync-alt"></i> <a href="/tool/img-convert.html"> Image Converter</li>
-                    <li><i class="fas fa-expand"></i> <a href="/tool/img-resizer.html"> Image Resizer</li>
-                    <li><i class="fas fa-paint-brush"></i> <a href="/tool/home-image-design.html"> Design Creator</li>
+                    <li><i class="fas fa-compress"></i> <a href="/tool/img-compress.html">Image Compressor</a></li>
+                    <li><i class="fas fa-sync-alt"></i> <a href="/tool/img-convert.html">Image Converter</a></li>
+                    <li><i class="fas fa-expand"></i> <a href="/tool/img-resizer.html">Image Resizer</a></li>
+                    <li><i class="fas fa-paint-brush"></i> <a href="/tool/home-image-design.html">Design Creator</a></li>
                 </ul>
             </div>
         </div>
@@ -181,9 +236,9 @@
             <div class="tool-card-content">
                 <h3><i class="fas fa-file-pdf"></i> PDF Master</h3>
                 <ul class="tool-list">
-                    <li><i class="fas fa-file-archive"></i> <a href="/tool/pdf-compress.html"> PDF Compressor</li>
-                    <li><i class="fas fa-blender"></i> <a href="/tool/pdf-merger.html"> PDF Merger</li>
-                    <li><i class="fas fa-file-word"></i> <a href="/tool/pdftoword-converter.html"> PDF to Word</li>
+                    <li><i class="fas fa-file-archive"></i> <a href="/tool/pdf-compress.html">PDF Compressor</a></li>
+                    <li><i class="fas fa-blender"></i> <a href="/tool/pdf-merger.html">PDF Merger</a></li>
+                    <li><i class="fas fa-file-word"></i> <a href="/tool/pdftoword-converter.html">PDF to Word</a></li>
                 </ul>
             </div>
         </div>
@@ -193,34 +248,34 @@
             <div class="tool-card-content">
                 <h3><i class="fas fa-random"></i> Conversion Hub</h3>
                 <ul class="tool-list">
-                    <li><i class="fas fa-font"></i> <a href="/tool/font-converter.html"> Font Converter</li>
-                    <li><i class="fas fa-coins"></i> <a href="/tool/currency-converter.html"> Currency Converter</li>
-                    <li><i class="fas fa-comment-dots"></i> <a href="/tool/text-voice-converter.html"> Text/Voice Converters</li>
+                    <li><i class="fas fa-font"></i> <a href="/tool/font-converter.html">Font Converter</a></li>
+                    <li><i class="fas fa-coins"></i> <a href="/tool/currency-converter.html">Currency Converter</a></li>
+                    <li><i class="fas fa-comment-dots"></i> <a href="/tool/text-voice-converter.html">Text/Voice Converters</a></li>
                 </ul>
             </div>
         </div>
 
-       <!-- Smart Calculators -->
-<div class="tool-card">
-    <div class="tool-card-content">
-        <h3><i class="fas fa-calculator"></i> Smart Calculators</h3>
-        <ul class="tool-list">
-            <li><i class="fas fa-shoe-prints"></i> <a href="/tool/shoe-size-calculator.html">Shoe Size Calculator</a></li>
-            <li><i class="fas fa-birthday-cake"></i> <a href="/tool/age-calculator.html">Age Calculator</a></li>
-            <li><i class="fas fa-heart"></i> <a href="/tool/love-calculator.html">Love Calculator</a></li>
-            <li><i class="fas fa-balance-scale"></i> <a href="/tool/weight-height.html">Health Metrics</a></li>
-        </ul>
-    </div>
-</div>
+        <!-- Smart Calculators -->
+        <div class="tool-card">
+            <div class="tool-card-content">
+                <h3><i class="fas fa-calculator"></i> Smart Calculators</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-shoe-prints"></i> <a href="/tool/shoe-size-calculator.html">Shoe Size Calculator</a></li>
+                    <li><i class="fas fa-birthday-cake"></i> <a href="/tool/age-calculator.html">Age Calculator</a></li>
+                    <li><i class="fas fa-heart"></i> <a href="/tool/love-calculator.html">Love Calculator</a></li>
+                    <li><i class="fas fa-balance-scale"></i> <a href="/tool/weight-height.html">Health Metrics</a></li>
+                </ul>
+            </div>
+        </div>
 
         <!-- Creative Studio -->
         <div class="tool-card">
             <div class="tool-card-content">
                 <h3><i class="fas fa-palette"></i> Creative Studio</h3>
                 <ul class="tool-list">
-                    <li><i class="fas fa-home"></i> <a href="/tool/home-design.html"> Home Design</li>
-                    <li><i class="fas fa-tshirt"></i> <a href="/tool/shirt-size-calculator.html"> Fashion Tools</li>
-                    <li><i class="fas fa-vector-square"></i> <a href="/tool/home-design.html"> Design Creator</li>
+                    <li><i class="fas fa-home"></i> <a href="/tool/home-design.html">Home Design</a></li>
+                    <li><i class="fas fa-tshirt"></i> <a href="/tool/shirt-size-calculator.html">Fashion Tools</a></li>
+                    <li><i class="fas fa-vector-square"></i> <a href="/tool/home-design.html">Design Creator</a></li>
                 </ul>
             </div>
         </div>
@@ -230,10 +285,10 @@
             <div class="tool-card-content">
                 <h3><i class="fas fa-rocket"></i> Productivity</h3>
                 <ul class="tool-list">
-                    <li><i class="fas fa-keyboard"></i> <a href="/tool/eng-typing.html"> English Typing Tests</li>
-                    <li><i class="fas fa-keyboard"></i> <a href="/tool/hindi-typing.html"> Hindi Typing Tests</li>
-                    <li><i class="fas fa-microphone"></i> <a href="/tool/voice-changer.html"> Voice Tools</li>
-                    <li><i class="fas fa-chart-line"></i> <a href="/tool/calculator.html"> Advanced Calculator</li>
+                    <li><i class="fas fa-keyboard"></i> <a href="/tool/eng-typing.html">English Typing Tests</a></li>
+                    <li><i class="fas fa-keyboard"></i> <a href="/tool/hindi-typing.html">Hindi Typing Tests</a></li>
+                    <li><i class="fas fa-microphone"></i> <a href="/tool/voice-changer.html">Voice Tools</a></li>
+                    <li><i class="fas fa-chart-line"></i> <a href="/tool/calculator.html">Advanced Calculator</a></li>
                 </ul>
             </div>
         </div>
@@ -242,9 +297,9 @@
     <footer class="footer">
         <p style="margin-bottom: 1.5rem;">© 2023 SuperTools360. All rights reserved.</p>
         <div style="display: flex; gap: 1.5rem; justify-content: center;">
-            <i class="fab fa-github" style="cursor: pointer;"></i>
-            <i class="fab fa-linkedin" style="cursor: pointer;"></i>
-            <i class="fab fa-product-hunt" style="cursor: pointer;"></i>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-product-hunt"></i></a>
         </div>
     </footer>
 </body>
