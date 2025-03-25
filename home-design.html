@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Design Tool - 1 BHK, 2 BHK, 3 BHK</title>
-    <meta name="description" content="Design your ideal 1 BHK, 2 BHK, or 3 BHK home layout based on your family needs. Fully responsive and SEO-optimized.">
+    <title>Advanced Home Design Tool - 1 BHK, 2 BHK, 3 BHK</title>
+    <meta name="description" content="Design your ideal 1 BHK, 2 BHK, or 3 BHK home layout with advanced features like room dimensions, beam placement suggestions, and fully responsive design.">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,6 +62,15 @@
         .ad-left, .ad-right {
             width: 160px;
         }
+        .dimensions {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .dimensions input {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -75,7 +84,7 @@
                 data-ad-format="auto"></ins>
         </div>
         <div class="container">
-            <h1>🏡 Home Design Tool 🏡</h1>
+            <h1>🏡 Advanced Home Design Tool 🏡</h1>
             <p>Select your preferred home layout:</p>
             <select id="bhkSelector">
                 <option value="">-- Choose BHK --</option>
@@ -95,10 +104,18 @@
                 <input type="color" id="colorPicker" value="#ffffff" onchange="changeColor()">
             </div>
 
+            <div class="dimensions">
+                <label>Enter Room Dimensions:</label>
+                <input type="number" id="length" placeholder="Length (m)" min="1" max="20" value="5">
+                <input type="number" id="width" placeholder="Width (m)" min="1" max="20" value="4">
+                <input type="number" id="height" placeholder="Height (m)" min="1" max="10" value="3">
+            </div>
+
             <div id="layoutContainer" class="layout">
                 <h2 id="layoutTitle"></h2>
                 <img id="layoutImage" src="" alt="Home Layout">
                 <p id="roomInfo"></p>
+                <p id="beamPlacement"></p>
             </div>
         </div>
         <div class="ad-right">
@@ -129,9 +146,10 @@
 
             if (bhkType) {
                 layoutTitle.innerText = bhkType.toUpperCase() + " Layout";
-                layoutImage.src = bhkType + ".jpg"; // Replace with actual images
+                layoutImage.src = `${bhkType}.jpg`; // Replace with actual images
                 layoutContainer.style.display = "block";
                 updateRooms();
+                calculateBeamPlacement();
             } else {
                 layoutContainer.style.display = "none";
             }
@@ -144,7 +162,25 @@
 
         function updateRooms() {
             let numRooms = document.getElementById("roomSelector").value;
-            document.getElementById("roomInfo").innerText = "This home includes " + numRooms + " room(s).";
+            document.getElementById("roomInfo").innerText = `This home includes ${numRooms} room(s).`;
+        }
+
+        function calculateBeamPlacement() {
+            const length = parseFloat(document.getElementById("length").value);
+            const width = parseFloat(document.getElementById("width").value);
+            const height = parseFloat(document.getElementById("height").value);
+
+            // Basic beam placement logic (example)
+            let beamPlacement = "";
+            if (length > 6 && width > 5) {
+                beamPlacement = "Main beams should be placed along the longer walls for stability.";
+            } else if (length <= 6 && width <= 5) {
+                beamPlacement = "Beams can be centrally aligned for smaller rooms.";
+            } else {
+                beamPlacement = "Consult a structural engineer for optimal beam placement.";
+            }
+
+            document.getElementById("beamPlacement").innerText = beamPlacement;
         }
 
         (adsbygoogle = window.adsbygoogle || []).push({});
