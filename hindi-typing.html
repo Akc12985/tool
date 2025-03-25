@@ -44,13 +44,30 @@
         .ad-container {
             margin: 20px 0;
         }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .pause-btn {
+            background-color: #FF4500;
+        }
+        .pause-btn:hover {
+            background-color: #B22222;
+        }
     </style>
 </head>
 <body>
     <!-- Header Ad Space -->
     <div class="ad-container">
-        <p>Ad Space - Header</p>
-        <!-- Insert AdSense Code Here -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/8167485814" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
     
     <div class="container">
@@ -59,28 +76,92 @@
         <label for="font">फ़ॉन्ट चुनें:</label>
         <select id="font">
             <option value="mangal">Mangal</option>
-            <option value="krutidev">KurtiDev</option>
+            <option value="krutidev">Krutidev</option>
         </select>
         
         <label for="duration">समय (मिनट में):</label>
         <input type="number" id="duration" min="1" max="10" value="1">
+        
         <p>नीचे दिए गए टेक्स्ट को टाइप करें:</p>
-        <textarea id="typing-area" placeholder="यहाँ टाइप करें..."></textarea>
+        <textarea id="typing-area" placeholder="यहाँ टाइप करें..." disabled></textarea>
+        
         <button onclick="startTest()">टेस्ट शुरू करें</button>
-        <p id="result"></p>
+        <button onclick="pauseTest()" class="pause-btn" id="pause-btn" disabled>टेस्ट पॉज़ करें</button>
+        
+        <div class="result" id="result"></div>
     </div>
     
     <!-- Footer Ad Space -->
     <div class="ad-container">
-        <p>Ad Space - Footer</p>
-        <!-- Insert AdSense Code Here -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/6255638346" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="6255638346"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <script>
-        let startTime, endTime;
+        let startTime, endTime, timerInterval, isPaused = false;
+        const sampleText = "यह एक नमूना पाठ है जिसे टाइप करने के लिए बनाया गया है।";
+        const typingArea = document.getElementById("typing-area");
+        const resultDiv = document.getElementById("result");
+        const pauseBtn = document.getElementById("pause-btn");
+
         function startTest() {
+            typingArea.value = "";
+            typingArea.disabled = false;
+            typingArea.placeholder = "";
+            typingArea.style.borderColor = "#E68500";
+            resultDiv.textContent = "";
+            pauseBtn.disabled = false;
+
             startTime = new Date();
-            document.getElementById("typing-area").disabled = false;
+            isPaused = false;
+            timerInterval = setInterval(updateTimer, 1000);
+
+            // Display sample text
+            typingArea.setAttribute("placeholder", sampleText);
+        }
+
+        function pauseTest() {
+            if (!isPaused) {
+                clearInterval(timerInterval);
+                isPaused = true;
+                pauseBtn.textContent = "टेस्ट फिर से शुरू करें";
+                calculateResult();
+            } else {
+                startTime = new Date() - ((endTime - startTime) || 0);
+                isPaused = false;
+                pauseBtn.textContent = "टेस्ट पॉज़ करें";
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        function calculateResult() {
+            const typedText = typingArea.value.trim();
+            const words = typedText.split(/\s+/).filter(word => word.length > 0);
+            const correctWords = sampleText.split(/\s+/).filter((word, index) => word === words[index]);
+            const accuracy = ((correctWords.length / sampleText.split(/\s+/).length) * 100).toFixed(2);
+            const timeTaken = ((new Date() - startTime) / 1000 / 60).toFixed(2);
+            const wpm = Math.round(words.length / timeTaken);
+
+            resultDiv.innerHTML = `
+                <strong>परिणाम:</strong><br>
+                समय: ${timeTaken} मिनट<br>
+                टाइपिंग गति: ${wpm} WPM<br>
+                सटीकता: ${accuracy}%<br>
+            `;
+        }
+
+        function updateTimer() {
+            endTime = new Date();
+            const timeElapsed = Math.floor((endTime - startTime) / 1000);
+            const minutes = Math.floor(timeElapsed / 60);
+            const seconds = timeElapsed % 60;
+            document.title = `टाइम: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
     </script>
 </body>
