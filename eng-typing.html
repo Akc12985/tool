@@ -11,6 +11,7 @@
             background-color: #FFA64D;
             text-align: center;
             padding: 20px;
+            margin: 0;
         }
         .container {
             max-width: 600px;
@@ -27,6 +28,7 @@
             border: 2px solid #E68500;
             padding: 10px;
             font-size: 16px;
+            resize: none;
         }
         button {
             background-color: #FF6600;
@@ -44,6 +46,12 @@
         .ad-container {
             margin: 20px 0;
         }
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF6600;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -53,26 +61,26 @@
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
-             data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
              (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-    
+
     <div class="container">
         <h1>Online English Typing Test</h1>
-        
+
         <!-- Sidebar Ad Space -->
         <div class="ad-container">
             <p>Ad Space - Sidebar</p>
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
-                 data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="6255638346"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
             <script>
@@ -83,19 +91,20 @@
         <label for="duration">Set Duration (minutes):</label>
         <input type="number" id="duration" min="1" max="10" value="1">
         <p>Start typing the text below:</p>
-        <textarea id="typing-area" placeholder="Start typing here..."></textarea>
+        <textarea id="typing-area" placeholder="Start typing here..." disabled></textarea>
         <button onclick="startTest()">Start Test</button>
         <p id="result"></p>
+        <div id="timer">Timer: 00:00</div>
     </div>
-    
+
     <!-- Footer Ad Space -->
     <div class="ad-container">
         <p>Ad Space - Footer</p>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"
-             data-ad-client="<span style='color:red; font-weight:bold;'>ca-pub-XXXXXXXXXXXXXXXX</span>"
-             data-ad-slot="<span style='color:red; font-weight:bold;'>XXXXXXXXXX</span>"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="5680923275"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
@@ -104,10 +113,54 @@
     </div>
 
     <script>
-        let startTime, endTime;
+        let startTime, interval;
+        let durationInSeconds = 0;
+
         function startTest() {
+            // Get the selected duration in minutes
+            const durationInMinutes = parseInt(document.getElementById("duration").value);
+            durationInSeconds = durationInMinutes * 60;
+
+            // Enable the textarea
+            const typingArea = document.getElementById("typing-area");
+            typingArea.disabled = false;
+            typingArea.value = ""; // Clear previous input
+
+            // Start the timer
             startTime = new Date();
-            document.getElementById("typing-area").disabled = false;
+            updateTimer();
+
+            // Start the countdown interval
+            interval = setInterval(() => {
+                durationInSeconds--;
+                if (durationInSeconds <= 0) {
+                    clearInterval(interval);
+                    endTest();
+                }
+                updateTimer();
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById("timer");
+            const minutes = Math.floor(durationInSeconds / 60);
+            const seconds = durationInSeconds % 60;
+            timerElement.textContent = `Timer: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function endTest() {
+            const typingArea = document.getElementById("typing-area");
+            typingArea.disabled = true;
+
+            // Calculate typing speed
+            const endTime = new Date();
+            const timeTakenInSeconds = (endTime - startTime) / 1000;
+            const typedText = typingArea.value.trim();
+            const wordsTyped = typedText.split(/\s+/).filter(word => word.length > 0).length;
+            const wordsPerMinute = Math.round((wordsTyped / timeTakenInSeconds) * 60);
+
+            // Display result
+            document.getElementById("result").textContent = `Your typing speed: ${wordsPerMinute} WPM`;
         }
     </script>
 </body>
