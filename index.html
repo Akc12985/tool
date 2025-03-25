@@ -173,24 +173,6 @@
         .footer-icons i:hover {
             color: var(--accent);
         }
-        /* Additional Styling */
-        .hero-button {
-            display: inline-block;
-            background: var(--highlight);
-            color: var(--dark);
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            border-radius: 30px;
-            text-decoration: none;
-            margin-top: 2rem;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .hero-button:hover {
-            background: var(--accent);
-            color: white;
-            transform: translateY(-2px);
-        }
         /* Responsive Design */
         @media (max-width: 768px) {
             .tools-grid {
@@ -216,7 +198,6 @@
     <section class="hero">
         <h1>Your Ultimate Digital Swiss Army Knife</h1>
         <p>Transform your workflow with 15+ cutting-edge tools</p>
-        <a href="#calculator-section" class="hero-button">Go to Calculator</a>
     </section>
     <main class="tools-grid">
         <!-- Image Tools Card -->
@@ -254,7 +235,7 @@
             </div>
         </div>
         <!-- Smart Calculators -->
-        <div class="tool-card" id="calculator-section">
+        <div class="tool-card">
             <div class="tool-card-content">
                 <h3><i class="fas fa-calculator"></i> Smart Calculators</h3>
                 <ul class="tool-list">
@@ -262,7 +243,6 @@
                     <li><i class="fas fa-birthday-cake"></i> <a href="/tool/age-calculator.html">Age Calculator</a></li>
                     <li><i class="fas fa-heart"></i> <a href="/tool/love-calculator.html">Love Calculator</a></li>
                     <li><i class="fas fa-balance-scale"></i> <a href="/tool/weight-height.html">Health Metrics</a></li>
-                    <li><i class="fas fa-calculator"></i> <a href="/tool/calculator.html">Advanced Calculator</a></li>
                 </ul>
             </div>
         </div>
