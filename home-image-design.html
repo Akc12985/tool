@@ -4,50 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Create your best home design by entering length, width, and height. Fully responsive and interactive 3D home design tool.">
-    <title>Home Design Tool</title>
+    <title>Advanced Home Design Tool</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #FFA64D;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 50px auto;
             padding: 20px;
             background: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
         }
         input, button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #FF6600;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #E68500;
         }
         canvas {
             width: 100%;
-            height: 300px;
+            height: 400px;
             background-color: #f3f3f3;
+            margin-top: 20px;
         }
         .ad-space {
             margin: 20px 0;
             text-align: center;
         }
+        .download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Home Design Tool</h2>
+        <h2>Advanced Home Design Tool</h2>
         
         <!-- Ad Space -->
         <div class="ad-space">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="1234567890"
+                 data-ad-client="ca-app-pub-7057695873482887/8167485814"
+                 data-ad-slot="8167485814"
                  data-ad-format="auto"></ins>
             <script>
                  (adsbygoogle = window.adsbygoogle || []).push({});
@@ -55,13 +89,13 @@
         </div>
         
         <label>Length (m):</label>
-        <input type="number" id="length" placeholder="Enter length">
+        <input type="number" id="length" placeholder="Enter length" min="1">
         
         <label>Width (m):</label>
-        <input type="number" id="width" placeholder="Enter width">
+        <input type="number" id="width" placeholder="Enter width" min="1">
         
         <label>Height (m):</label>
-        <input type="number" id="height" placeholder="Enter height">
+        <input type="number" id="height" placeholder="Enter height" min="1">
         
         <button onclick="generateDesign()">Generate Home Design</button>
         
@@ -70,8 +104,8 @@
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="1234567890"
+                 data-ad-client="ca-app-pub-7057695873482887/6255638346"
+                 data-ad-slot="6255638346"
                  data-ad-format="auto"></ins>
             <script>
                  (adsbygoogle = window.adsbygoogle || []).push({});
@@ -79,25 +113,64 @@
         </div>
         
         <canvas id="homeCanvas"></canvas>
+        <button class="download-btn" id="downloadBtn" style="display: none;" onclick="downloadImage()">Download Image</button>
     </div>
 
     <script>
         function generateDesign() {
-            let length = document.getElementById('length').value;
-            let width = document.getElementById('width').value;
-            let height = document.getElementById('height').value;
+            let length = parseFloat(document.getElementById('length').value);
+            let width = parseFloat(document.getElementById('width').value);
+            let height = parseFloat(document.getElementById('height').value);
             let canvas = document.getElementById('homeCanvas');
             let ctx = canvas.getContext('2d');
-            
-            if (length && width && height) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#E68500';
-                ctx.fillRect(50, 50, width * 10, length * 10);
-                ctx.fillStyle = '#FF6600';
-                ctx.fillRect(60, 60, width * 8, length * 8);
-            } else {
+
+            // Validation
+            if (isNaN(length) || isNaN(width) || isNaN(height) || length <= 0 || width <= 0 || height <= 0) {
                 alert('Please enter valid dimensions.');
+                return;
             }
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Set canvas resolution for HD quality
+            const scale = 2; // Scale factor for HD rendering
+            canvas.width = canvas.offsetWidth * scale;
+            canvas.height = canvas.offsetHeight * scale;
+            ctx.scale(scale, scale);
+
+            // Draw house base
+            ctx.fillStyle = '#E68500';
+            ctx.fillRect(50, 300, width * 30, -length * 15);
+
+            // Draw roof
+            ctx.beginPath();
+            ctx.moveTo(50, 300 - length * 15);
+            ctx.lineTo(50 + width * 15, 300 - length * 15 - height * 10);
+            ctx.lineTo(50 + width * 30, 300 - length * 15);
+            ctx.closePath();
+            ctx.fillStyle = '#FF6600';
+            ctx.fill();
+
+            // Draw windows
+            ctx.fillStyle = '#ADD8E6';
+            ctx.fillRect(70, 250, 30, 30); // Left window
+            ctx.fillRect(70 + width * 30 - 100, 250, 30, 30); // Right window
+
+            // Draw door
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(50 + width * 15 - 20, 300 - 60, 40, 60);
+
+            // Show download button
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+
+        function downloadImage() {
+            let canvas = document.getElementById('homeCanvas');
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'home-design.png';
+            link.click();
         }
     </script>
 </body>
