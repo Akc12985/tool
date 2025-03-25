@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fully responsive online calculator with step-by-step calculations. Solve basic arithmetic, algebra, trigonometry, and more.">
-    <title>Online Calculator</title>
+    <title>Advanced Online Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
         }
         .calculator {
             width: 100%;
-            max-width: 350px;
+            max-width: 400px;
             margin: 50px auto;
             background: #222;
             padding: 20px;
@@ -24,9 +24,9 @@
         }
         .display {
             width: 100%;
-            height: 50px;
+            height: 60px;
             text-align: right;
-            font-size: 1.5em;
+            font-size: 1.8em;
             padding: 10px;
             border: none;
             background: #333;
@@ -58,6 +58,8 @@
             background: #333;
             padding: 10px;
             border-radius: 5px;
+            overflow-y: auto;
+            max-height: 150px;
         }
         .ad-space {
             width: 100%;
@@ -70,52 +72,117 @@
             color: white;
             font-size: 1.2em;
         }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .ads-left, .ads-right {
+            width: 160px;
+            height: 600px;
+            background: #444;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+        }
+        .ads-bottom {
+            margin-top: 20px;
+            width: 100%;
+            height: 90px;
+            background: #444;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
-    <!-- AdSense Ad Slot - Place your AdSense Ad Unit ID here -->
-    <div class="ad-space">Ad Space - Replace with AdSense Code</div>
-    <div class="calculator">
-        <input type="text" id="display" class="display" onkeydown="handleKey(event)" autofocus>
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="appendValue('/')">/</button>
-            <button onclick="appendValue('*')">*</button>
-            <button onclick="appendValue('-')">-</button>
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('+')">+</button>
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button onclick="calculate()">=</button>
-            <button onclick="appendValue('1')">1</button>
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button onclick="appendValue('0')">0</button>
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="backspace()">←</button>
+    <!-- Left Ad Section -->
+    <div class="container">
+        <div class="ads-left">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="8167485814"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        <div id="steps" class="steps"></div>
+
+        <!-- Main Calculator Section -->
+        <div class="calculator">
+            <input type="text" id="display" class="display" onkeydown="handleKey(event)" autofocus>
+            <div class="buttons">
+                <button onclick="clearDisplay()">C</button>
+                <button onclick="appendValue('()')">()</button>
+                <button onclick="appendValue('%')">%</button>
+                <button onclick="appendValue('/')">/</button>
+                <button onclick="appendValue('7')">7</button>
+                <button onclick="appendValue('8')">8</button>
+                <button onclick="appendValue('9')">9</button>
+                <button onclick="appendValue('*')">*</button>
+                <button onclick="appendValue('4')">4</button>
+                <button onclick="appendValue('5')">5</button>
+                <button onclick="appendValue('6')">6</button>
+                <button onclick="appendValue('-')">-</button>
+                <button onclick="appendValue('1')">1</button>
+                <button onclick="appendValue('2')">2</button>
+                <button onclick="appendValue('3')">3</button>
+                <button onclick="appendValue('+')">+</button>
+                <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
+                <button onclick="appendValue('.')">.</button>
+                <button onclick="calculate()" style="background: #FF4500;">=</button>
+            </div>
+            <div id="steps" class="steps"></div>
+        </div>
+
+        <!-- Right Ad Section -->
+        <div class="ads-right">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="6255638346"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
     </div>
-    <!-- AdSense Ad Slot - Place your AdSense Ad Unit ID here -->
-    <div class="ad-space">Ad Space - Replace with AdSense Code</div>
+
+    <!-- Bottom Ad Section -->
+    <div class="ads-bottom">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="5680923275"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
     <script>
         let stepsDiv = document.getElementById("steps");
         let display = document.getElementById("display");
 
         function appendValue(value) {
-            display.value += value;
+            if (value === '()') {
+                const cursorPosition = display.selectionStart;
+                const currentValue = display.value;
+                display.value = currentValue.slice(0, cursorPosition) + '()' + currentValue.slice(cursorPosition);
+                display.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+            } else if (value === '%') {
+                display.value += '/100';
+            } else {
+                display.value += value;
+            }
         }
+
         function clearDisplay() {
             display.value = "";
             stepsDiv.innerHTML = "";
         }
+
         function backspace() {
             display.value = display.value.slice(0, -1);
         }
+
         function calculate() {
             try {
                 let expression = display.value;
@@ -126,8 +193,9 @@
                 alert("Invalid Calculation");
             }
         }
+
         function handleKey(event) {
-            const validKeys = "0123456789+-*/.=()";
+            const validKeys = "0123456789+-*/.=()%";
             if (validKeys.includes(event.key)) {
                 event.preventDefault();
                 if (event.key === '=') {
