@@ -57,6 +57,14 @@
             color: #333;
             margin: 10px 0;
             text-align: left;
+            height: 100px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #paragraph-selector {
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -96,19 +104,27 @@
 
         <label for="duration">Set Duration (minutes):</label>
         <input type="number" id="duration" min="1" max="10" value="1">
-        
+
+        <label for="paragraph-selector">Select Paragraph:</label>
+        <select id="paragraph-selector" onchange="updateParagraph()">
+            <option value="news">News Article</option>
+            <option value="poetry">Poetry</option>
+            <option value="story">Short Story</option>
+            <option value="random">Random Text</option>
+        </select>
+
         <p>Sample Text:</p>
         <div id="sample-text">
             The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet.
         </div>
-        
+
         <textarea id="typing-area" placeholder="Start typing here..." disabled></textarea>
-        
+
         <button onclick="startTest()">Start Test</button>
         <button onclick="pauseTest()" id="pause-btn" disabled>Pause Test</button>
         <button onclick="resumeTest()" id="resume-btn" disabled>Resume Test</button>
         <button onclick="endTest()" id="end-btn" disabled>End Test</button>
-        
+
         <p id="result"></p>
         <div id="timer">Timer: 00:00</div>
     </div>
@@ -133,6 +149,18 @@
         let durationInSeconds = 0;
         let isPaused = false;
         let timeRemaining = 0;
+
+        const paragraphs = {
+            news: "In recent news, scientists have discovered a new species of deep-sea creatures. These organisms thrive in extreme conditions and provide insights into the adaptability of life.",
+            poetry: "Two roads diverged in a wood, and I— I took the one less traveled by, And that has made all the difference.",
+            story: "Once upon a time, there was a young boy named Jack who lived in a small village surrounded by dense forests. One day, he decided to explore the woods.",
+            random: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        };
+
+        function updateParagraph() {
+            const selectedType = document.getElementById("paragraph-selector").value;
+            document.getElementById("sample-text").textContent = paragraphs[selectedType];
+        }
 
         function startTest() {
             // Get the selected duration in minutes
