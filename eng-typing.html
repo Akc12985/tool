@@ -52,6 +52,12 @@
             color: #FF6600;
             margin: 10px 0;
         }
+        #sample-text {
+            font-size: 16px;
+            color: #333;
+            margin: 10px 0;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -90,9 +96,19 @@
 
         <label for="duration">Set Duration (minutes):</label>
         <input type="number" id="duration" min="1" max="10" value="1">
-        <p>Start typing the text below:</p>
+        
+        <p>Sample Text:</p>
+        <div id="sample-text">
+            The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet.
+        </div>
+        
         <textarea id="typing-area" placeholder="Start typing here..." disabled></textarea>
+        
         <button onclick="startTest()">Start Test</button>
+        <button onclick="pauseTest()" id="pause-btn" disabled>Pause Test</button>
+        <button onclick="resumeTest()" id="resume-btn" disabled>Resume Test</button>
+        <button onclick="endTest()" id="end-btn" disabled>End Test</button>
+        
         <p id="result"></p>
         <div id="timer">Timer: 00:00</div>
     </div>
@@ -113,8 +129,10 @@
     </div>
 
     <script>
-        let startTime, interval;
+        let startTime, interval, endTime;
         let durationInSeconds = 0;
+        let isPaused = false;
+        let timeRemaining = 0;
 
         function startTest() {
             // Get the selected duration in minutes
@@ -132,13 +150,61 @@
 
             // Start the countdown interval
             interval = setInterval(() => {
-                durationInSeconds--;
-                if (durationInSeconds <= 0) {
-                    clearInterval(interval);
-                    endTest();
+                if (!isPaused) {
+                    durationInSeconds--;
+                    if (durationInSeconds <= 0) {
+                        clearInterval(interval);
+                        endTest();
+                    }
+                    updateTimer();
                 }
-                updateTimer();
             }, 1000);
+
+            // Enable/disable buttons
+            document.getElementById("pause-btn").disabled = false;
+            document.getElementById("end-btn").disabled = false;
+        }
+
+        function pauseTest() {
+            isPaused = true;
+            timeRemaining = durationInSeconds; // Store remaining time
+            clearInterval(interval); // Stop the timer
+            document.getElementById("pause-btn").disabled = true;
+            document.getElementById("resume-btn").disabled = false;
+
+            // Show current result
+            calculateResult();
+        }
+
+        function resumeTest() {
+            isPaused = false;
+            startTime = new Date(); // Reset start time for accurate timing
+            durationInSeconds = timeRemaining; // Restore remaining time
+            interval = setInterval(() => {
+                if (!isPaused) {
+                    durationInSeconds--;
+                    if (durationInSeconds <= 0) {
+                        clearInterval(interval);
+                        endTest();
+                    }
+                    updateTimer();
+                }
+            }, 1000);
+
+            // Enable/disable buttons
+            document.getElementById("pause-btn").disabled = false;
+            document.getElementById("resume-btn").disabled = true;
+        }
+
+        function endTest() {
+            isPaused = true;
+            clearInterval(interval);
+            calculateResult();
+
+            // Disable all buttons except "Start Test"
+            document.getElementById("pause-btn").disabled = true;
+            document.getElementById("resume-btn").disabled = true;
+            document.getElementById("end-btn").disabled = true;
         }
 
         function updateTimer() {
@@ -148,18 +214,13 @@
             timerElement.textContent = `Timer: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        function endTest() {
+        function calculateResult() {
             const typingArea = document.getElementById("typing-area");
-            typingArea.disabled = true;
-
-            // Calculate typing speed
-            const endTime = new Date();
-            const timeTakenInSeconds = (endTime - startTime) / 1000;
             const typedText = typingArea.value.trim();
             const wordsTyped = typedText.split(/\s+/).filter(word => word.length > 0).length;
-            const wordsPerMinute = Math.round((wordsTyped / timeTakenInSeconds) * 60);
+            const elapsedTimeInSeconds = (new Date() - startTime) / 1000;
+            const wordsPerMinute = Math.round((wordsTyped / elapsedTimeInSeconds) * 60);
 
-            // Display result
             document.getElementById("result").textContent = `Your typing speed: ${wordsPerMinute} WPM`;
         }
     </script>
