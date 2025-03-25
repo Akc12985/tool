@@ -14,20 +14,17 @@
             --light: #F5F6FA;
             --highlight: #FFC107;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             background: var(--light);
             color: var(--dark);
             line-height: 1.6;
         }
-
         /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -40,7 +37,6 @@
             justify-content: center;
             align-items: center;
         }
-
         .logo {
             color: white;
             font-size: 2rem;
@@ -48,7 +44,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             letter-spacing: 2px;
         }
-
         /* Hero Section */
         .hero {
             padding: 6rem 2rem 4rem;
@@ -58,7 +53,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .hero::before {
             content: '';
             position: absolute;
@@ -69,25 +63,21 @@
             background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, transparent 10.01%);
             animation: rotateHero 10s linear infinite;
         }
-
         @keyframes rotateHero {
             100% { transform: rotate(360deg); }
         }
-
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             position: relative;
             z-index: 1;
         }
-
         .hero p {
             font-size: 1.2rem;
             opacity: 0.95;
             position: relative;
             z-index: 1;
         }
-
         /* Tools Grid */
         .tools-grid {
             display: grid;
@@ -97,7 +87,6 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .tool-card {
             background: white;
             padding: 2rem;
@@ -108,12 +97,10 @@
             overflow: hidden;
             cursor: pointer;
         }
-
         .tool-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
-
         .tool-card::before {
             content: '';
             position: absolute;
@@ -128,16 +115,13 @@
             );
             animation: rotateCard 4s linear infinite;
         }
-
         @keyframes rotateCard {
             100% { transform: rotate(360deg); }
         }
-
         .tool-card-content {
             position: relative;
             z-index: 1;
         }
-
         .tool-card h3 {
             color: var(--primary);
             margin-bottom: 1.5rem;
@@ -146,11 +130,9 @@
             align-items: center;
             gap: 1rem;
         }
-
         .tool-list {
             list-style: none;
         }
-
         .tool-list li {
             padding: 0.8rem 0;
             border-bottom: 1px solid #eee;
@@ -159,18 +141,15 @@
             align-items: center;
             gap: 0.8rem;
         }
-
         .tool-list li:hover {
             color: var(--accent);
             transform: translateX(8px);
         }
-
         .tool-list li i {
             color: var(--secondary);
             width: 24px;
             text-align: center;
         }
-
         /* Footer */
         .footer {
             background: var(--dark);
@@ -178,42 +157,52 @@
             padding: 3rem 2rem;
             text-align: center;
         }
-
         .footer p {
             margin-bottom: 1.5rem;
         }
-
         .footer-icons {
             display: flex;
             gap: 1.5rem;
             justify-content: center;
         }
-
         .footer-icons i {
             font-size: 1.5rem;
             color: var(--highlight);
             transition: color 0.3s ease;
         }
-
         .footer-icons i:hover {
             color: var(--accent);
         }
-
+        /* Additional Styling */
+        .hero-button {
+            display: inline-block;
+            background: var(--highlight);
+            color: var(--dark);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .hero-button:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
         /* Responsive Design */
         @media (max-width: 768px) {
             .tools-grid {
                 grid-template-columns: 1fr;
                 padding: 2rem 1rem;
             }
-
             .hero {
                 padding: 5rem 1rem 3rem;
             }
-
             .hero h1 {
                 font-size: 2rem;
             }
-
             .hero p {
                 font-size: 1rem;
             }
@@ -224,12 +213,11 @@
     <header class="header">
         <div class="logo">SuperTools</div>
     </header>
-
     <section class="hero">
         <h1>Your Ultimate Digital Swiss Army Knife</h1>
         <p>Transform your workflow with 15+ cutting-edge tools</p>
+        <a href="#calculator-section" class="hero-button">Go to Calculator</a>
     </section>
-
     <main class="tools-grid">
         <!-- Image Tools Card -->
         <div class="tool-card">
@@ -243,7 +231,6 @@
                 </ul>
             </div>
         </div>
-
         <!-- PDF Tools Card -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -255,7 +242,6 @@
                 </ul>
             </div>
         </div>
-
         <!-- Conversion Hub -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -267,9 +253,8 @@
                 </ul>
             </div>
         </div>
-
         <!-- Smart Calculators -->
-        <div class="tool-card">
+        <div class="tool-card" id="calculator-section">
             <div class="tool-card-content">
                 <h3><i class="fas fa-calculator"></i> Smart Calculators</h3>
                 <ul class="tool-list">
@@ -277,10 +262,10 @@
                     <li><i class="fas fa-birthday-cake"></i> <a href="/tool/age-calculator.html">Age Calculator</a></li>
                     <li><i class="fas fa-heart"></i> <a href="/tool/love-calculator.html">Love Calculator</a></li>
                     <li><i class="fas fa-balance-scale"></i> <a href="/tool/weight-height.html">Health Metrics</a></li>
+                    <li><i class="fas fa-calculator"></i> <a href="/tool/calculator.html">Advanced Calculator</a></li>
                 </ul>
             </div>
         </div>
-
         <!-- Creative Studio -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -292,7 +277,6 @@
                 </ul>
             </div>
         </div>
-
         <!-- Productivity -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -306,7 +290,6 @@
             </div>
         </div>
     </main>
-
     <footer class="footer">
         <p>© 2023 SuperTools360. All rights reserved.</p>
         <div class="footer-icons">
