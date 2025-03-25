@@ -6,6 +6,16 @@
     <meta name="description" content="Convert KurtiDev to Mangal and Mangal to KurtiDev font easily with our online converter. Fully responsive and SEO-optimized.">
     <title>KurtiDev to Mangal & Mangal to KurtiDev Converter</title>
     <style>
+        /* Embed Fonts */
+        @font-face {
+            font-family: 'KurtiDev';
+            src: url('path-to-your-fonts/KurtiDev.ttf') format('truetype'); /* Replace with actual font file path */
+        }
+        @font-face {
+            font-family: 'Mangal';
+            src: url('path-to-your-fonts/Mangal.ttf') format('truetype'); /* Replace with actual font file path */
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #FFA64D;
@@ -26,6 +36,7 @@
             margin-bottom: 10px;
             padding: 10px;
             font-size: 16px;
+            font-family: Arial, sans-serif; /* Default font */
         }
         button {
             background: #FF6600;
@@ -34,6 +45,7 @@
             border: none;
             cursor: pointer;
             font-size: 16px;
+            margin: 5px;
         }
         button:hover {
             background: #E68500;
@@ -44,21 +56,44 @@
             background: #fff;
             padding: 10px;
             border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #fff;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Apply Fonts Dynamically */
+        .kurtidev-font {
+            font-family: 'KurtiDev', Arial, sans-serif;
+        }
+        .mangal-font {
+            font-family: 'Mangal', Arial, sans-serif;
         }
     </style>
     <script>
         function convertFont(type) {
             let inputText = document.getElementById('inputText').value;
             let outputText = '';
-            
+
+            // Example conversion logic (replace with actual logic)
             if (type === 'kurtidev_to_mangal') {
-                outputText = inputText.replace(/क/g, 'K'); // Example conversion logic
+                outputText = inputText.replace(/क/g, 'K'); 
+                document.getElementById('outputText').classList.remove('kurtidev-font');
+                document.getElementById('outputText').classList.add('mangal-font');
             } else {
-                outputText = inputText.replace(/K/g, 'क'); // Example conversion logic
+                outputText = inputText.replace(/K/g, 'क'); 
+                document.getElementById('outputText').classList.remove('mangal-font');
+                document.getElementById('outputText').classList.add('kurtidev-font');
             }
-            
+
             document.getElementById('outputText').value = outputText;
         }
+
         function copyToClipboard() {
             let outputText = document.getElementById('outputText');
             outputText.select();
@@ -68,19 +103,20 @@
     </script>
 </head>
 <body>
-    <!-- Top Banner Ad -->
+    <!-- Top Ad Section -->
     <div class="ad-space"> 
         <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-app-pub-7057695873482887"
-            data-ad-slot="6255638346"
+            data-ad-slot="8167485814"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-    
+
+    <!-- Main Content -->
     <div class="container">
         <h2>KurtiDev to Mangal & Mangal to KurtiDev Converter</h2>
         <textarea id="inputText" placeholder="Enter text here..."></textarea>
@@ -88,12 +124,12 @@
         <button onclick="convertFont('kurtidev_to_mangal')">Convert to Mangal</button>
         <button onclick="convertFont('mangal_to_kurtidev')">Convert to KurtiDev</button>
         
-        <!-- Middle Ad -->
+        <!-- Middle Ad Section -->
         <div class="ad-space"> 
             <ins class="adsbygoogle"
                 style="display:block"
                 data-ad-client="ca-app-pub-7057695873482887"
-                data-ad-slot="5680923275"
+                data-ad-slot="6255638346"
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
             <script>
@@ -102,12 +138,25 @@
         </div>
         
         <br><br>
-        <textarea id="outputText" readonly placeholder="Converted text will appear here..."></textarea>
+        <textarea id="outputText" readonly placeholder="Converted text will appear here..." class="mangal-font"></textarea>
         <br>
         <button onclick="copyToClipboard()">Copy Converted Text</button>
     </div>
-    
-    <!-- Bottom Ad -->
+
+    <!-- Bottom Ad Section -->
+    <div class="ad-space"> 
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887"
+            data-ad-slot="5680923275"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Additional Ad Section -->
     <div class="ad-space"> 
         <ins class="adsbygoogle"
             style="display:block"
@@ -118,6 +167,11 @@
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2023 KurtiDev to Mangal Converter. All rights reserved.
     </div>
 </body>
 </html>
