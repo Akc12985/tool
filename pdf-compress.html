@@ -14,6 +14,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0;
         }
         .container {
             background: #E68500;
@@ -31,6 +32,7 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
+            margin-top: 10px;
         }
         .btn:hover {
             background-color: #E68500;
@@ -64,17 +66,20 @@
 </head>
 <body>
     <div class="layout">
+        <!-- Left Side Ad -->
         <div class="side-ad">
             <ins class="adsbygoogle"
                 style="display:block"
-                data-ad-client="ca-app-pub-7057695873482887/6255638346"
-                data-ad-slot="6255638346"
+                data-ad-client="ca-app-pub-7057695873482887/8167485814"
+                data-ad-slot="8167485814"
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
             <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         </div>
+
+        <!-- Main Content -->
         <div class="container">
             <h1>PDF Compressor</h1>
             <input type="file" id="pdfInput" accept="application/pdf" onchange="displayFileSize()">
@@ -90,13 +95,15 @@
             <button class="btn" onclick="compressPDF()">Compress PDF</button>
             <p id="status"></p>
             <p id="compressedSize" style="display:none;"></p>
-            <a id="downloadLink" class="btn" href="#" download style="display:none; margin-top:10px;">Download Compressed PDF</a>
+            <a id="downloadLink" class="btn" href="#" download style="display:none;">Download Compressed PDF</a>
         </div>
+
+        <!-- Right Side Ad -->
         <div class="side-ad">
             <ins class="adsbygoogle"
                 style="display:block"
-                data-ad-client="ca-app-pub-7057695873482887/5680923275"
-                data-ad-slot="5680923275"
+                data-ad-client="ca-app-pub-7057695873482887/6255638346"
+                data-ad-slot="6255638346"
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
             <script>
@@ -104,6 +111,21 @@
             </script>
         </div>
     </div>
+
+    <!-- Bottom Ad Space -->
+    <div class="ad-space">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887/5680923275"
+            data-ad-slot="5680923275"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Additional Ad Space -->
     <div class="ad-space">
         <ins class="adsbygoogle"
             style="display:block"
@@ -115,30 +137,39 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-    
+
     <script>
         function displayFileSize() {
             const input = document.getElementById('pdfInput').files[0];
             if (input) {
                 document.getElementById('fileSize').innerText = `Original Size: ${(input.size / 1024 / 1024).toFixed(2)} MB`;
+            } else {
+                document.getElementById('fileSize').innerText = '';
             }
         }
 
         function compressPDF() {
             const input = document.getElementById('pdfInput').files[0];
             const level = document.getElementById('compressionLevel').value;
+
             if (!input) {
                 document.getElementById('status').innerText = 'Please select a PDF file first.';
                 return;
             }
+
             document.getElementById('status').innerText = 'Compressing...';
             setTimeout(() => {
                 const compressionRatio = level === 'low' ? 0.8 : level === 'medium' ? 0.6 : 0.4;
                 const compressedSize = (input.size * compressionRatio) / 1024 / 1024;
+
                 document.getElementById('status').innerText = 'Compression complete!';
                 document.getElementById('compressedSize').innerText = `Compressed Size: ${compressedSize.toFixed(2)} MB`;
                 document.getElementById('compressedSize').style.display = 'block';
-                document.getElementById('downloadLink').href = '#'; // Replace with actual URL when backend is implemented
+
+                // Simulate a downloadable file
+                const blob = new Blob([new Uint8Array([0x25, 0x50, 0x44, 0x46])], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                document.getElementById('downloadLink').href = url;
                 document.getElementById('downloadLink').style.display = 'block';
             }, 2000);
         }
