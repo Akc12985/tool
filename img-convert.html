@@ -6,7 +6,7 @@
     <meta name="description" content="Convert and optimize your images easily with our free online image converter tool. Supports multiple formats with high-quality conversion.">
     <meta name="keywords" content="image converter, online image conversion, JPG to PNG, PNG to JPG, WebP, image optimizer">
     <meta name="author" content="Your Website Name">
-    <title>Online Image Converter</title>
+    <title>Advanced Online Image Converter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -88,17 +88,22 @@
         #output a:hover {
             background: #ddd;
         }
+        .loading {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     
-    <!-- AdMob Ad Unit ID (Top Banner) -->
+    <!-- Top Banner Ad -->
     <div class="ad-space">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
             style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887/5970699329"
-            data-ad-slot="5970699329"
+            data-ad-client="ca-app-pub-7057695873482887/8167485814"
+            data-ad-slot="8167485814"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         <script>
@@ -117,15 +122,16 @@
         <button onclick="convertImage()">Convert Image</button>
         <canvas id="canvas" style="display: none;"></canvas>
         <div id="output"></div>
+        <div id="loading" class="loading" style="display: none;">Converting...</div>
     </div>
 
-    <!-- #Add# AdMob Ad Unit ID (Bottom Banner) -->
+    <!-- Bottom Banner Ad -->
     <div class="ad-space">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
             style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887/7025794537"
-            data-ad-slot="7025794537"
+            data-ad-client="ca-app-pub-7057695873482887/6255638346"
+            data-ad-slot="6255638346"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         <script>
@@ -133,13 +139,27 @@
         </script>
     </div>
 
-    <!-- #Add# AdMob Ad Unit ID (Right Sidebar) -->
+    <!-- Right Sidebar Ad -->
     <div class="right-ad-space">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
             style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887/2487783727"
-            data-ad-slot="2487783727"
+            data-ad-client="ca-app-pub-7057695873482887/5680923275"
+            data-ad-slot="5680923275"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Additional Ad Section -->
+    <div class="ad-space">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887/5134128362"
+            data-ad-slot="5134128362"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         <script>
@@ -152,36 +172,54 @@
             const input = document.getElementById('imageInput');
             const format = document.getElementById('formatSelect').value;
             const output = document.getElementById('output');
-            
+            const loading = document.getElementById('loading');
+
             if (!input.files.length) {
                 alert("Please select an image file");
                 return;
             }
-            
+
+            // Show loading indicator
+            output.innerHTML = "";
+            loading.style.display = "block";
+
             const file = input.files[0];
             const reader = new FileReader();
-            
+
             reader.onload = function (event) {
                 const img = new Image();
                 img.src = event.target.result;
+
                 img.onload = function () {
                     const canvas = document.getElementById('canvas');
                     const ctx = canvas.getContext('2d');
                     canvas.width = img.width;
                     canvas.height = img.height;
                     ctx.drawImage(img, 0, 0);
-                    
+
                     const convertedImage = canvas.toDataURL(`image/${format}`);
-                    
+
                     const link = document.createElement('a');
                     link.href = convertedImage;
                     link.download = `converted.${format}`;
                     link.innerText = "Download Converted Image";
-                    output.innerHTML = "";
                     output.appendChild(link);
+
+                    // Hide loading indicator
+                    loading.style.display = "none";
+                };
+
+                img.onerror = function () {
+                    alert("Failed to load the image. Please try again.");
+                    loading.style.display = "none";
                 };
             };
-            
+
+            reader.onerror = function () {
+                alert("Failed to read the file. Please try again.");
+                loading.style.display = "none";
+            };
+
             reader.readAsDataURL(file);
         }
     </script>
