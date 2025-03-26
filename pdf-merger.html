@@ -5,50 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Merger Tool</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FFB677, #E68500);
+            color: #333;
             text-align: center;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
         .container {
-            background: #E68500;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            max-width: 500px;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            max-width: 550px;
             margin: auto;
             position: relative;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #FF6600;
+        }
+        input[type="file"] {
+            margin-bottom: 15px;
         }
         button {
             background: #FF6600;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 12px 20px;
             cursor: pointer;
-            margin-top: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s ease;
         }
         button:hover {
             background: #cc5500;
         }
+        #fileCount {
+            font-size: 14px;
+            color: #555;
+        }
+        #downloadLink {
+            display: none;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #FF6600;
+            font-weight: bold;
+        }
+        #progressBarContainer {
+            margin-top: 20px;
+            width: 100%;
+        }
+        #progressBar {
+            width: 0%;
+            height: 10px;
+            background: #FF6600;
+            border-radius: 5px;
+        }
+
+        /* Ads Section */
         .ads-container {
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 120px;
+            width: 140px;
             text-align: center;
             padding: 10px;
         }
-        .ads-left { left: -140px; }
-        .ads-right { right: -140px; }
+        .ads-left { left: -160px; }
+        .ads-right { right: -160px; }
         .ads-bottom {
             width: 100%;
-            height: 90px;
+            height: 100px;
             margin-top: 20px;
             text-align: center;
             line-height: 90px;
@@ -57,7 +93,34 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
+    <!-- Left Ad -->
     <div class="ads-container ads-left">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-app-pub-7057695873482887/8167485814"
+            data-ad-slot="8167485814"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Merge Multiple PDFs</h2>
+        <input type="file" id="pdfFiles" multiple accept="application/pdf" style="display: none;">
+        <label for="pdfFiles" style="cursor: pointer; background: #FF6600; color: white; padding: 10px 20px; border-radius: 8px;">Select PDF Files</label>
+        <p id="fileCount">No files selected</p>
+        <button onclick="mergePDFs()">Merge PDFs</button>
+        <a id="downloadLink" style="display: none;" download="merged.pdf">Download Merged PDF</a>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+    </div>
+
+    <!-- Right Ad -->
+    <div class="ads-container ads-right">
         <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-app-pub-7057695873482887/6255638346"
@@ -68,24 +131,8 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-    <div class="container">
-        <h2>Merge Multiple PDFs</h2>
-        <input type="file" id="pdfFiles" multiple accept="application/pdf">
-        <p id="fileCount">No files selected</p>
-        <button onclick="mergePDFs()">Merge PDFs</button>
-        <a id="downloadLink" style="display: none;" download="merged.pdf">Download Merged PDF</a>
-    </div>
-    <div class="ads-container ads-right">
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887/5680923275"
-            data-ad-slot="5680923275"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+
+    <!-- Bottom Ad -->
     <div class="ads-bottom">
         <ins class="adsbygoogle"
             style="display:block"
@@ -97,36 +144,57 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
+
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
     <script>
+        document.getElementById('pdfFiles').addEventListener('change', function () {
+            const files = this.files;
+            document.getElementById('fileCount').innerText = files.length > 0 ? `${files.length} files selected` : 'No files selected';
+        });
+
         async function mergePDFs() {
             const input = document.getElementById('pdfFiles');
             const files = input.files;
-            
+
             if (files.length === 0) {
-                alert('Please select PDF files to merge');
+                alert('Please select PDF files to merge.');
                 return;
             }
 
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+
             const mergedPdf = await PDFLib.PDFDocument.create();
-            for (let file of files) {
+            let totalProgress = 0;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 const reader = new FileReader();
-                reader.readAsArrayBuffer(file);
-                await new Promise(resolve => {
-                    reader.onload = async function() {
-                        const pdfBytes = new Uint8Array(reader.result);
-                        const pdf = await PDFLib.PDFDocument.load(pdfBytes);
-                        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                        copiedPages.forEach(page => mergedPdf.addPage(page));
+
+                await new Promise((resolve, reject) => {
+                    reader.onload = async function () {
+                        try {
+                            const pdfBytes = new Uint8Array(reader.result);
+                            const pdf = await PDFLib.PDFDocument.load(pdfBytes);
+                            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                            copiedPages.forEach(page => mergedPdf.addPage(page));
+                            totalProgress += (1 / files.length) * 100;
+                            progressBar.style.width = `${totalProgress}%`;
+                        } catch (error) {
+                            reject(error);
+                        }
                         resolve();
                     };
+                    reader.onerror = reject;
+                    reader.readAsArrayBuffer(file);
                 });
             }
 
             const mergedPdfBytes = await mergedPdf.save();
             const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
-            
+
             const downloadLink = document.getElementById('downloadLink');
             downloadLink.href = url;
             downloadLink.style.display = 'block';
