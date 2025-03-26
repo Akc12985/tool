@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoe Size Calculator</title>
-    <meta name="description" content="Find your ideal shoe size based on your height with this easy-to-use Shoe Size Calculator. Fully responsive and SEO-optimized.">
+    <meta name="description" content="Find your ideal shoe size based on your height with this easy-to-use Shoe Size Calculator. Fully responsive, SEO-optimized, and monetized with Google AdSense.">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,21 +15,31 @@
             position: relative;
         }
         .container {
-            max-width: 400px;
+            max-width: 450px;
             margin: auto;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             color: black;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
         input, button {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             margin: 10px 0;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: 0.3s;
         }
         input {
             border: 2px solid #FF6600;
@@ -39,16 +49,14 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
         }
         button:hover {
             background-color: #E68500;
         }
-        .ad-space {
-            margin-top: 20px;
+        .ad-space, .left-ad, .right-ad, .bottom-ad {
             background: #FFD580;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 10px;
             text-align: center;
             font-weight: bold;
             color: #333;
@@ -58,13 +66,11 @@
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            width: 120px;
-            height: 300px;
-            background: #FFD580;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .left-ad {
             left: 10px;
@@ -74,45 +80,61 @@
         }
         .bottom-ad {
             margin-top: 20px;
-            background: #FFD580;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .left-ad, .right-ad {
+                display: none;
+            }
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
-    <!-- Left Ad Space XXXX -->
-    <div class="left-ad">XXXX (Ad Here)</div>
-    
+    <!-- Left Ad Space -->
+    <div class="left-ad">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:150px;height:350px"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
     <div class="container">
         <h1>Shoe Size Calculator</h1>
         <p>Enter your height to find your recommended shoe size.</p>
         
         <label for="height">Enter your Height (cm):</label>
-        <input type="number" id="height" placeholder="e.g. 170" required>
+        <input type="number" id="height" placeholder="e.g. 170" aria-label="Height in centimeters" required>
         <button onclick="calculateShoeSize()">Calculate</button>
         
         <div id="result"></div>
         
-        <!-- Ad Space XXXX -->
+        <!-- Middle Ad Space -->
         <div class="ad-space">
-            <p>XXXX (Ad will be displayed here)</p>
-            <!-- XXXX Replace with AdSense Code XXXX -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="6255638346"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
     
-    <!-- Right Ad Space XXXX -->
-    <div class="right-ad">XXXX (Ad Here)</div>
+    <!-- Right Ad Space -->
+    <div class="right-ad">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:150px;height:350px"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="5680923275"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
     
-    <!-- Bottom Ad Space XXXX -->
+    <!-- Bottom Ad Space -->
     <div class="bottom-ad">
-        <p>XXXX (Bottom Ad Here)</p>
-        <!-- XXXX Replace with AdSense Code XXXX -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="5134128362"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
     
     <script>
