@@ -7,60 +7,98 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            background-color: #FFA64D;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #FFA64D, #E68500);
+            font-family: 'Arial', sans-serif;
             text-align: center;
             color: #fff;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            background: #E68500;
+            background: rgba(255, 102, 0, 0.8);
             padding: 20px;
-            border-radius: 10px;
-            width: 80%;
+            border-radius: 15px;
+            width: 90%;
             max-width: 500px;
             margin: 20px auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
         h1 {
-            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         button {
             background: #FF6600;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 12px 20px;
             margin: 10px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 1rem;
             transition: 0.3s;
         }
         button:hover {
             background: #cc5200;
+            transform: scale(1.05);
         }
         select {
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
             border: none;
             margin: 10px;
+            font-size: 1rem;
+        }
+        audio {
+            width: 100%;
+            margin: 10px 0;
+        }
+        input[type="file"] {
+            margin: 10px 0;
         }
         .ad-space {
             background: #0000FF;
             color: white;
-            padding: 10px;
+            padding: 15px;
             margin: 10px auto;
-            border-radius: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .ad-space iframe {
+            width: 100%;
+            height: 100px;
+            border: none;
         }
     </style>
 </head>
 <body>
     <!-- Ad Space: Top Banner -->
-    <div class="ad-space" id="top-ad">XXXX</div>
+    <div class="ad-space" id="top-ad">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/8167485814" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
     
     <div class="container">
         <h1>Voice Changer</h1>
         
         <!-- Ad Space: Below Title -->
-        <div class="ad-space" id="below-title-ad">XXXX</div>
+        <div class="ad-space" id="below-title-ad">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/6255638346" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="6255638346"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
         
         <input type="file" id="audioUpload" accept="audio/*">
         <button id="recordBtn">Start Recording</button>
@@ -79,7 +117,16 @@
         <button id="downloadAudio">Download</button>
         
         <!-- Ad Space: Bottom Banner -->
-        <div class="ad-space" id="bottom-ad">XXXX</div>
+        <div class="ad-space" id="bottom-ad">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/5680923275" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="5680923275"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
     </div>
     
     <script src="script.js"></script>
