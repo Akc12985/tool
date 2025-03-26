@@ -5,45 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Voice & Voice-to-Text Converter</title>
     <meta name="description" content="A fully responsive text-to-voice (TTS) and voice-to-text (STT) converter with multi-language support and customizable voice settings.">
-    <link rel="stylesheet" href="styles.css">
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        select, input[type="range"], button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #outputText {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .ad-space {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .ad-space ins {
+            display: inline-block;
+            width: 100%;
+            max-width: 728px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <!-- Ad Space (Top) -->
     <div class="ad-space" id="top-ad">
-        <p>xxxx</p>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
-    
+
     <div class="container">
         <h1>Text-to-Voice & Voice-to-Text Converter</h1>
-        
+
         <!-- Text to Speech Section -->
         <div class="tts-section">
             <h2>Text to Speech (TTS)</h2>
-            <textarea id="textInput" placeholder="Enter text here..."></textarea>
-            <select id="voiceSelect"></select>
-            <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
-            <label for="rate">Speed</label>
-            <button onclick="speakText()">Convert to Voice</button>
+            <textarea id="textInput" placeholder="Enter text here..." aria-label="Input text for conversion"></textarea>
+            <select id="voiceSelect" aria-label="Select voice"></select>
+            <label for="rate">Speed:</label>
+            <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" aria-label="Adjust speech speed">
+            <button onclick="speakText()" aria-label="Convert text to speech">Convert to Voice</button>
         </div>
-        
+
         <!-- Ad Space (Middle) -->
         <div class="ad-space" id="middle-ad">
-            <p>xxxx</p>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="6255638346"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        
+
         <!-- Speech to Text Section -->
         <div class="stt-section">
             <h2>Voice to Text (STT)</h2>
-            <button onclick="startListening()">Start Listening</button>
-            <p id="outputText">Your speech will appear here...</p>
+            <button onclick="startListening()" aria-label="Start listening to convert speech to text">Start Listening</button>
+            <p id="outputText" aria-live="polite">Your speech will appear here...</p>
         </div>
-        
+
         <!-- Ad Space (Bottom) -->
         <div class="ad-space" id="bottom-ad">
-            <p>xxxx</p>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="5680923275"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Populate voice options
+        function populateVoices() {
+            const voiceSelect = document.getElementById('voiceSelect');
+            const voices = window.speechSynthesis.getVoices();
+
+            voiceSelect.innerHTML = '';
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        // Speak text function
+        function speakText() {
+            const text = document.getElementById('textInput').value;
+            const rate = document.getElementById('rate').value;
+            const voiceIndex = document.getElementById('voiceSelect').value;
+
+            if (!text) {
+                alert('Please enter some text to convert.');
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = parseFloat(rate);
+            utterance.voice = window.speechSynthesis.getVoices()[voiceIndex];
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Start listening for speech
+        function startListening() {
+            const outputText = document.getElementById('outputText');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                outputText.textContent = transcript;
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                outputText.textContent = 'Error occurred while listening.';
+            };
+        }
+
+        // Initialize voices
+        window.speechSynthesis.onvoiceschanged = populateVoices;
+    </script>
 </body>
 </html>
