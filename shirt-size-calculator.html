@@ -6,59 +6,92 @@
     <title>Shirt Size Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
-            background-color: #FFA64D;
+            background: linear-gradient(135deg, #FFA64D, #FF6600);
             margin: 0;
             padding: 20px;
+            color: white;
         }
         .container {
-            background: #FF6600;
-            max-width: 400px;
+            background: rgba(255, 102, 0, 0.8);
+            max-width: 500px;
             margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: white;
+            flex-wrap: wrap;
         }
         .logo {
-            width: 80px;
+            width: 100px;
             height: auto;
+            margin-bottom: 20px;
         }
         .content {
             flex-grow: 1;
             text-align: left;
             padding-left: 20px;
         }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
         input, button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
-            border: 1px solid #E68500;
-            border-radius: 5px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
         }
         button {
-            background-color: #E68500;
+            background: #E68500;
             color: white;
-            font-size: 16px;
             cursor: pointer;
-            border: none;
+            transition: background 0.3s ease;
         }
         button:hover {
-            background-color: #FF6600;
+            background: #FF6600;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
         }
         .ad-space {
-            margin-top: 20px;
-            background: #E68500;
-            height: 90px;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            height: auto;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
-            line-height: 90px;
             color: white;
             font-size: 14px;
-            border-radius: 10px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -70,28 +103,67 @@
             <label for="height">Enter Your Height (cm):</label>
             <input type="number" id="height" placeholder="e.g., 175">
             <button onclick="calculateSize()">Get My Shirt Size</button>
-            <h3 id="result"></h3>
+            <div id="result" class="result"></div>
         </div>
     </div>
-    
-    <div class="ad-space">XXXX Ad Space - Google AdMob XXXX</div>
-    
+
+    <div class="ad-space" id="ad-container">
+        <!-- AdMob Ads will be dynamically loaded here -->
+    </div>
+
     <script>
+        // Function to calculate shirt size
         function calculateSize() {
-            let height = document.getElementById("height").value;
-            let result = document.getElementById("result");
+            const height = document.getElementById("height").value;
+            const resultDiv = document.getElementById("result");
             if (!height || height <= 0) {
-                result.innerText = "Please enter a valid height.";
+                resultDiv.innerText = "Please enter a valid height.";
                 return;
             }
+
             let size = "Unknown";
             let numberSize = "-";
             if (height < 160) { size = "Small (S)"; numberSize = "36"; }
             else if (height >= 160 && height < 175) { size = "Medium (M)"; numberSize = "38-40"; }
             else if (height >= 175 && height < 190) { size = "Large (L)"; numberSize = "42-44"; }
             else { size = "Extra Large (XL)"; numberSize = "46+"; }
-            result.innerText = `Your recommended shirt size is: ${size} (Number: ${numberSize})`;
+
+            resultDiv.innerText = `Your recommended shirt size is: ${size} (Number: ${numberSize})`;
         }
+
+        // Function to load AdMob ads dynamically
+        function loadAds() {
+            const adContainer = document.getElementById("ad-container");
+            const adIds = [
+                "ca-app-pub-7057695873482887/8167485814",
+                "ca-app-pub-7057695873482887/6255638346",
+                "ca-app-pub-7057695873482887/5680923275",
+                "ca-app-pub-7057695873482887/5134128362"
+            ];
+
+            adIds.forEach(adId => {
+                const adElement = document.createElement("div");
+                adElement.className = "ad";
+                adElement.innerHTML = `
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-app-pub-7057695873482887"
+                         data-ad-slot="${adId}"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                `;
+                adContainer.appendChild(adElement);
+            });
+
+            // Load all ads
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        }
+
+        // Load ads when the page loads
+        window.onload = loadAds;
     </script>
+
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887" crossorigin="anonymous"></script>
 </body>
 </html>
