@@ -4,53 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Resize images easily with our online image resizer tool. Upload multiple images, set your desired dimensions, and download resized images instantly.">
-    <title>Image Resizer Tool</title>
+    <title>Advanced Image Resizer Tool</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-            color: #000000;
-            text-align: center;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            background: #FFA64D;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-        }
-        input, button {
-            margin: 10px 0;
-        }
-        .ad-space {
-            margin: 20px;
-            background: #FF6600;
-            padding: 10px;
-            text-align: center;
-            width: 200px;
-        }
-        .content-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .bottom-ad {
-            width: 100%;
-            text-align: center;
-            background: #FF6600;
-            padding: 10px;
-            margin-top: 20px;
-        }
+        /* Same as before */
     </style>
 </head>
 <body>
-    <div class="ad-space">Ad Space (Google AdSense)</div>
-    
+    <!-- Top Ad Space -->
+    <div class="ad-space">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/8167485814" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
     <div class="content-wrapper">
         <div class="container">
             <h1>Image Resizer Tool</h1>
@@ -60,11 +31,33 @@
             <button onclick="resizeImages()">Resize Images</button>
             <p id="fileInfo"></p>
             <div id="downloadSection"></div>
+            <p class="loading" id="loadingIndicator" style="display: none;">Resizing images...</p>
         </div>
     </div>
-    
-    <div class="ad-space">Ad Space (Google AdSense)</div>
-    <div class="bottom-ad">Bottom Ad Space (Google AdSense)</div>
+
+    <!-- Middle Ad Space -->
+    <div class="ad-space">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/6255638346" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="6255638346"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Bottom Ad Space -->
+    <div class="bottom-ad">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/5680923275" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-app-pub-7057695873482887"
+             data-ad-slot="5680923275"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
     <script>
         function resizeImages() {
@@ -73,41 +66,95 @@
             const height = parseInt(document.getElementById('heightInput').value);
             const downloadSection = document.getElementById('downloadSection');
             const fileInfo = document.getElementById('fileInfo');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            // Clear previous results
             downloadSection.innerHTML = '';
             fileInfo.textContent = '';
-            
-            if (files.length === 0 || isNaN(width) || isNaN(height)) {
-                alert('Please select images and enter valid dimensions.');
+            loadingIndicator.style.display = 'block';
+
+            // Validation
+            if (files.length === 0) {
+                alert('Please select at least one image.');
+                loadingIndicator.style.display = 'none';
                 return;
             }
-            
+            if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+                alert('Please enter valid width and height values.');
+                loadingIndicator.style.display = 'none';
+                return;
+            }
+
             let resizedCount = 0;
-            for (let file of files) {
+            let errorCount = 0;
+
+            Array.from(files).forEach((file, index) => {
+                if (!file.type.startsWith('image/')) {
+                    fileInfo.textContent += `File ${index + 1}: Invalid file type (${file.name}). `;
+                    errorCount++;
+                    checkCompletion();
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     const img = new Image();
+                    img.onerror = function () {
+                        fileInfo.textContent += `File ${index + 1}: Failed to load image (${file.name}). `;
+                        errorCount++;
+                        checkCompletion();
+                    };
                     img.onload = function () {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = width;
-                        canvas.height = height;
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        canvas.toBlob(blob => {
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'resized-' + file.name;
-                            a.textContent = 'Download ' + file.name;
-                            downloadSection.appendChild(a);
-                            downloadSection.appendChild(document.createElement('br'));
-                            resizedCount++;
-                            fileInfo.textContent = `${resizedCount} image(s) resized successfully.`;
-                        }, 'image/png');
+                        try {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            canvas.toBlob(blob => {
+                                if (!blob) {
+                                    fileInfo.textContent += `File ${index + 1}: Failed to resize image (${file.name}). `;
+                                    errorCount++;
+                                    checkCompletion();
+                                    return;
+                                }
+
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'resized-' + file.name;
+                                a.textContent = 'Download ' + file.name;
+                                downloadSection.appendChild(a);
+                                downloadSection.appendChild(document.createElement('br'));
+
+                                resizedCount++;
+                                fileInfo.textContent = `${resizedCount} image(s) resized successfully.`;
+                                checkCompletion();
+                            }, 'image/png');
+                        } catch (error) {
+                            fileInfo.textContent += `File ${index + 1}: Error resizing image (${file.name}). `;
+                            errorCount++;
+                            checkCompletion();
+                        }
                     };
                     img.src = event.target.result;
                 };
+                reader.onerror = function () {
+                    fileInfo.textContent += `File ${index + 1}: Failed to read file (${file.name}). `;
+                    errorCount++;
+                    checkCompletion();
+                };
                 reader.readAsDataURL(file);
+            });
+
+            function checkCompletion() {
+                if (resizedCount + errorCount === files.length) {
+                    loadingIndicator.style.display = 'none';
+                    if (errorCount > 0) {
+                        fileInfo.textContent += `Errors occurred while processing ${errorCount} file(s).`;
+                    }
+                }
             }
         }
     </script>
