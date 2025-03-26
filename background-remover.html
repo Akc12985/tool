@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Remover Tool</title>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f5f7ff;
+            --accent-color: #ff6b6b;
+            --dark-color: #333;
+            --light-color: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .tool-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 992px) {
+            .tool-container {
+                flex-direction: row;
+            }
+        }
+        
+        .editor-section {
+            flex: 2;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+        
+        .controls-section {
+            flex: 1;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 107, 255, 0.05);
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .canvas-container {
+            position: relative;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        #imageCanvas {
+            max-width: 100%;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .control-group input, 
+        .control-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #3a5bef;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        #downloadAfterChange {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="tool-container">
+        <section class="editor-section">
+            <h2>Image Editor</h2>
+            <div class="upload-area" id="uploadArea">
+                <p>Drag & drop your image here or click to browse</p>
+                <p>Supports JPG, PNG, WEBP (Max 5MB)</p>
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp">
+            </div>
+            
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="imageCanvas"></canvas>
+                <div class="loading" id="loadingIndicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Processing image...</p>
+                </div>
+            </div>
+            
+            <button class="btn" id="removeBgBtn" style="display: none;">Remove Background</button>
+            <button class="btn" id="downloadAfterChange">Download With New Background</button>
+        </section>
+        
+        <section class="controls-section">
+            <h2>Background Options</h2>
+            
+            <div class="control-group">
+                <label for="bgType">Background Type</label>
+                <select id="bgType">
+                    <option value="transparent">Transparent</option>
+                    <option value="color">Solid Color</option>
+                    <option value="image">Custom Image</option>
+                </select>
+            </div>
+            
+            <div class="control-group" id="colorControl">
+                <label for="bgColor">Background Color</label>
+                <input type="color" id="bgColor" value="#ffffff">
+                <span class="color-preview" id="colorPreview" style="background-color: #ffffff;"></span>
+            </div>
+            
+            <div class="control-group" id="imageControl" style="display: none;">
+                <label for="bgImage">Background Image</label>
+                <input type="file" id="bgImage" accept="image/jpeg, image/png, image/webp">
+            </div>
+            
+            <button class="btn btn-block" id="applyChangesBtn">Apply Background Changes</button>
+        </section>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const canvasContainer = document.getElementById('canvasContainer');
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const removeBgBtn = document.getElementById('removeBgBtn');
+            const downloadAfterChange = document.getElementById('downloadAfterChange');
+            const bgType = document.getElementById('bgType');
+            const bgColor = document.getElementById('bgColor');
+            const colorPreview = document.getElementById('colorPreview');
+            const colorControl = document.getElementById('colorControl');
+            const imageControl = document.getElementById('imageControl');
+            const bgImage = document.getElementById('bgImage');
+            const applyChangesBtn = document.getElementById('applyChangesBtn');
+            
+            // Variables
+            let originalImage = null;
+            let processedImage = null;
+            
+            // Event Listeners
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--primary-color)';
+                uploadArea.style.backgroundColor = 'rgba(74, 107, 255, 0.1)';
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#ccc';
+                uploadArea.style.backgroundColor = 'transparent';
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ccc';
+                uploadArea.style.backgroundColor = 'transparent';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    handleFileUpload(fileInput.files[0]);
+                }
+            });
+            
+            bgType.addEventListener('change', () => {
+                if (bgType.value === 'color') {
+                    colorControl.style.display = 'block';
+                    imageControl.style.display = 'none';
+                } else if (bgType.value === 'image') {
+                    colorControl.style.display = 'none';
+                    imageControl.style.display = 'block';
+                } else {
+                    colorControl.style.display = 'none';
+                    imageControl.style.display = 'none';
+                }
+            });
+            
+            bgColor.addEventListener('input', () => {
+                colorPreview.style.backgroundColor = bgColor.value;
+            });
+            
+            removeBgBtn.addEventListener('click', removeBackground);
+            applyChangesBtn.addEventListener('click', applyBackgroundChanges);
+            downloadAfterChange.addEventListener('click', downloadImage);
+            
+            // Functions
+            function handleFileUpload(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please upload an image file (JPG, PNG, or WEBP)');
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size should be less than 5MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    originalImage = new Image();
+                    originalImage.onload = function() {
+                        canvas.width = originalImage.width;
+                        canvas.height = originalImage.height;
+                        ctx.drawImage(originalImage, 0, 0);
+                        canvasContainer.style.display = 'block';
+                        removeBgBtn.style.display = 'block';
+                        uploadArea.style.display = 'none';
+                    };
+                    originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function removeBackground() {
+                if (!originalImage) return;
+                
+                loadingIndicator.style.display = 'flex';
+                removeBgBtn.style.display = 'none';
+                
+                // Simulate background removal
+                setTimeout(() => {
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = imageData.data;
+                    
+                    // Simple algorithm to make white/semi-white pixels transparent
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        
+                        if (r > 200 && g > 200 && b > 200) {
+                            data[i + 3] = 0; // Set alpha to 0 (transparent)
+                        }
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0);
+                    processedImage = canvas.toDataURL('image/png');
+                    loadingIndicator.style.display = 'none';
+                    
+                    // Show the download button after processing
+                    downloadAfterChange.style.display = 'block';
+                }, 1500);
+            }
+            
+            function applyBackgroundChanges() {
+                if (!originalImage) return;
+                
+                // Redraw original image first
+                ctx.drawImage(originalImage, 0, 0);
+                
+                // Apply background removal
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    if (r > 200 && g > 200 && b > 200) {
+                        data[i + 3] = 0;
+                    }
+                }
+                
+                // Create a temporary canvas for compositing
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Apply the selected background
+                if (bgType.value === 'color') {
+                    tempCtx.fillStyle = bgColor.value;
+                    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                } else if (bgType.value === 'image' && bgImage.files.length) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const bgImg = new Image();
+                        bgImg.onload = function() {
+                            // Draw the background image
+                            const hRatio = tempCanvas.width / bgImg.width;
+                            const vRatio = tempCanvas.height / bgImg.height;
+                            const ratio = Math.max(hRatio, vRatio);
+                            const centerShiftX = (tempCanvas.width - bgImg.width * ratio) / 2;
+                            const centerShiftY = (tempCanvas.height - bgImg.height * ratio) / 2;
+                            tempCtx.drawImage(bgImg, 0, 0, bgImg.width, bgImg.height, 
+                                            centerShiftX, centerShiftY, bgImg.width * ratio, bgImg.height * ratio);
+                            
+                            // Then draw the processed image
+                            tempCtx.putImageData(imageData, 0, 0);
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(tempCanvas, 0, 0);
+                            
+                            // Update the processed image and show download button
+                            processedImage = canvas.toDataURL('image/png');
+                            downloadAfterChange.style.display = 'block';
+                        };
+                        bgImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(bgImage.files[0]);
+                    return;
+                }
+                
+                // For transparent or after background image is processed
+                if (bgType.value !== 'image' || !bgImage.files.length) {
+                    tempCtx.putImageData(imageData, 0, 0);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(tempCanvas, 0, 0);
+                }
+                
+                // Update the processed image and show download button
+                processedImage = canvas.toDataURL('image/png');
+                downloadAfterChange.style.display = 'block';
+            }
+            
+            function downloadImage() {
+                if (!processedImage) {
+                    alert('Please process the image first');
+                    return;
+                }
+                
+                const link = document.createElement('a');
+                link.download = 'background-removed.png';
+                link.href = processedImage;
+                link.click();
+            }
+        });
+    </script>
+</body>
+</html>
