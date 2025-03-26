@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Background Remover Tool</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887" crossorigin="anonymous"></script>
     <style>
         :root {
             --primary-color: #4a6bff;
@@ -174,9 +175,48 @@
             margin-top: 20px;
             display: none;
         }
+        
+        /* Ad container styles */
+        .ad-container {
+            width: 100%;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            min-height: 90px;
+        }
+        
+        .ad-container.horizontal {
+            height: 90px;
+        }
+        
+        .ad-container.vertical {
+            height: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            .ad-container.vertical {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Top Banner Ad -->
+    <div class="ad-container horizontal">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    
     <div class="tool-container">
         <section class="editor-section">
             <h2>Image Editor</h2>
@@ -184,6 +224,19 @@
                 <p>Drag & drop your image here or click to browse</p>
                 <p>Supports JPG, PNG, WEBP (Max 5MB)</p>
                 <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp">
+            </div>
+            
+            <!-- Mid-content Banner Ad -->
+            <div class="ad-container horizontal">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7057695873482887"
+                     data-ad-slot="6255638346"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             
             <div class="canvas-container" id="canvasContainer">
@@ -200,6 +253,19 @@
         
         <section class="controls-section">
             <h2>Background Options</h2>
+            
+            <!-- Vertical Ad in Controls Section -->
+            <div class="ad-container vertical">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7057695873482887"
+                     data-ad-slot="5680923275"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
             
             <div class="control-group">
                 <label for="bgType">Background Type</label>
@@ -223,6 +289,19 @@
             
             <button class="btn btn-block" id="applyChangesBtn">Apply Background Changes</button>
         </section>
+    </div>
+    
+    <!-- Bottom Banner Ad -->
+    <div class="ad-container horizontal">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7057695873482887"
+             data-ad-slot="5134128362"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
     
     <script>
