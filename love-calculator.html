@@ -9,19 +9,26 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <!-- Left Ad Section -->
     <div class="ad-left">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+        <ins class="adsbygoogle" 
+             style="display:block" 
+             data-ad-client="ca-app-pub-7057695873482887" 
+             data-ad-slot="8167485814" 
+             data-ad-format="auto" 
+             data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <!-- Main Content -->
     <div class="container">
         <h1>❤️ Love Calculator ❤️</h1>
         <p>Enter your name and your partner's name or Rashi to calculate your love percentage!</p>
         
         <div class="input-box">
-            <input type="text" id="yourName" placeholder="Your Name / Rashi">
-            <input type="text" id="partnerName" placeholder="Partner's Name / Rashi">
+            <input type="text" id="yourName" placeholder="Your Name / Rashi" required>
+            <input type="text" id="partnerName" placeholder="Partner's Name / Rashi" required>
             <button onclick="calculateLove()">Calculate Love</button>
         </div>
         
@@ -34,10 +41,16 @@
         <p id="loveMessage"></p>
         <button onclick="shareResult()">Share Result</button>
     </div>
-    
+
+    <!-- Right Ad Section -->
     <div class="ad-right">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+        <ins class="adsbygoogle" 
+             style="display:block" 
+             data-ad-client="ca-app-pub-7057695873482887" 
+             data-ad-slot="6255638346" 
+             data-ad-format="auto" 
+             data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
@@ -81,9 +94,10 @@
             background-color: #FFA64D;
             color: white;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            padding: 20px;
         }
         .container {
             margin: 50px;
@@ -121,6 +135,13 @@
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
+        }
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
         .ad-left, .ad-right {
             width: 160px;
