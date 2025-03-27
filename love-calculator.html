@@ -3,90 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ultimate Love Calculator - Find your love compatibility using names or Rashi (Zodiac Signs). Try now!">
     <title>Love Calculator - Find Your Love Compatibility</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <!-- Left Ad Section -->
-    <div class="ad-left">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" 
-             style="display:block" 
-             data-ad-client="ca-app-pub-7057695873482887" 
-             data-ad-slot="8167485814" 
-             data-ad-format="auto" 
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <h1>❤️ Love Calculator ❤️</h1>
-        <p>Enter your name and your partner's name or Rashi to calculate your love percentage!</p>
-        
-        <div class="input-box">
-            <input type="text" id="yourName" placeholder="Your Name / Rashi" required>
-            <input type="text" id="partnerName" placeholder="Partner's Name / Rashi" required>
-            <button onclick="calculateLove()">Calculate Love</button>
-        </div>
-        
-        <div class="heart-container">
-            <div class="heart" id="heart">
-                <span id="lovePercentage">❤️ 0% ❤️</span>
-            </div>
-        </div>
-
-        <p id="loveMessage"></p>
-        <button onclick="shareResult()">Share Result</button>
-    </div>
-
-    <!-- Right Ad Section -->
-    <div class="ad-right">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" 
-             style="display:block" 
-             data-ad-client="ca-app-pub-7057695873482887" 
-             data-ad-slot="6255638346" 
-             data-ad-format="auto" 
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <script>
-        function calculateLove() {
-            let yourName = document.getElementById("yourName").value.trim();
-            let partnerName = document.getElementById("partnerName").value.trim();
-            
-            if (yourName === "" || partnerName === "") {
-                alert("Please enter both names or Rashis!");
-                return;
-            }
-            
-            let loveScore = Math.floor(Math.random() * (95 - 70 + 1)) + 70;
-            document.getElementById("lovePercentage").innerText = `❤️ ${loveScore}% ❤️`;
-            document.getElementById("heart").classList.add("pulse");
-            
-            let loveMessage;
-            if (loveScore > 80) {
-                loveMessage = "🔥 Soulmates! Your love is truly magical!";
-            } else if (loveScore > 50) {
-                loveMessage = "💖 A strong connection! Keep nurturing your love.";
-            } else {
-                loveMessage = "💔 Work on your bond to make it stronger!";
-            }
-            document.getElementById("loveMessage").innerText = loveMessage;
-        }
-
-        function shareResult() {
-            let result = document.getElementById("lovePercentage").innerText;
-            let message = `Check out our Love Compatibility: ${result} 💕 Try it now!`;
-            let shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-            window.open(shareUrl, '_blank');
-        }
-    </script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -108,11 +25,24 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .input-box input {
-            width: 90%;
+            width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: none;
             border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .input-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-box button:hover {
+            background-color: #E68500;
         }
         .heart-container {
             margin: 20px auto;
@@ -147,6 +77,104 @@
             width: 160px;
             height: 600px;
         }
+        @media (max-width: 768px) {
+            .ad-left, .ad-right {
+                display: none;
+            }
+            .container {
+                margin: 20px auto;
+            }
+        }
     </style>
+</head>
+<body>
+    <!-- Left Ad Section -->
+    <div class="ad-left">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" 
+             style="display:block" 
+             data-ad-client="ca-app-pub-7057695873482887" 
+             data-ad-slot="8167485814" 
+             data-ad-format="auto" 
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>❤️ Love Calculator ❤️</h1>
+        <p>Enter your name and your partner's name or Rashi to calculate your love percentage!</p>
+        
+        <form onsubmit="calculateLove(); return false;">
+            <div class="input-box">
+                <input type="text" id="yourName" placeholder="Your Name / Rashi" required>
+                <input type="text" id="partnerName" placeholder="Partner's Name / Rashi" required>
+                <button type="submit">Calculate Love</button>
+            </div>
+        </form>
+        
+        <div class="heart-container">
+            <div class="heart" id="heart">
+                <span id="lovePercentage">❤️ 0% ❤️</span>
+            </div>
+        </div>
+
+        <p id="loveMessage"></p>
+        <button onclick="shareResult()">Share Result</button>
+    </div>
+
+    <!-- Right Ad Section -->
+    <div class="ad-right">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" 
+             style="display:block" 
+             data-ad-client="ca-app-pub-7057695873482887" 
+             data-ad-slot="6255638346" 
+             data-ad-format="auto" 
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <script>
+        function calculateLoveScore(yourName, partnerName) {
+            let combinedNames = (yourName + partnerName).toLowerCase();
+            let score = 0;
+            for (let char of combinedNames) {
+                score += char.charCodeAt(0);
+            }
+            return (score % 25) + 70; // Range: 70-95
+        }
+
+        function calculateLove() {
+            let yourName = document.getElementById("yourName").value.trim();
+            let partnerName = document.getElementById("partnerName").value.trim();
+
+            if (!yourName || !partnerName) {
+                alert("Please enter both names or Rashis!");
+                return;
+            }
+
+            let loveScore = calculateLoveScore(yourName, partnerName);
+            document.getElementById("lovePercentage").innerText = `❤️ ${loveScore}% ❤️`;
+            document.getElementById("heart").classList.add("pulse");
+
+            let loveMessage;
+            if (loveScore > 80) {
+                loveMessage = "🔥 Soulmates! Your love is truly magical!";
+            } else if (loveScore > 50) {
+                loveMessage = "💖 A strong connection! Keep nurturing your love.";
+            } else {
+                loveMessage = "💔 Work on your bond to make it stronger!";
+            }
+            document.getElementById("loveMessage").innerText = loveMessage;
+        }
+
+        function shareResult() {
+            let result = document.getElementById("lovePercentage").innerText;
+            let message = `Check out our Love Compatibility: ${result} 💕 Try it now!`;
+            let shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+            window.open(shareUrl, '_blank');
+        }
+    </script>
 </body>
 </html>
