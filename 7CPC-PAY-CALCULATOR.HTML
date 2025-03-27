@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online 7th Central Pay Commission (CPC) pay calculator for Indian government employees. Calculate your basic pay, allowances, and deductions as per the latest pay matrix.">
+    <meta name="keywords" content="7th CPC calculator, pay matrix, central government pay, salary calculator, 7th pay commission">
+    <meta name="author" content="7th CPC Calculator">
+    <title>7th CPC Pay Calculator | Calculate Your Salary as Per 7th Pay Commission</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/7th-cpc-calculator/">
+    <meta property="og:title" content="7th CPC Pay Calculator | Calculate Your Salary as Per 7th Pay Commission">
+    <meta property="og:description" content="Free online 7th Central Pay Commission (CPC) pay calculator for Indian government employees.">
+    <meta property="og:image" content="https://example.com/images/7th-cpc-calculator-preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://example.com/7th-cpc-calculator/">
+    <meta property="twitter:title" content="7th CPC Pay Calculator | Calculate Your Salary as Per 7th Pay Commission">
+    <meta property="twitter:description" content="Free online 7th Central Pay Commission (CPC) pay calculator for Indian government employees.">
+    <meta property="twitter:image" content="https://example.com/images/7th-cpc-calculator-preview.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://example.com/7th-cpc-calculator/" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "7th CPC Pay Calculator",
+      "url": "https://example.com/7th-cpc-calculator/",
+      "description": "Calculate your salary as per 7th Central Pay Commission for Indian government employees",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser"
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+        
+        .ad-banner {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 1rem 0;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 992px) {
+            .calculator-container {
+                grid-template-columns: 1fr 300px;
+            }
+        }
+        
+        .calculator-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .sidebar-widget {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .results {
+            margin-top: 2rem;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            font-weight: 600;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .total {
+            font-size: 1.25rem;
+            color: var(--success-color);
+        }
+        
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-column ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #444;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            nav, .ad-banner, .sidebar, footer {
+                display: none;
+            }
+            
+            .calculator-form {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .results {
+                border-left: none;
+                background-color: transparent;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">7th CPC Calculator</div>
+            <nav>
+                <ul>
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Top Ad Banner -->
+        <div class="ad-banner">
+            <!-- Replace with your AdSense code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+            <!-- 7thCPC_Top_Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+    
+    <main class="container" id="calculator">
+        <h1>7th CPC Pay Calculator</h1>
+        <p>Calculate your salary as per the 7th Central Pay Commission recommendations for Indian government employees.</p>
+        
+        <div class="calculator-container">
+            <div class="calculator-form">
+                <form id="payCalculatorForm">
+                    <div class="form-group">
+                        <label for="currentPayLevel">Current Pay Level</label>
+                        <select id="currentPayLevel" required>
+                            <option value="">Select Pay Level</option>
+                            <option value="1">Level 1 (₹18,000 - ₹56,900)</option>
+                            <option value="2">Level 2 (₹19,900 - ₹63,200)</option>
+                            <option value="3">Level 3 (₹21,700 - ₹69,100)</option>
+                            <option value="4">Level 4 (₹25,500 - ₹81,100)</option>
+                            <option value="5">Level 5 (₹29,200 - ₹92,300)</option>
+                            <option value="6">Level 6 (₹35,400 - ₹1,12,400)</option>
+                            <option value="7">Level 7 (₹44,900 - ₹1,42,400)</option>
+                            <option value="8">Level 8 (₹47,600 - ₹1,51,100)</option>
+                            <option value="9">Level 9 (₹53,100 - ₹1,67,800)</option>
+                            <option value="10">Level 10 (₹56,100 - ₹1,77,500)</option>
+                            <option value="11">Level 11 (₹67,700 - ₹2,08,700)</option>
+                            <option value="12">Level 12 (₹78,800 - ₹2,09,200)</option>
+                            <option value="13">Level 13 (₹1,23,100 - ₹2,15,900)</option>
+                            <option value="13A">Level 13A (₹1,31,100 - ₹2,16,600)</option>
+                            <option value="14">Level 14 (₹1,44,200 - ₹2,18,200)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentBasicPay">Current Basic Pay (₹)</label>
+                        <input type="number" id="currentBasicPay" min="18000" step="100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentDA">Current DA Rate (%)</label>
+                        <input type="number" id="currentDA" value="50" min="0" max="100" step="0.1" required>
+                        <p class="info-text">Current DA rate as of 2024 is 50%</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentHRA">Current HRA Rate (%)</label>
+                        <select id="currentHRA" required>
+                            <option value="27">X City (27%)</option>
+                            <option value="18">Y City (18%)</option>
+                            <option value="9">Z City (9%)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transportAllowance">Transport Allowance (₹)</label>
+                        <select id="transportAllowance" required>
+                            <option value="7200">₹7,200 + DA (Higher TPTA Cities)</option>
+                            <option value="3600">₹3,600 + DA (Other Cities)</option>
+                            <option value="0">None</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="otherAllowances">Other Allowances (₹)</label>
+                        <input type="number" id="otherAllowances" min="0" value="0">
+                        <p class="info-text">Enter total of any other allowances you receive</p>
+                    </div>
+                    
+                    <button type="button" id="calculateBtn">Calculate My Pay</button>
+                </form>
+                
+                <div class="results" id="results" style="display: none;">
+                    <h2>Your Pay Calculation</h2>
+                    <div class="result-item">
+                        <span class="result-label">Current Basic Pay:</span>
+                        <span class="result-value" id="currentBasicPayResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Current DA (@<span id="daRateResult">0</span>%):</span>
+                        <span class="result-value" id="currentDAResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Current HRA (@<span id="hraRateResult">0</span>%):</span>
+                        <span class="result-value" id="currentHRAResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Transport Allowance:</span>
+                        <span class="result-value" id="transportAllowanceResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Other Allowances:</span>
+                        <span class="result-value" id="otherAllowancesResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Current Gross Salary:</span>
+                        <span class="result-value" id="currentGrossResult">₹0</span>
+                    </div>
+                    
+                    <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;">
+                    
+                    <div class="result-item">
+                        <span class="result-label">7th CPC Basic Pay:</span>
+                        <span class="result-value" id="newBasicPayResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">7th CPC HRA (@<span id="newHraRateResult">0</span>%):</span>
+                        <span class="result-value" id="newHraResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">7th CPC Transport Allowance:</span>
+                        <span class="result-value" id="newTransportAllowanceResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Other Allowances:</span>
+                        <span class="result-value" id="newOtherAllowancesResult">₹0</span>
+                    </div>
+                    <div class="result-item total">
+                        <span class="result-label">7th CPC Gross Salary:</span>
+                        <span class="result-value" id="newGrossResult">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Increase in Salary:</span>
+                        <span class="result-value" id="increaseResult">₹0 (0%)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <!-- Sidebar Ad 1 -->
+                <div class="ad-banner">
+                    <!-- Replace with your AdSense code -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+                    <!-- 7thCPC_Sidebar_1 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3>About 7th CPC</h3>
+                    <p>The 7th Central Pay Commission (CPC) was implemented on January 1, 2016, revising salaries and pensions for central government employees.</p>
+                    <p>Key features include:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Minimum pay set at ₹18,000</li>
+                        <li>Maximum pay at ₹2,50,000</li>
+                        <li>Pay matrix with 18 levels</li>
+                        <li>HRA rates revised to 27%, 18% and 9%</li>
+                    </ul>
+                </div>
+                
+                <!-- Sidebar Ad 2 -->
+                <div class="ad-banner">
+                    <!-- Replace with your AdSense code -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+                    <!-- 7thCPC_Sidebar_2 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3>Quick Links</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="#">7th CPC Pay Matrix PDF</a></li>
+                        <li><a href="#">HRA Calculator</a></li>
+                        <li><a href="#">Pension Calculator</a></li>
+                        <li><a href="#">Latest DA Updates</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="container">
+        <!-- Bottom Ad Banner -->
+        <div class="ad-banner">
+            <!-- Replace with your AdSense code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+            <!-- 7thCPC_Bottom_Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>7th CPC Calculator</h3>
+                    <p>A free tool to help government employees calculate their salary as per the 7th Central Pay Commission recommendations.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#calculator">Pay Calculator</a></li>
+                        <li><a href="#about">About 7th CPC</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Pay Matrix</a></li>
+                        <li><a href="#">Allowances</a></li>
+                        <li><a href="#">Pension Rules</a></li>
+                        <li><a href="#">Latest Orders</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 7th CPC Calculator. All rights reserved. This is not an official government website.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pay level to 7th CPC pay matrix mapping
+            const payMatrix = {
+                '1': 18000,
+                '2': 19900,
+                '3': 21700,
+                '4': 25500,
+                '5': 29200,
+                '6': 35400,
+                '7': 44900,
+                '8': 47600,
+                '9': 53100,
+                '10': 56100,
+                '11': 67700,
+                '12': 78800,
+                '13': 123100,
+                '13A': 131100,
+                '14': 144200
+            };
+            
+            // HRA rates as per 7th CPC
+            const hraRates = {
+                '27': 0.27,
+                '18': 0.18,
+                '9': 0.09
+            };
+            
+            // Transport allowance as per 7th CPC
+            const transportAllowance = {
+                '7200': 7200,
+                '3600': 3600,
+                '0': 0
+            };
+            
+            // Calculate button click handler
+            document.getElementById('calculateBtn').addEventListener('click', calculatePay);
+            
+            function calculatePay() {
+                // Get input values
+                const currentPayLevel = document.getElementById('currentPayLevel').value;
+                const currentBasicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
+                const currentDA = parseFloat(document.getElementById('currentDA').value) || 0;
+                const currentHRA = document.getElementById('currentHRA').value;
+                const transportAllowanceValue = document.getElementById('transportAllowance').value;
+                const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
+                
+                // Validate inputs
+                if (!currentPayLevel) {
+                    alert('Please select your current pay level');
+                    return;
+                }
+                
+                if (currentBasicPay < 18000) {
+                    alert('Basic pay cannot be less than ₹18,000 as per 7th CPC');
+                    return;
+                }
+                
+                // Calculate current salary components
+                const currentDAAmount = currentBasicPay * (currentDA / 100);
+                const currentHRAAmount = currentBasicPay * hraRates[currentHRA];
+                const currentTransportAllowance = transportAllowance[transportAllowanceValue] * (1 + (currentDA / 100));
+                const currentGrossSalary = currentBasicPay + currentDAAmount + currentHRAAmount + currentTransportAllowance + otherAllowances;
+                
+                // Calculate 7th CPC salary components
+                const newBasicPay = payMatrix[currentPayLevel];
+                const newHraRate = hraRates[currentHRA];
+                const newHraAmount = newBasicPay * newHraRate;
+                const newTransportAllowance = transportAllowance[transportAllowanceValue];
+                const newGrossSalary = newBasicPay + newHraAmount + newTransportAllowance + otherAllowances;
+                
+                // Calculate increase
+                const increaseAmount = newGrossSalary - currentGrossSalary;
+                const increasePercentage = (increaseAmount / currentGrossSalary) * 100;
+                
+                // Display results
+                document.getElementById('currentBasicPayResult').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
+                document.getElementById('daRateResult').textContent = currentDA;
+                document.getElementById('currentDAResult').textContent = '₹' + currentDAAmount.toLocaleString('en-IN');
+                document.getElementById('hraRateResult').textContent = currentHRA;
+                document.getElementById('currentHRAResult').textContent = '₹' + currentHRAAmount.toLocaleString('en-IN');
+                document.getElementById('transportAllowanceResult').textContent = '₹' + currentTransportAllowance.toLocaleString('en-IN');
+                document.getElementById('otherAllowancesResult').textContent = '₹' + otherAllowances.toLocaleString('en-IN');
+                document.getElementById('currentGrossResult').textContent = '₹' + currentGrossSalary.toLocaleString('en-IN');
+                
+                document.getElementById('newBasicPayResult').textContent = '₹' + newBasicPay.toLocaleString('en-IN');
+                document.getElementById('newHraRateResult').textContent = (newHraRate * 100);
+                document.getElementById('newHraResult').textContent = '₹' + newHraAmount.toLocaleString('en-IN');
+                document.getElementById('newTransportAllowanceResult').textContent = '₹' + newTransportAllowance.toLocaleString('en-IN');
+                document.getElementById('newOtherAllowancesResult').textContent = '₹' + otherAllowances.toLocaleString('en-IN');
+                document.getElementById('newGrossResult').textContent = '₹' + newGrossSalary.toLocaleString('en-IN');
+                document.getElementById('increaseResult').textContent = '₹' + increaseAmount.toLocaleString('en-IN') + 
+                    ' (' + increasePercentage.toFixed(2) + '%)';
+                
+                // Show results
+                document.getElementById('results').style.display = 'block';
+                
+                // Scroll to results
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Sample data for demo
+            document.getElementById('currentPayLevel').value = '6';
+            document.getElementById('currentBasicPay').value = '32000';
+        });
+    </script>
+    
+    <!-- Google Analytics (replace with your tracking ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-XXXXX-Y');
+    </script>
+</body>
+</html>
