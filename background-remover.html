@@ -3,38 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Background Remover Tool</title>
+    <title>Advanced Background Remover Tool | Free Online Image Editor</title>
+    <meta name="description" content="Remove image backgrounds instantly with our free online tool. Create transparent PNGs or add custom backgrounds in seconds.">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4a6bff;
-            --secondary-color: #f5f7ff;
-            --accent-color: #ff6b6b;
-            --dark-color: #333;
-            --light-color: #fff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --primary-color: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary-color: #f8f9fa;
+            --accent-color: #f72585;
+            --dark-color: #212529;
+            --light-color: #ffffff;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         
         body {
             background-color: var(--secondary-color);
             color: var(--dark-color);
             line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
         }
         
         .tool-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 2rem;
         }
         
         @media (min-width: 992px) {
@@ -46,32 +80,73 @@
         .editor-section {
             flex: 2;
             background-color: var(--light-color);
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 20px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
         
         .controls-section {
             flex: 1;
             background-color: var(--light-color);
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 20px;
+            padding: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
         }
         
         .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 30px;
+            border: 2px dashed var(--gray-color);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
             text-align: center;
             cursor: pointer;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            background-color: var(--light-gray);
+            position: relative;
+            overflow: hidden;
         }
         
         .upload-area:hover {
             border-color: var(--primary-color);
-            background-color: rgba(74, 107, 255, 0.05);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .upload-area.active {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .upload-area h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .upload-area p {
+            color: var(--gray-color);
+            margin-bottom: 0;
         }
         
         #fileInput {
@@ -80,16 +155,20 @@
         
         .canvas-container {
             position: relative;
-            margin: 20px 0;
+            margin: 1.5rem 0;
             display: none;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
         }
         
         #imageCanvas {
             max-width: 100%;
-            border: 1px solid #eee;
-            border-radius: 4px;
             display: block;
             margin: 0 auto;
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10" fill="%23e9ecef"/><rect x="10" y="10" width="10" height="10" fill="%23e9ecef"/></svg>');
+            background-size: 20px 20px;
         }
         
         .loading {
@@ -98,21 +177,23 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            z-index: 10;
+            border-radius: var(--border-radius);
         }
         
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
             border-top: 4px solid var(--primary-color);
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
         
         @keyframes spin {
@@ -120,71 +201,312 @@
             100% { transform: rotate(360deg); }
         }
         
+        .loading p {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            max-width: 300px;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
         .control-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
         
         .control-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.95rem;
         }
         
         .control-group input, 
         .control-group select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
+            padding: 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light-color);
+        }
+        
+        .control-group input:focus, 
+        .control-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
         
         .color-preview {
             width: 30px;
             height: 30px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
             display: inline-block;
             vertical-align: middle;
             margin-left: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .color-preview:hover {
+            transform: scale(1.05);
         }
         
         .btn {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
         }
         
         .btn:hover {
-            background-color: #3a5bef;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         .btn-block {
-            display: block;
+            display: flex;
             width: 100%;
         }
         
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-dark);
+            transform: none;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), #d91a72);
+            box-shadow: 0 4px 6px rgba(247, 37, 133, 0.2);
+        }
+        
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #d91a72, var(--accent-color));
+            box-shadow: 0 6px 12px rgba(247, 37, 133, 0.3);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+        }
+        
         #downloadAfterChange {
-            margin-top: 20px;
+            margin-top: 1.5rem;
             display: none;
+        }
+        
+        .preset-colors {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .preset-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .preset-color:hover {
+            transform: scale(1.1);
+        }
+        
+        .preset-color.active {
+            border-color: var(--dark-color);
+            transform: scale(1.1);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            background-color: var(--light-gray);
+            margin-top: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            display: none;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-preview {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
         }
         
         /* Ad container styles */
         .ad-container {
             width: 100%;
-            margin: 20px 0;
+            margin: 1.5rem 0;
             display: flex;
             justify-content: center;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-radius: var(--border-radius);
             min-height: 90px;
         }
         
@@ -200,6 +522,124 @@
             .ad-container.vertical {
                 height: 200px;
             }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Tutorial steps */
+        .tutorial-steps {
+            margin: 2rem 0;
+            display: none;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .step-content p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+        }
+        
+        /* Toggle switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* Advanced options */
+        .advanced-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--light-gray);
+            display: none;
+        }
+        
+        .toggle-advanced {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            user-select: none;
+        }
+        
+        .toggle-advanced i {
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-advanced.active i {
+            transform: rotate(90deg);
         }
     </style>
 </head>
@@ -217,78 +657,215 @@
         </script>
     </div>
     
-    <div class="tool-container">
-        <section class="editor-section">
-            <h2>Image Editor</h2>
-            <div class="upload-area" id="uploadArea">
-                <p>Drag & drop your image here or click to browse</p>
-                <p>Supports JPG, PNG, WEBP (Max 5MB)</p>
-                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp">
-            </div>
-            
-            <!-- Mid-content Banner Ad -->
-            <div class="ad-container horizontal">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-7057695873482887"
-                     data-ad-slot="6255638346"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-            
-            <div class="canvas-container" id="canvasContainer">
-                <canvas id="imageCanvas"></canvas>
-                <div class="loading" id="loadingIndicator" style="display: none;">
-                    <div class="spinner"></div>
-                    <p>Processing image...</p>
+    <header>
+        <div class="container">
+            <h1>Advanced Background Remover</h1>
+            <p>Remove backgrounds from images instantly with AI-powered technology. Create transparent PNGs or add custom backgrounds in seconds.</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="tool-container">
+            <section class="editor-section">
+                <h2 class="section-title"><i class="fas fa-image"></i> Image Editor</h2>
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Your Image</h3>
+                    <p>Drag & drop your image here or click to browse</p>
+                    <p class="small">Supports JPG, PNG, WEBP (Max 10MB)</p>
+                    <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp">
                 </div>
-            </div>
+                
+                <!-- Mid-content Banner Ad -->
+                <div class="ad-container horizontal">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7057695873482887"
+                         data-ad-slot="6255638346"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <div class="tutorial-steps" id="tutorialSteps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Upload Your Image</h4>
+                            <p>Click the upload area or drag and drop your image file (JPG, PNG, or WEBP).</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Remove Background</h4>
+                            <p>Click the "Remove Background" button to automatically remove the background.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Customize Background</h4>
+                            <p>Choose a new background color or image from the options on the right.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Download Your Image</h4>
+                            <p>Click "Download" to save your edited image with transparent or custom background.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="imageCanvas"></canvas>
+                    <div class="loading" id="loadingIndicator" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Processing your image...</p>
+                        <div class="progress-bar">
+                            <div class="progress" id="progressBar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-accent" id="removeBgBtn" style="display: none;">
+                        <i class="fas fa-magic"></i> Remove Background
+                    </button>
+                    <button class="btn btn-outline" id="resetBtn" style="display: none;">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <button class="btn btn-block" id="downloadAfterChange" style="display: none;">
+                    <i class="fas fa-download"></i> Download Edited Image
+                </button>
+            </section>
             
-            <button class="btn" id="removeBgBtn" style="display: none;">Remove Background</button>
-            <button class="btn" id="downloadAfterChange">Download With New Background</button>
-        </section>
+            <section class="controls-section">
+                <h2 class="section-title"><i class="fas fa-sliders-h"></i> Background Options</h2>
+                
+                <!-- Vertical Ad in Controls Section -->
+                <div class="ad-container vertical">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7057695873482887"
+                         data-ad-slot="5680923275"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <div class="control-group">
+                    <label for="bgType">Background Type</label>
+                    <select id="bgType">
+                        <option value="transparent">Transparent (PNG)</option>
+                        <option value="color">Solid Color</option>
+                        <option value="image">Custom Image</option>
+                        <option value="blur">Blur Effect</option>
+                    </select>
+                </div>
+                
+                <div class="control-group" id="colorControl">
+                    <label for="bgColor">Background Color</label>
+                    <div style="display: flex; align-items: center;">
+                        <input type="color" id="bgColor" value="#ffffff">
+                        <span class="color-preview" id="colorPreview" style="background-color: #ffffff;"></span>
+                    </div>
+                    
+                    <div class="preset-colors">
+                        <div class="preset-color" style="background-color: #ffffff;" data-color="#ffffff" title="White"></div>
+                        <div class="preset-color" style="background-color: #000000;" data-color="#000000" title="Black"></div>
+                        <div class="preset-color" style="background-color: #f8f9fa;" data-color="#f8f9fa" title="Light Gray"></div>
+                        <div class="preset-color" style="background-color: #4361ee;" data-color="#4361ee" title="Primary Blue"></div>
+                        <div class="preset-color" style="background-color: #f72585;" data-color="#f72585" title="Accent Pink"></div>
+                        <div class="preset-color" style="background-color: #4cc9f0;" data-color="#4cc9f0" title="Sky Blue"></div>
+                    </div>
+                </div>
+                
+                <div class="control-group" id="imageControl" style="display: none;">
+                    <label for="bgImage">Background Image</label>
+                    <input type="file" id="bgImage" accept="image/jpeg, image/png, image/webp">
+                    <div class="image-preview" id="bgImagePreview"></div>
+                </div>
+                
+                <div class="control-group" id="blurControl" style="display: none;">
+                    <label for="blurAmount">Blur Amount <span id="blurValue">5</span>px</label>
+                    <input type="range" id="blurAmount" min="1" max="20" value="5">
+                </div>
+                
+                <div class="toggle-advanced" id="toggleAdvanced">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Advanced Options</span>
+                </div>
+                
+                <div class="advanced-options" id="advancedOptions">
+                    <div class="control-group">
+                        <label for="edgePrecision">Edge Precision</label>
+                        <select id="edgePrecision">
+                            <option value="low">Low (Faster)</option>
+                            <option value="medium" selected>Medium (Balanced)</option>
+                            <option value="high">High (Slower)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="transparencyThreshold">Transparency Threshold</label>
+                        <input type="range" id="transparencyThreshold" min="0" max="100" value="30">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--gray-color);">
+                            <span>Low</span>
+                            <span>Medium</span>
+                            <span>High</span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="outputFormat">Output Format</label>
+                        <select id="outputFormat">
+                            <option value="png">PNG (Transparent)</option>
+                            <option value="jpg">JPG (High Quality)</option>
+                            <option value="webp">WebP (Balanced)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-block" id="applyChangesBtn">
+                    <i class="fas fa-check-circle"></i> Apply Changes
+                </button>
+                
+                <div class="control-group" style="margin-top: 1.5rem; text-align: center;">
+                    <p style="font-size: 0.9rem; color: var(--gray-color);">Need help? <a href="#" style="color: var(--primary-color);">View tutorial</a></p>
+                </div>
+            </section>
+        </div>
         
-        <section class="controls-section">
-            <h2>Background Options</h2>
-            
-            <!-- Vertical Ad in Controls Section -->
-            <div class="ad-container vertical">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-7057695873482887"
-                     data-ad-slot="5680923275"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Lightning Fast</h3>
+                <p>Remove backgrounds in seconds with our optimized processing engine.</p>
             </div>
-            
-            <div class="control-group">
-                <label for="bgType">Background Type</label>
-                <select id="bgType">
-                    <option value="transparent">Transparent</option>
-                    <option value="color">Solid Color</option>
-                    <option value="image">Custom Image</option>
-                </select>
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Privacy Focused</h3>
+                <p>All processing happens in your browser. We never upload your images.</p>
             </div>
-            
-            <div class="control-group" id="colorControl">
-                <label for="bgColor">Background Color</label>
-                <input type="color" id="bgColor" value="#ffffff">
-                <span class="color-preview" id="colorPreview" style="background-color: #ffffff;"></span>
+            <div class="feature-card">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Advanced Controls</h3>
+                <p>Fine-tune the results with our professional-grade editing tools.</p>
             </div>
-            
-            <div class="control-group" id="imageControl" style="display: none;">
-                <label for="bgImage">Background Image</label>
-                <input type="file" id="bgImage" accept="image/jpeg, image/png, image/webp">
+            <div class="feature-card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>100% Free</h3>
+                <p>No watermarks, no subscriptions, no hidden fees.</p>
             </div>
-            
-            <button class="btn btn-block" id="applyChangesBtn">Apply Background Changes</button>
-        </section>
+        </div>
     </div>
     
     <!-- Bottom Banner Ad -->
@@ -304,6 +881,19 @@
         </script>
     </div>
     
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p>© 2023 Advanced Background Remover Tool. All rights reserved.</p>
+            <p><a href="#" style="color: white; text-decoration: underline;">Privacy Policy</a> | <a href="#" style="color: white; text-decoration: underline;">Terms of Service</a></p>
+        </div>
+    </footer>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
@@ -311,9 +901,11 @@
             const fileInput = document.getElementById('fileInput');
             const canvasContainer = document.getElementById('canvasContainer');
             const canvas = document.getElementById('imageCanvas');
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
             const loadingIndicator = document.getElementById('loadingIndicator');
+            const progressBar = document.getElementById('progressBar');
             const removeBgBtn = document.getElementById('removeBgBtn');
+            const resetBtn = document.getElementById('resetBtn');
             const downloadAfterChange = document.getElementById('downloadAfterChange');
             const bgType = document.getElementById('bgType');
             const bgColor = document.getElementById('bgColor');
@@ -321,27 +913,39 @@
             const colorControl = document.getElementById('colorControl');
             const imageControl = document.getElementById('imageControl');
             const bgImage = document.getElementById('bgImage');
+            const bgImagePreview = document.getElementById('bgImagePreview');
+            const blurControl = document.getElementById('blurControl');
+            const blurAmount = document.getElementById('blurAmount');
+            const blurValue = document.getElementById('blurValue');
             const applyChangesBtn = document.getElementById('applyChangesBtn');
+            const toggleAdvanced = document.getElementById('toggleAdvanced');
+            const advancedOptions = document.getElementById('advancedOptions');
+            const tutorialSteps = document.getElementById('tutorialSteps');
+            const presetColors = document.querySelectorAll('.preset-color');
             
             // Variables
             let originalImage = null;
             let processedImage = null;
+            let maskData = null;
+            
+            // Show tutorial steps initially
+            tutorialSteps.style.display = 'block';
             
             // Event Listeners
             uploadArea.addEventListener('click', () => fileInput.click());
+            
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                uploadArea.style.borderColor = 'var(--primary-color)';
-                uploadArea.style.backgroundColor = 'rgba(74, 107, 255, 0.1)';
+                uploadArea.classList.add('active');
             });
+            
             uploadArea.addEventListener('dragleave', () => {
-                uploadArea.style.borderColor = '#ccc';
-                uploadArea.style.backgroundColor = 'transparent';
+                uploadArea.classList.remove('active');
             });
+            
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
-                uploadArea.style.borderColor = '#ccc';
-                uploadArea.style.backgroundColor = 'transparent';
+                uploadArea.classList.remove('active');
                 
                 if (e.dataTransfer.files.length) {
                     fileInput.files = e.dataTransfer.files;
@@ -355,16 +959,34 @@
                 }
             });
             
+            bgImage.addEventListener('change', () => {
+                if (bgImage.files.length) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        bgImagePreview.innerHTML = `
+                            <img src="${e.target.result}" alt="Background Preview">
+                            <button class="remove-preview" id="removeBgImage"><i class="fas fa-times"></i></button>
+                        `;
+                        bgImagePreview.style.display = 'block';
+                        
+                        document.getElementById('removeBgImage').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            bgImage.value = '';
+                            bgImagePreview.style.display = 'none';
+                            bgImagePreview.innerHTML = '';
+                        });
+                    };
+                    reader.readAsDataURL(bgImage.files[0]);
+                }
+            });
+            
             bgType.addEventListener('change', () => {
-                if (bgType.value === 'color') {
-                    colorControl.style.display = 'block';
-                    imageControl.style.display = 'none';
-                } else if (bgType.value === 'image') {
-                    colorControl.style.display = 'none';
-                    imageControl.style.display = 'block';
-                } else {
-                    colorControl.style.display = 'none';
-                    imageControl.style.display = 'none';
+                colorControl.style.display = bgType.value === 'color' ? 'block' : 'none';
+                imageControl.style.display = bgType.value === 'image' ? 'block' : 'none';
+                blurControl.style.display = bgType.value === 'blur' ? 'block' : 'none';
+                
+                if (bgType.value !== 'image') {
+                    bgImagePreview.style.display = 'none';
                 }
             });
             
@@ -372,31 +994,68 @@
                 colorPreview.style.backgroundColor = bgColor.value;
             });
             
+            blurAmount.addEventListener('input', () => {
+                blurValue.textContent = blurAmount.value;
+            });
+            
+            presetColors.forEach(color => {
+                color.addEventListener('click', () => {
+                    // Remove active class from all colors
+                    presetColors.forEach(c => c.classList.remove('active'));
+                    // Add active class to clicked color
+                    color.classList.add('active');
+                    // Set the color value
+                    const colorValue = color.getAttribute('data-color');
+                    bgColor.value = colorValue;
+                    colorPreview.style.backgroundColor = colorValue;
+                });
+            });
+            
+            toggleAdvanced.addEventListener('click', () => {
+                advancedOptions.style.display = advancedOptions.style.display === 'block' ? 'none' : 'block';
+                toggleAdvanced.classList.toggle('active');
+            });
+            
             removeBgBtn.addEventListener('click', removeBackground);
+            resetBtn.addEventListener('click', resetImage);
             applyChangesBtn.addEventListener('click', applyBackgroundChanges);
             downloadAfterChange.addEventListener('click', downloadImage);
             
             // Functions
             function handleFileUpload(file) {
                 if (!file.type.match('image.*')) {
-                    alert('Please upload an image file (JPG, PNG, or WEBP)');
+                    showAlert('Please upload an image file (JPG, PNG, or WEBP)', 'error');
                     return;
                 }
                 
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('File size should be less than 5MB');
+                if (file.size > 10 * 1024 * 1024) {
+                    showAlert('File size should be less than 10MB', 'error');
                     return;
                 }
+                
+                tutorialSteps.style.display = 'none';
                 
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     originalImage = new Image();
                     originalImage.onload = function() {
-                        canvas.width = originalImage.width;
-                        canvas.height = originalImage.height;
-                        ctx.drawImage(originalImage, 0, 0);
+                        // Limit canvas size for very large images
+                        const maxDimension = 2000;
+                        let width = originalImage.width;
+                        let height = originalImage.height;
+                        
+                        if (width > maxDimension || height > maxDimension) {
+                            const ratio = Math.min(maxDimension / width, maxDimension / height);
+                            width = Math.floor(width * ratio);
+                            height = Math.floor(height * ratio);
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(originalImage, 0, 0, width, height);
                         canvasContainer.style.display = 'block';
                         removeBgBtn.style.display = 'block';
+                        resetBtn.style.display = 'block';
                         uploadArea.style.display = 'none';
                     };
                     originalImage.src = e.target.result;
@@ -404,120 +1063,4 @@
                 reader.readAsDataURL(file);
             }
             
-            function removeBackground() {
-                if (!originalImage) return;
-                
-                loadingIndicator.style.display = 'flex';
-                removeBgBtn.style.display = 'none';
-                
-                // Simulate background removal
-                setTimeout(() => {
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = imageData.data;
-                    
-                    // Simple algorithm to make white/semi-white pixels transparent
-                    for (let i = 0; i < data.length; i += 4) {
-                        const r = data[i];
-                        const g = data[i + 1];
-                        const b = data[i + 2];
-                        
-                        if (r > 200 && g > 200 && b > 200) {
-                            data[i + 3] = 0; // Set alpha to 0 (transparent)
-                        }
-                    }
-                    
-                    ctx.putImageData(imageData, 0, 0);
-                    processedImage = canvas.toDataURL('image/png');
-                    loadingIndicator.style.display = 'none';
-                    
-                    // Show the download button after processing
-                    downloadAfterChange.style.display = 'block';
-                }, 1500);
-            }
-            
-            function applyBackgroundChanges() {
-                if (!originalImage) return;
-                
-                // Redraw original image first
-                ctx.drawImage(originalImage, 0, 0);
-                
-                // Apply background removal
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i + 1];
-                    const b = data[i + 2];
-                    
-                    if (r > 200 && g > 200 && b > 200) {
-                        data[i + 3] = 0;
-                    }
-                }
-                
-                // Create a temporary canvas for compositing
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = canvas.width;
-                tempCanvas.height = canvas.height;
-                const tempCtx = tempCanvas.getContext('2d');
-                
-                // Apply the selected background
-                if (bgType.value === 'color') {
-                    tempCtx.fillStyle = bgColor.value;
-                    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                } else if (bgType.value === 'image' && bgImage.files.length) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const bgImg = new Image();
-                        bgImg.onload = function() {
-                            // Draw the background image
-                            const hRatio = tempCanvas.width / bgImg.width;
-                            const vRatio = tempCanvas.height / bgImg.height;
-                            const ratio = Math.max(hRatio, vRatio);
-                            const centerShiftX = (tempCanvas.width - bgImg.width * ratio) / 2;
-                            const centerShiftY = (tempCanvas.height - bgImg.height * ratio) / 2;
-                            tempCtx.drawImage(bgImg, 0, 0, bgImg.width, bgImg.height, 
-                                            centerShiftX, centerShiftY, bgImg.width * ratio, bgImg.height * ratio);
-                            
-                            // Then draw the processed image
-                            tempCtx.putImageData(imageData, 0, 0);
-                            ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            ctx.drawImage(tempCanvas, 0, 0);
-                            
-                            // Update the processed image and show download button
-                            processedImage = canvas.toDataURL('image/png');
-                            downloadAfterChange.style.display = 'block';
-                        };
-                        bgImg.src = e.target.result;
-                    };
-                    reader.readAsDataURL(bgImage.files[0]);
-                    return;
-                }
-                
-                // For transparent or after background image is processed
-                if (bgType.value !== 'image' || !bgImage.files.length) {
-                    tempCtx.putImageData(imageData, 0, 0);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(tempCanvas, 0, 0);
-                }
-                
-                // Update the processed image and show download button
-                processedImage = canvas.toDataURL('image/png');
-                downloadAfterChange.style.display = 'block';
-            }
-            
-            function downloadImage() {
-                if (!processedImage) {
-                    alert('Please process the image first');
-                    return;
-                }
-                
-                const link = document.createElement('a');
-                link.download = 'background-removed.png';
-                link.href = processedImage;
-                link.click();
-            }
-        });
-    </script>
-</body>
-</html>
+            function removeBackground
