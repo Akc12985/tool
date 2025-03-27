@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your potential salary under the proposed 8th Central Pay Commission (CPC) with our free online calculator. Estimate your revised pay scale, allowances, and deductions.">
+    <meta name="keywords" content="8th CPC calculator, 8th pay commission, central government salary, pay scale calculator, 8th CPC pay matrix">
+    <meta name="author" content="8th CPC Calculator">
+    <title>8th CPC Potential Pay Calculator | Estimate Your Revised Salary</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/8th-cpc-calculator/">
+    <meta property="og:title" content="8th CPC Potential Pay Calculator | Estimate Your Revised Salary">
+    <meta property="og:description" content="Calculate your potential salary under the proposed 8th Central Pay Commission (CPC) with our free online calculator.">
+    <meta property="og:image" content="https://example.com/images/8th-cpc-calculator-preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://example.com/8th-cpc-calculator/">
+    <meta property="twitter:title" content="8th CPC Potential Pay Calculator | Estimate Your Revised Salary">
+    <meta property="twitter:description" content="Calculate your potential salary under the proposed 8th Central Pay Commission (CPC) with our free online calculator.">
+    <meta property="twitter:image" content="https://example.com/images/8th-cpc-calculator-preview.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://example.com/8th-cpc-calculator/" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "8th CPC Potential Pay Calculator",
+      "description": "Tool to calculate potential salary under proposed 8th Central Pay Commission",
+      "url": "https://example.com/8th-cpc-calculator/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser"
+    }
+    </script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .calculator-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-container {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .btn-calculate {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .btn-calculate:hover {
+            background-color: #c0392b;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .ad-container {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            margin: 1rem 0;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .info-card h3 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .calculator-container {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-calculator me-2"></i> 8th CPC Potential Pay Calculator</h1>
+                    <p class="lead">Estimate your revised salary under the proposed 8th Central Pay Commission</p>
+                </div>
+                <div class="col-md-4">
+                    <!-- Ad Container - Top Banner -->
+                    <div class="ad-container">
+                        <!-- Replace with your Google AdSense code -->
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                        crossorigin="anonymous"></script>
+                        <!-- 8th_CPC_Top_Banner -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                             data-ad-slot="YOUR_AD_SLOT_ID"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Calculator Section -->
+            <div class="col-lg-8">
+                <div class="calculator-container">
+                    <h2 class="mb-4"><i class="fas fa-user-tie me-2"></i> Salary Details</h2>
+                    
+                    <form id="salaryCalculator">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="currentPayLevel" class="form-label">Current Pay Level</label>
+                                <select class="form-select" id="currentPayLevel" required>
+                                    <option value="" selected disabled>Select Pay Level</option>
+                                    <option value="1">Level 1 (₹18,000 - ₹56,900)</option>
+                                    <option value="2">Level 2 (₹19,900 - ₹63,200)</option>
+                                    <option value="3">Level 3 (₹21,700 - ₹69,100)</option>
+                                    <option value="4">Level 4 (₹25,500 - ₹81,100)</option>
+                                    <option value="5">Level 5 (₹29,200 - ₹92,300)</option>
+                                    <option value="6">Level 6 (₹35,400 - ₹1,12,400)</option>
+                                    <option value="7">Level 7 (₹44,900 - ₹1,42,400)</option>
+                                    <option value="8">Level 8 (₹47,600 - ₹1,51,100)</option>
+                                    <option value="9">Level 9 (₹53,100 - ₹1,67,800)</option>
+                                    <option value="10">Level 10 (₹56,100 - ₹1,77,500)</option>
+                                    <option value="11">Level 11 (₹67,700 - ₹2,08,700)</option>
+                                    <option value="12">Level 12 (₹78,800 - ₹2,09,200)</option>
+                                    <option value="13">Level 13 (₹1,23,100 - ₹2,15,900)</option>
+                                    <option value="13A">Level 13A (₹1,31,100 - ₹2,16,600)</option>
+                                    <option value="14">Level 14 (₹1,44,200 - ₹2,18,200)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="currentBasicPay" class="form-label">Current Basic Pay (₹)</label>
+                                <input type="number" class="form-control" id="currentBasicPay" placeholder="Enter your current basic pay" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="daRate" class="form-label">Current DA Rate (%)</label>
+                                <input type="number" class="form-control" id="daRate" value="46" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="hraRate" class="form-label">HRA Rate (%)</label>
+                                <select class="form-select" id="hraRate" required>
+                                    <option value="27">X City (27%)</option>
+                                    <option value="18" selected>Y City (18%)</option>
+                                    <option value="9">Z City (9%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="expectedFitment" class="form-label">Expected Fitment Factor</label>
+                                <select class="form-select" id="expectedFitment" required>
+                                    <option value="2.5">2.5x (Conservative Estimate)</option>
+                                    <option value="2.8" selected>2.8x (Moderate Estimate)</option>
+                                    <option value="3.0">3.0x (Optimistic Estimate)</option>
+                                    <option value="3.2">3.2x (High Estimate)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="expectedIncrement" class="form-label">Expected Annual Increment (%)</label>
+                                <input type="number" class="form-control" id="expectedIncrement" value="3" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="transportAllowance" class="form-label">Transport Allowance (₹)</label>
+                                <input type="number" class="form-control" id="transportAllowance" value="3600">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="otherAllowances" class="form-label">Other Allowances (₹)</label>
+                                <input type="number" class="form-control" id="otherAllowances" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-calculate btn-lg">
+                                <i class="fas fa-calculator me-2"></i> Calculate Potential Salary
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Results Section -->
+                    <div id="resultSection" class="result-container fade-in">
+                        <h3><i class="fas fa-chart-line me-2"></i> Estimated 8th CPC Salary</h3>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <p><strong>Current Basic Pay:</strong> <span id="currentBasicDisplay" class="float-end">₹0</span></p>
+                                <p><strong>Current Gross Salary:</strong> <span id="currentGrossDisplay" class="float-end">₹0</span></p>
+                                <p><strong>Current Take Home:</strong> <span id="currentTakeHomeDisplay" class="float-end">₹0</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Projected Basic Pay:</strong> <span id="projectedBasicDisplay" class="float-end text-success">₹0</span></p>
+                                <p><strong>Projected Gross Salary:</strong> <span id="projectedGrossDisplay" class="float-end text-success">₹0</span></p>
+                                <p><strong>Projected Take Home:</strong> <span id="projectedTakeHomeDisplay" class="float-end text-success">₹0</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="progress mb-3" style="height: 30px;">
+                                    <div class="progress-bar bg-success" role="progressbar" id="increaseBar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-center"><strong>Expected Increase:</strong> <span id="increasePercentage" class="fw-bold text-success">0%</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-money-bill-wave me-2"></i> Current Salary Components</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Basic Pay
+                                        <span class="badge bg-primary rounded-pill" id="currentBasicComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        DA
+                                        <span class="badge bg-primary rounded-pill" id="currentDaComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        HRA
+                                        <span class="badge bg-primary rounded-pill" id="currentHraComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        TA
+                                        <span class="badge bg-primary rounded-pill" id="currentTaComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Other Allowances
+                                        <span class="badge bg-primary rounded-pill" id="currentOtherComponent">₹0</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-money-bill-trend-up me-2"></i> Projected Salary Components</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Basic Pay
+                                        <span class="badge bg-success rounded-pill" id="projectedBasicComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        DA
+                                        <span class="badge bg-success rounded-pill" id="projectedDaComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        HRA
+                                        <span class="badge bg-success rounded-pill" id="projectedHraComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        TA
+                                        <span class="badge bg-success rounded-pill" id="projectedTaComponent">₹0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Other Allowances
+                                        <span class="badge bg-success rounded-pill" id="projectedOtherComponent">₹0</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-outline-primary" id="saveAsPdf">
+                                <i class="fas fa-file-pdf me-2"></i> Save as PDF
+                            </button>
+                            <button class="btn btn-outline-success ms-2" id="shareResults">
+                                <i class="fas fa-share-alt me-2"></i> Share Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Information Section -->
+                <div class="info-card mt-4">
+                    <h3><i class="fas fa-info-circle me-2"></i> About 8th CPC Calculator</h3>
+                    <p>This calculator provides an estimate of your potential salary under the proposed 8th Central Pay Commission based on various assumptions and historical patterns from previous pay commissions.</p>
+                    <p>The calculations are based on:</p>
+                    <ul>
+                        <li>Projected fitment factor (2.5x to 3.2x)</li>
+                        <li>Current DA rate (46%)</li>
+                        <li>Standard HRA classification</li>
+                        <li>Approximate deduction rates for NPS, taxes, etc.</li>
+                    </ul>
+                    <p class="text-muted"><small>Note: This is only an estimation tool. Actual 8th CPC recommendations may vary.</small></p>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Ad Container - Sidebar Top -->
+                <div class="ad-container mb-4">
+                    <!-- Replace with your Google AdSense code -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                    crossorigin="anonymous"></script>
+                    <!-- 8th_CPC_Sidebar_Top -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <!-- Latest News -->
+                <div class="info-card">
+                    <h3><i class="fas fa-newspaper me-2"></i> Latest 8th CPC Updates</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">8th CPC likely to be implemented from 2026</li>
+                        <li class="list-group-item">Expected fitment factor between 2.8x to 3.2x</li>
+                        <li class="list-group-item">Demand for minimum salary of ₹26,000</li>
+                        <li class="list-group-item">NPS modifications under consideration</li>
+                        <li class="list-group-item">HRA rates may be revised</li>
+                    </ul>
+                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">View All Updates</a>
+                </div>
+                
+                <!-- Ad Container - Sidebar Middle -->
+                <div class="ad-container my-4">
+                    <!-- Replace with your Google AdSense code -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                    crossorigin="anonymous"></script>
+                    <!-- 8th_CPC_Sidebar_Middle -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <!-- FAQ -->
+                <div class="info-card">
+                    <h3><i class="fas fa-question-circle me-2"></i> Frequently Asked Questions</h3>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How accurate is this calculator?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    This calculator provides estimates based on historical patterns and reasonable assumptions. Actual 8th CPC recommendations may differ.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    When will 8th CPC be implemented?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The 8th CPC is expected to be implemented from January 2026, but the official announcement is pending.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    What is the expected fitment factor?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Estimates suggest a fitment factor between 2.5x to 3.2x. Our calculator allows you to adjust this parameter.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ad Container - Sidebar Bottom -->
+                <div class="ad-container mt-4">
+                    <!-- Replace with your Google AdSense code -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                    crossorigin="anonymous"></script>
+                    <!-- 8th_CPC_Sidebar_Bottom -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>8th CPC Calculator</h5>
+                    <p>A free tool to estimate your potential salary under the proposed 8th Central Pay Commission.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Home</a></li>
+                        <li><a href="#" class="text-white">About 8th CPC</a></li>
+                        <li><a href="#" class="text-white">Latest News</a></li>
+                        <li><a href="#" class="text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-telegram-plane"></i></a>
+                    </div>
+                    <p class="mt-2"><i class="fas fa-envelope me-2"></i> contact@8thcpccalculator.com</p>
+                </div>
+            </div>
+            <hr class="mt-4 bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2023 8th CPC Calculator. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white me-3">Privacy Policy</a>
+                    <a href="#" class="text-white me-3">Terms of Service</a>
+                    <a href="#" class="text-white">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('salaryCalculator');
+            const resultSection = document.getElementById('resultSection');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateSalary();
+            });
+            
+            function calculateSalary() {
+                // Get input values
+                const currentBasicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
+                const daRate = parseFloat(document.getElementById('daRate').value) || 0;
+                const hraRate = parseFloat(document.getElementById('hraRate').value) || 0;
+                const fitmentFactor = parseFloat(document.getElementById('expectedFitment').value) || 1;
+                const incrementRate = parseFloat(document.getElementById('expectedIncrement').value) || 0;
+                const transportAllowance = parseFloat(document.getElementById('transportAllowance').value) || 0);
+                const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
+                
+                // Calculate current salary components
+                const currentDA = currentBasicPay * (daRate / 100);
+                const currentHRA = currentBasicPay * (hraRate / 100);
+                const currentGross = currentBasicPay + currentDA + currentHRA + transportAllowance + otherAllowances;
+                
+                // Calculate deductions (approximate)
+                const npsDeduction = currentBasicPay * 0.1; // 10% for NPS
+                const taxDeduction = currentGross * 0.05; // Approximate tax
+                const currentTakeHome = currentGross - npsDeduction - taxDeduction;
+                
+                // Calculate projected salary components
+                const projectedBasicPay = currentBasicPay * fitmentFactor;
+                const projectedBasicWithIncrement = projectedBasicPay * (1 + (incrementRate / 100));
+                const projectedDA = projectedBasicWithIncrement * 0.17; // Assuming DA starts at 17%
+                const projectedHRA = projectedBasicWithIncrement * (hraRate / 100);
+                const projectedTransportAllowance = transportAllowance * fitmentFactor;
+                const projectedOtherAllowances = otherAllowances * fitmentFactor;
+                const projectedGross = projectedBasicWithIncrement + projectedDA + projectedHRA + projectedTransportAllowance + projectedOtherAllowances;
+                
+                // Projected deductions
+                const projectedNpsDeduction = projectedBasicWithIncrement * 0.1; // 10% for NPS
+                const projectedTaxDeduction = projectedGross * 0.07; // Slightly higher tax assumption
+                const projectedTakeHome = projectedGross - projectedNpsDeduction - projectedTaxDeduction;
+                
+                // Calculate percentage increase
+                const increasePercentage = ((projectedTakeHome - currentTakeHome) / currentTakeHome) * 100;
+                
+                // Display results
+                document.getElementById('currentBasicDisplay').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
+                document.getElementById('currentGrossDisplay').textContent = '₹' + Math.round(currentGross).toLocaleString('en-IN');
+                document.getElementById('currentTakeHomeDisplay').textContent = '₹' + Math.round(currentTakeHome).toLocaleString('en-IN');
+                
+                document.getElementById('projectedBasicDisplay').textContent = '₹' + Math.round(projectedBasicWithIncrement).toLocaleString('en-IN');
+                document.getElementById('projectedGrossDisplay').textContent = '₹' + Math.round(projectedGross).toLocaleString('en-IN');
+                document.getElementById('projectedTakeHomeDisplay').textContent = '₹' + Math.round(projectedTakeHome).toLocaleString('en-IN');
+                
+                document.getElementById('increasePercentage').textContent = Math.round(increasePercentage) + '%';
+                document.getElementById('increaseBar').style.width = Math.min(increasePercentage, 100) + '%';
+                document.getElementById('increaseBar').setAttribute('aria-valuenow', Math.round(increasePercentage));
+                
+                // Display components
+                document.getElementById('currentBasicComponent').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
+                document.getElementById('currentDaComponent').textContent = '₹' + Math.round(currentDA).toLocaleString('en-IN');
+                document.getElementById('currentHraComponent').textContent = '₹' + Math.round(currentHRA).toLocaleString('en-IN');
+                document.getElementById('currentTaComponent').textContent = '₹' + transportAllowance.toLocaleString('en-IN');
+                document.getElementById('currentOtherComponent').textContent = '₹' + otherAllowances.toLocaleString('en-IN');
+                
+                document.getElementById('projectedBasicComponent').textContent = '₹' + Math.round(projectedBasicWithIncrement).toLocaleString('en-IN');
+                document.getElementById('projectedDaComponent').textContent = '₹' + Math.round(projectedDA).toLocaleString('en-IN');
+                document.getElementById('projectedHraComponent').textContent = '₹' + Math.round(projectedHRA).toLocaleString('en-IN');
+                document.getElementById('projectedTaComponent').textContent = '₹' + Math.round(projectedTransportAllowance).toLocaleString('en-IN');
+                document.getElementById('projectedOtherComponent').textContent = '₹' + Math.round(projectedOtherAllowances).toLocaleString('en-IN');
+                
+                // Show results with animation
+                resultSection.style.display = 'block';
+                resultSection.classList.add('fade-in');
+                
+                // Scroll to results
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Save as PDF button
+            document.getElementById('saveAsPdf').addEventListener('click', function() {
+                alert('PDF generation functionality would be implemented here. In a real implementation, this would use a library like jsPDF or a server-side solution.');
+            });
+            
+            // Share results button
+            document.getElementById('shareResults').addEventListener('click', function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My 8th CPC Salary Estimate',
+                        text: 'Check out my estimated salary under the proposed 8th Pay Commission',
+                        url: window.location.href
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    alert('Web Share API not supported in your browser. Copy this link to share: ' + window.location.href);
+                }
+            });
+        });
+    </script>
+    
+    <!-- Google Analytics (optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR_GA_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YOUR_GA_ID');
+    </script>
+</body>
+</html>
