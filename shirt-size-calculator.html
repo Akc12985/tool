@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #FF6B35;
-            --secondary: #FFA64D;
+            --deep-blue: #0F4C81;
+            --vibrant-orange: #FF6B35;
+            --soft-orange: #FFA64D;
+            --gold-accent: #FFD166;
+            --light-blue: #4ECDC4;
             --dark: #292929;
             --light: #f8f8f8;
-            --accent: #FFD166;
         }
         
         * {
@@ -23,7 +25,7 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--deep-blue), var(--light-blue));
             min-height: 100vh;
             color: var(--light);
             overflow-x: hidden;
@@ -33,46 +35,70 @@
         .container {
             max-width: 600px;
             margin: 30px auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 76, 129, 0.7);
+            backdrop-filter: blur(12px);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3),
+                        0 0 15px rgba(255, 107, 53, 0.4);
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                      rgba(255, 107, 53, 0.1) 0%, 
+                      rgba(15, 76, 129, 0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
         }
         
         .container:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                        0 0 25px rgba(255, 107, 53, 0.6);
         }
         
         .header {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
+            background: linear-gradient(135deg, 
+                      rgba(15, 76, 129, 0.9), 
+                      rgba(255, 107, 53, 0.7));
+            padding: 25px;
             text-align: center;
             position: relative;
+            border-bottom: 2px solid var(--gold-accent);
         }
         
         .logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 10px;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 15px;
             animation: pulse 2s infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
         }
         
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 5px;
             font-weight: 700;
-            background: linear-gradient(to right, var(--light), var(--accent));
+            background: linear-gradient(to right, var(--light), var(--gold-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         .subtitle {
-            font-size: 14px;
-            opacity: 0.8;
+            font-size: 16px;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
         }
         
         .content {
@@ -86,9 +112,10 @@
         
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
             font-size: 16px;
+            color: var(--gold-accent);
         }
         
         .input-wrapper {
@@ -100,95 +127,132 @@
         .input-wrapper i {
             position: absolute;
             left: 15px;
-            color: var(--accent);
-            font-size: 18px;
+            color: var(--gold-accent);
+            font-size: 20px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         input {
             width: 100%;
-            padding: 15px 15px 15px 45px;
+            padding: 16px 16px 16px 50px;
             background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
             color: var(--light);
             font-size: 16px;
             transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         
         input:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.25);
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.3);
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.3),
+                        inset 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         
         input::placeholder {
             color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
         }
         
         .btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 16px;
+            background: linear-gradient(135deg, var(--vibrant-orange), var(--soft-orange));
             border: none;
             border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.5),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
         }
         
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.6);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.7),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn:hover::after {
+            left: 100%;
         }
         
         .btn:active {
             transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.5);
         }
         
         .result-container {
             margin-top: 30px;
-            background: rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, 
+                      rgba(15, 76, 129, 0.7), 
+                      rgba(255, 107, 53, 0.4));
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             display: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .result-title {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--accent);
+            gap: 12px;
+            color: var(--gold-accent);
+            font-weight: 600;
         }
         
         .result-content {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
         
         .size-badge {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--gold-accent), var(--soft-orange));
             color: var(--dark);
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            font-weight: 700;
-            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.4);
+            font-size: 32px;
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(255, 209, 102, 0.5);
             flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
         }
         
         .size-details {
@@ -196,72 +260,89 @@
         }
         
         .size-type {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: var(--gold-accent);
         }
         
         .size-number {
-            font-size: 16px;
+            font-size: 18px;
             opacity: 0.9;
+            line-height: 1.5;
         }
         
         .features {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 30px;
+            gap: 20px;
+            margin-top: 35px;
         }
         
         .feature {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, 
+                      rgba(15, 76, 129, 0.5), 
+                      rgba(255, 107, 53, 0.3));
+            padding: 18px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .feature:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, 
+                      rgba(15, 76, 129, 0.6), 
+                      rgba(255, 107, 53, 0.4));
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
         .feature i {
-            color: var(--accent);
-            font-size: 20px;
+            color: var(--gold-accent);
+            font-size: 24px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         .feature-text {
-            font-size: 13px;
+            font-size: 14px;
+            line-height: 1.4;
         }
         
         .ad-space {
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            margin-top: 35px;
+            background: linear-gradient(135deg, 
+                      rgba(15, 76, 129, 0.7), 
+                      rgba(255, 107, 53, 0.3));
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             color: white;
             font-size: 14px;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .ad-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.7;
+            letter-spacing: 1.5px;
+            opacity: 0.8;
+            color: var(--gold-accent);
         }
         
         .footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            opacity: 0.7;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.8;
+            color: var(--gold-accent);
         }
         
         @keyframes pulse {
@@ -275,9 +356,28 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
         @media (max-width: 768px) {
             .container {
-                margin: 15px auto;
+                margin: 20px auto;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .logo {
+                width: 75px;
+                height: 75px;
+            }
+            
+            h1 {
+                font-size: 26px;
             }
             
             .content {
@@ -286,10 +386,27 @@
             
             .features {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .result-content {
                 flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .size-badge {
+                width: 80px;
+                height: 80px;
+                font-size: 28px;
+            }
+            
+            .size-type {
+                font-size: 22px;
+                text-align: center;
+            }
+            
+            .size-number {
                 text-align: center;
             }
         }
@@ -300,25 +417,25 @@
         <div class="header">
             <img src="https://cdn-icons-png.flaticon.com/512/2553/2553627.png" alt="Shirt Logo" class="logo">
             <h1>Perfect Fit Calculator</h1>
-            <p class="subtitle">Find your ideal shirt size in seconds</p>
+            <p class="subtitle">Discover your ideal shirt size with precision</p>
         </div>
         
         <div class="content">
             <div class="input-group">
-                <label for="height">Your Height (cm)</label>
+                <label for="height"><i class="fas fa-ruler-vertical"></i> Your Height (cm)</label>
                 <div class="input-wrapper">
-                    <i class="fas fa-ruler-vertical"></i>
-                    <input type="number" id="height" placeholder="Enter your height in centimeters" min="100" max="250">
+                    <i class="fas fa-user"></i>
+                    <input type="number" id="height" placeholder="Enter your height (100-250cm)" min="100" max="250">
                 </div>
             </div>
             
             <button class="btn" onclick="calculateSize()">
-                <i class="fas fa-tshirt"></i> Calculate My Size
+                <i class="fas fa-tshirt"></i> Calculate My Perfect Size
             </button>
             
             <div id="result-container" class="result-container">
                 <div class="result-title">
-                    <i class="fas fa-check-circle"></i> Your Perfect Fit
+                    <i class="fas fa-award"></i> Your Perfect Fit
                 </div>
                 <div class="result-content">
                     <div id="size-badge" class="size-badge"></div>
@@ -332,26 +449,26 @@
             <div class="features">
                 <div class="feature">
                     <i class="fas fa-bolt"></i>
-                    <span class="feature-text">Instant size calculation</span>
+                    <span class="feature-text">Lightning-fast size calculation in seconds</span>
                 </div>
                 <div class="feature">
                     <i class="fas fa-chart-line"></i>
-                    <span class="feature-text">Accurate measurements</span>
+                    <span class="feature-text">Precision measurements for perfect fit</span>
                 </div>
                 <div class="feature">
-                    <i class="fas fa-tag"></i>
-                    <span class="feature-text">All brands included</span>
+                    <i class="fas fa-globe"></i>
+                    <span class="feature-text">International size conversion</span>
                 </div>
                 <div class="feature">
                     <i class="fas fa-heart"></i>
-                    <span class="feature-text">Perfect fit guarantee</span>
+                    <span class="feature-text">Trusted by thousands worldwide</span>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="ad-space" id="ad-container">
-        <span class="ad-label">Advertisement</span>
+        <span class="ad-label">Sponsored</span>
         <!-- AdMob Ads will be dynamically loaded here -->
     </div>
     
@@ -409,7 +526,7 @@
             // Set the results
             sizeBadge.textContent = badgeText;
             sizeType.textContent = size;
-            sizeNumber.textContent = `International Size: ${numberSize}`;
+            sizeNumber.textContent = `International Size: ${numberSize} | Height: ${height}cm`;
             
             // Show with animation
             resultContainer.style.display = "block";
@@ -427,7 +544,7 @@
                 <div class="result-title" style="color: #ff6b6b;">
                     <i class="fas fa-exclamation-circle"></i> Error
                 </div>
-                <div style="padding: 10px 0;">${message}</div>
+                <div style="padding: 10px 0; font-size: 15px;">${message}</div>
             `;
             resultContainer.style.display = "block";
             resultContainer.classList.add("animate__animated", "animate__headShake");
@@ -448,7 +565,7 @@
             ];
             
             // Clear existing ads
-            adContainer.innerHTML = '<span class="ad-label">Advertisement</span>';
+            adContainer.innerHTML = '<span class="ad-label">Sponsored</span>';
             
             // Create ad element
             const adElement = document.createElement("div");
