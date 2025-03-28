@@ -3,135 +3,441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shirt Size Calculator</title>
+    <title>Perfect Fit Shirt Size Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(135deg, #FFA64D, #FF6600);
-            margin: 0;
-            padding: 20px;
-            color: white;
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FFA64D;
+            --dark: #292929;
+            --light: #f8f8f8;
+            --accent: #FFD166;
         }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+            color: var(--light);
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
         .container {
-            background: rgba(255, 102, 0, 0.8);
-            max-width: 500px;
-            margin: auto;
+            max-width: 600px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .content {
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .input-wrapper {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
         }
-        .logo {
-            width: 100px;
-            height: auto;
-            margin-bottom: 20px;
+        
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: var(--accent);
+            font-size: 18px;
         }
-        .content {
-            flex-grow: 1;
-            text-align: left;
-            padding-left: 20px;
-        }
-        h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-        label {
-            font-size: 16px;
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+        
         input {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
+        
         input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.3);
         }
-        button {
-            background: #E68500;
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
             color: white;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        button:hover {
-            background: #FF6600;
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.6);
         }
-        .result {
-            margin-top: 20px;
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+        }
+        
+        .result-title {
             font-size: 18px;
-            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
         }
+        
+        .result-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .size-badge {
+            background: var(--accent);
+            color: var(--dark);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.4);
+            flex-shrink: 0;
+        }
+        
+        .size-details {
+            flex-grow: 1;
+        }
+        
+        .size-type {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .size-number {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .feature i {
+            color: var(--accent);
+            font-size: 20px;
+        }
+        
+        .feature-text {
+            font-size: 13px;
+        }
+        
         .ad-space {
             margin-top: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            height: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 10px;
             text-align: center;
             color: white;
             font-size: 14px;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
         }
-        @media (max-width: 600px) {
+        
+        .ad-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
             .container {
-                flex-direction: column;
+                margin: 15px auto;
+            }
+            
+            .content {
                 padding: 20px;
             }
-            .logo {
-                margin-bottom: 10px;
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-content {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="shirt-logo.png" alt="Shirt Logo" class="logo">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="header">
+            <img src="https://cdn-icons-png.flaticon.com/512/2553/2553627.png" alt="Shirt Logo" class="logo">
+            <h1>Perfect Fit Calculator</h1>
+            <p class="subtitle">Find your ideal shirt size in seconds</p>
+        </div>
+        
         <div class="content">
-            <h2>Find Your Shirt Size</h2>
-            <label for="height">Enter Your Height (cm):</label>
-            <input type="number" id="height" placeholder="e.g., 175">
-            <button onclick="calculateSize()">Get My Shirt Size</button>
-            <div id="result" class="result"></div>
+            <div class="input-group">
+                <label for="height">Your Height (cm)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-ruler-vertical"></i>
+                    <input type="number" id="height" placeholder="Enter your height in centimeters" min="100" max="250">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="calculateSize()">
+                <i class="fas fa-tshirt"></i> Calculate My Size
+            </button>
+            
+            <div id="result-container" class="result-container">
+                <div class="result-title">
+                    <i class="fas fa-check-circle"></i> Your Perfect Fit
+                </div>
+                <div class="result-content">
+                    <div id="size-badge" class="size-badge"></div>
+                    <div class="size-details">
+                        <div id="size-type" class="size-type"></div>
+                        <div id="size-number" class="size-number"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <span class="feature-text">Instant size calculation</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="feature-text">Accurate measurements</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-tag"></i>
+                    <span class="feature-text">All brands included</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-heart"></i>
+                    <span class="feature-text">Perfect fit guarantee</span>
+                </div>
+            </div>
         </div>
     </div>
-
+    
     <div class="ad-space" id="ad-container">
+        <span class="ad-label">Advertisement</span>
         <!-- AdMob Ads will be dynamically loaded here -->
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 Perfect Fit Calculator | All Rights Reserved</p>
     </div>
 
     <script>
-        // Function to calculate shirt size
+        // Enhanced calculateSize function with animations
         function calculateSize() {
             const height = document.getElementById("height").value;
-            const resultDiv = document.getElementById("result");
+            const resultContainer = document.getElementById("result-container");
+            const sizeBadge = document.getElementById("size-badge");
+            const sizeType = document.getElementById("size-type");
+            const sizeNumber = document.getElementById("size-number");
+            
             if (!height || height <= 0) {
-                resultDiv.innerText = "Please enter a valid height.";
+                showError("Please enter a valid height between 100cm and 250cm");
                 return;
             }
-
-            let size = "Unknown";
-            let numberSize = "-";
-            if (height < 160) { size = "Small (S)"; numberSize = "36"; }
-            else if (height >= 160 && height < 175) { size = "Medium (M)"; numberSize = "38-40"; }
-            else if (height >= 175 && height < 190) { size = "Large (L)"; numberSize = "42-44"; }
-            else { size = "Extra Large (XL)"; numberSize = "46+"; }
-
-            resultDiv.innerText = `Your recommended shirt size is: ${size} (Number: ${numberSize})`;
+            
+            if (height < 100 || height > 250) {
+                showError("Height must be between 100cm and 250cm");
+                return;
+            }
+            
+            let size, numberSize, badgeText;
+            
+            if (height < 160) { 
+                size = "Small (S)"; 
+                numberSize = "36"; 
+                badgeText = "S";
+            }
+            else if (height >= 160 && height < 170) { 
+                size = "Medium (M)"; 
+                numberSize = "38"; 
+                badgeText = "M";
+            }
+            else if (height >= 170 && height < 180) { 
+                size = "Large (L)"; 
+                numberSize = "40"; 
+                badgeText = "L";
+            }
+            else if (height >= 180 && height < 190) { 
+                size = "X-Large (XL)"; 
+                numberSize = "42"; 
+                badgeText = "XL";
+            }
+            else { 
+                size = "XX-Large (XXL)"; 
+                numberSize = "44+"; 
+                badgeText = "XXL";
+            }
+            
+            // Set the results
+            sizeBadge.textContent = badgeText;
+            sizeType.textContent = size;
+            sizeNumber.textContent = `International Size: ${numberSize}`;
+            
+            // Show with animation
+            resultContainer.style.display = "block";
+            resultContainer.classList.add("animate__animated", "animate__fadeIn");
+            
+            // Scroll to result
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
         }
-
-        // Function to load AdMob ads dynamically
+        
+        function showError(message) {
+            const resultContainer = document.getElementById("result-container");
+            resultContainer.innerHTML = `
+                <div class="result-title" style="color: #ff6b6b;">
+                    <i class="fas fa-exclamation-circle"></i> Error
+                </div>
+                <div style="padding: 10px 0;">${message}</div>
+            `;
+            resultContainer.style.display = "block";
+            resultContainer.classList.add("animate__animated", "animate__headShake");
+            
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+        
+        // Enhanced ad loading with rotation
         function loadAds() {
             const adContainer = document.getElementById("ad-container");
             const adIds = [
@@ -140,30 +446,70 @@
                 "ca-app-pub-7057695873482887/5680923275",
                 "ca-app-pub-7057695873482887/5134128362"
             ];
-
-            adIds.forEach(adId => {
-                const adElement = document.createElement("div");
-                adElement.className = "ad";
+            
+            // Clear existing ads
+            adContainer.innerHTML = '<span class="ad-label">Advertisement</span>';
+            
+            // Create ad element
+            const adElement = document.createElement("div");
+            adElement.className = "ad";
+            adElement.innerHTML = `
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-app-pub-7057695873482887"
+                     data-ad-slot="${adIds[0]}"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            `;
+            adContainer.appendChild(adElement);
+            
+            // Load first ad
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            
+            // Rotate ads every 30 seconds
+            let currentAd = 0;
+            setInterval(() => {
+                currentAd = (currentAd + 1) % adIds.length;
                 adElement.innerHTML = `
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-app-pub-7057695873482887"
-                         data-ad-slot="${adId}"
+                         data-ad-slot="${adIds[currentAd]}"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                 `;
-                adContainer.appendChild(adElement);
-            });
-
-            // Load all ads
-            (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            }, 30000);
         }
-
+        
         // Load ads when the page loads
-        window.onload = loadAds;
+        window.onload = function() {
+            loadAds();
+            
+            // Add animation to features on hover
+            const features = document.querySelectorAll('.feature');
+            features.forEach(feature => {
+                feature.addEventListener('mouseenter', () => {
+                    feature.classList.add('animate__animated', 'animate__pulse');
+                });
+                feature.addEventListener('animationend', () => {
+                    feature.classList.remove('animate__animated', 'animate__pulse');
+                });
+            });
+            
+            // Add input validation
+            const heightInput = document.getElementById('height');
+            heightInput.addEventListener('input', function() {
+                if (this.value > 250) this.value = 250;
+                if (this.value < 100 && this.value !== '') this.value = 100;
+            });
+        };
     </script>
-
+    
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </body>
 </html>
