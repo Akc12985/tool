@@ -3,175 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convert KurtiDev to Mangal and Mangal to KurtiDev font easily with our online converter. Fully responsive and SEO-optimized.">
-    <title>KurtiDev to Mangal & Mangal to KurtiDev Converter</title>
+    <meta name="description" content="Convert between KurtiDev and Mangal fonts instantly with our advanced online converter. Fast, accurate, and user-friendly tool for Nepali font conversion.">
+    <title>Advanced KurtiDev ⇄ Mangal Font Converter | Nepali Typing Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Embed Fonts */
-        @font-face {
-            font-family: 'KurtiDev';
-            src: url('path-to-your-fonts/KurtiDev.ttf') format('truetype'); /* Replace with actual font file path */
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FFA64D;
+            --dark: #292929;
+            --light: #f8f9fa;
+            --success: #4BB543;
         }
-        @font-face {
-            font-family: 'Mangal';
-            src: url('path-to-your-fonts/Mangal.ttf') format('truetype'); /* Replace with actual font file path */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFA64D;
-            text-align: center;
+            background: linear-gradient(135deg, #FFA64D 0%, #FF6B35 100%);
+            min-height: 100vh;
             padding: 20px;
+            color: var(--dark);
         }
+        
         .container {
-            background: #E68500;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .converter-box {
+            padding: 25px;
+        }
+        
+        .text-box-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .text-box-wrapper {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .text-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .text-box-label {
+            font-weight: 500;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .char-count {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
         textarea {
             width: 100%;
-            height: 150px;
-            margin-bottom: 10px;
-            padding: 10px;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: none;
             font-size: 16px;
-            font-family: Arial, sans-serif; /* Default font */
+            transition: all 0.3s;
         }
-        button {
-            background: #FF6600;
-            color: white;
-            padding: 10px 15px;
+        
+        textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        
+        .btn {
+            padding: 12px 25px;
             border: none;
+            border-radius: 50px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
         }
-        button:hover {
-            background: #E68500;
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
-        .ad-space {
-            margin: 15px 0;
-            text-align: center;
-            background: #fff;
+        
+        .btn-primary:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: #fff9f5;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #3a9e33;
+        }
+        
+        .swap-btn {
+            background: var(--dark);
+            color: white;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            align-self: center;
+            transition: all 0.3s;
         }
-        h2 {
-            color: #fff;
+        
+        .swap-btn:hover {
+            transform: rotate(180deg) scale(1.1);
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #333;
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
         }
-
-        /* Apply Fonts Dynamically */
+        
+        .feature-card {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .ad-space {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @media (max-width: 768px) {
+            .text-box-container {
+                flex-direction: column;
+            }
+            
+            .swap-btn {
+                transform: rotate(90deg);
+            }
+            
+            .swap-btn:hover {
+                transform: rotate(270deg) scale(1.1);
+            }
+        }
+        
+        /* Font classes */
         .kurtidev-font {
-            font-family: 'KurtiDev', Arial, sans-serif;
+            font-family: 'KurtiDev', 'Mangal', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
         }
+        
         .mangal-font {
-            font-family: 'Mangal', Arial, sans-serif;
+            font-family: 'Mangal', 'KurtiDev', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
         }
     </style>
-    <script>
-        function convertFont(type) {
-            let inputText = document.getElementById('inputText').value;
-            let outputText = '';
-
-            // Example conversion logic (replace with actual logic)
-            if (type === 'kurtidev_to_mangal') {
-                outputText = inputText.replace(/क/g, 'K'); 
-                document.getElementById('outputText').classList.remove('kurtidev-font');
-                document.getElementById('outputText').classList.add('mangal-font');
-            } else {
-                outputText = inputText.replace(/K/g, 'क'); 
-                document.getElementById('outputText').classList.remove('mangal-font');
-                document.getElementById('outputText').classList.add('kurtidev-font');
-            }
-
-            document.getElementById('outputText').value = outputText;
-        }
-
-        function copyToClipboard() {
-            let outputText = document.getElementById('outputText');
-            outputText.select();
-            document.execCommand('copy');
-            alert('Copied to clipboard!');
-        }
-    </script>
 </head>
 <body>
-    <!-- Top Ad Section -->
-    <div class="ad-space"> 
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887"
-            data-ad-slot="8167485814"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
-    <!-- Main Content -->
     <div class="container">
-        <h2>KurtiDev to Mangal & Mangal to KurtiDev Converter</h2>
-        <textarea id="inputText" placeholder="Enter text here..."></textarea>
-        <br>
-        <button onclick="convertFont('kurtidev_to_mangal')">Convert to Mangal</button>
-        <button onclick="convertFont('mangal_to_kurtidev')">Convert to KurtiDev</button>
+        <header>
+            <h1>KurtiDev ⇄ Mangal Font Converter</h1>
+            <p class="subtitle">Convert between Nepali fonts instantly with our advanced tool</p>
+        </header>
         
-        <!-- Middle Ad Section -->
-        <div class="ad-space"> 
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-app-pub-7057695873482887"
-                data-ad-slot="6255638346"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <div class="converter-box">
+            <!-- Top Ad Section -->
+            <div class="ad-space">
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-app-pub-7057695873482887"
+                    data-ad-slot="8167485814"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <div class="text-box-container">
+                <div class="text-box-wrapper">
+                    <div class="text-box-header">
+                        <span class="text-box-label">
+                            <i class="fas fa-keyboard"></i> Input Text
+                        </span>
+                        <span class="char-count" id="inputCount">0 characters</span>
+                    </div>
+                    <textarea id="inputText" placeholder="Type or paste your text here..." autofocus></textarea>
+                </div>
+                
+                <i class="fas fa-exchange-alt swap-btn" id="swapBtn"></i>
+                
+                <div class="text-box-wrapper">
+                    <div class="text-box-header">
+                        <span class="text-box-label">
+                            <i class="fas fa-font"></i> Converted Text
+                        </span>
+                        <span class="char-count" id="outputCount">0 characters</span>
+                    </div>
+                    <textarea id="outputText" readonly placeholder="Your converted text will appear here..."></textarea>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="toMangalBtn">
+                    <i class="fas fa-arrow-right"></i> To Mangal
+                </button>
+                <button class="btn btn-primary" id="toKurtiDevBtn">
+                    <i class="fas fa-arrow-right"></i> To KurtiDev
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+                <button class="btn btn-success" id="copyBtn">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+            
+            <!-- Middle Ad Section -->
+            <div class="ad-space">
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-app-pub-7057695873482887"
+                    data-ad-slot="6255638346"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <div>Instant conversion with real-time preview</div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt feature-icon"></i>
+                    <div>Fully responsive on all devices</div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lock feature-icon"></i>
+                    <div>No data stored - 100% private</div>
+                </div>
+            </div>
+            
+            <!-- Bottom Ad Section -->
+            <div class="ad-space">
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-app-pub-7057695873482887"
+                    data-ad-slot="5680923275"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
         
-        <br><br>
-        <textarea id="outputText" readonly placeholder="Converted text will appear here..." class="mangal-font"></textarea>
-        <br>
-        <button onclick="copyToClipboard()">Copy Converted Text</button>
+        <footer>
+            © <span id="year"></span> KurtiDev to Mangal Converter. All rights reserved.
+        </footer>
     </div>
-
-    <!-- Bottom Ad Section -->
-    <div class="ad-space"> 
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887"
-            data-ad-slot="5680923275"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
-    <!-- Additional Ad Section -->
-    <div class="ad-space"> 
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-app-pub-7057695873482887"
-            data-ad-slot="5134128362"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        © 2023 KurtiDev to Mangal Converter. All rights reserved.
-    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // DOM Elements
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const toMangalBtn = document.getElementById('toMangalBtn');
+        const toKurtiDevBtn = document.getElementById('toKurtiDevBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const swapBtn = document.getElementById('swapBtn');
+        const inputCount = document.getElementById('inputCount');
+        const outputCount = document.getElementById('outputCount');
+        const toast = document.getElementById('toast');
+        const yearSpan = document.getElementById('year');
+        
+        // Set current year
+        yearSpan.textContent = new Date().getFullYear();
+        
+        // Character count update
+        inputText.addEventListener('input', updateCounts);
+        
+        function updateCounts() {
+            const inputLength = inputText.value.length;
+            const outputLength = outputText.value.length;
+            
+            inputCount.textContent = `${inputLength} character${inputLength !== 1 ? 's' : ''}`;
+            outputCount.textContent = `${outputLength} character${outputLength !== 1 ? 's' : ''}`;
+        }
+        
+        // Conversion functions (placeholder - replace with actual conversion logic)
+        function convertToMangal(text) {
+            // Example conversion - replace with actual mapping
+            return text.replace(/क/g, 'क्')
+                      .replace(/ख/g, 'ख्')
+                      .replace(/ग/g, 'ग्');
+        }
+        
+        function convertToKurtiDev(text) {
+            // Example conversion - replace with actual mapping
+            return text.replace(/क्/g, 'क')
+                      .replace(/ख्/g, 'ख')
+                      .replace(/ग्/g, 'ग');
+        }
+        
+        // Button event handlers
+        toMangalBtn.addEventListener('click', () => {
+            const converted = convertToMangal(inputText.value);
+            outputText.value = converted;
+            outputText.classList.remove('kurtidev-font');
+            outputText.classList.add('mangal-font');
+            updateCounts();
+            showToast('Converted to Mangal font!');
+        });
+        
+        toKurtiDevBtn.addEventListener('click', () => {
+            const converted = convertToKurtiDev(inputText.value);
+            outputText.value = converted;
+            outputText.classList.remove('mangal-font');
+            outputText.classList.add('kurtidev-font');
+            updateCounts();
+            showToast('Converted to KurtiDev font!');
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            updateCounts();
+            inputText.focus();
+            showToast('Cleared all text!');
+        });
+        
+        copyBtn.addEventListener('click', () => {
+            if (!outputText.value) {
+                showToast('No text to copy!', 'error');
+                return;
+            }
+            
+            outputText.select();
+            document.execCommand('copy');
+            showToast('Copied to clipboard!');
+        });
+        
+        swapBtn.addEventListener('click', () => {
+            if (!inputText.value) {
+                showToast('No text to swap!', 'error');
+                return;
+            }
+            
+            const temp = inputText.value;
+            inputText.value = outputText.value;
+            outputText.value = temp;
+            
+            // Swap font classes if output has content
+            if (outputText.value) {
+                if (outputText.classList.contains('mangal-font')) {
+                    outputText.classList.remove('mangal-font');
+                    outputText.classList.add('kurtidev-font');
+                } else {
+                    outputText.classList.remove('kurtidev-font');
+                    outputText.classList.add('mangal-font');
+                }
+            }
+            
+            updateCounts();
+            showToast('Text swapped!');
+        });
+        
+        // Toast notification
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            if (type === 'error') {
+                toast.style.background = '#dc3545';
+            } else {
+                toast.style.background = '#28a745';
+            }
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+        
+        // Initialize
+        updateCounts();
+    </script>
 </body>
 </html>
