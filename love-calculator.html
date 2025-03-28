@@ -3,178 +3,781 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Calculator - Find Your Love Compatibility</title>
+    <title>Love Compatibility Calculator | Find Your Perfect Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #FF8E8E;
+            --dark: #E64C4C;
+            --light: #FFD3D3;
+            --accent: #FF4081;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
-            background-color: #FFA64D;
-            color: white;
+            background: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
-            padding: 20px;
+            justify-content: center;
+            overflow-x: hidden;
         }
+        
         .container {
-            margin: 50px;
-            max-width: 400px;
-            padding: 20px;
-            background-color: #E68500;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin: 20px;
+            max-width: 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-        .input-box input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            box-sizing: border-box;
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
         }
-        .input-box button {
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--dark);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .input-box {
+            margin: 25px 0;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-group input {
             width: 100%;
-            padding: 10px;
-            background-color: #FF6600;
+            padding: 15px 20px;
+            border: 2px solid #eee;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(255,255,255,0.8);
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.2);
+        }
+        
+        .input-group label {
+            position: absolute;
+            left: 20px;
+            top: 15px;
+            color: #999;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8rem;
+            background: white;
+            padding: 0 5px;
+            color: var(--accent);
+        }
+        
+        button {
+            background: linear-gradient(45deg, var(--primary), var(--dark));
             color: white;
             border: none;
-            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 10px 5px;
+            width: 100%;
         }
-        .input-box button:hover {
-            background-color: #E68500;
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
         }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .secondary-btn {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--dark);
+        }
+        
         .heart-container {
-            margin: 20px auto;
+            margin: 30px auto;
             position: relative;
-            width: 100px;
-            height: 100px;
-        }
-        .heart {
-            width: 100px;
-            height: 100px;
-            background-color: #FF6600;
-            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 85%, 15% 100%, 0% 35%);
+            width: 150px;
+            height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 18px;
-            font-weight: bold;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             animation: heartbeat 1.5s infinite;
         }
+        
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        .love-percentage {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        
+        .love-message {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .result-container {
+            display: none;
+        }
+        
+        .compatibility-details {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .compatibility-details h3 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        
+        .progress-container {
+            margin: 10px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            opacity: 0;
+            font-size: 20px;
+            color: var(--primary);
+            animation: float-up 4s linear forwards;
+        }
+        
+        .social-share {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            width: auto;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .facebook {
+            background: #3b5998;
+        }
+        
+        .twitter {
+            background: #1da1f2;
+        }
+        
+        .whatsapp {
+            background: #25d366;
+        }
+        
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
         }
-        .pulse {
-            animation: pulse 1s infinite;
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
         }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
         }
-        .ad-left, .ad-right {
-            width: 160px;
-            height: 600px;
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
         }
+        
+        .ad-container {
+            width: 100%;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
         @media (max-width: 768px) {
-            .ad-left, .ad-right {
-                display: none;
-            }
             .container {
-                margin: 20px auto;
+                margin: 10px;
+                padding: 20px;
             }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .heart-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .love-percentage {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Toggle switch for dark mode */
+        .theme-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--dark);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .container {
+            background: rgba(40, 40, 60, 0.9);
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .input-group input {
+            background-color: rgba(30, 30, 50, 0.8);
+            border-color: #444;
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .input-group input:focus + label,
+        body.dark-mode .input-group input:not(:placeholder-shown) + label {
+            background: #28283c;
+        }
+        
+        body.dark-mode .compatibility-details {
+            background: rgba(40, 40, 60, 0.7);
+        }
+        
+        body.dark-mode .secondary-btn {
+            background: #28283c;
+            color: #f0f0f0;
+            border-color: var(--primary);
         }
     </style>
 </head>
 <body>
-    <!-- Left Ad Section -->
-    <div class="ad-left">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" 
-             style="display:block" 
-             data-ad-client="ca-app-pub-7057695873482887" 
-             data-ad-slot="8167485814" 
-             data-ad-format="auto" 
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- Theme Toggle -->
+    <div class="theme-switch">
+        <label class="switch">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider"></span>
+        </label>
     </div>
 
     <!-- Main Content -->
-    <div class="container">
-        <h1>❤️ Love Calculator ❤️</h1>
-        <p>Enter your name and your partner's name or Rashi to calculate your love percentage!</p>
+    <div class="container animate__animated animate__fadeIn">
+        <h1>Love Compatibility Calculator</h1>
+        <p class="subtitle">Discover the magic between you and your special someone</p>
         
-        <form onsubmit="calculateLove(); return false;">
-            <div class="input-box">
-                <input type="text" id="yourName" placeholder="Your Name / Rashi" required>
-                <input type="text" id="partnerName" placeholder="Partner's Name / Rashi" required>
-                <button type="submit">Calculate Love</button>
+        <div class="input-box">
+            <form id="loveForm">
+                <div class="input-group">
+                    <input type="text" id="yourName" placeholder=" " required>
+                    <label for="yourName">Your Name / Rashi</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="partnerName" placeholder=" " required>
+                    <label for="partnerName">Partner's Name / Rashi</label>
+                </div>
+                
+                <button type="submit" id="calculateBtn">
+                    <span class="btn-text">Calculate Compatibility</span>
+                    <span class="btn-loader" style="display:none;">Calculating...</span>
+                </button>
+            </form>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="heart-container">
+                <div class="heart">
+                    <div class="love-percentage" id="lovePercentage">0%</div>
+                </div>
             </div>
-        </form>
-        
-        <div class="heart-container">
-            <div class="heart" id="heart">
-                <span id="lovePercentage">❤️ 0% ❤️</span>
+            
+            <div class="love-message" id="loveMessage"></div>
+            
+            <div class="compatibility-details" id="compatibilityDetails">
+                <h3>Compatibility Analysis</h3>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Romance</span>
+                        <span id="romanceValue">75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="romanceBar" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Communication</span>
+                        <span id="communicationValue">60%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="communicationBar" style="width: 60%"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Trust</span>
+                        <span id="trustValue">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="trustBar" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Long-term Potential</span>
+                        <span id="potentialValue">70%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="potentialBar" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="secondary-btn" id="detailsBtn">Show Detailed Analysis</button>
+            
+            <div class="social-share">
+                <button class="share-btn facebook" onclick="shareOnFacebook()">
+                    <i class="fab fa-facebook-f"></i> Share
+                </button>
+                <button class="share-btn twitter" onclick="shareOnTwitter()">
+                    <i class="fab fa-twitter"></i> Tweet
+                </button>
+                <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
             </div>
         </div>
-
-        <p id="loveMessage"></p>
-        <button onclick="shareResult()">Share Result</button>
+        
+        <div class="floating-hearts" id="floatingHearts"></div>
     </div>
-
-    <!-- Right Ad Section -->
-    <div class="ad-right">
+    
+    <!-- Ad Container -->
+    <div class="ad-container">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle" 
-             style="display:block" 
-             data-ad-client="ca-app-pub-7057695873482887" 
-             data-ad-slot="6255638346" 
-             data-ad-format="auto" 
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7057695873482887"
+             data-ad-slot="8167485814"
+             data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
     <script>
-        function calculateLoveScore(yourName, partnerName) {
-            let combinedNames = (yourName + partnerName).toLowerCase();
-            let score = 0;
-            for (let char of combinedNames) {
-                score += char.charCodeAt(0);
-            }
-            return (score % 25) + 70; // Range: 70-95
+        // DOM Elements
+        const loveForm = document.getElementById('loveForm');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const lovePercentage = document.getElementById('lovePercentage');
+        const loveMessage = document.getElementById('loveMessage');
+        const compatibilityDetails = document.getElementById('compatibilityDetails');
+        const detailsBtn = document.getElementById('detailsBtn');
+        const floatingHearts = document.getElementById('floatingHearts');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Progress bars
+        const romanceBar = document.getElementById('romanceBar');
+        const communicationBar = document.getElementById('communicationBar');
+        const trustBar = document.getElementById('trustBar');
+        const potentialBar = document.getElementById('potentialBar');
+        const romanceValue = document.getElementById('romanceValue');
+        const communicationValue = document.getElementById('communicationValue');
+        const trustValue = document.getElementById('trustValue');
+        const potentialValue = document.getElementById('potentialValue');
+        
+        // Theme toggle
+        themeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+            localStorage.setItem('darkMode', this.checked);
+        });
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            themeToggle.checked = true;
+            document.body.classList.add('dark-mode');
         }
-
+        
+        // Form submission
+        loveForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateLove();
+        });
+        
+        // Toggle details
+        detailsBtn.addEventListener('click', function() {
+            if (compatibilityDetails.style.display === 'block') {
+                compatibilityDetails.style.display = 'none';
+                detailsBtn.textContent = 'Show Detailed Analysis';
+            } else {
+                compatibilityDetails.style.display = 'block';
+                detailsBtn.textContent = 'Hide Detailed Analysis';
+            }
+        });
+        
+        // Create floating hearts
+        function createHearts(count) {
+            floatingHearts.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                floatingHearts.appendChild(heart);
+            }
+        }
+        
+        // Calculate love score with more sophisticated algorithm
+        function calculateLoveScore(yourName, partnerName) {
+            // Normalize names
+            const name1 = yourName.toLowerCase().replace(/\s+/g, '');
+            const name2 = partnerName.toLowerCase().replace(/\s+/g, '');
+            
+            // Calculate name scores
+            const score1 = name1.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const score2 = name2.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            
+            // Combine scores in a non-linear way
+            const combinedScore = (score1 * score2) % 100;
+            
+            // Apply additional factors
+            const lengthFactor = Math.abs(name1.length - name2.length) * 2;
+            const commonLetters = [...new Set(name1)].filter(char => name2.includes(char)).length;
+            
+            // Final calculation with some randomness for fun
+            let finalScore = (combinedScore + commonLetters * 5 - lengthFactor) % 100;
+            finalScore = Math.max(10, Math.min(99, finalScore)); // Keep between 10-99
+            
+            return Math.round(finalScore);
+        }
+        
+        // Calculate sub-scores for compatibility details
+        function calculateSubScores(mainScore) {
+            return {
+                romance: Math.min(100, mainScore + Math.floor(Math.random() * 20 - 5)),
+                communication: Math.min(100, mainScore + Math.floor(Math.random() * 15 - 10)),
+                trust: Math.min(100, mainScore + Math.floor(Math.random() * 25 - 5)),
+                potential: Math.min(100, mainScore + Math.floor(Math.random() * 15 - 5))
+            };
+        }
+        
+        // Get personalized message based on score
+        function getLoveMessage(score, name1, name2) {
+            const messages = [
+                {
+                    range: [90, 100],
+                    messages: [
+                        `🔥 ${name1} & ${name2} are a match made in heaven! Your connection is truly magical.`,
+                        `💘 Cosmic soulmates! ${name1} and ${name2} are destined to be together forever.`,
+                        `🌟 Perfect match! The stars align perfectly for ${name1} and ${name2}.`
+                    ]
+                },
+                {
+                    range: [75, 89],
+                    messages: [
+                        `💖 Amazing chemistry! ${name1} and ${name2} have a strong, loving connection.`,
+                        `✨ Beautiful match! With some effort, ${name1} and ${name2} can build something lasting.`,
+                        `🌹 Great potential! ${name1} and ${name2} complement each other wonderfully.`
+                    ]
+                },
+                {
+                    range: [60, 74],
+                    messages: [
+                        `💕 Good compatibility! ${name1} and ${name2} have a solid foundation for love.`,
+                        `🌻 Promising connection! ${name1} and ${name2} can grow together with understanding.`,
+                        `🍀 Potential for love! ${name1} and ${name2} need to nurture their relationship.`
+                    ]
+                },
+                {
+                    range: [40, 59],
+                    messages: [
+                        `💔 Challenging match! ${name1} and ${name2} will need to work on their relationship.`,
+                        `⚡ Mixed compatibility! ${name1} and ${name2} have sparks but also differences.`,
+                        `🌓 Moderate connection! ${name1} and ${name2} may need to compromise often.`
+                    ]
+                },
+                {
+                    range: [0, 39],
+                    messages: [
+                        `🌪️ Difficult match! ${name1} and ${name2} face significant challenges ahead.`,
+                        `⚠️ Low compatibility! ${name1} and ${name2} may not be the best match.`,
+                        `❄️ Cold connection! ${name1} and ${name2} have little natural chemistry.`
+                    ]
+                }
+            ];
+            
+            const matchedRange = messages.find(m => score >= m.range[0] && score <= m.range[1]);
+            const randomMessage = matchedRange.messages[Math.floor(Math.random() * matchedRange.messages.length)];
+            
+            return randomMessage;
+        }
+        
+        // Main calculation function
         function calculateLove() {
-            let yourName = document.getElementById("yourName").value.trim();
-            let partnerName = document.getElementById("partnerName").value.trim();
-
+            const yourName = document.getElementById('yourName').value.trim();
+            const partnerName = document.getElementById('partnerName').value.trim();
+            
             if (!yourName || !partnerName) {
-                alert("Please enter both names or Rashis!");
+                alert('Please enter both names or Rashis!');
                 return;
             }
-
-            let loveScore = calculateLoveScore(yourName, partnerName);
-            document.getElementById("lovePercentage").innerText = `❤️ ${loveScore}% ❤️`;
-            document.getElementById("heart").classList.add("pulse");
-
-            let loveMessage;
-            if (loveScore > 80) {
-                loveMessage = "🔥 Soulmates! Your love is truly magical!";
-            } else if (loveScore > 50) {
-                loveMessage = "💖 A strong connection! Keep nurturing your love.";
-            } else {
-                loveMessage = "💔 Work on your bond to make it stronger!";
-            }
-            document.getElementById("loveMessage").innerText = loveMessage;
+            
+            // Show loading state
+            calculateBtn.querySelector('.btn-text').style.display = 'none';
+            calculateBtn.querySelector('.btn-loader').style.display = 'inline';
+            calculateBtn.disabled = true;
+            
+            // Simulate calculation delay for better UX
+            setTimeout(() => {
+                const loveScore = calculateLoveScore(yourName, partnerName);
+                const subScores = calculateSubScores(loveScore);
+                
+                // Update UI
+                lovePercentage.textContent = `${loveScore}%`;
+                loveMessage.textContent = getLoveMessage(loveScore, yourName, partnerName);
+                
+                // Update progress bars with animation
+                setTimeout(() => {
+                    romanceBar.style.width = `${subScores.romance}%`;
+                    communicationBar.style.width = `${subScores.communication}%`;
+                    trustBar.style.width = `${subScores.trust}%`;
+                    potentialBar.style.width = `${subScores.potential}%`;
+                    
+                    romanceValue.textContent = `${subScores.romance}%`;
+                    communicationValue.textContent = `${subScores.communication}%`;
+                    trustValue.textContent = `${subScores.trust}%`;
+                    potentialValue.textContent = `${subScores.potential}%`;
+                }, 100);
+                
+                // Show result
+                resultContainer.style.display = 'block';
+                
+                // Create celebration hearts
+                createHearts(20);
+                
+                // Reset button
+                calculateBtn.querySelector('.btn-text').style.display = 'inline';
+                calculateBtn.querySelector('.btn-loader').style.display = 'none';
+                calculateBtn.disabled = false;
+                
+                // Scroll to result
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
         }
-
-        function shareResult() {
-            let result = document.getElementById("lovePercentage").innerText;
-            let message = `Check out our Love Compatibility: ${result} 💕 Try it now!`;
-            let shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-            window.open(shareUrl, '_blank');
+        
+        // Social sharing functions
+        function shareOnFacebook() {
+            const score = lovePercentage.textContent;
+            const message = `Our love compatibility score is ${score}! ❤️ Check yours now!`;
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${encodeURIComponent(message)}`, '_blank');
         }
+        
+        function shareOnTwitter() {
+            const score = lovePercentage.textContent;
+            const message = `Our love compatibility score is ${score}! ❤️ Find your match at ${window.location.href}`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        function shareOnWhatsApp() {
+            const score = lovePercentage.textContent;
+            const message = `Our love compatibility score is ${score}! ❤️ Check yours now: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        
+        // Initialize with some floating hearts
+        createHearts(10);
     </script>
 </body>
 </html>
