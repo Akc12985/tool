@@ -5,61 +5,310 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ऑनलाइन हिंदी टाइपिंग टेस्ट - अपनी टाइपिंग गति और सटीकता जांचें।">
     <title>ऑनलाइन हिंदी टाइपिंग टेस्ट</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #1E3A8A;
+            --secondary-blue: #3B82F6;
+            --light-blue: #EFF6FF;
+            --primary-orange: #EA580C;
+            --secondary-orange: #F97316;
+            --light-orange: #FFEDD5;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFA64D;
+            font-family: 'Arial', 'Mangal', sans-serif;
+            background: linear-gradient(135deg, var(--light-blue) 0%, #ffffff 100%);
             text-align: center;
-            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            color: #333;
         }
+        
         .container {
-            max-width: 600px;
-            margin: auto;
+            max-width: 800px;
+            margin: 20px auto;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        textarea {
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 150px;
-            margin-top: 10px;
-            border: 2px solid #E68500;
-            padding: 10px;
-            font-size: 16px;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
         }
+        
+        h1 {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-orange);
+            border-radius: 2px;
+        }
+        
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 10px;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: var(--primary-blue);
+            white-space: nowrap;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        #sample-text {
+            font-size: 18px;
+            color: #333;
+            margin: 20px 0;
+            text-align: center;
+            height: 120px;
+            overflow-y: auto;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            line-height: 1.6;
+            font-family: inherit;
+        }
+        
+        #typing-area {
+            width: 100%;
+            height: 180px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            padding: 15px;
+            font-size: 18px;
+            resize: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            line-height: 1.6;
+            font-family: inherit;
+        }
+        
+        #typing-area:focus {
+            outline: none;
+            border-color: var(--secondary-orange);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
         button {
-            background-color: #FF6600;
-            color: white;
-            padding: 10px 15px;
+            padding: 12px 24px;
             border: none;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #C2410C;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        #timer {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin: 20px 0;
+            background: var(--light-orange);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        .result-container {
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            text-align: left;
+            display: none;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 120px;
+            border-top: 4px solid var(--secondary-blue);
+        }
+        
+        .stat-box h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .stat-box p {
+            margin: 5px 0 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .accuracy-meter {
+            width: 100%;
+            height: 10px;
+            background: #eee;
             border-radius: 5px;
-            margin-top: 10px;
+            margin-top: 15px;
+            overflow: hidden;
         }
-        button:hover {
-            background-color: #E68500;
+        
+        .accuracy-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, #10B981 100%);
+            width: 0%;
+            transition: width 0.5s;
         }
+        
         .ad-container {
             margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+        
+        .ad-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .pause-btn {
-            background-color: #FF4500;
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .pause-btn:hover {
-            background-color: #B22222;
+        
+        .highlight {
+            animation: pulse 0.5s infinite alternate;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header Ad Space -->
     <div class="ad-container">
+        <div class="ad-label">विज्ञापन</div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/8167485814" crossorigin="anonymous"></script>
         <ins class="adsbygoogle"
              style="display:block"
@@ -71,28 +320,84 @@
     </div>
     
     <div class="container">
-        <h1>ऑनलाइन हिंदी टाइपिंग टेस्ट</h1>
+        <h1><i class="fas fa-keyboard"></i> ऑनलाइन हिंदी टाइपिंग टेस्ट</h1>
         
-        <label for="font">फ़ॉन्ट चुनें:</label>
-        <select id="font">
-            <option value="mangal">Mangal</option>
-            <option value="krutidev">Krutidev</option>
-        </select>
+        <div class="control-panel">
+            <div class="control-group">
+                <label for="font"><i class="fas fa-font"></i> फ़ॉन्ट:</label>
+                <select id="font" onchange="changeFont()">
+                    <option value="mangal">Mangal</option>
+                    <option value="krutidev">Krutidev</option>
+                    <option value="noto-sans">Noto Sans</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="duration"><i class="fas fa-clock"></i> समय:</label>
+                <input type="number" id="duration" min="1" max="10" value="1">
+                <span>मिनट</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="difficulty"><i class="fas fa-chart-line"></i> स्तर:</label>
+                <select id="difficulty">
+                    <option value="easy">आसान</option>
+                    <option value="medium">मध्यम</option>
+                    <option value="hard">कठिन</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="timer">01:00</div>
         
-        <label for="duration">समय (मिनट में):</label>
-        <input type="number" id="duration" min="1" max="10" value="1">
+        <div class="stats-container" id="stats-container" style="display: none;">
+            <div class="stat-box">
+                <h3>गति</h3>
+                <p id="wpm-stat">0</p>
+                <span>शब्द प्रति मिनट</span>
+            </div>
+            <div class="stat-box">
+                <h3>सटीकता</h3>
+                <p id="accuracy-stat">0%</p>
+                <div class="accuracy-meter">
+                    <div class="accuracy-bar" id="accuracy-bar"></div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <h3>अक्षर</h3>
+                <p id="chars-stat">0</p>
+                <span>टाइप किए</span>
+            </div>
+        </div>
+
+        <p><strong>निम्नलिखित पाठ को टाइप करें:</strong></p>
+        <div id="sample-text">
+            हिंदी भाषा भारत की राजभाषा है और विश्व की प्रमुख भाषाओं में से एक है। यह देवनागरी लिपि में लिखी जाती है। हिंदी भाषा का विकास संस्कृत भाषा से हुआ है और यह भारतीय संस्कृति की समृद्ध विरासत को समेटे हुए है।
+        </div>
+
+        <textarea id="typing-area" placeholder="टेस्ट शुरू होने पर यहाँ टाइप करें..." disabled></textarea>
+
+        <div class="button-group">
+            <button onclick="startTest()" class="btn-primary" id="start-btn">
+                <i class="fas fa-play"></i> टेस्ट शुरू करें
+            </button>
+            <button onclick="pauseTest()" class="btn-secondary" id="pause-btn" disabled>
+                <i class="fas fa-pause"></i> रोकें
+            </button>
+            <button onclick="endTest()" class="btn-secondary" id="end-btn" disabled>
+                <i class="fas fa-stop"></i> समाप्त करें
+            </button>
+        </div>
         
-        <p>नीचे दिए गए टेक्स्ट को टाइप करें:</p>
-        <textarea id="typing-area" placeholder="यहाँ टाइप करें..." disabled></textarea>
-        
-        <button onclick="startTest()">टेस्ट शुरू करें</button>
-        <button onclick="pauseTest()" class="pause-btn" id="pause-btn" disabled>टेस्ट पॉज़ करें</button>
-        
-        <div class="result" id="result"></div>
+        <div class="result-container" id="result-container">
+            <h3><i class="fas fa-trophy"></i> परिणाम</h3>
+            <div id="result-details"></div>
+        </div>
     </div>
     
     <!-- Footer Ad Space -->
     <div class="ad-container">
+        <div class="ad-label">विज्ञापन</div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887/6255638346" crossorigin="anonymous"></script>
         <ins class="adsbygoogle"
              style="display:block"
@@ -105,64 +410,203 @@
 
     <script>
         let startTime, endTime, timerInterval, isPaused = false;
-        const sampleText = "यह एक नमूना पाठ है जिसे टाइप करने के लिए बनाया गया है।";
-        const typingArea = document.getElementById("typing-area");
-        const resultDiv = document.getElementById("result");
-        const pauseBtn = document.getElementById("pause-btn");
+        let durationInSeconds = 60;
+        let timeRemaining = 0;
+        let correctChars = 0;
+        let totalChars = 0;
+        
+        const sampleTexts = {
+            easy: "हिंदी भाषा भारत की राजभाषा है। यह देवनागरी लिपि में लिखी जाती है। हिंदी का विकास संस्कृत से हुआ है।",
+            medium: "हिंदी भाषा भारत की राजभाषा है और विश्व की प्रमुख भाषाओं में से एक है। यह देवनागरी लिपि में लिखी जाती है। हिंदी भाषा का विकास संस्कृत भाषा से हुआ है और यह भारतीय संस्कृति की समृद्ध विरासत को समेटे हुए है।",
+            hard: "हिंदी भारत की राजभाषा और विश्व की चौथी सबसे अधिक बोली जाने वाली भाषा है। देवनागरी लिपि में लिखी जाने वाली यह भाषा भारतीय उपमहाद्वीप की सांस्कृतिक एकता का प्रतीक है। हिंदी का साहित्यिक इतिहास अत्यंत समृद्ध है जिसमें भक्ति काल, रीति काल और आधुनिक काल की महत्वपूर्ण रचनाएँ शामिल हैं।"
+        };
 
-        function startTest() {
-            typingArea.value = "";
-            typingArea.disabled = false;
-            typingArea.placeholder = "";
-            typingArea.style.borderColor = "#E68500";
-            resultDiv.textContent = "";
-            pauseBtn.disabled = false;
-
-            startTime = new Date();
-            isPaused = false;
-            timerInterval = setInterval(updateTimer, 1000);
-
-            // Display sample text
-            typingArea.setAttribute("placeholder", sampleText);
-        }
-
-        function pauseTest() {
-            if (!isPaused) {
-                clearInterval(timerInterval);
-                isPaused = true;
-                pauseBtn.textContent = "टेस्ट फिर से शुरू करें";
-                calculateResult();
+        function changeFont() {
+            const font = document.getElementById("font").value;
+            if(font === "krutidev") {
+                document.body.style.fontFamily = "'Kruti Dev', 'Mangal', sans-serif";
+            } else if(font === "noto-sans") {
+                document.body.style.fontFamily = "'Noto Sans', 'Mangal', sans-serif";
             } else {
-                startTime = new Date() - ((endTime - startTime) || 0);
-                isPaused = false;
-                pauseBtn.textContent = "टेस्ट पॉज़ करें";
-                timerInterval = setInterval(updateTimer, 1000);
+                document.body.style.fontFamily = "'Mangal', sans-serif";
             }
         }
 
-        function calculateResult() {
-            const typedText = typingArea.value.trim();
-            const words = typedText.split(/\s+/).filter(word => word.length > 0);
-            const correctWords = sampleText.split(/\s+/).filter((word, index) => word === words[index]);
-            const accuracy = ((correctWords.length / sampleText.split(/\s+/).length) * 100).toFixed(2);
-            const timeTaken = ((new Date() - startTime) / 1000 / 60).toFixed(2);
-            const wpm = Math.round(words.length / timeTaken);
+        function updateSampleText() {
+            const difficulty = document.getElementById("difficulty").value;
+            document.getElementById("sample-text").textContent = sampleTexts[difficulty];
+            totalChars = sampleTexts[difficulty].length;
+        }
 
-            resultDiv.innerHTML = `
-                <strong>परिणाम:</strong><br>
-                समय: ${timeTaken} मिनट<br>
-                टाइपिंग गति: ${wpm} WPM<br>
-                सटीकता: ${accuracy}%<br>
-            `;
+        function startTest() {
+            // Get selected duration
+            const durationInMinutes = parseInt(document.getElementById("duration").value);
+            durationInSeconds = durationInMinutes * 60;
+            timeRemaining = durationInSeconds;
+            
+            // Update sample text based on difficulty
+            updateSampleText();
+            
+            // Enable typing area
+            const typingArea = document.getElementById("typing-area");
+            typingArea.disabled = false;
+            typingArea.value = "";
+            typingArea.focus();
+            
+            // Reset stats
+            correctChars = 0;
+            updateStats();
+            
+            // Show stats container
+            document.getElementById("stats-container").style.display = "flex";
+            document.getElementById("result-container").style.display = "none";
+            
+            // Start timer
+            startTime = new Date();
+            updateTimer();
+            
+            // Start countdown
+            timerInterval = setInterval(() => {
+                if (!isPaused) {
+                    durationInSeconds--;
+                    if (durationInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        endTest();
+                    }
+                    updateTimer();
+                }
+            }, 1000);
+            
+            // Enable/disable buttons
+            document.getElementById("start-btn").disabled = true;
+            document.getElementById("pause-btn").disabled = false;
+            document.getElementById("end-btn").disabled = false;
+            
+            // Add typing event listener
+            typingArea.addEventListener('input', checkTyping);
+        }
+
+        function pauseTest() {
+            isPaused = true;
+            timeRemaining = durationInSeconds;
+            clearInterval(timerInterval);
+            document.getElementById("pause-btn").innerHTML = '<i class="fas fa-play"></i> जारी रखें';
+            
+            // Show current result
+            calculateResult();
+        }
+
+        function endTest() {
+            isPaused = true;
+            clearInterval(timerInterval);
+            
+            // Disable typing area
+            const typingArea = document.getElementById("typing-area");
+            typingArea.disabled = true;
+            typingArea.removeEventListener('input', checkTyping);
+            
+            // Calculate final result
+            calculateResult();
+            
+            // Enable/disable buttons
+            document.getElementById("start-btn").disabled = false;
+            document.getElementById("pause-btn").disabled = true;
+            document.getElementById("end-btn").disabled = true;
         }
 
         function updateTimer() {
-            endTime = new Date();
-            const timeElapsed = Math.floor((endTime - startTime) / 1000);
-            const minutes = Math.floor(timeElapsed / 60);
-            const seconds = timeElapsed % 60;
-            document.title = `टाइम: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            const timerElement = document.getElementById("timer");
+            const minutes = Math.floor(durationInSeconds / 60);
+            const seconds = durationInSeconds % 60;
+            timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            // Change color when time is running low
+            if (durationInSeconds <= 10) {
+                timerElement.style.color = "#EF4444";
+                timerElement.classList.add("highlight");
+            } else {
+                timerElement.style.color = "var(--primary-orange)";
+                timerElement.classList.remove("highlight");
+            }
         }
+
+        function checkTyping() {
+            const typingArea = document.getElementById("typing-area");
+            const sampleText = document.getElementById("sample-text").textContent;
+            const typedText = typingArea.value;
+            
+            // Calculate accuracy
+            correctChars = 0;
+            for (let i = 0; i < typedText.length; i++) {
+                if (typedText[i] === sampleText[i]) {
+                    correctChars++;
+                }
+            }
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+            document.getElementById("accuracy-stat").textContent = `${accuracy}%`;
+            document.getElementById("accuracy-bar").style.width = `${accuracy}%`;
+            document.getElementById("chars-stat").textContent = correctChars;
+            
+            // Calculate WPM
+            const elapsedTimeInMinutes = (new Date() - startTime) / (1000 * 60);
+            const wordsTyped = document.getElementById("typing-area").value.trim().split(/\s+/).length;
+            const wpm = Math.round(wordsTyped / elapsedTimeInMinutes);
+            document.getElementById("wpm-stat").textContent = wpm;
+        }
+
+        function calculateResult() {
+            const typingArea = document.getElementById("typing-area");
+            const typedText = typingArea.value.trim();
+            const wordsTyped = typedText.split(/\s+/).filter(word => word.length > 0).length;
+            const elapsedTimeInMinutes = (new Date() - startTime) / (1000 * 60);
+            const wpm = Math.round(wordsTyped / elapsedTimeInMinutes);
+            
+            // Calculate accuracy
+            const sampleText = document.getElementById("sample-text").textContent;
+            let correctChars = 0;
+            for (let i = 0; i < typedText.length; i++) {
+                if (typedText[i] === sampleText[i]) {
+                    correctChars++;
+                }
+            }
+            const accuracy = typedText.length > 0 ? Math.round((correctChars / typedText.length) * 100) : 0;
+            
+            // Display result
+            const resultContainer = document.getElementById("result-container");
+            const resultDetails = document.getElementById("result-details");
+            
+            resultDetails.innerHTML = `
+                <p><strong>समय:</strong> ${elapsedTimeInMinutes.toFixed(2)} मिनट</p>
+                <p><strong>टाइपिंग गति:</strong> <span style="color: var(--primary-blue);">${wpm} शब्द प्रति मिनट</span></p>
+                <p><strong>सटीकता:</strong> <span style="color: ${accuracy >= 90 ? '#10B981' : accuracy >= 70 ? '#F59E0B' : '#EF4444'};">${accuracy}%</span></p>
+                <p><strong>सुझाव:</strong> ${getFeedback(wpm, accuracy)}</p>
+            `;
+            
+            resultContainer.style.display = "block";
+        }
+
+        function getFeedback(wpm, accuracy) {
+            if (wpm < 15) {
+                return "अभ्यास जारी रखें! सटीकता पर ध्यान दें, गति अपने आप बढ़ेगी।";
+            } else if (wpm < 30) {
+                return "अच्छा प्रदर्शन! नियमित अभ्यास से आप और सुधार कर सकते हैं।";
+            } else if (wpm < 45) {
+                return "बहुत अच्छा! आप औसत से तेज टाइप कर रहे हैं।";
+            } else if (wpm < 60) {
+                return "उत्कृष्ट! आप एक पेशेवर की तरह टाइप कर रहे हैं।";
+            } else {
+                return "अद्भुत! आप सबसे तेज टाइपिस्ट में से एक हैं!";
+            }
+        }
+
+        // Initialize
+        updateSampleText();
+        document.getElementById("difficulty").addEventListener("change", updateSampleText);
     </script>
 </body>
 </html>
