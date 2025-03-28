@@ -5,73 +5,323 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Test your English typing speed online with real-time tracking, leaderboard, and AI-based feedback!">
     <title>Online English Typing Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #1E3A8A;
+            --secondary-blue: #3B82F6;
+            --light-blue: #EFF6FF;
+            --primary-orange: #EA580C;
+            --secondary-orange: #F97316;
+            --light-orange: #FFEDD5;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFA64D;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light-blue) 0%, #ffffff 100%);
             text-align: center;
-            padding: 20px;
             margin: 0;
+            min-height: 100vh;
+            color: #333;
         }
+        
         .container {
-            max-width: 600px;
-            margin: auto;
+            max-width: 800px;
+            margin: 0 auto;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
-        textarea {
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 150px;
-            margin-top: 10px;
-            border: 2px solid #E68500;
-            padding: 10px;
-            font-size: 16px;
-            resize: none;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
         }
-        button {
-            background-color: #FF6600;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            margin-top: 10px;
+        
+        h1 {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
         }
-        button:hover {
-            background-color: #E68500;
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-orange);
+            border-radius: 2px;
         }
-        .ad-container {
-            margin: 20px 0;
+        
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 10px;
+            align-items: center;
         }
-        #timer {
-            font-size: 24px;
-            font-weight: bold;
-            color: #FF6600;
-            margin: 10px 0;
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        
+        label {
+            font-weight: 600;
+            color: var(--primary-blue);
+            white-space: nowrap;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
         #sample-text {
             font-size: 16px;
             color: #333;
-            margin: 10px 0;
+            margin: 20px 0;
             text-align: left;
-            height: 100px;
+            height: 120px;
             overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            line-height: 1.6;
         }
-        #paragraph-selector {
-            margin: 10px 0;
+        
+        #sample-text::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #sample-text::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        #sample-text::-webkit-scrollbar-thumb {
+            background: var(--secondary-blue);
+            border-radius: 4px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 180px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            padding: 15px;
+            font-size: 16px;
+            resize: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            line-height: 1.6;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary-orange);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #C2410C;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--light-blue);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        #timer {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin: 20px 0;
+            background: var(--light-orange);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        #result {
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 120px;
+            border-top: 4px solid var(--secondary-blue);
+        }
+        
+        .stat-box h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .stat-box p {
+            margin: 5px 0 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+        
+        .accuracy-meter {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        
+        .accuracy-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, #10B981 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .ad-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .ad-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header Ad Space -->
     <div class="ad-container">
-        <p>Ad Space - Header</p>
+        <div class="ad-label">Advertisement</div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"
@@ -85,53 +335,77 @@
     </div>
 
     <div class="container">
-        <h1>Online English Typing Test</h1>
-
-        <!-- Sidebar Ad Space -->
-        <div class="ad-container">
-            <p>Ad Space - Sidebar</p>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-app-pub-7057695873482887"
-                 data-ad-slot="6255638346"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <h1><i class="fas fa-keyboard"></i> English Typing Test</h1>
+        
+        <div class="control-panel">
+            <div class="control-group">
+                <label for="duration"><i class="fas fa-clock"></i> Duration:</label>
+                <input type="number" id="duration" min="1" max="10" value="1">
+                <span>minutes</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="paragraph-selector"><i class="fas fa-align-left"></i> Text Type:</label>
+                <select id="paragraph-selector" onchange="updateParagraph()">
+                    <option value="news">News Article</option>
+                    <option value="poetry">Poetry</option>
+                    <option value="story">Short Story</option>
+                    <option value="random">Random Text</option>
+                    <option value="tech">Technology</option>
+                </select>
+            </div>
         </div>
 
-        <label for="duration">Set Duration (minutes):</label>
-        <input type="number" id="duration" min="1" max="10" value="1">
+        <div id="timer">01:00</div>
+        
+        <div class="stats-container" id="stats-container" style="display: none;">
+            <div class="stat-box">
+                <h3>Speed</h3>
+                <p id="wpm-stat">0</p>
+                <span>WPM</span>
+            </div>
+            <div class="stat-box">
+                <h3>Accuracy</h3>
+                <p id="accuracy-stat">0%</p>
+                <div class="accuracy-meter">
+                    <div class="accuracy-bar" id="accuracy-bar"></div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <h3>Characters</h3>
+                <p id="chars-stat">0</p>
+                <span>typed</span>
+            </div>
+        </div>
 
-        <label for="paragraph-selector">Select Paragraph:</label>
-        <select id="paragraph-selector" onchange="updateParagraph()">
-            <option value="news">News Article</option>
-            <option value="poetry">Poetry</option>
-            <option value="story">Short Story</option>
-            <option value="random">Random Text</option>
-        </select>
-
-        <p>Sample Text:</p>
+        <p><strong>Type the text below:</strong></p>
         <div id="sample-text">
-            The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet.
+            The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet. Typing is an essential skill in today's digital world, and regular practice can significantly improve your speed and accuracy.
         </div>
 
-        <textarea id="typing-area" placeholder="Start typing here..." disabled></textarea>
+        <textarea id="typing-area" placeholder="Start typing here when the test begins..." disabled></textarea>
 
-        <button onclick="startTest()">Start Test</button>
-        <button onclick="pauseTest()" id="pause-btn" disabled>Pause Test</button>
-        <button onclick="resumeTest()" id="resume-btn" disabled>Resume Test</button>
-        <button onclick="endTest()" id="end-btn" disabled>End Test</button>
+        <div class="button-group">
+            <button onclick="startTest()" class="btn-primary" id="start-btn">
+                <i class="fas fa-play"></i> Start Test
+            </button>
+            <button onclick="pauseTest()" class="btn-secondary" id="pause-btn" disabled>
+                <i class="fas fa-pause"></i> Pause
+            </button>
+            <button onclick="resumeTest()" class="btn-outline" id="resume-btn" disabled>
+                <i class="fas fa-redo"></i> Resume
+            </button>
+            <button onclick="endTest()" class="btn-secondary" id="end-btn" disabled>
+                <i class="fas fa-stop"></i> End Test
+            </button>
+        </div>
 
-        <p id="result"></p>
-        <div id="timer">Timer: 00:00</div>
+        <div id="result"></div>
     </div>
 
     <!-- Footer Ad Space -->
     <div class="ad-container">
-        <p>Ad Space - Footer</p>
+        <div class="ad-label">Advertisement</div>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"
@@ -146,31 +420,45 @@
 
     <script>
         let startTime, interval, endTime;
-        let durationInSeconds = 0;
+        let durationInSeconds = 60; // Default to 1 minute
         let isPaused = false;
         let timeRemaining = 0;
+        let correctChars = 0;
+        let totalChars = 0;
 
         const paragraphs = {
-            news: "In recent news, scientists have discovered a new species of deep-sea creatures. These organisms thrive in extreme conditions and provide insights into the adaptability of life.",
-            poetry: "Two roads diverged in a wood, and I— I took the one less traveled by, And that has made all the difference.",
-            story: "Once upon a time, there was a young boy named Jack who lived in a small village surrounded by dense forests. One day, he decided to explore the woods.",
-            random: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            news: "In recent news, scientists have discovered a new species of deep-sea creatures. These organisms thrive in extreme conditions and provide insights into the adaptability of life. The research team used advanced underwater drones to explore previously inaccessible regions of the ocean floor, uncovering biodiversity that challenges our understanding of marine ecosystems.",
+            poetry: "Two roads diverged in a wood, and I—\nI took the one less traveled by,\nAnd that has made all the difference.\n\n- Robert Frost\n\nThe woods are lovely, dark and deep,\nBut I have promises to keep,\nAnd miles to go before I sleep,\nAnd miles to go before I sleep.",
+            story: "Once upon a time, there was a young boy named Jack who lived in a small village surrounded by dense forests. One day, he decided to explore the woods despite warnings from the villagers. As he ventured deeper, he discovered an ancient tree with strange carvings that seemed to glow in the moonlight. Little did he know, this discovery would change his life forever.",
+            random: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+            tech: "Artificial intelligence is transforming industries across the globe. Machine learning algorithms can now process vast amounts of data to identify patterns and make predictions with remarkable accuracy. From healthcare diagnostics to financial forecasting, AI applications are becoming increasingly sophisticated, raising important questions about ethics and the future of work in an automated world."
         };
 
         function updateParagraph() {
             const selectedType = document.getElementById("paragraph-selector").value;
             document.getElementById("sample-text").textContent = paragraphs[selectedType];
+            totalChars = paragraphs[selectedType].length;
         }
 
         function startTest() {
             // Get the selected duration in minutes
             const durationInMinutes = parseInt(document.getElementById("duration").value);
             durationInSeconds = durationInMinutes * 60;
+            timeRemaining = durationInSeconds;
 
             // Enable the textarea
             const typingArea = document.getElementById("typing-area");
             typingArea.disabled = false;
             typingArea.value = ""; // Clear previous input
+            typingArea.focus();
+
+            // Reset stats
+            correctChars = 0;
+            totalChars = document.getElementById("sample-text").textContent.length;
+            updateStats();
+
+            // Show stats container
+            document.getElementById("stats-container").style.display = "flex";
 
             // Start the timer
             startTime = new Date();
@@ -189,8 +477,13 @@
             }, 1000);
 
             // Enable/disable buttons
+            document.getElementById("start-btn").disabled = true;
             document.getElementById("pause-btn").disabled = false;
+            document.getElementById("resume-btn").disabled = true;
             document.getElementById("end-btn").disabled = false;
+
+            // Add event listener for typing
+            typingArea.addEventListener('input', checkTyping);
         }
 
         function pauseTest() {
@@ -222,14 +515,22 @@
             // Enable/disable buttons
             document.getElementById("pause-btn").disabled = false;
             document.getElementById("resume-btn").disabled = true;
+            document.getElementById("typing-area").focus();
         }
 
         function endTest() {
             isPaused = true;
             clearInterval(interval);
+            
+            // Disable typing area and remove event listener
+            const typingArea = document.getElementById("typing-area");
+            typingArea.disabled = true;
+            typingArea.removeEventListener('input', checkTyping);
+            
             calculateResult();
 
-            // Disable all buttons except "Start Test"
+            // Enable/disable buttons
+            document.getElementById("start-btn").disabled = false;
             document.getElementById("pause-btn").disabled = true;
             document.getElementById("resume-btn").disabled = true;
             document.getElementById("end-btn").disabled = true;
@@ -239,18 +540,87 @@
             const timerElement = document.getElementById("timer");
             const minutes = Math.floor(durationInSeconds / 60);
             const seconds = durationInSeconds % 60;
-            timerElement.textContent = `Timer: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            // Change color when time is running low
+            if (durationInSeconds <= 10) {
+                timerElement.style.color = "#EF4444";
+                timerElement.style.animation = "pulse 0.5s infinite alternate";
+            } else {
+                timerElement.style.color = "var(--primary-orange)";
+                timerElement.style.animation = "none";
+            }
+        }
+
+        function checkTyping() {
+            const typingArea = document.getElementById("typing-area");
+            const sampleText = document.getElementById("sample-text").textContent;
+            const typedText = typingArea.value;
+            
+            // Calculate accuracy
+            correctChars = 0;
+            for (let i = 0; i < typedText.length; i++) {
+                if (typedText[i] === sampleText[i]) {
+                    correctChars++;
+                }
+            }
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+            document.getElementById("accuracy-stat").textContent = `${accuracy}%`;
+            document.getElementById("accuracy-bar").style.width = `${accuracy}%`;
+            document.getElementById("chars-stat").textContent = correctChars;
         }
 
         function calculateResult() {
             const typingArea = document.getElementById("typing-area");
             const typedText = typingArea.value.trim();
             const wordsTyped = typedText.split(/\s+/).filter(word => word.length > 0).length;
-            const elapsedTimeInSeconds = (new Date() - startTime) / 1000;
-            const wordsPerMinute = Math.round((wordsTyped / elapsedTimeInSeconds) * 60);
-
-            document.getElementById("result").textContent = `Your typing speed: ${wordsPerMinute} WPM`;
+            const elapsedTimeInMinutes = (new Date() - startTime) / (1000 * 60);
+            const wordsPerMinute = Math.round(wordsTyped / elapsedTimeInMinutes);
+            
+            // Update WPM stat
+            document.getElementById("wpm-stat").textContent = wordsPerMinute;
+            
+            // Calculate accuracy
+            const sampleText = document.getElementById("sample-text").textContent;
+            let correctChars = 0;
+            for (let i = 0; i < typedText.length; i++) {
+                if (typedText[i] === sampleText[i]) {
+                    correctChars++;
+                }
+            }
+            const accuracy = typedText.length > 0 ? Math.round((correctChars / typedText.length) * 100) : 0;
+            
+            // Display result
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                <strong>Test Completed!</strong><br>
+                Your typing speed: <span style="color: var(--primary-blue); font-weight: bold;">${wordsPerMinute} WPM</span><br>
+                Accuracy: <span style="color: ${accuracy >= 90 ? '#10B981' : accuracy >= 70 ? '#F59E0B' : '#EF4444'}; font-weight: bold;">${accuracy}%</span><br>
+                ${getFeedback(wordsPerMinute, accuracy)}
+            `;
         }
+
+        function getFeedback(wpm, accuracy) {
+            if (wpm < 20) {
+                return "Keep practicing! Try to focus on accuracy first, then build speed.";
+            } else if (wpm < 40) {
+                return "Good start! Regular practice will help you improve further.";
+            } else if (wpm < 60) {
+                return "Nice job! You're typing faster than average.";
+            } else if (wpm < 80) {
+                return "Excellent speed! You're typing like a professional.";
+            } else {
+                return "Amazing! You're among the fastest typists.";
+            }
+        }
+
+        // Initialize with default paragraph
+        updateParagraph();
     </script>
 </body>
 </html>
