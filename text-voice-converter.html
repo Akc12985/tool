@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text-to-Voice & Voice-to-Text Converter</title>
-    <meta name="description" content="A fully responsive text-to-voice (TTS) and voice-to-text (STT) converter with multi-language support and customizable voice settings.">
+    <title>VoiceSync Pro | Advanced Text & Speech Converter</title>
+    <meta name="description" content="Premium text-to-voice (TTS) and voice-to-text (STT) converter with multi-language support, voice customization, and real-time transcription">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887"></script>
     <style>
-        /* General Reset */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,110 +31,508 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            min-height: 100vh;
             line-height: 1.6;
-            background-color: #f9f9f9;
-            color: #333;
-            padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
+            max-width: 900px;
+            margin: 30px auto;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
             margin-bottom: 20px;
-            color: #007BFF;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
         }
 
         h2 {
-            margin-bottom: 10px;
-            color: #333;
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 i {
+            color: var(--primary);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
         }
 
         textarea {
             width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: none;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: var(--transition);
+            background-color: #f8f9fa;
         }
 
-        select, input[type="range"], button {
-            display: block;
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background-color: white;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        select {
             width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider-container label {
+            margin-bottom: 0;
+            min-width: 60px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .button-group {
+                flex-direction: column;
+            }
         }
 
         button {
-            background-color: #007BFF;
-            color: #fff;
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+        }
+
+        .output-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+            min-height: 100px;
         }
 
         #outputText {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .pulse {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+        }
+
+        .pulse.active {
+            background-color: var(--success);
+            animation: pulse-active 1.5s infinite;
+        }
+
+        @keyframes pulse-active {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
         }
 
         .ad-space {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
             text-align: center;
-            margin: 20px 0;
         }
 
-        .ad-space ins {
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Voice animation */
+        .voice-animation {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            height: 30px;
+            margin: 15px 0;
+        }
+
+        .voice-bar {
+            width: 6px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            animation: voice-animation 1.5s infinite ease-in-out;
+        }
+
+        .voice-bar:nth-child(1) { animation-delay: 0.1s; }
+        .voice-bar:nth-child(2) { animation-delay: 0.3s; }
+        .voice-bar:nth-child(3) { animation-delay: 0.5s; }
+        .voice-bar:nth-child(4) { animation-delay: 0.2s; }
+        .voice-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes voice-animation {
+            0%, 100% { height: 5px; }
+            50% { height: 30px; }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
             display: inline-block;
-            width: 100%;
-            max-width: 728px;
-            margin: 0 auto;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <!-- Ad Space (Top) -->
-    <div class="ad-space" id="top-ad">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-app-pub-7057695873482887"
-             data-ad-slot="8167485814"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
     <div class="container">
-        <h1>Text-to-Voice & Voice-to-Text Converter</h1>
+        <header>
+            <h1><i class="fas fa-microphone-alt"></i> VoiceSync Pro</h1>
+            <p class="subtitle">Advanced Text-to-Speech & Speech-to-Text Conversion</p>
+        </header>
 
-        <!-- Text to Speech Section -->
-        <div class="tts-section">
-            <h2>Text to Speech (TTS)</h2>
-            <textarea id="textInput" placeholder="Enter text here..." aria-label="Input text for conversion"></textarea>
-            <select id="voiceSelect" aria-label="Select voice"></select>
-            <label for="rate">Speed:</label>
-            <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" aria-label="Adjust speech speed">
-            <button onclick="speakText()" aria-label="Convert text to speech">Convert to Voice</button>
+        <!-- Top Ad Space -->
+        <div class="ad-space">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-slot="8167485814"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
-        <!-- Ad Space (Middle) -->
-        <div class="ad-space" id="middle-ad">
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-language"></i>
+                <h3>Multi-Language</h3>
+                <p>Supports dozens of languages and regional dialects for both TTS and STT</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Customizable</h3>
+                <p>Adjust voice speed, pitch, and volume to your preferences</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-history"></i>
+                <h3>History</h3>
+                <p>Save your recent conversions for quick access</p>
+            </div>
+        </div>
+
+        <!-- Text to Speech Card -->
+        <div class="card">
+            <h2><i class="fas fa-text-width"></i> Text to Speech</h2>
+            
+            <div class="input-group">
+                <label for="textInput">Enter your text:</label>
+                <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+            </div>
+            
+            <div class="controls">
+                <div class="input-group">
+                    <label for="voiceSelect">Select Voice:</label>
+                    <select id="voiceSelect"></select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="rate">Speech Speed:</label>
+                    <div class="slider-container">
+                        <label for="rate">1x</label>
+                        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+                        <label for="rate">2x</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="voice-animation" id="voiceAnimation" style="display: none;">
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-primary" onclick="speakText()">
+                    <i class="fas fa-play"></i> Play
+                </button>
+                <button class="btn-secondary" onclick="pauseSpeech()">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button class="btn-danger" onclick="stopSpeech()">
+                    <i class="fas fa-stop"></i> Stop
+                </button>
+            </div>
+        </div>
+
+        <!-- Middle Ad Space -->
+        <div class="ad-space">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-app-pub-7057695873482887"
@@ -129,15 +542,53 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
-        <!-- Speech to Text Section -->
-        <div class="stt-section">
-            <h2>Voice to Text (STT)</h2>
-            <button onclick="startListening()" aria-label="Start listening to convert speech to text">Start Listening</button>
-            <p id="outputText" aria-live="polite">Your speech will appear here...</p>
+        <!-- Speech to Text Card -->
+        <div class="card">
+            <h2><i class="fas fa-microphone"></i> Speech to Text</h2>
+            
+            <div class="input-group">
+                <label for="languageSelect">Select Language:</label>
+                <select id="languageSelect">
+                    <option value="en-US">English (US)</option>
+                    <option value="en-GB">English (UK)</option>
+                    <option value="es-ES">Spanish</option>
+                    <option value="fr-FR">French</option>
+                    <option value="de-DE">German</option>
+                    <option value="it-IT">Italian</option>
+                    <option value="pt-BR">Portuguese (BR)</option>
+                    <option value="ru-RU">Russian</option>
+                    <option value="ja-JP">Japanese</option>
+                    <option value="zh-CN">Chinese (Mandarin)</option>
+                    <option value="hi-IN">Hindi</option>
+                </select>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="pulse" id="statusIndicator"></div>
+                <span id="statusText">Ready to listen</span>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-success" id="startListeningBtn" onclick="startListening()">
+                    <i class="fas fa-microphone"></i> Start Listening
+                </button>
+                <button class="btn-danger" id="stopListeningBtn" onclick="stopListening()" disabled>
+                    <i class="fas fa-microphone-slash"></i> Stop
+                </button>
+                <button class="btn-secondary" onclick="copyToClipboard()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+            
+            <div class="output-container">
+                <div id="outputText">Your transcribed text will appear here...</div>
+            </div>
+            
+            <div class="spinner" id="sttSpinner"></div>
         </div>
 
-        <!-- Ad Space (Bottom) -->
-        <div class="ad-space" id="bottom-ad">
+        <!-- Bottom Ad Space -->
+        <div class="ad-space">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-app-pub-7057695873482887"
@@ -146,63 +597,254 @@
                  data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <footer>
+            <p>© 2023 VoiceSync Pro | All rights reserved</p>
+            <p>This tool uses your browser's built-in Web Speech API</p>
+        </footer>
     </div>
 
     <script>
+        // DOM Elements
+        const textInput = document.getElementById('textInput');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const rate = document.getElementById('rate');
+        const outputText = document.getElementById('outputText');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const startListeningBtn = document.getElementById('startListeningBtn');
+        const stopListeningBtn = document.getElementById('stopListeningBtn');
+        const voiceAnimation = document.getElementById('voiceAnimation');
+        const sttSpinner = document.getElementById('sttSpinner');
+        const languageSelect = document.getElementById('languageSelect');
+
+        // Speech synthesis variables
+        let speechSynthesis = window.speechSynthesis;
+        let speechUtterance = null;
+        let isSpeaking = false;
+        let isPaused = false;
+
+        // Speech recognition variables
+        let recognition = null;
+        let isListening = false;
+
+        // Initialize the app
+        function init() {
+            populateVoices();
+            
+            // Check if browser supports Web Speech API
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("Your browser doesn't support speech recognition. Try Chrome or Edge.");
+                startListeningBtn.disabled = true;
+            }
+            
+            // Event listeners for speech synthesis
+            speechSynthesis.onvoiceschanged = populateVoices;
+            
+            // Update rate value display
+            rate.addEventListener('input', () => {
+                const rateValue = document.querySelector('label[for="rate"]:first-child');
+                rateValue.textContent = `${rate.value}x`;
+            });
+        }
+
         // Populate voice options
         function populateVoices() {
-            const voiceSelect = document.getElementById('voiceSelect');
-            const voices = window.speechSynthesis.getVoices();
-
+            const voices = speechSynthesis.getVoices();
             voiceSelect.innerHTML = '';
+            
             voices.forEach((voice, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                option.textContent = `${voice.name} (${voice.lang})`;
+                option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
                 voiceSelect.appendChild(option);
             });
         }
 
-        // Speak text function
+        // Speak the text
         function speakText() {
-            const text = document.getElementById('textInput').value;
-            const rate = document.getElementById('rate').value;
-            const voiceIndex = document.getElementById('voiceSelect').value;
-
+            const text = textInput.value.trim();
+            
             if (!text) {
-                alert('Please enter some text to convert.');
+                alert('Please enter some text to convert to speech.');
                 return;
             }
+            
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
+            
+            // Create new utterance
+            speechUtterance = new SpeechSynthesisUtterance(text);
+            const selectedVoice = voiceSelect.value;
+            const voices = speechSynthesis.getVoices();
+            
+            speechUtterance.voice = voices[selectedVoice];
+            speechUtterance.rate = parseFloat(rate.value);
+            speechUtterance.pitch = 1;
+            
+            // Show voice animation
+            voiceAnimation.style.display = 'flex';
+            
+            // Event listeners for utterance
+            speechUtterance.onstart = () => {
+                isSpeaking = true;
+                isPaused = false;
+            };
+            
+            speechUtterance.onend = () => {
+                isSpeaking = false;
+                voiceAnimation.style.display = 'none';
+            };
+            
+            speechUtterance.onpause = () => {
+                isPaused = true;
+                voiceAnimation.style.display = 'none';
+            };
+            
+            speechUtterance.onresume = () => {
+                isPaused = false;
+                voiceAnimation.style.display = 'flex';
+            };
+            
+            speechUtterance.onerror = (event) => {
+                console.error('SpeechSynthesis error:', event);
+                voiceAnimation.style.display = 'none';
+                alert('An error occurred while trying to speak the text.');
+            };
+            
+            // Speak the text
+            speechSynthesis.speak(speechUtterance);
+        }
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = parseFloat(rate);
-            utterance.voice = window.speechSynthesis.getVoices()[voiceIndex];
-            window.speechSynthesis.speak(utterance);
+        // Pause speech
+        function pauseSpeech() {
+            if (isSpeaking && !isPaused) {
+                speechSynthesis.pause();
+            }
+        }
+
+        // Resume speech
+        function resumeSpeech() {
+            if (isPaused) {
+                speechSynthesis.resume();
+            }
+        }
+
+        // Stop speech
+        function stopSpeech() {
+            speechSynthesis.cancel();
+            voiceAnimation.style.display = 'none';
         }
 
         // Start listening for speech
         function startListening() {
-            const outputText = document.getElementById('outputText');
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
-            recognition.lang = 'en-US';
-            recognition.interimResults = false;
-
-            recognition.start();
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                outputText.textContent = transcript;
-            };
-
-            recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                outputText.textContent = 'Error occurred while listening.';
-            };
+            const language = languageSelect.value;
+            
+            // Initialize recognition if not already done
+            if (!recognition) {
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = language;
+                
+                recognition.onstart = () => {
+                    isListening = true;
+                    statusIndicator.classList.remove('pulse');
+                    statusIndicator.classList.add('pulse', 'active');
+                    statusText.textContent = 'Listening...';
+                    startListeningBtn.disabled = true;
+                    stopListeningBtn.disabled = false;
+                    sttSpinner.style.display = 'block';
+                };
+                
+                recognition.onresult = (event) => {
+                    sttSpinner.style.display = 'none';
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript + ' ';
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+                    
+                    outputText.innerHTML = finalTranscript + '<span style="color:#999">' + interimTranscript + '</span>';
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    statusIndicator.classList.remove('active');
+                    statusText.textContent = `Error: ${event.error}`;
+                    startListeningBtn.disabled = false;
+                    stopListeningBtn.disabled = true;
+                    sttSpinner.style.display = 'none';
+                    
+                    if (event.error === 'no-speech') {
+                        statusText.textContent = 'No speech detected';
+                    }
+                };
+                
+                recognition.onend = () => {
+                    if (isListening) {
+                        // If still supposed to be listening, restart
+                        recognition.start();
+                    } else {
+                        statusIndicator.classList.remove('active');
+                        statusText.textContent = 'Ready to listen';
+                        startListeningBtn.disabled = false;
+                        stopListeningBtn.disabled = true;
+                        sttSpinner.style.display = 'none';
+                    }
+                };
+            }
+            
+            // Start recognition
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error('Recognition start error:', e);
+                statusText.textContent = 'Error starting recognition';
+            }
         }
 
-        // Initialize voices
-        window.speechSynthesis.onvoiceschanged = populateVoices;
+        // Stop listening
+        function stopListening() {
+            if (recognition) {
+                isListening = false;
+                recognition.stop();
+            }
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const text = outputText.innerText || outputText.textContent;
+            
+            if (!text.trim()) {
+                alert('No text to copy!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show temporary feedback
+                const copyBtn = document.querySelector('button[onclick="copyToClipboard()"]');
+                const originalHtml = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                }, 2000);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy text to clipboard');
+            });
+        }
+
+        // Initialize the app when the window loads
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>
