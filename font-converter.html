@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convert between KurtiDev and Mangal fonts instantly with our advanced online converter. Fast, accurate, and user-friendly tool for Nepali font conversion.">
+    <meta name="description" content="Convert between KurtiDev and Mangal fonts instantly. Free online Nepali font converter with real-time preview and easy copy functionality.">
     <title>Advanced KurtiDev ⇄ Mangal Font Converter | Nepali Typing Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -250,15 +250,29 @@
             }
         }
         
-        /* Font classes */
+        /* Font faces with fallbacks */
+        @font-face {
+            font-family: 'KurtiDev';
+            src: url('https://example.com/fonts/KurtiDev.woff2') format('woff2'),
+                 url('fonts/KurtiDev.woff') format('woff');
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Mangal';
+            src: url('https://example.com/fonts/Mangal.woff2') format('woff2'),
+                 url('fonts/Mangal.woff') format('woff');
+            font-display: swap;
+        }
+        
         .kurtidev-font {
-            font-family: 'KurtiDev', 'Mangal', sans-serif;
+            font-family: 'KurtiDev', 'Noto Sans Devanagari', sans-serif;
             font-size: 18px;
             line-height: 1.6;
         }
         
         .mangal-font {
-            font-family: 'Mangal', 'KurtiDev', sans-serif;
+            font-family: 'Mangal', 'Noto Sans Devanagari', sans-serif;
             font-size: 18px;
             line-height: 1.6;
         }
@@ -401,19 +415,35 @@
             outputCount.textContent = `${outputLength} character${outputLength !== 1 ? 's' : ''}`;
         }
         
-        // Conversion functions (placeholder - replace with actual conversion logic)
+        // Sample conversion mapping (replace with actual conversion logic)
+        const conversionMap = {
+            // KurtiDev to Mangal mappings
+            kurtidevToMangal: {
+                'क': 'क्',
+                'ख': 'ख्',
+                'ग': 'ग्',
+                'ज': 'ज्'
+            },
+            // Mangal to KurtiDev mappings
+            mangalToKurtidev: {
+                'क्': 'क',
+                'ख्': 'ख',
+                'ग्': 'ग',
+                'ज्': 'ज'
+            }
+        };
+        
+        // Conversion functions
         function convertToMangal(text) {
-            // Example conversion - replace with actual mapping
-            return text.replace(/क/g, 'क्')
-                      .replace(/ख/g, 'ख्')
-                      .replace(/ग/g, 'ग्');
+            return text.split('').map(char => {
+                return conversionMap.kurtidevToMangal[char] || char;
+            }).join('');
         }
         
         function convertToKurtiDev(text) {
-            // Example conversion - replace with actual mapping
-            return text.replace(/क्/g, 'क')
-                      .replace(/ख्/g, 'ख')
-                      .replace(/ग्/g, 'ग');
+            return text.split('').map(char => {
+                return conversionMap.mangalToKurtidev[char] || char;
+            }).join('');
         }
         
         // Button event handlers
