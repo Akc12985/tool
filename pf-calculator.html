@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PF Calculator to estimate your Provident Fund contributions, interest, and maturity amount. Calculate EPF, employee & employer contributions easily.">
+    <meta name="keywords" content="PF Calculator, EPF Calculator, Provident Fund Calculator, Employee PF, PF Interest, PF Maturity">
+    <meta name="author" content="I Love Tools">
+    <title>PF Calculator | Calculate EPF Contributions & Maturity | I Love Tools</title>
+    <link rel="canonical" href="https://www.ilovetools.com/pf-calculator" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E86C1;
+            --secondary: #28B463;
+            --accent: #E74C3C;
+            --dark: #1B2631;
+            --light: #F8F9F9;
+            --gray: #5D6D7E;
+            --border: #D5D8DC;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: var(--accent);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--primary), #2874A6);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+        .breadcrumb {
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .calculator-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
+        .calculator-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .calculator-title i {
+            color: var(--primary);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        input, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(46, 134, 193, 0.2);
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background-color: #2874A6;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: var(--gray);
+        }
+        .btn-secondary:hover {
+            background-color: #4D5656;
+        }
+        .results-container {
+            margin-top: 2rem;
+            background-color: #F2F4F4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: none;
+        }
+        .results-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            font-weight: 500;
+        }
+        .result-value {
+            font-weight: 600;
+        }
+        .total-pf {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .ad-container {
+            background-color: #F1F3F4;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--gray);
+        }
+        .ad-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .info-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-card ul {
+            list-style: none;
+        }
+        .info-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+        .info-card a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .info-card a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column a {
+            color: #BDC3C7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-column a:hover {
+            color: white;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #95A5A6;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav ul {
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        /* Print styles */
+        @media print {
+            header, .sidebar, footer, .breadcrumb {
+                display: none;
+            }
+            .calculator-container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .results-container {
+                display: block !important;
+                background-color: transparent;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">
+                <i class="fas fa-calculator"></i>
+                <span>I Love Tools</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/financial-tools">Financial Tools</a></li>
+                    <li><a href="/pf-calculator">PF Calculator</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>PF Calculator</h1>
+            <p>Estimate your Employee Provident Fund (EPF) contributions, interest earned, and maturity amount with our easy-to-use calculator.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/financial-tools">Financial Tools</a>
+            <span>/</span>
+            <span>PF Calculator</span>
+        </div>
+
+        <div class="main-content">
+            <div class="calculator-container">
+                <h1 class="calculator-title">
+                    <i class="fas fa-calculator"></i>
+                    PF Calculator
+                </h1>
+                
+                <div class="form-group">
+                    <label for="basic-salary">Basic Salary + DA (₹)</label>
+                    <input type="number" id="basic-salary" placeholder="Enter your basic salary + DA">
+                </div>
+
+                <div class="form-group">
+                    <label for="employee-contribution">Employee Contribution (%)</label>
+                    <input type="number" id="employee-contribution" value="12" min="0" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="employer-contribution">Employer Contribution (%)</label>
+                    <input type="number" id="employer-contribution" value="12" min="0" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="interest-rate">EPF Interest Rate (%)</label>
+                    <input type="number" id="interest-rate" value="8.15" step="0.01" min="0" max="15">
+                </div>
+
+                <div class="form-group">
+                    <label for="years">Years of Service</label>
+                    <input type="number" id="years" placeholder="Enter years of service">
+                </div>
+
+                <button id="calculate-btn" class="btn">
+                    <i class="fas fa-calculator"></i>
+                    Calculate PF
+                </button>
+                <button id="reset-btn" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i>
+                    Reset
+                </button>
+
+                <div id="results" class="results-container">
+                    <h3 class="results-title">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        PF Calculation Results
+                    </h3>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Employee Contribution:</span>
+                        <span id="result-employee" class="result-value">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Employer Contribution:</span>
+                        <span id="result-employer" class="result-value">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Annual Contribution:</span>
+                        <span id="result-annual" class="result-value">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total PF Contribution (Principal):</span>
+                        <span id="result-principal" class="result-value">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Interest Earned:</span>
+                        <span id="result-interest" class="result-value">₹0</span>
+                    </div>
+                    <div class="result-item total-pf">
+                        <span class="result-label">Total Maturity Amount:</span>
+                        <span id="result-maturity" class="result-value">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="ad-container">
+                    <!-- Google AdSense Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                            crossorigin="anonymous"></script>
+                    <!-- PF Calculator Sidebar Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> About PF</h3>
+                    <p>The Employee Provident Fund (EPF) is a retirement savings scheme where both employee and employer contribute monthly. The current EPF interest rate is <strong>8.15%</strong> (2023).</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-lightbulb"></i> PF Tips</h3>
+                    <ul>
+                        <li><a href="#">How to check PF balance online</a></li>
+                        <li><a href="#">EPF withdrawal rules</a></li>
+                        <li><a href="#">Tax benefits on PF</a></li>
+                        <li><a href="#">EPF vs PPF comparison</a></li>
+                    </ul>
+                </div>
+
+                <div class="ad-container">
+                    <!-- Second Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                            crossorigin="anonymous"></script>
+                    <!-- PF Calculator Bottom Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_SECOND_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Financial Tools</h3>
+                    <ul>
+                        <li><a href="/pf-calculator">PF Calculator</a></li>
+                        <li><a href="/tax-calculator">Tax Calculator</a></li>
+                        <li><a href="/gratuity-calculator">Gratuity Calculator</a></li>
+                        <li><a href="/salary-calculator">Salary Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/guides">Guides</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/sitemap">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 I Love Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const resultsContainer = document.getElementById('results');
+            const basicSalaryInput = document.getElementById('basic-salary');
+            const employeeContributionInput = document.getElementById('employee-contribution');
+            const employerContributionInput = document.getElementById('employer-contribution');
+            const interestRateInput = document.getElementById('interest-rate');
+            const yearsInput = document.getElementById('years');
+
+            // Calculate PF function
+            function calculatePF() {
+                const basicSalary = parseFloat(basicSalaryInput.value) || 0;
+                const employeeContribution = parseFloat(employeeContributionInput.value) || 0;
+                const employerContribution = parseFloat(employerContributionInput.value) || 0;
+                const interestRate = parseFloat(interestRateInput.value) || 0;
+                const years = parseFloat(yearsInput.value) || 0;
+                
+                if (basicSalary <= 0 || years <= 0) {
+                    alert('Please enter valid salary and years of service');
+                    return;
+                }
+
+                // Monthly contributions
+                const monthlyEmployeeContribution = (basicSalary * employeeContribution) / 100;
+                const monthlyEmployerContribution = (basicSalary * employerContribution) / 100;
+                const totalMonthlyContribution = monthlyEmployeeContribution + monthlyEmployerContribution;
+
+                // Annual contribution
+                const annualContribution = totalMonthlyContribution * 12;
+
+                // Total principal over years
+                const totalPrincipal = annualContribution * years;
+
+                // Calculate compound interest (simplified)
+                const interestRateDecimal = interestRate / 100;
+                let totalInterest = 0;
+                let currentBalance = 0;
+
+                for (let i = 1; i <= years; i++) {
+                    currentBalance += annualContribution;
+                    const yearlyInterest = currentBalance * interestRateDecimal;
+                    totalInterest += yearlyInterest;
+                    currentBalance += yearlyInterest;
+                }
+
+                // Maturity amount
+                const maturityAmount = totalPrincipal + totalInterest;
+
+                // Display results
+                document.getElementById('result-employee').textContent = formatCurrency(monthlyEmployeeContribution);
+                document.getElementById('result-employer').textContent = formatCurrency(monthlyEmployerContribution);
+                document.getElementById('result-annual').textContent = formatCurrency(annualContribution);
+                document.getElementById('result-principal').textContent = formatCurrency(totalPrincipal);
+                document.getElementById('result-interest').textContent = formatCurrency(totalInterest);
+                document.getElementById('result-maturity').textContent = formatCurrency(maturityAmount);
+
+                // Show results
+                resultsContainer.style.display = 'block';
+            }
+
+            // Format currency (Indian Rupees)
+            function formatCurrency(amount) {
+                return '₹' + amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+            }
+
+            // Reset form
+            function resetForm() {
+                basicSalaryInput.value = '';
+                employeeContributionInput.value = '12';
+                employerContributionInput.value = '12';
+                interestRateInput.value = '8.15';
+                yearsInput.value = '';
+                resultsContainer.style.display = 'none';
+            }
+
+            // Event listeners
+            calculateBtn.addEventListener('click', calculatePF);
+            resetBtn.addEventListener('click', resetForm);
+
+            // Allow Enter key to calculate
+            basicSalaryInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculatePF();
+                }
+            });
+
+            // Print functionality
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    if (resultsContainer.style.display === 'block') {
+                        window.print();
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PF Calculator",
+        "url": "https://www.ilovetools.com/pf-calculator",
+        "description": "Free online PF Calculator to estimate your Provident Fund contributions, interest, and maturity amount.",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "I Love Tools"
+        }
+    }
+    </script>
+</body>
+</html>
