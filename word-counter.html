@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online word counter and paragraph counter tool. Count words, paragraphs, characters, and more instantly. Perfect for writers, students, and professionals.">
+    <meta name="keywords" content="word counter, paragraph counter, character count, writing tool, text analysis">
+    <meta name="author" content="WordCount Pro">
+    <meta name="robots" content="index, follow">
+    <title>WordCount Pro | Free Online Word & Paragraph Counter</title>
+    <link rel="canonical" href="https://www.yourwordcounter.com">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="WordCount Pro | Free Online Word & Paragraph Counter">
+    <meta property="og:description" content="Count words, paragraphs, characters, and more instantly with our free online tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourwordcounter.com">
+    <meta property="og:image" content="https://www.yourwordcounter.com/images/word-counter-og.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "WordCount Pro",
+      "url": "https://www.yourwordcounter.com",
+      "description": "Free online tool to count words, paragraphs, characters, and more.",
+      "applicationCategory": "WritingApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --font-main: 'Roboto', sans-serif;
+            --font-heading: 'Poppins', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: white;
+            color: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            color: #666;
+        }
+        
+        .ad-container {
+            margin: 2rem auto;
+            text-align: center;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .ad-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .counter-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .result-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .reading-time {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .reading-time h3 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .time-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .time-card {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .time-value {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            margin: 1rem 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .result-title {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .counter-container, .result-container {
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .time-cards {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Word<span>Count</span> Pro</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Writing Tips</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>Word & Paragraph Counter</h1>
+            <p>Instantly count words, paragraphs, characters, and more. Perfect for writers, students, and professionals who need accurate text analysis.</p>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="word-counter-top-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Word Counter Top Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="counter-container">
+            <form id="counterForm">
+                <div class="form-group">
+                    <label for="textInput">Enter your text to analyze:</label>
+                    <textarea id="textInput" class="form-control" placeholder="Paste or type your text here..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block">Count Words & Paragraphs</button>
+                </div>
+            </form>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="word-counter-mid-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Word Counter Mid Rectangle -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="result-container" id="resultContainer" style="display: none;">
+            <div class="result-header">
+                <h2 class="result-title">Text Analysis Results</h2>
+                <button id="clearBtn" class="btn-secondary">Clear Text</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="wordCount">0</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="paragraphCount">0</div>
+                    <div class="stat-label">Paragraphs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="characterCount">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="characterNoSpace">0</div>
+                    <div class="stat-label">Characters (no spaces)</div>
+                </div>
+            </div>
+            
+            <div class="reading-time">
+                <h3>Estimated Reading Time</h3>
+                <div class="time-cards">
+                    <div class="time-card">
+                        <div class="time-value" id="slowTime">0 min</div>
+                        <div class="time-label">Slow (125 wpm)</div>
+                    </div>
+                    <div class="time-card">
+                        <div class="time-value" id="averageTime">0 min</div>
+                        <div class="time-label">Average (200 wpm)</div>
+                    </div>
+                    <div class="time-card">
+                        <div class="time-value" id="fastTime">0 min</div>
+                        <div class="time-label">Fast (300 wpm)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="word-counter-bottom-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Word Counter Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">Word<span>Count</span> Pro</div>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+            <p class="copyright">© 2023 WordCount Pro. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Form submission
+        document.getElementById('counterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            analyzeText();
+        });
+        
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('textInput').focus();
+        });
+        
+        // Auto-count as user types (with debounce)
+        let typingTimer;
+        const doneTypingInterval = 1000; // 1 second
+        
+        document.getElementById('textInput').addEventListener('input', function() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(analyzeText, doneTypingInterval);
+        });
+        
+        function analyzeText() {
+            const text = document.getElementById('textInput').value.trim();
+            
+            if (!text) {
+                document.getElementById('resultContainer').style.display = 'none';
+                return;
+            }
+            
+            // Count words
+            const wordCount = text === '' ? 0 : text.split(/\s+/).length;
+            document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+            
+            // Count paragraphs
+            const paragraphCount = text === '' ? 0 : text.split(/\n+/).filter(p => p.trim()).length;
+            document.getElementById('paragraphCount').textContent = paragraphCount.toLocaleString();
+            
+            // Count characters
+            const characterCount = text.length;
+            document.getElementById('characterCount').textContent = characterCount.toLocaleString();
+            
+            // Count characters without spaces
+            const characterNoSpace = text.replace(/\s+/g, '').length;
+            document.getElementById('characterNoSpace').textContent = characterNoSpace.toLocaleString();
+            
+            // Calculate reading time
+            const slowTime = Math.ceil(wordCount / 125) || 1;
+            const averageTime = Math.ceil(wordCount / 200) || 1;
+            const fastTime = Math.ceil(wordCount / 300) || 1;
+            
+            document.getElementById('slowTime').textContent = slowTime + (slowTime === 1 ? ' min' : ' mins');
+            document.getElementById('averageTime').textContent = averageTime + (averageTime === 1 ? ' min' : ' mins');
+            document.getElementById('fastTime').textContent = fastTime + (fastTime === 1 ? ' min' : ' mins');
+            
+            // Show results
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Scroll to results if not visible
+            const resultPos = document.getElementById('resultContainer').getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (resultPos > windowHeight) {
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Initialize with sample text
+        document.getElementById('textInput').value = `This is a sample paragraph. It contains several words that will be counted by our tool.
+
+The second paragraph shows how the counter handles multiple paragraphs. Each empty line between paragraphs counts as a new paragraph.
+
+Finally, this third paragraph demonstrates that the tool can handle different paragraph lengths and spacing.`;
+        
+        // Analyze the sample text
+        analyzeText();
+    </script>
+    
+    <!-- Google Analytics (optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>
