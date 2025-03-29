@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online world clock and time zone converter. Compare times across different cities and time zones instantly.">
+    <meta name="keywords" content="world clock, time zone converter, time converter, international time, time calculator">
+    <meta name="author" content="World Clock Pro">
+    <meta name="robots" content="index, follow">
+    <title>World Clock Pro | Time Zone Converter & International Time Calculator</title>
+    <link rel="canonical" href="https://www.yourworldclock.com">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="World Clock Pro | Time Zone Converter & International Time Calculator">
+    <meta property="og:description" content="Compare times across different cities and time zones instantly with our free online tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourworldclock.com">
+    <meta property="og:image" content="https://www.yourworldclock.com/images/world-clock-og.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "World Clock Pro",
+      "url": "https://www.yourworldclock.com",
+      "description": "Free online tool to compare times across different cities and time zones.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --gray-color: #5f6368;
+            --font-main: 'Roboto', sans-serif;
+            --font-heading: 'Nunito', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: white;
+            color: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            color: var(--gray-color);
+        }
+        
+        .ad-container {
+            margin: 2rem auto;
+            text-align: center;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .ad-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .converter-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.75rem;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 0.75rem;
+            min-width: 250px;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .result-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .time-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .time-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .city-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .time-zone {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            margin-bottom: 1rem;
+        }
+        
+        .time-display {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .date-display {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        .map-container {
+            margin-top: 2rem;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            margin: 1rem 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-col {
+                margin-bottom: 1rem;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .converter-container, .result-container {
+                padding: 1.5rem;
+            }
+            
+            .time-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">World<span>Clock</span> Pro</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Time Zones</a></li>
+                    <li><a href="#">Meeting Planner</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>World Clock & Time Zone Converter</h1>
+            <p>Compare times across different cities and time zones instantly. Perfect for international meetings, travel planning, and global coordination.</p>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-clock-top-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Clock Top Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="converter-container">
+            <form id="timeConverterForm">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="baseTime">Enter Time</label>
+                            <input type="time" id="baseTime" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="baseDate">Date</label>
+                            <input type="date" id="baseDate" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="fromTimeZone">From Time Zone</label>
+                            <select id="fromTimeZone" class="form-control" required>
+                                <option value="">Select a time zone</option>
+                                <option value="America/New_York">New York (EDT)</option>
+                                <option value="America/Chicago">Chicago (CDT)</option>
+                                <option value="America/Denver">Denver (MDT)</option>
+                                <option value="America/Los_Angeles">Los Angeles (PDT)</option>
+                                <option value="Europe/London">London (BST)</option>
+                                <option value="Europe/Paris">Paris (CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Asia/Shanghai">Shanghai (CST)</option>
+                                <option value="Australia/Sydney">Sydney (AEST)</option>
+                                <option value="Pacific/Auckland">Auckland (NZST)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="toTimeZone">To Time Zone (Select multiple)</label>
+                            <select id="toTimeZone" class="form-control" multiple size="5" required>
+                                <option value="America/New_York">New York (EDT)</option>
+                                <option value="America/Chicago">Chicago (CDT)</option>
+                                <option value="America/Denver">Denver (MDT)</option>
+                                <option value="America/Los_Angeles">Los Angeles (PDT)</option>
+                                <option value="Europe/London">London (BST)</option>
+                                <option value="Europe/Paris">Paris (CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Asia/Shanghai">Shanghai (CST)</option>
+                                <option value="Australia/Sydney">Sydney (AEST)</option>
+                                <option value="Pacific/Auckland">Auckland (NZST)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block">Convert Time</button>
+                </div>
+            </form>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-clock-mid-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Clock Mid Rectangle -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="result-container" id="resultContainer" style="display: none;">
+            <div class="result-header">
+                <h2 class="result-title">Time Conversion Results</h2>
+                <div id="lastUpdated"></div>
+            </div>
+            
+            <div class="time-cards" id="timeCards"></div>
+            
+            <div class="map-container" id="mapContainer">
+                <!-- Map would be implemented with Google Maps or similar API -->
+                <div style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #eee;">
+                    <p>Map visualization would appear here in a full implementation</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-clock-bottom-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Clock Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">World<span>Clock</span> Pro</div>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+            <p class="copyright">© 2023 World Clock Pro. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Time zone data
+        const timeZones = {
+            "America/New_York": { name: "New York", offset: "-04:00", tzAbbr: "EDT" },
+            "America/Chicago": { name: "Chicago", offset: "-05:00", tzAbbr: "CDT" },
+            "America/Denver": { name: "Denver", offset: "-06:00", tzAbbr: "MDT" },
+            "America/Los_Angeles": { name: "Los Angeles", offset: "-07:00", tzAbbr: "PDT" },
+            "Europe/London": { name: "London", offset: "+01:00", tzAbbr: "BST" },
+            "Europe/Paris": { name: "Paris", offset: "+02:00", tzAbbr: "CEST" },
+            "Asia/Tokyo": { name: "Tokyo", offset: "+09:00", tzAbbr: "JST" },
+            "Asia/Shanghai": { name: "Shanghai", offset: "+08:00", tzAbbr: "CST" },
+            "Australia/Sydney": { name: "Sydney", offset: "+10:00", tzAbbr: "AEST" },
+            "Pacific/Auckland": { name: "Auckland", offset: "+12:00", tzAbbr: "NZST" }
+        };
+        
+        // Set default date to today
+        document.getElementById('baseDate').valueAsDate = new Date();
+        
+        // Set default time to current time
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('baseTime').value = `${hours}:${minutes}`;
+        
+        // Try to detect local time zone
+        try {
+            const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (timeZones[localTimeZone]) {
+                document.getElementById('fromTimeZone').value = localTimeZone;
+            }
+        } catch (e) {
+            console.log("Could not detect local time zone");
+        }
+        
+        // Form submission
+        document.getElementById('timeConverterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            convertTime();
+        });
+        
+        function convertTime() {
+            const baseTime = document.getElementById('baseTime').value;
+            const baseDate = document.getElementById('baseDate').value;
+            const fromTimeZone = document.getElementById('fromTimeZone').value;
+            const toTimeZones = Array.from(document.getElementById('toTimeZone').selectedOptions).map(opt => opt.value);
+            
+            if (!baseTime || !baseDate || !fromTimeZone || toTimeZones.length === 0) {
+                alert("Please fill all required fields");
+                return;
+            }
+            
+            const [hours, minutes] = baseTime.split(':').map(Number);
+            const [year, month, day] = baseDate.split('-').map(Number);
+            
+            // Create date object in the source timezone
+            const sourceDate = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+            
+            // Adjust for source timezone offset
+            const sourceOffset = timeZones[fromTimeZone].offset;
+            const [sourceOffsetHours, sourceOffsetMinutes] = sourceOffset.split(':').map(Number);
+            const sourceOffsetTotal = sourceOffsetHours * 60 + sourceOffsetMinutes;
+            sourceDate.setMinutes(sourceDate.getMinutes() - sourceOffsetTotal);
+            
+            // Generate time cards for each target timezone
+            const timeCardsContainer = document.getElementById('timeCards');
+            timeCardsContainer.innerHTML = '';
+            
+            toTimeZones.forEach(tz => {
+                const tzData = timeZones[tz];
+                const [tzOffsetHours, tzOffsetMinutes] = tzData.offset.split(':').map(Number);
+                const tzOffsetTotal = tzOffsetHours * 60 + tzOffsetMinutes;
+                
+                // Create date for target timezone
+                const targetDate = new Date(sourceDate);
+                targetDate.setMinutes(targetDate.getMinutes() + tzOffsetTotal);
+                
+                // Format the time
+                const options = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true,
+                    timeZone: 'UTC'
+                };
+                
+                const timeStr = targetDate.toLocaleTimeString('en-US', options);
+                const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+                const dateStr = targetDate.toLocaleDateString('en-US', dateOptions);
+                
+                // Create time card
+                const timeCard = document.createElement('div');
+                timeCard.className = 'time-card';
+                timeCard.innerHTML = `
+                    <div class="city-name">${tzData.name}</div>
+                    <div class="time-zone">${tz} (${tzData.tzAbbr})</div>
+                    <div class="time-display">${timeStr}</div>
+                    <div class="date-display">${dateStr}</div>
+                `;
+                
+                timeCardsContainer.appendChild(timeCard);
+            });
+            
+            // Update last updated time
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleTimeString()}`;
+            
+            // Show results
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Scroll to results if not visible
+            const resultPos = document.getElementById('resultContainer').getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (resultPos > windowHeight) {
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Initialize with some sample conversions
+        document.getElementById('fromTimeZone').value = 'America/New_York';
+        const toTimeZoneSelect = document.getElementById('toTimeZone');
+        Array.from(toTimeZoneSelect.options).forEach(opt => {
+            if (['Europe/London', 'Asia/Tokyo', 'Australia/Sydney'].includes(opt.value)) {
+                opt.selected = true;
+            }
+        });
+        
+        // Convert time on page load
+        convertTime();
+    </script>
+    
+    <!-- Google Analytics (optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>
