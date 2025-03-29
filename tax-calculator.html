@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tax calculator tool to estimate your income tax liability based on current tax brackets. Calculate federal and state taxes easily.">
+    <meta name="keywords" content="tax calculator, income tax, tax estimator, tax planning, tax brackets, tax calculator 2023">
+    <meta name="author" content="I Love Tools">
+    <title>Advanced Tax Calculator | Estimate Your Income Tax | I Love Tools</title>
+    <link rel="canonical" href="https://www.ilovetools.com/tax-calculator" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4285F4;
+            --secondary: #34A853;
+            --accent: #EA4335;
+            --dark: #202124;
+            --light: #F8F9FA;
+            --gray: #5F6368;
+            --border: #DADCE0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: var(--accent);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--primary), #3a7bd5);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+        .breadcrumb {
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .calculator-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
+        .calculator-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .calculator-title i {
+            color: var(--primary);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        input, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .radio-option input {
+            width: auto;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: var(--gray);
+        }
+        .btn-secondary:hover {
+            background-color: #4d5156;
+        }
+        .results-container {
+            margin-top: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: none;
+        }
+        .results-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            font-weight: 500;
+        }
+        .result-value {
+            font-weight: 600;
+        }
+        .total-tax {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .ad-container {
+            background-color: #f1f3f4;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--gray);
+        }
+        .ad-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .info-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-card ul {
+            list-style: none;
+        }
+        .info-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+        .info-card a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .info-card a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column a {
+            color: #bdc1c6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-column a:hover {
+            color: white;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9aa0a6;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav ul {
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        /* Print styles */
+        @media print {
+            header, .sidebar, footer, .breadcrumb {
+                display: none;
+            }
+            .calculator-container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .results-container {
+                display: block !important;
+                background-color: transparent;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">
+                <i class="fas fa-calculator"></i>
+                <span>I Love Tools</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/tools">All Tools</a></li>
+                    <li><a href="/financial-calculators">Financial</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Advanced Tax Calculator</h1>
+            <p>Estimate your federal income tax liability based on current tax brackets and filing status. Get accurate calculations for better financial planning.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/financial-calculators">Financial Calculators</a>
+            <span>/</span>
+            <span>Tax Calculator</span>
+        </div>
+
+        <div class="main-content">
+            <div class="calculator-container">
+                <h1 class="calculator-title">
+                    <i class="fas fa-calculator"></i>
+                    Tax Calculator
+                </h1>
+                
+                <div class="form-group">
+                    <label for="filing-status">Filing Status</label>
+                    <select id="filing-status">
+                        <option value="single">Single</option>
+                        <option value="married-joint">Married Filing Jointly</option>
+                        <option value="married-separate">Married Filing Separately</option>
+                        <option value="head-household">Head of Household</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tax-year">Tax Year</label>
+                    <select id="tax-year">
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="income">Taxable Income ($)</label>
+                    <input type="number" id="income" placeholder="Enter your taxable income">
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Options</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="checkbox" id="standard-deduction">
+                            <label for="standard-deduction">Standard Deduction</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="checkbox" id="itemized-deductions">
+                            <label for="itemized-deductions">Itemized Deductions</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state">
+                        <option value="">-- Select State --</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <!-- All other states -->
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+
+                <button id="calculate-btn" class="btn">
+                    <i class="fas fa-calculator"></i>
+                    Calculate Tax
+                </button>
+                <button id="reset-btn" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i>
+                    Reset
+                </button>
+
+                <div id="results" class="results-container">
+                    <h3 class="results-title">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        Tax Calculation Results
+                    </h3>
+                    <div class="result-item">
+                        <span class="result-label">Taxable Income:</span>
+                        <span id="result-income" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Federal Tax:</span>
+                        <span id="result-federal" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">State Tax:</span>
+                        <span id="result-state" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">FICA Taxes (7.65%):</span>
+                        <span id="result-fica" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item total-tax">
+                        <span class="result-label">Total Estimated Tax:</span>
+                        <span id="result-total" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Effective Tax Rate:</span>
+                        <span id="result-rate" class="result-value">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="ad-container">
+                    <!-- Google AdSense Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                            crossorigin="anonymous"></script>
+                    <!-- Tax Calculator Sidebar Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> About This Tool</h3>
+                    <p>Our tax calculator estimates your federal and state income tax liability based on current tax brackets and rates. Results are approximations and should not be considered tax advice.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-lightbulb"></i> Tax Tips</h3>
+                    <ul>
+                        <li><a href="#">Maximize your deductions</a></li>
+                        <li><a href="#">Understand tax brackets</a></li>
+                        <li><a href="#">Retirement account benefits</a></li>
+                        <li><a href="#">Tax credits you may qualify for</a></li>
+                    </ul>
+                </div>
+
+                <div class="ad-container">
+                    <!-- Second Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                            crossorigin="anonymous"></script>
+                    <!-- Tax Calculator Bottom Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_SECOND_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Financial Tools</h3>
+                    <ul>
+                        <li><a href="/tax-calculator">Tax Calculator</a></li>
+                        <li><a href="/salary-calculator">Salary Calculator</a></li>
+                        <li><a href="/retirement-calculator">Retirement Calculator</a></li>
+                        <li><a href="/mortgage-calculator">Mortgage Calculator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/guides">Guides</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/sitemap">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 I Love Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tax bracket data (2023 rates)
+            const taxBrackets = {
+                '2023': {
+                    'single': [
+                        { min: 0, max: 10275, rate: 0.10 },
+                        { min: 10276, max: 41775, rate: 0.12 },
+                        { min: 41776, max: 89075, rate: 0.22 },
+                        { min: 89076, max: 170050, rate: 0.24 },
+                        { min: 170051, max: 215950, rate: 0.32 },
+                        { min: 215951, max: 539900, rate: 0.35 },
+                        { min: 539901, max: Infinity, rate: 0.37 }
+                    ],
+                    'married-joint': [
+                        { min: 0, max: 20550, rate: 0.10 },
+                        { min: 20551, max: 83550, rate: 0.12 },
+                        { min: 83551, max: 178150, rate: 0.22 },
+                        { min: 178151, max: 340100, rate: 0.24 },
+                        { min: 340101, max: 431900, rate: 0.32 },
+                        { min: 431901, max: 647850, rate: 0.35 },
+                        { min: 647851, max: Infinity, rate: 0.37 }
+                    ],
+                    'married-separate': [
+                        { min: 0, max: 10275, rate: 0.10 },
+                        { min: 10276, max: 41775, rate: 0.12 },
+                        { min: 41776, max: 89075, rate: 0.22 },
+                        { min: 89076, max: 170050, rate: 0.24 },
+                        { min: 170051, max: 215950, rate: 0.32 },
+                        { min: 215951, max: 323925, rate: 0.35 },
+                        { min: 323926, max: Infinity, rate: 0.37 }
+                    ],
+                    'head-household': [
+                        { min: 0, max: 14650, rate: 0.10 },
+                        { min: 14651, max: 55900, rate: 0.12 },
+                        { min: 55901, max: 89050, rate: 0.22 },
+                        { min: 89051, max: 170050, rate: 0.24 },
+                        { min: 170051, max: 215950, rate: 0.32 },
+                        { min: 215951, max: 539900, rate: 0.35 },
+                        { min: 539901, max: Infinity, rate: 0.37 }
+                    ]
+                },
+                '2022': {
+                    // Similar structure for 2022 brackets
+                }
+            };
+
+            // State tax rates (simplified examples)
+            const stateTaxRates = {
+                'CA': { rate: 0.093, flat: false },
+                'TX': { rate: 0, flat: true },
+                'NY': { rate: 0.0882, flat: false },
+                'FL': { rate: 0, flat: true }
+                // Add all other states
+            };
+
+            // DOM elements
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const resultsContainer = document.getElementById('results');
+            const incomeInput = document.getElementById('income');
+            const filingStatusSelect = document.getElementById('filing-status');
+            const taxYearSelect = document.getElementById('tax-year');
+            const stateSelect = document.getElementById('state');
+
+            // Calculate tax function
+            function calculateTax() {
+                const income = parseFloat(incomeInput.value) || 0;
+                const filingStatus = filingStatusSelect.value;
+                const taxYear = taxYearSelect.value;
+                const state = stateSelect.value;
+                
+                if (income <= 0) {
+                    alert('Please enter a valid income amount');
+                    return;
+                }
+
+                // Calculate federal tax
+                const brackets = taxBrackets[taxYear][filingStatus];
+                let federalTax = 0;
+                let remainingIncome = income;
+
+                for (const bracket of brackets) {
+                    if (remainingIncome <= 0) break;
+                    
+                    const taxableInBracket = Math.min(
+                        bracket.max === Infinity ? remainingIncome : bracket.max - bracket.min + 1,
+                        remainingIncome
+                    );
+                    
+                    federalTax += taxableInBracket * bracket.rate;
+                    remainingIncome -= taxableInBracket;
+                }
+
+                // Calculate state tax
+                let stateTax = 0;
+                if (state && stateTaxRates[state]) {
+                    const stateRate = stateTaxRates[state];
+                    stateTax = stateRate.flat ? income * stateRate.rate : 0; // Simplified for demo
+                }
+
+                // Calculate FICA (Social Security + Medicare)
+                const ficaTax = income <= 147000 ? income * 0.0765 : 147000 * 0.0765;
+
+                // Calculate total tax
+                const totalTax = federalTax + stateTax + ficaTax;
+                const effectiveRate = (totalTax / income) * 100;
+
+                // Display results
+                document.getElementById('result-income').textContent = formatCurrency(income);
+                document.getElementById('result-federal').textContent = formatCurrency(federalTax);
+                document.getElementById('result-state').textContent = formatCurrency(stateTax);
+                document.getElementById('result-fica').textContent = formatCurrency(ficaTax);
+                document.getElementById('result-total').textContent = formatCurrency(totalTax);
+                document.getElementById('result-rate').textContent = effectiveRate.toFixed(2) + '%';
+
+                // Show results
+                resultsContainer.style.display = 'block';
+            }
+
+            // Format currency
+            function formatCurrency(amount) {
+                return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            }
+
+            // Reset form
+            function resetForm() {
+                incomeInput.value = '';
+                filingStatusSelect.value = 'single';
+                taxYearSelect.value = '2023';
+                stateSelect.value = '';
+                document.getElementById('standard-deduction').checked = true;
+                document.getElementById('itemized-deductions').checked = false;
+                resultsContainer.style.display = 'none';
+            }
+
+            // Event listeners
+            calculateBtn.addEventListener('click', calculateTax);
+            resetBtn.addEventListener('click', resetForm);
+
+            // Allow Enter key to calculate
+            incomeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateTax();
+                }
+            });
+
+            // Print functionality
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    if (resultsContainer.style.display === 'block') {
+                        window.print();
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Tax Calculator",
+        "url": "https://www.ilovetools.com/tax-calculator",
+        "description": "Free online tax calculator tool to estimate your income tax liability based on current tax brackets.",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "I Love Tools"
+        }
+    }
+    </script>
+</body>
+</html>
