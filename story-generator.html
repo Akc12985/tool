@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate unique stories in any length from 1 to 10,000 words. Create fantasy, sci-fi, romance, mystery, and more with our AI-powered story generator.">
+    <meta name="keywords" content="story generator, writing tool, creative writing, short story generator, AI writing">
+    <meta name="author" content="Story Generator Pro">
+    <meta name="robots" content="index, follow">
+    <title>Story Generator Pro | Create Custom Stories in Any Length</title>
+    <link rel="canonical" href="https://www.yourstorygenerator.com">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Story Generator Pro | Create Custom Stories in Any Length">
+    <meta property="og:description" content="Generate unique stories in any length from 1 to 10,000 words with our AI-powered tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourstorygenerator.com">
+    <meta property="og:image" content="https://www.yourstorygenerator.com/images/story-generator-og.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Story Generator Pro",
+      "url": "https://www.yourstorygenerator.com",
+      "description": "AI-powered tool to generate custom stories in any length from 1 to 10,000 words.",
+      "applicationCategory": "CreativeWriting",
+      "operatingSystem": "Web"
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --font-main: 'Roboto', sans-serif;
+            --font-heading: 'Merriweather', serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .ad-container {
+            margin: 2rem auto;
+            text-align: center;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .ad-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .generator-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.75rem;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 0.75rem;
+            min-width: 250px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .result-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .result-actions button {
+            margin-left: 0.5rem;
+            background-color: #f0f0f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .result-actions button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .story-content {
+            font-family: var(--font-heading);
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1rem;
+            border: 4px solid rgba(0,0,0,0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            margin: 1rem 0;
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-col {
+                margin-bottom: 1rem;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .result-actions {
+                margin-top: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .generator-form, .result-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Story Generator Pro</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Examples</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>Create Your Perfect Story</h1>
+            <p>Generate unique, custom stories in any genre and length from 1 to 10,000 words with our AI-powered story generator. Perfect for writers, readers, and creative minds!</p>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="story-generator-top-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Story Generator Top Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="generator-form">
+            <h2>Story Parameters</h2>
+            <form id="storyForm">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="genre">Genre</label>
+                            <select id="genre" class="form-control" required>
+                                <option value="">Select a genre</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="scifi">Science Fiction</option>
+                                <option value="mystery">Mystery</option>
+                                <option value="romance">Romance</option>
+                                <option value="horror">Horror</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="historical">Historical Fiction</option>
+                                <option value="children">Children's Story</option>
+                                <option value="humor">Humor</option>
+                                <option value="drama">Drama</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="length">Story Length (words)</label>
+                            <input type="number" id="length" class="form-control" min="1" max="10000" value="500" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="setting">Setting</label>
+                            <input type="text" id="setting" class="form-control" placeholder="e.g., medieval castle, space station, small coastal town">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="characters">Main Characters</label>
+                            <input type="text" id="characters" class="form-control" placeholder="e.g., brave knight, curious scientist, mysterious stranger">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prompt">Additional Prompt</label>
+                    <textarea id="prompt" class="form-control" rows="3" placeholder="Add any specific details or plot points you'd like included in your story"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tone">Tone</label>
+                    <select id="tone" class="form-control">
+                        <option value="neutral">Neutral</option>
+                        <option value="lighthearted">Lighthearted</option>
+                        <option value="serious">Serious</option>
+                        <option value="humorous">Humorous</option>
+                        <option value="dark">Dark</option>
+                        <option value="poetic">Poetic</option>
+                        <option value="suspenseful">Suspenseful</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-block">Generate Story</button>
+            </form>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="story-generator-mid-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Story Generator Mid Rectangle -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="result-container" id="resultContainer" style="display: none;">
+            <div class="result-header">
+                <h2 class="result-title">Your Generated Story</h2>
+                <div class="result-actions">
+                    <button id="copyBtn">Copy</button>
+                    <button id="downloadBtn">Download</button>
+                    <button id="newStoryBtn">Generate New</button>
+                </div>
+            </div>
+            <div class="story-content" id="storyContent"></div>
+        </section>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Generating your story... This may take a moment for longer stories.</p>
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="story-generator-bottom-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- Story Generator Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">Story Generator Pro</div>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+            <p class="copyright">© 2023 Story Generator Pro. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Form submission
+        document.getElementById('storyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading indicator
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('resultContainer').style.display = 'none';
+            
+            // Get form values
+            const genre = document.getElementById('genre').value;
+            const length = document.getElementById('length').value;
+            const setting = document.getElementById('setting').value;
+            const characters = document.getElementById('characters').value;
+            const prompt = document.getElementById('prompt').value;
+            const tone = document.getElementById('tone').value;
+            
+            // Simulate API call with timeout (in a real app, you would call your backend API)
+            setTimeout(() => {
+                // Hide loading indicator
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                // Generate a sample story based on inputs
+                const story = generateStory(genre, length, setting, characters, prompt, tone);
+                
+                // Display the result
+                document.getElementById('storyContent').textContent = story;
+                document.getElementById('resultContainer').style.display = 'block';
+                
+                // Scroll to result
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        });
+        
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const storyContent = document.getElementById('storyContent').textContent;
+            navigator.clipboard.writeText(storyContent).then(() => {
+                alert('Story copied to clipboard!');
+            });
+        });
+        
+        // Download button
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const storyContent = document.getElementById('storyContent').textContent;
+            const blob = new Blob([storyContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'generated-story.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+        
+        // New story button
+        document.getElementById('newStoryBtn').addEventListener('click', function() {
+            document.getElementById('storyForm').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Story generation function (simplified for demo)
+        function generateStory(genre, length, setting, characters, prompt, tone) {
+            // Base story templates for different genres
+            const templates = {
+                fantasy: `Once upon a time, in the ${setting || 'mystical land'}, there lived ${characters || 'a brave hero'}. ${prompt || 'A great evil threatened the kingdom, and only they could stop it.'}\n\n`,
+                scifi: `In the year 2157, aboard the ${setting || 'deep space station'}, ${characters || 'a brilliant scientist'} made a shocking discovery. ${prompt || 'What they found would change humanity forever.'}\n\n`,
+                mystery: `The ${setting || 'small, sleepy town'} was rocked by ${characters || 'a mysterious stranger'} and ${prompt || 'a crime that defied explanation.'} Everyone had secrets, but one was deadly.\n\n`,
+                romance: `${characters || 'Two unlikely people'} met in ${setting || 'the most unexpected place'}. ${prompt || 'Neither was looking for love, but sometimes life has other plans.'}\n\n`,
+                horror: `No one in ${setting || 'the old house on the hill'} talked about ${characters || 'what happened that night'}. ${prompt || 'But now, the past was coming back to claim them.'}\n\n`,
+                adventure: `The map led to ${setting || 'a place no one had ever returned from'}, but ${characters || 'the daring explorer'} didn't care. ${prompt || 'The treasure was real, and so were the dangers.'}\n\n`,
+                historical: `In ${setting || 'the year 1776'}, ${characters || 'a young revolutionary'} faced ${prompt || 'a choice that would change history.'} The world would never be the same.\n\n`,
+                children: `In ${setting || 'a magical forest'}, there lived ${characters || 'a curious little creature'}. One day, ${prompt || 'they discovered something wonderful that changed everything.'}\n\n`,
+                humor: `You'd think ${setting || 'a simple trip to the grocery store'} would be easy, but for ${characters || 'this unlucky soul'}, ${prompt || 'nothing ever went according to plan.'}\n\n`,
+                drama: `${characters || 'The family'} had lived in ${setting || 'that house'} for generations, but ${prompt || 'the secrets buried there were about to tear them apart.'}\n\n`
+            };
+            
+            // Select template based on genre or use default
+            let story = templates[genre] || templates.fantasy;
+            
+            // Generate filler text to reach requested length
+            const words = story.split(' ').length;
+            const neededWords = Math.max(0, length - words);
+            
+            if (neededWords > 0) {
+                const filler = generateFillerText(neededWords, tone);
+                story += filler;
+            }
+            
+            return story;
+        }
+        
+        // Helper function to generate filler text
+        function generateFillerText(wordCount, tone) {
+            const tones = {
+                lighthearted: ["The sun shone brightly as", "With a cheerful smile,", "Laughing joyfully,", "Everything seemed perfect when"],
+                serious: ["With grave determination,", "The weight of the situation became clear as", "Time was running out when"],
+                humorous: ["Then, in a completely predictable turn of events,", "Of course, just when things couldn't get worse,", "Naturally, this was the exact wrong moment for"],
+                dark: ["Shadows lengthened as", "A cold wind whispered through", "The air grew heavy with impending doom when"],
+                poetic: ["Like petals on the wind,", "As the moon dances with the tide,", "Golden light spilled across"],
+                suspenseful: ["A sudden noise shattered the silence as", "Heart pounding, they realized", "Every instinct screamed danger when"],
+                neutral: ["Meanwhile,", "After some time,", "As events unfolded,"]
+            };
+            
+            const connectors = tones[tone] || tones.neutral;
+            let text = "";
+            let words = 0;
+            
+            while (words < wordCount) {
+                const sentence = connectors[Math.floor(Math.random() * connectors.length)] + " ";
+                text += sentence;
+                words += sentence.split(' ').length;
+                
+                // Add some variety
+                if (Math.random() > 0.7) {
+                    text += "Something unexpected happened. ";
+                    words += 2;
+                }
+            }
+            
+            // Trim to exact word count
+            const allWords = text.split(' ');
+            return allWords.slice(0, wordCount).join(' ');
+        }
+    </script>
+    
+    <!-- Google Analytics (optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>
