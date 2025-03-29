@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I Love Tools - Ultimate Digital Toolkit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #FF6F61; /* Vibrant Coral */
-            --secondary: #6B5B95; /* Deep Purple */
-            --accent: #88D8B0; /* Mint Green */
-            --dark: #2C3E50; /* Dark Blue */
-            --light: #F9F7F7; /* Light Cream */
-            --highlight: #FFC107; /* Golden Yellow */
+            --primary: #FF6F61;
+            --secondary: #6B5B95;
+            --accent: #88D8B0;
+            --dark: #2C3E50;
+            --light: #F9F7F7;
+            --highlight: #FFC107;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         * {
             margin: 0;
@@ -24,30 +29,63 @@
             background: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #f5f7fa, #e4e8f0, #d8e1e8, #c9d6df);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--gradient);
             padding: 1.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
         }
         .logo {
             color: white;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: var(--highlight);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         /* Hero Section */
         .hero {
-            padding: 6rem 2rem 4rem;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            padding: 8rem 2rem 6rem;
+            background: var(--gradient);
             color: white;
             text-align: center;
             position: relative;
@@ -61,45 +99,100 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, transparent 10.01%);
-            animation: rotateHero 10s linear infinite;
+            background-size: 50px 50px;
+            animation: rotateHero 20s linear infinite;
         }
         @keyframes rotateHero {
             100% { transform: rotate(360deg); }
         }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--highlight);
+            border-radius: 2px;
         }
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto 0;
             position: relative;
-            z-index: 1;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--gradient);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .search-bar button:hover {
+            transform: scale(1.1);
         }
         /* Tools Grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
         .tool-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
         }
         .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         .tool-card::before {
             content: '';
@@ -113,77 +206,248 @@
                 var(--accent),
                 transparent 30%
             );
-            animation: rotateCard 4s linear infinite;
+            animation: rotateCard 6s linear infinite;
+            opacity: 0.3;
+        }
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: white;
+            border-radius: 18px;
+            z-index: 1;
         }
         @keyframes rotateCard {
             100% { transform: rotate(360deg); }
         }
         .tool-card-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
         .tool-card h3 {
             color: var(--primary);
             margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
             gap: 1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .tool-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
         }
         .tool-list {
             list-style: none;
         }
         .tool-list li {
             padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-list li::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.1;
+            transition: all 0.4s ease;
         }
         .tool-list li:hover {
             color: var(--accent);
             transform: translateX(8px);
         }
+        .tool-list li:hover::before {
+            left: 0;
+        }
         .tool-list li i {
             color: var(--secondary);
             width: 24px;
             text-align: center;
+            font-size: 1.1rem;
         }
-        /* Enhanced Clickable Names */
         .tool-list a {
             text-decoration: none;
-            color: var(--primary);
+            color: var(--dark);
             font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
         }
         .tool-list a::after {
-            content: '';
+            content: '\f054';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
+            right: 0;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            color: var(--primary);
         }
         .tool-list a:hover {
-            color: var(--accent);
-            text-shadow: 0 2px 8px rgba(255, 62, 109, 0.5);
-            transform: scale(1.02);
+            color: var(--primary);
+            text-shadow: 0 2px 8px rgba(255, 62, 109, 0.2);
         }
         .tool-list a:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* Featured Tools */
+        .featured-tools {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            display: inline-block;
+        }
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .featured-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .featured-card img {
             width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .featured-content {
+            padding: 1.5rem;
+        }
+        .featured-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .featured-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .featured-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .featured-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         /* Footer */
         .footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem 2rem;
             text-align: center;
+            position: relative;
         }
-        .footer p {
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: var(--gradient);
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+        .footer-column h3 {
+            color: var(--highlight);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .footer-column a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-bottom p {
             margin-bottom: 1.5rem;
         }
         .footer-icons {
@@ -191,13 +455,52 @@
             gap: 1.5rem;
             justify-content: center;
         }
-        .footer-icons i {
-            font-size: 1.5rem;
-            color: var(--highlight);
-            transition: color 0.3s ease;
+        .footer-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
-        .footer-icons i:hover {
-            color: var(--accent);
+        .footer-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        .footer-icons i {
+            font-size: 1.2rem;
+            color: white;
+        }
+        /* Floating CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-cta:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -206,25 +509,44 @@
                 padding: 2rem 1rem;
             }
             .hero {
-                padding: 5rem 1rem 3rem;
+                padding: 6rem 1rem 4rem;
             }
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+            }
+            .section-title h2 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+    
     <header class="header">
-        <div class="logo">I Love Tools</div>
+        <div class="logo">
+            <i class="fas fa-tools"></i>
+            <span>I Love Tools</span>
+        </div>
     </header>
+    
     <section class="hero">
-        <h1>Your Ultimate Digital Swiss Army Knife</h1>
-        <p>Transform your workflow with 15+ cutting-edge tools</p>
+        <div class="hero-content">
+            <h1>Your Ultimate Digital Swiss Army Knife</h1>
+            <p>Transform your workflow with our collection of cutting-edge tools designed to simplify your digital life</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for tools...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
     </section>
+    
     <main class="tools-grid">
         <!-- Image Tools Card -->
         <div class="tool-card">
@@ -234,23 +556,25 @@
                     <li><i class="fas fa-compress"></i> <a href="/tool/img-compress.html">Image Compressor</a></li>
                     <li><i class="fas fa-sync-alt"></i> <a href="/tool/img-convert.html">Image Converter</a></li>
                     <li><i class="fas fa-expand"></i> <a href="/tool/img-resizer.html">Image Resizer</a></li>
-                    <li><i class="fas fa-eraser"></i> <a href="/tool/background-remover.html">Image Background Remover</a></li>
+                    <li><i class="fas fa-eraser"></i> <a href="/tool/background-remover.html">Background Remover</a></li>
                     <li><i class="fas fa-paint-brush"></i> <a href="/tool/home-image-design.html">Design Creator</a></li>
                 </ul>
             </div>
         </div>
-       <div class="tool-card">
-    <div class="tool-card-content">
-        <h3><i class="fas fa-file-pdf"></i> PDF Master</h3>
-        <ul class="tool-list">
-            <li><i class="fas fa-file-archive"></i> <a href="/tool/pdf-compress.html">PDF Compressor</a></li>
-            <li><i class="fas fa-blender"></i> <a href="/tool/pdf-merger.html">PDF Merger</a></li>
-            <li><i class="fas fa-file-word"></i> <a href="/tool/pdftoword-converter.html">PDF to Word</a></li>
-            <!-- New Entry for Image to PDF Converter -->
-            <li><i class="fas fa-image"></i> <a href="/tool/imagetopdf-converter.html">Image to PDF Converter</a></li>
-        </ul>
-    </div>
-</div>
+        
+        <!-- PDF Master -->
+        <div class="tool-card">
+            <div class="tool-card-content">
+                <h3><i class="fas fa-file-pdf"></i> PDF Master</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-file-archive"></i> <a href="/tool/pdf-compress.html">PDF Compressor</a></li>
+                    <li><i class="fas fa-blender"></i> <a href="/tool/pdf-merger.html">PDF Merger</a></li>
+                    <li><i class="fas fa-file-word"></i> <a href="/tool/pdftoword-converter.html">PDF to Word</a></li>
+                    <li><i class="fas fa-image"></i> <a href="/tool/imagetopdf-converter.html">Image to PDF</a></li>
+                </ul>
+            </div>
+        </div>
+        
         <!-- Conversion Hub -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -259,9 +583,11 @@
                     <li><i class="fas fa-font"></i> <a href="/tool/font-converter.html">Font Converter</a></li>
                     <li><i class="fas fa-coins"></i> <a href="/tool/currency-converter.html">Currency Converter</a></li>
                     <li><i class="fas fa-comment-dots"></i> <a href="/tool/text-voice-converter.html">Text/Voice Converters</a></li>
+                    <li><i class="fas fa-file-alt"></i> <a href="/tool/paragraph-writing-ai.html">Paragraph Writing AI</a></li>
                 </ul>
             </div>
         </div>
+        
         <!-- Smart Calculators -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -271,9 +597,24 @@
                     <li><i class="fas fa-birthday-cake"></i> <a href="/tool/age-calculator.html">Age Calculator</a></li>
                     <li><i class="fas fa-heart"></i> <a href="/tool/love-calculator.html">Love Calculator</a></li>
                     <li><i class="fas fa-balance-scale"></i> <a href="/tool/weight-height.html">Health Metrics</a></li>
+                    <li><i class="fas fa-rupee-sign"></i> <a href="/tool/emi-calculator.html">EMI Calculator</a></li>
                 </ul>
             </div>
         </div>
+        
+        <!-- Government Tools -->
+        <div class="tool-card">
+            <div class="tool-card-content">
+                <h3><i class="fas fa-landmark"></i> Government Tools</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-money-bill-wave"></i> <a href="/tool/7cpc-pay.html">7th CPC Pay Calculator</a></li>
+                    <li><i class="fas fa-money-bill-trend-up"></i> <a href="/tool/8cpc-potential-pay.html">8th CPC Potential Pay</a></li>
+                    <li><i class="fas fa-percentage"></i> <a href="/tool/tax-calculator.html">Tax Calculator</a></li>
+                    <li><i class="fas fa-piggy-bank"></i> <a href="/tool/pf-calculator.html">PF Calculator</a></li>
+                </ul>
+            </div>
+        </div>
+        
         <!-- Creative Studio -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -282,9 +623,11 @@
                     <li><i class="fas fa-home"></i> <a href="/tool/home-design.html">Home Design</a></li>
                     <li><i class="fas fa-tshirt"></i> <a href="/tool/shirt-size-calculator.html">Fashion Tools</a></li>
                     <li><i class="fas fa-vector-square"></i> <a href="/tool/home-design.html">Design Creator</a></li>
+                    <li><i class="fas fa-pen-fancy"></i> <a href="/tool/logo-maker.html">Logo Maker</a></li>
                 </ul>
             </div>
         </div>
+        
         <!-- Productivity -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -298,13 +641,129 @@
             </div>
         </div>
     </main>
+    
+    <section class="featured-tools">
+        <div class="section-title">
+            <h2>Featured Tools</h2>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="PDF Tools">
+                <div class="featured-content">
+                    <h3>PDF Master Suite</h3>
+                    <p>Compress, merge and convert PDF files with our powerful PDF tools</p>
+                    <a href="#" class="featured-link">Explore Now</a>
+                </div>
+            </div>
+            <div class="featured-card">
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="AI Tools">
+                <div class="featured-content">
+                    <h3>AI Writing Assistant</h3>
+                    <p>Generate high-quality content with our paragraph writing AI</p>
+                    <a href="/tool/paragraph-writing-ai.html" class="featured-link">Try It Now</a>
+                </div>
+            </div>
+            <div class="featured-card">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Finance Tools">
+                <div class="featured-content">
+                    <h3>Financial Calculators</h3>
+                    <p>Calculate EMI, 7th CPC pay and potential 8th CPC pay scales</p>
+                    <a href="/tool/emi-calculator.html" class="featured-link">Calculate Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <footer class="footer">
-        <p>© 2023 I &#9829; Tools. All rights reserved.</p>
-        <div class="footer-icons">
-            <i class="fab fa-github"></i>
-            <i class="fab fa-linkedin"></i>
-            <i class="fab fa-product-hunt"></i>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Popular Tools</h3>
+                <ul>
+                    <li><a href="/tool/pdf-compress.html">PDF Compressor</a></li>
+                    <li><a href="/tool/img-compress.html">Image Compressor</a></li>
+                    <li><a href="/tool/emi-calculator.html">EMI Calculator</a></li>
+                    <li><a href="/tool/7cpc-pay.html">7th CPC Pay</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>New Tools</h3>
+                <ul>
+                    <li><a href="/tool/8cpc-potential-pay.html">8th CPC Potential Pay</a></li>
+                    <li><a href="/tool/paragraph-writing-ai.html">Paragraph Writing AI</a></li>
+                    <li><a href="/tool/voice-changer.html">Voice Changer</a></li>
+                    <li><a href="/tool/background-remover.html">Background Remover</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 I ❤️ Tools. All rights reserved.</p>
+            <div class="footer-icons">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-product-hunt"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
         </div>
     </footer>
+    
+    <a href="#" class="floating-cta">
+        <i class="fas fa-bolt"></i>
+    </a>
+    
+    <script>
+        // Simple animation for tool cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            const animateOnScroll = () => {
+                toolCards.forEach((card, index) => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if(cardPosition < screenPosition) {
+                        card.style.transitionDelay = `${index * 0.1}s`;
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Set initial state
+            toolCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            const searchButton = document.querySelector('.search-bar button');
+            
+            searchButton.addEventListener('click', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                if(searchTerm) {
+                    alert(`Searching for: ${searchTerm}\nThis would normally filter tools.`);
+                }
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
