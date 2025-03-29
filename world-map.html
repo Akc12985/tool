@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive World Map Explorer - Discover countries, states, districts, villages, streets, and population data.">
+    <meta name="keywords" content="world map, country explorer, population data, interactive map, geography tool">
+    <meta name="author" content="World Map Explorer">
+    <meta name="robots" content="index, follow">
+    <title>World Map Explorer | Interactive Country & Population Data</title>
+    <link rel="canonical" href="https://www.worldmapexplorer.com">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="World Map Explorer | Interactive Country & Population Data">
+    <meta property="og:description" content="Explore countries, states, districts, villages, streets, and population data with our interactive world map tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.worldmapexplorer.com">
+    <meta property="og:image" content="https://www.worldmapexplorer.com/images/world-map-preview.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet.js CSS (for interactive maps) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "World Map Explorer",
+      "url": "https://www.worldmapexplorer.com",
+      "description": "Interactive tool to explore countries, states, districts, villages, streets, and population data.",
+      "applicationCategory": "EducationalTool",
+      "operatingSystem": "Web"
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #202124;
+            --font-main: 'Roboto', sans-serif;
+            --font-heading: 'Poppins', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: white;
+            color: var(--dark-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            color: #666;
+        }
+        
+        .ad-container {
+            margin: 2rem auto;
+            text-align: center;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .ad-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .map-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        #worldMap {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .info-panel {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .info-panel h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .info-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-item strong {
+            display: inline-block;
+            width: 120px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            margin: 1rem 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            #worldMap {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            #worldMap {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">World Map Explorer</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Countries</a></li>
+                    <li><a href="#">Population Data</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>Explore the World</h1>
+            <p>Discover countries, states, districts, villages, streets, and population data with our interactive world map.</p>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-map-top-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Map Top Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="map-container">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search for a country, city, or place...">
+            </div>
+            
+            <div id="worldMap"></div>
+            
+            <div class="info-panel">
+                <h3>Location Information</h3>
+                <div class="info-item">
+                    <strong>Country:</strong> <span id="countryName">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>State/Region:</strong> <span id="stateName">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>District:</strong> <span id="districtName">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Population:</strong> <span id="populationData">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Coordinates:</strong> <span id="coordinates">-</span>
+                </div>
+            </div>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-map-mid-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Map Mid Rectangle -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <section class="map-container">
+            <h2>How to Use This Tool</h2>
+            <ul style="padding-left: 1.5rem; margin-top: 1rem;">
+                <li><strong>Click on any country</strong> to see details (name, states, population).</li>
+                <li><strong>Zoom in</strong> to explore districts, villages, and streets.</li>
+                <li><strong>Search</strong> for specific locations using the search bar.</li>
+            </ul>
+        </section>
+        
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <!-- Replace with your Google AdSense ad unit -->
+            <div id="world-map-bottom-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                <!-- World Map Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">World Map Explorer</div>
+            <ul class="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">API</a></li>
+            </ul>
+            <p class="copyright">© 2023 World Map Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Leaflet.js (for interactive maps) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Initialize the map
+        const map = L.map('worldMap').setView([20, 0], 2);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Sample country data with states and districts
+        const countryData = {
+            "USA": {
+                states: 50,
+                population: "331M",
+                exampleStates: ["California", "Texas", "New York"],
+                exampleDistricts: ["Los Angeles County", "Harris County", "Manhattan"]
+            },
+            "India": {
+                states: 28,
+                population: "1.4B",
+                exampleStates: ["Maharashtra", "Uttar Pradesh", "Karnataka"],
+                exampleDistricts: ["Mumbai", "Lucknow", "Bengaluru"]
+            },
+            "Brazil": {
+                states: 26,
+                population: "213M",
+                exampleStates: ["São Paulo", "Rio de Janeiro", "Minas Gerais"],
+                exampleDistricts: ["São Paulo City", "Rio de Janeiro City", "Belo Horizonte"]
+            },
+            "Germany": {
+                states: 16,
+                population: "83M",
+                exampleStates: ["Bavaria", "Berlin", "Hamburg"],
+                exampleDistricts: ["Munich", "Berlin-Mitte", "Hamburg-Nord"]
+            },
+            "Japan": {
+                states: 47,
+                population: "125M",
+                exampleStates: ["Tokyo", "Osaka", "Hokkaido"],
+                exampleDistricts: ["Shinjuku", "Osaka City", "Sapporo"]
+            }
+        };
+
+        // Function to get a random item from array
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // Update info panel when clicking on the map
+        map.on('click', function(e) {
+            const country = getCountryFromCoordinates(e.latlng.lat, e.latlng.lng);
+            
+            if (country) {
+                const data = countryData[country];
+                const randomState = getRandomItem(data.exampleStates);
+                const randomDistrict = getRandomItem(data.exampleDistricts);
+                
+                document.getElementById('countryName').textContent = country;
+                document.getElementById('stateName').textContent = randomState;
+                document.getElementById('districtName').textContent = randomDistrict;
+                document.getElementById('populationData').textContent = data.population;
+                document.getElementById('coordinates').textContent = `${e.latlng.lat.toFixed(2)}, ${e.latlng.lng.toFixed(2)}`;
+            } else {
+                document.getElementById('countryName').textContent = "Ocean or Unknown";
+                document.getElementById('stateName').textContent = "-";
+                document.getElementById('districtName').textContent = "-";
+                document.getElementById('populationData').textContent = "-";
+                document.getElementById('coordinates').textContent = `${e.latlng.lat.toFixed(2)}, ${e.latlng.lng.toFixed(2)}`;
+            }
+        });
+
+        // Improved country detection with more precise coordinates
+        function getCountryFromCoordinates(lat, lng) {
+            // USA
+            if (lat > 24.396308 && lat < 49.384358 && lng > -125.000000 && lng < -66.934570) return "USA";
+            // India
+            if (lat > 8.066667 && lat < 37.100000 && lng > 68.116667 && lng < 97.416667) return "India";
+            // Brazil
+            if (lat > -33.750000 && lat < 5.266667 && lng > -73.983333 && lng < -34.800000) return "Brazil";
+            // Germany
+            if (lat > 47.266667 && lat < 55.050000 && lng > 5.866667 && lng < 15.033333) return "Germany";
+            // Japan
+            if (lat > 24.266667 && lat < 45.516667 && lng > 122.933333 && lng < 153.983333) return "Japan";
+            return null;
+        }
+
+        // Search functionality (simplified)
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query) {
+                    // Check if query matches any country
+                    for (const country in countryData) {
+                        if (country.toLowerCase().includes(query)) {
+                            // Center map on the country (using approximate coordinates)
+                            let center;
+                            switch(country) {
+                                case "USA": center = [37.0902, -95.7129]; break;
+                                case "India": center = [20.5937, 78.9629]; break;
+                                case "Brazil": center = [-14.2350, -51.9253]; break;
+                                case "Germany": center = [51.1657, 10.4515]; break;
+                                case "Japan": center = [36.2048, 138.2529]; break;
+                                default: center = [20, 0];
+                            }
+                            map.setView(center, 5);
+                            
+                            // Update info panel
+                            const data = countryData[country];
+                            const randomState = getRandomItem(data.exampleStates);
+                            const randomDistrict = getRandomItem(data.exampleDistricts);
+                            
+                            document.getElementById('countryName').textContent = country;
+                            document.getElementById('stateName').textContent = randomState;
+                            document.getElementById('districtName').textContent = randomDistrict;
+                            document.getElementById('populationData').textContent = data.population;
+                            document.getElementById('coordinates').textContent = `${center[0].toFixed(2)}, ${center[1].toFixed(2)}`;
+                            return;
+                        }
+                    }
+                    alert("Country not found in our database. Try USA, India, Brazil, Germany, or Japan.");
+                }
+            }
+        });
+    </script>
+    
+    <!-- Google Analytics (optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>
