@@ -15,11 +15,9 @@
             --light: #F9F7F7;
             --highlight: #FFC107;
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --gradient-reverse: linear-gradient(135deg, var(--secondary), var(--primary));
             --glass: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         * {
             margin: 0;
@@ -32,7 +30,6 @@
             color: var(--dark);
             line-height: 1.6;
             overflow-x: hidden;
-            min-height: 100vh;
         }
         /* Animated Background */
         .bg-animation {
@@ -41,7 +38,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: -1;
             background: linear-gradient(-45deg, #f5f7fa, #e4e8f0, #d8e1e8, #c9d6df);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -51,124 +48,30 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        /* Floating Bubbles */
-        .bubbles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-        }
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            animation: rise 15s infinite ease-in;
-        }
-        .bubble:nth-child(1) {
-            width: 40px;
-            height: 40px;
-            left: 10%;
-            animation-duration: 8s;
-        }
-        .bubble:nth-child(2) {
-            width: 20px;
-            height: 20px;
-            left: 20%;
-            animation-duration: 5s;
-            animation-delay: 1s;
-        }
-        .bubble:nth-child(3) {
-            width: 50px;
-            height: 50px;
-            left: 35%;
-            animation-duration: 7s;
-            animation-delay: 2s;
-        }
-        .bubble:nth-child(4) {
-            width: 80px;
-            height: 80px;
-            left: 50%;
-            animation-duration: 11s;
-            animation-delay: 0s;
-        }
-        .bubble:nth-child(5) {
-            width: 35px;
-            height: 35px;
-            left: 55%;
-            animation-duration: 6s;
-            animation-delay: 1s;
-        }
-        .bubble:nth-child(6) {
-            width: 45px;
-            height: 45px;
-            left: 65%;
-            animation-duration: 8s;
-            animation-delay: 3s;
-        }
-        .bubble:nth-child(7) {
-            width: 25px;
-            height: 25px;
-            left: 75%;
-            animation-duration: 7s;
-            animation-delay: 2s;
-        }
-        .bubble:nth-child(8) {
-            width: 80px;
-            height: 80px;
-            left: 80%;
-            animation-duration: 6s;
-            animation-delay: 1s;
-        }
-        @keyframes rise {
-            0% {
-                bottom: -100px;
-                transform: translateX(0);
-            }
-            50% {
-                transform: translateX(100px);
-            }
-            100% {
-                bottom: 1080px;
-                transform: translateX(-200px);
-            }
-        }
         /* Header */
         .header {
-            background: rgba(43, 62, 80, 0.9);
-            padding: 1.2rem 1.5rem;
+            background: var(--gradient);
+            padding: 1.5rem;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-        .header.scrolled {
-            background: rgba(33, 47, 61, 0.95);
-            padding: 0.8rem 1.5rem;
         }
         .logo {
             color: white;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.3s ease;
-        }
-        .header.scrolled .logo {
-            font-size: 1.8rem;
         }
         .logo i {
             color: var(--highlight);
@@ -178,35 +81,6 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
-        }
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--highlight);
-            transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .nav-links a:hover {
-            color: var(--highlight);
         }
         /* Hero Section */
         .hero {
@@ -242,7 +116,6 @@
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
-            animation: fadeInUp 1s ease;
         }
         .hero h1::after {
             content: '';
@@ -259,15 +132,11 @@
             font-size: 1.3rem;
             opacity: 0.95;
             margin-bottom: 2rem;
-            animation: fadeInUp 1s ease 0.2s forwards;
-            opacity: 0;
         }
         .search-bar {
             max-width: 600px;
             margin: 2rem auto 0;
             position: relative;
-            animation: fadeInUp 1s ease 0.4s forwards;
-            opacity: 0;
         }
         .search-bar input {
             width: 100%;
@@ -277,7 +146,6 @@
             font-size: 1rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
         }
         .search-bar input:focus {
             outline: none;
@@ -288,7 +156,7 @@
             position: absolute;
             right: 5px;
             top: 5px;
-            background: var(--gradient-reverse);
+            background: var(--gradient);
             border: none;
             color: white;
             width: 40px;
@@ -296,24 +164,9 @@
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .search-bar button:hover {
             transform: scale(1.1);
-            background: var(--gradient);
-        }
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         /* Tools Grid */
         .tools-grid {
@@ -325,10 +178,10 @@
             margin: 0 auto;
         }
         .tool-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.8);
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: var(--card-shadow);
+            box-shadow: var(--shadow);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
@@ -336,12 +189,6 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .tool-card.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
         .tool-card:hover {
             transform: translateY(-10px) scale(1.02);
@@ -433,11 +280,6 @@
             width: 24px;
             text-align: center;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        .tool-list li:hover i {
-            color: var(--primary);
-            transform: scale(1.2);
         }
         .tool-list a {
             text-decoration: none;
@@ -484,7 +326,6 @@
             font-size: 2.5rem;
             color: var(--dark);
             display: inline-block;
-            position: relative;
         }
         .section-title h2::after {
             content: '';
@@ -506,15 +347,8 @@
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .featured-card.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
         .featured-card:hover {
             transform: translateY(-10px);
@@ -524,10 +358,6 @@
             width: 100%;
             height: 150px;
             object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .featured-card:hover img {
-            transform: scale(1.05);
         }
         .featured-content {
             padding: 1.5rem;
@@ -542,10 +372,8 @@
             margin-bottom: 1rem;
         }
         .featured-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.5rem 1.2rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
             background: var(--gradient);
             color: white;
             border-radius: 50px;
@@ -556,7 +384,6 @@
         .featured-link:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            background: var(--gradient-reverse);
         }
         /* Footer */
         .footer {
@@ -583,14 +410,6 @@
             gap: 2rem;
             text-align: left;
             margin-bottom: 3rem;
-        }
-        .footer-column {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .footer-column.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
         .footer-column h3 {
             color: var(--highlight);
@@ -630,7 +449,6 @@
         }
         .footer-bottom p {
             margin-bottom: 1.5rem;
-            opacity: 0.8;
         }
         .footer-icons {
             display: flex;
@@ -674,12 +492,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             animation: float 3s ease-in-out infinite;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .floating-cta.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -689,48 +501,9 @@
         .floating-cta:hover {
             transform: translateY(-5px) scale(1.1);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            background: var(--gradient-reverse);
-        }
-        /* Tooltip */
-        .tooltip {
-            position: absolute;
-            right: 70px;
-            background: white;
-            color: var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            font-size: 0.9rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-        .floating-cta:hover .tooltip {
-            opacity: 1;
-            right: 80px;
         }
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            .hero p {
-                font-size: 1.2rem;
-            }
-        }
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            .header.scrolled {
-                padding: 0.5rem 1rem;
-            }
-            .nav-links {
-                gap: 1rem;
-            }
             .tools-grid {
                 grid-template-columns: 1fr;
                 padding: 2rem 1rem;
@@ -750,52 +523,16 @@
             .section-title h2 {
                 font-size: 2rem;
             }
-            .featured-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 480px) {
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .footer-column h3::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
         }
     </style>
 </head>
 <body>
     <div class="bg-animation"></div>
-    <div class="bubbles">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-    </div>
     
-    <header class="header" id="header">
+    <header class="header">
         <div class="logo">
             <i class="fas fa-tools"></i>
             <span>I Love Tools</span>
-        </div>
-        <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="#tools">All Tools</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
         </div>
     </header>
     
@@ -810,7 +547,7 @@
         </div>
     </section>
     
-    <main class="tools-grid" id="tools">
+    <main class="tools-grid">
         <!-- Image Tools Card -->
         <div class="tool-card">
             <div class="tool-card-content">
@@ -905,7 +642,7 @@
         </div>
     </main>
     
-    <section class="featured-tools" id="features">
+    <section class="featured-tools">
         <div class="section-title">
             <h2>Featured Tools</h2>
         </div>
@@ -915,7 +652,7 @@
                 <div class="featured-content">
                     <h3>PDF Master Suite</h3>
                     <p>Compress, merge and convert PDF files with our powerful PDF tools</p>
-                    <a href="#" class="featured-link">Explore Now <i class="fas fa-arrow-right"></i></a>
+                    <a href="#" class="featured-link">Explore Now</a>
                 </div>
             </div>
             <div class="featured-card">
@@ -923,7 +660,7 @@
                 <div class="featured-content">
                     <h3>AI Writing Assistant</h3>
                     <p>Generate high-quality content with our paragraph writing AI</p>
-                    <a href="/tool/write-paragraph.html" class="featured-link">Try It Now <i class="fas fa-arrow-right"></i></a>
+                    <a href="/tool/write-paragraph.html" class="featured-link">Try It Now</a>
                 </div>
             </div>
             <div class="featured-card">
@@ -931,13 +668,13 @@
                 <div class="featured-content">
                     <h3>Financial Calculators</h3>
                     <p>Calculate EMI, 7th CPC pay and potential 8th CPC pay scales</p>
-                    <a href="/tool/emi-calculator.html" class="featured-link">Calculate Now <i class="fas fa-arrow-right"></i></a>
+                    <a href="/tool/emi-calculator.html" class="featured-link">Calculate Now</a>
                 </div>
             </div>
         </div>
     </section>
     
-    <footer class="footer" id="contact">
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
                 <h3>Popular Tools</h3>
@@ -952,4 +689,81 @@
                 <h3>New Tools</h3>
                 <ul>
                     <li><a href="/tool/8cpc-potential-pay.html">8th CPC Potential Pay</a></li>
-                    <li><a href="/tool/write-paragraph.html">Paragraph Writing AI</
+                    <li><a href="/tool/write-paragraph.html">Paragraph Writing AI</a></li>
+                    <li><a href="/tool/voice-changer.html">Voice Changer</a></li>
+                    <li><a href="/tool/background-remover.html">Background Remover</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023      I ❤️ Tools. All rights reserved.</p>
+            <div class="footer-icons">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-product-hunt"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <a href="#" class="floating-cta">
+        <i class="fas fa-bolt"></i>
+    </a>
+    
+    <script>
+        // Simple animation for tool cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            const animateOnScroll = () => {
+                toolCards.forEach((card, index) => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if(cardPosition < screenPosition) {
+                        card.style.transitionDelay = `${index * 0.1}s`;
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Set initial state
+            toolCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            const searchButton = document.querySelector('.search-bar button');
+            
+            searchButton.addEventListener('click', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                if(searchTerm) {
+                    alert(`Searching for: ${searchTerm}\nThis would normally filter tools.`);
+                }
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
