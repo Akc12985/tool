@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Online QR Code Reader - Scan and decode QR codes instantly using your camera or upload image. Fully responsive and SEO-optimized tool.">
+  <meta name="keywords" content="QR code reader, scan QR, QR code scanner online, responsive QR reader, decode QR">
+  <meta name="author" content="Your Name or Brand">
+  <title>Online QR Code Reader</title>
+
+  <!-- Open Graph for SEO -->
+  <meta property="og:title" content="Online QR Code Reader">
+  <meta property="og:description" content="Scan and read QR codes from your camera or image instantly. Responsive, fast, and free!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:image" content="https://yourwebsite.com/thumbnail.jpg">
+
+  <!-- Google Adsense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_CLIENT_ID" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f7fa;
+    }
+
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    main {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #video {
+      width: 100%;
+      max-height: 400px;
+      margin-bottom: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      word-break: break-word;
+    }
+
+    input[type="file"] {
+      margin-top: 1rem;
+    }
+
+    .ad-space {
+      margin: 2rem 0;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>QR Code Reader</h1>
+    <p>Scan any QR code using your camera or image</p>
+  </header>
+
+  <main>
+    <video id="video" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
+    <div id="result">QR Code result will appear here</div>
+
+    <input type="file" accept="image/*" onchange="readQRCodeFromFile(event)">
+
+    <div class="ad-space">
+      <!-- Google Adsense Ad Unit -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="YOUR_ADSENSE_CLIENT_ID"
+        data-ad-slot="YOUR_AD_UNIT_ID"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </main>
+
+  <!-- jsQR Library -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const result = document.getElementById('result');
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(stream => {
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true);
+        requestAnimationFrame(scan);
+      });
+
+    function scan() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
+        if (code) {
+          result.innerText = `QR Code: ${code.data}`;
+        }
+      }
+      requestAnimationFrame(scan);
+    }
+
+    function readQRCodeFromFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function () {
+        const img = new Image();
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          context.drawImage(img, 0, 0);
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (code) {
+            result.innerText = `QR Code: ${code.data}`;
+          } else {
+            result.innerText = 'No QR code found.';
+          }
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+
+</html>
