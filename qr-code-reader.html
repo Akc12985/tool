@@ -20,11 +20,24 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_CLIENT_ID" crossorigin="anonymous"></script>
 
   <style>
+    :root {
+      --bg-color: #f4f7fa;
+      --text-color: #000;
+      --card-color: #fff;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --card-color: #1f1f1f;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f7fa;
+      background: var(--bg-color);
+      color: var(--text-color);
     }
 
     header {
@@ -52,10 +65,24 @@
     #result {
       margin-top: 1rem;
       padding: 1rem;
-      background: #fff;
+      background: var(--card-color);
       border: 1px solid #ddd;
       border-radius: 5px;
       word-break: break-word;
+    }
+
+    .buttons {
+      margin-top: 1rem;
+    }
+
+    .buttons button {
+      margin: 0.5rem;
+      padding: 10px 15px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
     }
 
     input[type="file"] {
@@ -78,7 +105,14 @@
   <main>
     <video id="video" autoplay></video>
     <canvas id="canvas" hidden></canvas>
+
     <div id="result">QR Code result will appear here</div>
+
+    <div class="buttons">
+      <button onclick="copyToClipboard()">📋 Copy</button>
+      <button onclick="downloadQRImage()">📥 Download QR</button>
+      <button onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
+    </div>
 
     <input type="file" accept="image/*" onchange="readQRCodeFromFile(event)">
 
@@ -104,6 +138,7 @@
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
     const result = document.getElementById('result');
+    let latestImageData = null;
 
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
       .then(stream => {
@@ -118,6 +153,7 @@
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        latestImageData = imageData;
         const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
         if (code) {
           result.innerText = `QR Code: ${code.data}`;
@@ -137,6 +173,7 @@
           canvas.height = img.height;
           context.drawImage(img, 0, 0);
           const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+          latestImageData = imageData;
           const code = jsQR(imageData.data, imageData.width, imageData.height);
           if (code) {
             result.innerText = `QR Code: ${code.data}`;
@@ -147,6 +184,35 @@
         img.src = reader.result;
       };
       reader.readAsDataURL(file);
+    }
+
+    function copyToClipboard() {
+      const text = result.innerText.replace('QR Code: ', '').trim();
+      if (text) {
+        navigator.clipboard.writeText(text);
+        alert('Copied to clipboard!');
+      }
+    }
+
+    function downloadQRImage() {
+      if (!latestImageData) {
+        alert('No QR code to download yet.');
+        return;
+      }
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = latestImageData.width;
+      tempCanvas.height = latestImageData.height;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.putImageData(latestImageData, 0, 0);
+      const link = document.createElement('a');
+      link.download = 'qr-code.png';
+      link.href = tempCanvas.toDataURL();
+      link.click();
+    }
+
+    function toggleDarkMode() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
     }
   </script>
 </body>
