@@ -2,91 +2,75 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Online QR Code Reader - Scan and decode QR codes instantly using your camera or upload image. Fully responsive and SEO-optimized tool.">
-  <meta name="keywords" content="QR code reader, scan QR, QR code scanner online, responsive QR reader, decode QR">
-  <meta name="author" content="Your Name or Brand">
-  <title>Online QR Code Reader</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free Online QR Code Generator - Create QR codes for text, numbers, and more. Fully responsive and SEO-optimized." />
+  <meta name="keywords" content="QR code generator, online QR tool, text to QR, free QR code, responsive QR generator" />
+  <meta name="author" content="Your Name or Brand" />
+  <title>Free QR Code Generator</title>
 
-  <!-- Open Graph for SEO -->
-  <meta property="og:title" content="Online QR Code Reader">
-  <meta property="og:description" content="Scan and read QR codes from your camera or image instantly. Responsive, fast, and free!">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourwebsite.com">
-  <meta property="og:image" content="https://yourwebsite.com/thumbnail.jpg">
+  <!-- SEO Open Graph Tags -->
+  <meta property="og:title" content="Free QR Code Generator Tool" />
+  <meta property="og:description" content="Generate QR codes instantly from any text or number. Fully responsive and optimized for search engines." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourwebsite.com" />
+  <meta property="og:image" content="https://yourwebsite.com/thumbnail.jpg" />
 
   <!-- Google Adsense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_CLIENT_ID" crossorigin="anonymous"></script>
 
   <style>
-    :root {
-      --bg-color: #f4f7fa;
-      --text-color: #000;
-      --card-color: #fff;
-    }
-
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #eee;
-      --card-color: #1f1f1f;
-    }
-
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: var(--bg-color);
-      color: var(--text-color);
+      background-color: #eef2f5;
     }
 
     header {
-      background: #2c3e50;
+      background-color: #2c3e50;
       color: white;
       padding: 1rem;
       text-align: center;
     }
 
     main {
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
       padding: 2rem;
-      text-align: center;
     }
 
-    #video {
+    textarea {
       width: 100%;
-      max-height: 400px;
+      height: 120px;
+      padding: 10px;
+      font-size: 1rem;
       margin-bottom: 1rem;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-    }
-
-    #result {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: var(--card-color);
-      border: 1px solid #ddd;
       border-radius: 5px;
-      word-break: break-word;
+      border: 1px solid #ccc;
+      resize: vertical;
     }
 
-    .buttons {
-      margin-top: 1rem;
+    input[type="color"] {
+      margin-bottom: 1rem;
+      display: inline-block;
+      margin-right: 1rem;
     }
 
-    .buttons button {
-      margin: 0.5rem;
-      padding: 10px 15px;
-      border: none;
+    button {
       background-color: #3498db;
       color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
       border-radius: 5px;
       cursor: pointer;
+      margin-right: 10px;
     }
 
-    input[type="file"] {
-      margin-top: 1rem;
+    #qrcode {
+      margin-top: 20px;
+      text-align: center;
     }
 
     .ad-space {
@@ -98,23 +82,27 @@
 
 <body>
   <header>
-    <h1>QR Code Reader</h1>
-    <p>Scan any QR code using your camera or image</p>
+    <h1>QR Code Generator</h1>
+    <p>Convert text and numbers into QR codes instantly</p>
   </header>
 
   <main>
-    <video id="video" autoplay></video>
-    <canvas id="canvas" hidden></canvas>
+    <label for="qrInput">Enter Text / Link / Data:</label>
+    <textarea id="qrInput" placeholder="Type or paste here..."></textarea>
 
-    <div id="result">QR Code result will appear here</div>
+    <div>
+      <label for="darkColor">Dark Color:</label>
+      <input type="color" id="darkColor" value="#000000">
 
-    <div class="buttons">
-      <button onclick="copyToClipboard()">📋 Copy</button>
-      <button onclick="downloadQRImage()">📥 Download QR</button>
-      <button onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
+      <label for="lightColor">Light Color:</label>
+      <input type="color" id="lightColor" value="#ffffff">
     </div>
 
-    <input type="file" accept="image/*" onchange="readQRCodeFromFile(event)">
+    <button onclick="generateQRCode()">Generate QR Code</button>
+    <button id="downloadBtn" onclick="downloadQRCode()" disabled>Download QR Code</button>
+    <button id="shareBtn" onclick="shareQRCode()" disabled>Share QR Code</button>
+
+    <div id="qrcode"></div>
 
     <div class="ad-space">
       <!-- Google Adsense Ad Unit -->
@@ -130,89 +118,62 @@
     </div>
   </main>
 
-  <!-- jsQR Library -->
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    const result = document.getElementById('result');
-    let latestImageData = null;
+    let currentQRCode = null;
 
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-      .then(stream => {
-        video.srcObject = stream;
-        video.setAttribute("playsinline", true);
-        requestAnimationFrame(scan);
-      });
+    function generateQRCode() {
+      const textInput = document.getElementById('qrInput').value.trim();
+      const qrcodeContainer = document.getElementById('qrcode');
+      const darkColor = document.getElementById('darkColor').value;
+      const lightColor = document.getElementById('lightColor').value;
+      qrcodeContainer.innerHTML = '';
 
-    function scan() {
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        latestImageData = imageData;
-        const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
-        if (code) {
-          result.innerText = `QR Code: ${code.data}`;
-        }
-      }
-      requestAnimationFrame(scan);
-    }
+      if (textInput !== '') {
+        currentQRCode = new QRCode(qrcodeContainer, {
+          text: textInput,
+          width: 256,
+          height: 256,
+          colorDark: darkColor,
+          colorLight: lightColor,
+          correctLevel: QRCode.CorrectLevel.H
+        });
 
-    function readQRCodeFromFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function () {
-        const img = new Image();
-        img.onload = function () {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          context.drawImage(img, 0, 0);
-          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-          latestImageData = imageData;
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code) {
-            result.innerText = `QR Code: ${code.data}`;
-          } else {
-            result.innerText = 'No QR code found.';
-          }
-        };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function copyToClipboard() {
-      const text = result.innerText.replace('QR Code: ', '').trim();
-      if (text) {
-        navigator.clipboard.writeText(text);
-        alert('Copied to clipboard!');
+        setTimeout(() => {
+          document.getElementById('downloadBtn').disabled = false;
+          document.getElementById('shareBtn').disabled = false;
+        }, 500);
+      } else {
+        alert('Please enter text to generate a QR code.');
       }
     }
 
-    function downloadQRImage() {
-      if (!latestImageData) {
-        alert('No QR code to download yet.');
-        return;
-      }
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = latestImageData.width;
-      tempCanvas.height = latestImageData.height;
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCtx.putImageData(latestImageData, 0, 0);
+    function downloadQRCode() {
+      const canvas = document.querySelector('#qrcode canvas');
+      if (!canvas) return alert('Generate a QR code first.');
       const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
       link.download = 'qr-code.png';
-      link.href = tempCanvas.toDataURL();
       link.click();
     }
 
-    function toggleDarkMode() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+    function shareQRCode() {
+      const canvas = document.querySelector('#qrcode canvas');
+      if (!canvas) return alert('Generate a QR code first.');
+
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'qr-code.png', { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({
+            title: 'QR Code',
+            files: [file]
+          });
+        } else {
+          alert('Sharing not supported on this browser.');
+        }
+      });
     }
   </script>
 </body>
