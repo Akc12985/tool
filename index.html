@@ -72,32 +72,31 @@
         
         /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             transition: var(--transition);
         }
         
         .header.scrolled {
             padding: 0.8rem 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
         }
         
         .logo {
             color: var(--dark);
             font-size: 1.8rem;
             font-weight: 800;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -135,17 +134,19 @@
             font-size: 1rem;
             position: relative;
             transition: var(--transition);
+            padding: 0.5rem 0;
         }
         
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
-            height: 2px;
+            height: 3px;
             background: var(--highlight);
             transition: var(--transition);
+            border-radius: 3px;
         }
         
         .nav-links a:hover::after {
@@ -163,6 +164,11 @@
             color: var(--dark);
             font-size: 1.5rem;
             cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-btn:hover {
+            color: var(--highlight);
         }
         
         /* Hero Section */
@@ -248,14 +254,14 @@
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(5px);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
         }
         
@@ -271,7 +277,7 @@
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(5px);
             padding: 1rem 2rem;
-            border-radius: 10px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             min-width: 150px;
             transition: var(--transition);
@@ -280,6 +286,7 @@
         .stat-item:hover {
             transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .stat-number {
@@ -341,7 +348,7 @@
         
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2.5rem;
         }
         
@@ -354,17 +361,13 @@
             overflow: hidden;
             cursor: pointer;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .tool-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
         }
         
         .tool-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
         
@@ -383,29 +386,24 @@
             height: 10px;
         }
         
-        .tool-card-image {
-            height: 180px;
-            width: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .tool-card:hover .tool-card-image {
-            transform: scale(1.05);
-        }
-        
-        .tool-card-content {
-            padding: 2rem;
-            position: relative;
+        .tool-card-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
         }
         
         .tool-card h3 {
             color: var(--primary);
             margin-bottom: 1.5rem;
             font-size: 1.6rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
             position: relative;
             padding-bottom: 15px;
         }
@@ -421,20 +419,9 @@
             border-radius: 3px;
         }
         
-        .tool-card h3 i {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-        
         .tool-list {
             list-style: none;
+            margin-top: auto;
         }
         
         .tool-list li {
@@ -532,19 +519,13 @@
         
         .featured-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
             position: relative;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        .featured-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+            padding: 2rem;
         }
         
         .featured-card:hover {
@@ -558,32 +539,31 @@
             right: 15px;
             background: var(--highlight);
             color: white;
-            padding: 0.3rem 0.8rem;
+            padding: 0.3rem 1rem;
             border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 600;
             box-shadow: 0 3px 10px rgba(247, 37, 133, 0.3);
         }
         
-        .featured-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .featured-card:hover img {
-            transform: scale(1.05);
-        }
-        
-        .featured-content {
-            padding: 1.8rem;
+        .featured-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
         }
         
         .featured-content h3 {
             color: var(--primary);
-            margin-bottom: 0.8rem;
-            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
         
         .featured-content p {
@@ -990,7 +970,7 @@
             
             .cta-buttons {
                 flex-direction: column;
-                align-items: center;
+                gap: 1rem;
             }
             
             .btn {
@@ -1021,50 +1001,6 @@
                 font-size: 0.8rem;
             }
         }
-        
-        /* New 3D card effect */
-        .tool-card-3d {
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-        }
-        
-        .tool-card-3d:hover {
-            transform: rotateY(10deg) rotateX(5deg) translateY(-10px);
-        }
-        
-        /* Glow effect */
-        .glow {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px rgba(67, 97, 238, 0.5);
-            }
-            to {
-                box-shadow: 0 0 20px rgba(67, 97, 238, 0.8);
-            }
-        }
-        
-        /* Hover underline animation */
-        .hover-underline {
-            position: relative;
-        }
-        
-        .hover-underline::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--highlight);
-            transition: width 0.3s ease;
-        }
-        
-        .hover-underline:hover::after {
-            width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -1078,11 +1014,11 @@
         </div>
         
         <nav class="nav-links" id="navLinks">
-            <a href="#features" class="hover-underline">Features</a>
-            <a href="#tools" class="hover-underline">All Tools</a>
-            <a href="#popular" class="hover-underline">Popular</a>
-            <a href="#about" class="hover-underline">About</a>
-            <a href="#contact" class="hover-underline">Contact</a>
+            <a href="#features">Features</a>
+            <a href="#tools">All Tools</a>
+            <a href="#popular">Popular</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
         </nav>
         
         <button class="mobile-menu-btn" id="menuBtn">
@@ -1096,8 +1032,12 @@
             <p>Discover our collection of essential digital tools designed to simplify your work and boost your efficiency</p>
             
             <div class="cta-buttons">
-                <a href="#tools" class="btn btn-primary glow"><i class="fas fa-rocket"></i> Explore Tools</a>
-                <a href="#popular" class="btn btn-secondary"><i class="fas fa-crown"></i> Popular Tools</a>
+                <a href="#tools" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Explore Tools
+                </a>
+                <a href="#popular" class="btn btn-secondary">
+                    <i class="fas fa-crown"></i> Popular Tools
+                </a>
             </div>
             
             <div class="hero-stats">
@@ -1123,119 +1063,119 @@
             <p class="section-subtitle">Browse our comprehensive collection of tools organized by category</p>
         </div>
         
-        <div class="tools-grid">
+        <div class="tools-grid" id="tools">
             <!-- Image Tools Card -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1579547945413-497e1b99dac0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Image Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-magic"></i> Image Magic</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-compress"></i> <a href="img-compress.html">Image Compressor</a></li>
-                        <li><i class="fas fa-sync-alt"></i> <a href="img-convert.html">Image Converter</a></li>
-                        <li><i class="fas fa-expand"></i> <a href="img-resizer.html">Image Resizer</a></li>
-                        <li><i class="fas fa-eraser"></i> <a href="background-remover.html">Background Remover</a></li>
-                        <li><i class="fas fa-paint-brush"></i> <a href="home-image-design.html">Design Creator</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-magic"></i>
                 </div>
+                <h3>Image Magic</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-compress"></i> <a href="img-compress.html">Image Compressor</a></li>
+                    <li><i class="fas fa-sync-alt"></i> <a href="img-convert.html">Image Converter</a></li>
+                    <li><i class="fas fa-expand"></i> <a href="img-resizer.html">Image Resizer</a></li>
+                    <li><i class="fas fa-eraser"></i> <a href="background-remover.html">Background Remover</a></li>
+                    <li><i class="fas fa-paint-brush"></i> <a href="home-image-design.html">Design Creator</a></li>
+                </ul>
             </div>
             
             <!-- PDF Master -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1622549037543-49cf07a5a0d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="PDF Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-file-pdf"></i> PDF Master</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-file-archive"></i> <a href="pdf-compress.html">PDF Compressor</a></li>
-                        <li><i class="fas fa-blender"></i> <a href="pdf-merger.html">PDF Merger</a></li>
-                        <li><i class="fas fa-file-word"></i> <a href="pdftoword-converter.html">PDF to Word</a></li>
-                        <li><i class="fas fa-image"></i> <a href="imagetopdf-converter.html">Image to PDF</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-file-pdf"></i>
                 </div>
+                <h3>PDF Master</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-file-archive"></i> <a href="pdf-compress.html">PDF Compressor</a></li>
+                    <li><i class="fas fa-blender"></i> <a href="pdf-merger.html">PDF Merger</a></li>
+                    <li><i class="fas fa-file-word"></i> <a href="pdftoword-converter.html">PDF to Word</a></li>
+                    <li><i class="fas fa-image"></i> <a href="imagetopdf-converter.html">Image to PDF</a></li>
+                </ul>
             </div>
             
             <!-- Conversion Hub -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Conversion Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-random"></i> Conversion Hub</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-font"></i> <a href="font-converter.html">Font Converter</a></li>
-                        <li><i class="fas fa-coins"></i> <a href="currency-converter.html">Currency Converter</a></li>
-                        <li><i class="fas fa-comment-dots"></i> <a href="text-voice-converter.html">Text/Voice Converters</a></li>
-                        <li><i class="fas fa-file-alt"></i> <a href="write-paragraph.html">Paragraph Writing AI</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-random"></i>
                 </div>
+                <h3>Conversion Hub</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-font"></i> <a href="font-converter.html">Font Converter</a></li>
+                    <li><i class="fas fa-coins"></i> <a href="currency-converter.html">Currency Converter</a></li>
+                    <li><i class="fas fa-comment-dots"></i> <a href="text-voice-converter.html">Text/Voice Converters</a></li>
+                    <li><i class="fas fa-file-alt"></i> <a href="write-paragraph.html">Paragraph Writing AI</a></li>
+                </ul>
             </div>
             
             <!-- Smart Calculators -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Calculator Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-calculator"></i> Smart Calculators</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-shoe-prints"></i> <a href="shoe-size-calculator.html">Shoe Size Calculator</a></li>
-                        <li><i class="fas fa-birthday-cake"></i> <a href="age-calculator.html">Age Calculator</a></li>
-                        <li><i class="fas fa-heart"></i> <a href="love-calculator.html">Love Calculator</a></li>
-                        <li><i class="fas fa-balance-scale"></i> <a href="weight-height.html">Health Metrics</a></li>
-                        <li><i class="fas fa-rupee-sign"></i> <a href="emi-calculator.html">EMI Calculator</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-calculator"></i>
                 </div>
+                <h3>Smart Calculators</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-shoe-prints"></i> <a href="shoe-size-calculator.html">Shoe Size Calculator</a></li>
+                    <li><i class="fas fa-birthday-cake"></i> <a href="age-calculator.html">Age Calculator</a></li>
+                    <li><i class="fas fa-heart"></i> <a href="love-calculator.html">Love Calculator</a></li>
+                    <li><i class="fas fa-balance-scale"></i> <a href="weight-height.html">Health Metrics</a></li>
+                    <li><i class="fas fa-rupee-sign"></i> <a href="emi-calculator.html">EMI Calculator</a></li>
+                </ul>
             </div>
             
             <!-- Government Tools -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Government Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-landmark"></i> Government Tools</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-money-bill-wave"></i> <a href="7cpc-pay-calculator.html">7th CPC Pay Calculator</a></li>
-                        <li><i class="fas fa-money-bill-trend-up"></i> <a href="8cpc-pay-calculator.html">8th CPC Potential Pay</a></li>
-                        <li><i class="fas fa-percentage"></i> <a href="tax-calculator.html">Tax Calculator</a></li>
-                        <li><i class="fas fa-piggy-bank"></i> <a href="pf-calculator.html">PF Calculator</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-landmark"></i>
                 </div>
+                <h3>Government Tools</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-money-bill-wave"></i> <a href="7cpc-pay-calculator.html">7th CPC Pay Calculator</a></li>
+                    <li><i class="fas fa-money-bill-trend-up"></i> <a href="8cpc-pay-calculator.html">8th CPC Potential Pay</a></li>
+                    <li><i class="fas fa-percentage"></i> <a href="tax-calculator.html">Tax Calculator</a></li>
+                    <li><i class="fas fa-piggy-bank"></i> <a href="pf-calculator.html">PF Calculator</a></li>
+                </ul>
             </div>
             
             <!-- Creative Studio -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Creative Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-palette"></i> Creative Studio</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-home"></i> <a href="home-design.html">Home Design</a></li>
-                        <li><i class="fas fa-tshirt"></i> <a href="shirt-size-calculator.html">Fashion Tools</a></li>
-                        <li><i class="fas fa-vector-square"></i> <a href="home-design.html">Design Creator</a></li>
-                        <li><i class="fas fa-pen-fancy"></i> <a href="logo-maker.html">Logo Maker</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-palette"></i>
                 </div>
+                <h3>Creative Studio</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-home"></i> <a href="home-design.html">Home Design</a></li>
+                    <li><i class="fas fa-tshirt"></i> <a href="shirt-size-calculator.html">Fashion Tools</a></li>
+                    <li><i class="fas fa-vector-square"></i> <a href="home-design.html">Design Creator</a></li>
+                    <li><i class="fas fa-pen-fancy"></i> <a href="logo-maker.html">Logo Maker</a></li>
+                </ul>
             </div>
             
             <!-- Productivity -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Productivity Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-rocket"></i> Productivity</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-keyboard"></i> <a href="eng-typing.html">English Typing Tests</a></li>
-                        <li><i class="fas fa-keyboard"></i> <a href="hindi-typing.html">Hindi Typing Tests</a></li>
-                        <li><i class="fas fa-microphone"></i> <a href="voice-changer.html">Voice Tools</a></li>
-                        <li><i class="fas fa-chart-line"></i> <a href="calculator.html">Advanced Calculator</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-rocket"></i>
                 </div>
+                <h3>Productivity</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-keyboard"></i> <a href="eng-typing.html">English Typing Tests</a></li>
+                    <li><i class="fas fa-keyboard"></i> <a href="hindi-typing.html">Hindi Typing Tests</a></li>
+                    <li><i class="fas fa-microphone"></i> <a href="voice-changer.html">Voice Tools</a></li>
+                    <li><i class="fas fa-chart-line"></i> <a href="calculator.html">Advanced Calculator</a></li>
+                </ul>
             </div>
             
             <!-- Developer Tools -->
-            <div class="tool-card tool-card-3d">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Developer Tools" class="tool-card-image">
-                <div class="tool-card-content">
-                    <h3><i class="fas fa-code"></i> Developer Tools</h3>
-                    <ul class="tool-list">
-                        <li><i class="fas fa-file-code"></i> <a href="code-formatter.html">Code Formatter</a></li>
-                        <li><i class="fas fa-key"></i> <a href="password-generator.html">Password Generator</a></li>
-                        <li><i class="fas fa-qrcode"></i> <a href="qr-generator.html">QR Code Generator</a></li>
-                        <li><i class="fas fa-hashtag"></i> <a href="color-picker.html">Color Picker</a></li>
-                    </ul>
+            <div class="tool-card">
+                <div class="tool-card-icon">
+                    <i class="fas fa-code"></i>
                 </div>
+                <h3>Developer Tools</h3>
+                <ul class="tool-list">
+                    <li><i class="fas fa-file-code"></i> <a href="code-formatter.html">Code Formatter</a></li>
+                    <li><i class="fas fa-key"></i> <a href="password-generator.html">Password Generator</a></li>
+                    <li><i class="fas fa-qrcode"></i> <a href="qr-generator.html">QR Code Generator</a></li>
+                    <li><i class="fas fa-hashtag"></i> <a href="color-picker.html">Color Picker</a></li>
+                </ul>
             </div>
         </div>
     </section>
@@ -1249,7 +1189,9 @@
         <div class="featured-grid">
             <div class="featured-card">
                 <div class="featured-card-badge">Most Popular</div>
-                <img src="https://images.unsplash.com/photo-1622549037543-49cf07a5a0d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="PDF Tools">
+                <div class="featured-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
                 <div class="featured-content">
                     <h3>PDF Master Suite</h3>
                     <p>Compress, merge and convert PDF files with our powerful PDF tools that handle all your document needs</p>
@@ -1259,7 +1201,9 @@
             
             <div class="featured-card">
                 <div class="featured-card-badge">New</div>
-                <img src="https://images.unsplash.com/photo-1644442700745-5a5a3c8a3b3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="AI Tools">
+                <div class="featured-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
                 <div class="featured-content">
                     <h3>AI Writing Assistant</h3>
                     <p>Generate high-quality content instantly with our advanced paragraph writing AI powered by GPT technology</p>
@@ -1268,8 +1212,9 @@
             </div>
             
             <div class="featured-card">
-                <div class="featured-card-badge">Trending</div>
-                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Finance Tools">
+                <div class="featured-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
                 <div class="featured-content">
                     <h3>Financial Calculators</h3>
                     <p>Calculate EMI, 7th CPC pay and potential 8th CPC pay scales with our accurate financial tools</p>
@@ -1279,18 +1224,18 @@
         </div>
     </section>
     
-    <section class="newsletter" id="contact">
+    <section class="newsletter" id="about">
         <div class="newsletter-content">
             <h2>Stay Updated With New Tools</h2>
             <p>Subscribe to our newsletter and be the first to know about our latest tools and features</p>
             <form class="newsletter-form">
-                <input type="email" placeholder="Enter your email address" required>
+                <input type="email" placeholder="Enter your email address">
                 <button type="submit">Subscribe</button>
             </form>
         </div>
     </section>
     
-    <footer class="footer">
+    <footer class="footer" id="contact">
         <div class="footer-content">
             <div class="footer-column">
                 <div class="footer-logo">
@@ -1328,8 +1273,8 @@
             <div class="footer-column">
                 <h3>Company</h3>
                 <ul>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Blog</a></li>
@@ -1383,24 +1328,32 @@
             });
         });
         
-        // Animate elements on scroll
-        function animateOnScroll() {
-            const elements = document.querySelectorAll('.tool-card, .featured-card');
+        // Animate tool cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolCards = document.querySelectorAll('.tool-card, .featured-card');
             
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const screenPosition = window.innerHeight / 1.3;
-                
-                if(elementPosition < screenPosition) {
-                    element.classList.add('visible');
-                }
+            const animateOnScroll = () => {
+                toolCards.forEach((card, index) => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if(cardPosition < screenPosition) {
+                        card.style.transitionDelay = `${index * 0.1}s`;
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Set initial state
+            toolCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
             });
-        }
-        
-        // Set initial state and add scroll listener
-        window.addEventListener('DOMContentLoaded', () => {
-            animateOnScroll(); // Run once on load
+            
             window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
             
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1432,26 +1385,6 @@
                     }
                 });
             }
-        });
-        
-        // Add hover effect to tool cards
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const x = e.clientX - card.getBoundingClientRect().left;
-                const y = e.clientY - card.getBoundingClientRect().top;
-                
-                const centerX = card.offsetWidth / 2;
-                const centerY = card.offsetHeight / 2;
-                
-                const angleX = (y - centerY) / 20;
-                const angleY = (centerX - x) / 20;
-                
-                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-10px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(-10px)';
-            });
         });
     </script>
 </body>
