@@ -734,6 +734,205 @@
             transform: translateY(-3px);
         }
 
+        /* Multiple files upload styles */
+        .uploaded-files {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .files-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .files-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-item:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .file-details {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.2rem;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .file-remove {
+            color: #ff6b6b;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .file-remove:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .batch-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        .batch-download {
+            display: none;
+        }
+
+        /* Batch preview styles */
+        .batch-preview {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .batch-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .batch-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .batch-preview-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .batch-preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .batch-preview-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .batch-preview-info {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .batch-preview-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+        }
+
+        .batch-preview-label {
+            color: #666;
+        }
+
+        .batch-preview-value {
+            font-weight: 500;
+        }
+
+        .batch-preview-download {
+            display: block;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .batch-preview-download:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Progress bar styles */
+        .progress-container {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 50px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--gradient);
+            border-radius: 50px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: #666;
+        }
+
         @media (max-width: 992px) {
             header h1 {
                 font-size: 2.3rem;
@@ -762,7 +961,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .stats-container {
+            .stats-container, .batch-stats {
                 grid-template-columns: 1fr;
             }
             
@@ -770,7 +969,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .action-buttons {
+            .action-buttons, .batch-actions {
                 flex-direction: column;
             }
             
@@ -875,7 +1074,32 @@
                     <span class="format-badge">AVIF</span>
                     <span class="format-badge">SVG</span>
                 </div>
-                <input type="file" id="imageInput" accept="image/*">
+                <input type="file" id="imageInput" accept="image/*" multiple>
+            </div>
+
+            <!-- Uploaded files list -->
+            <div class="uploaded-files" id="uploadedFiles">
+                <div class="files-header">
+                    <h3>Selected Files</h3>
+                    <span class="files-count" id="filesCount">0 files</span>
+                </div>
+                <div class="files-list" id="filesList">
+                    <!-- Files will be added here dynamically -->
+                </div>
+                <div class="batch-actions">
+                    <button class="btn btn-secondary" onclick="clearAllFiles()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                    <button class="btn btn-primary" onclick="compressAllImages()">
+                        <i class="fas fa-compress-alt"></i> Compress All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-text" id="progressText">Processing: 0/0</div>
             </div>
 
             <div class="compression-controls">
@@ -977,30 +1201,45 @@
                 </div>
             </div>
 
-            <div class="stats-container" id="statsContainer" style="display: none;">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-file-image"></i>
+            <!-- Batch download button -->
+            <div class="batch-download" id="batchDownloadContainer">
+                <button class="btn btn-accent" onclick="downloadAllCompressed()" style="width: 100%;">
+                    <i class="fas fa-download"></i> Download All Compressed Images (ZIP)
+                </button>
+            </div>
+
+            <!-- Batch preview section -->
+            <div class="batch-preview" id="batchPreview">
+                <div class="batch-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <div class="stat-value" id="batchOriginalSize">0 KB</div>
+                        <div class="stat-label">Total Original Size</div>
                     </div>
-                    <div class="stat-value" id="originalSizeStat">0 KB</div>
-                    <div class="stat-label">Original Size</div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-compress-alt"></i>
+                        </div>
+                        <div class="stat-value" id="batchCompressedSize">0 KB</div>
+                        <div class="stat-label">Total Compressed Size</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-value" id="batchSavings">0%</div>
+                        <div class="stat-label">Total Size Reduction</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-compress-alt"></i>
-                    </div>
-                    <div class="stat-value" id="compressedSizeStat">0 KB</div>
-                    <div class="stat-label">Compressed Size</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-percentage"></i>
-                    </div>
-                    <div class="stat-value" id="savingsStat">0%</div>
-                    <div class="stat-label">Size Reduction</div>
+                
+                <div class="batch-preview-grid" id="batchPreviewGrid">
+                    <!-- Compressed images will be added here -->
                 </div>
             </div>
 
+            <!-- Single image preview section -->
             <div class="preview-section" id="previewSection" style="display: none;">
                 <div class="preview-card">
                     <div class="preview-header">
@@ -1139,6 +1378,8 @@
         <span id="toastMessage">Image compressed successfully!</span>
     </div>
 
+    <!-- JSZip library for creating ZIP files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
         // DOM Elements
         const qualitySlider = document.getElementById('quality');
@@ -1150,10 +1391,37 @@
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+        const uploadedFilesSection = document.getElementById('uploadedFiles');
+        const filesList = document.getElementById('filesList');
+        const filesCount = document.getElementById('filesCount');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const batchPreview = document.getElementById('batchPreview');
+        const batchPreviewGrid = document.getElementById('batchPreviewGrid');
+        const batchDownloadContainer = document.getElementById('batchDownloadContainer');
+        const batchOriginalSize = document.getElementById('batchOriginalSize');
+        const batchCompressedSize = document.getElementById('batchCompressedSize');
+        const batchSavings = document.getElementById('batchSavings');
+
+        // Global variables
+        let uploadedFiles = [];
+        let compressedFiles = [];
+        let currentFileIndex = 0;
+        let totalOriginalSize = 0;
+        let totalCompressedSize = 0;
 
         // Update quality value display when slider changes
         qualitySlider.addEventListener('input', (e) => {
             qualityValue.textContent = `${e.target.value}%`;
+        });
+
+        // Handle file input change
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                addFilesToUploadList(e.target.files);
+            }
         });
 
         // Handle drag and drop
@@ -1177,11 +1445,120 @@
             dropZone.style.transform = 'translateY(0)';
             
             if (e.dataTransfer.files.length) {
-                document.getElementById('imageInput').files = e.dataTransfer.files;
-                // Auto-compress if file is dropped
-                setTimeout(compressImage, 100);
+                addFilesToUploadList(e.dataTransfer.files);
             }
         });
+
+        // Add files to upload list
+        function addFilesToUploadList(files) {
+            let validFiles = 0;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check if file is an image
+                if (!file.type.match('image.*')) {
+                    continue;
+                }
+                
+                // Check file size (limit to 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showToast(`File "${file.name}" exceeds 10MB limit and was skipped.`, 'error');
+                    continue;
+                }
+                
+                // Add file to uploadedFiles array if not already there
+                if (!uploadedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                    uploadedFiles.push(file);
+                    validFiles++;
+                    
+                    // Add file to the list UI
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.dataset.index = uploadedFiles.length - 1;
+                    fileItem.innerHTML = `
+                        <div class="file-icon">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatBytes(file.size)}</div>
+                        </div>
+                        <div class="file-remove" onclick="removeFile(${uploadedFiles.length - 1})">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    `;
+                    filesList.appendChild(fileItem);
+                }
+            }
+            
+            // Update files count
+            updateFilesCount();
+            
+            // Show uploaded files section if there are files
+            if (uploadedFiles.length > 0) {
+                uploadedFilesSection.style.display = 'block';
+                
+                // Hide single preview section if shown
+                previewSection.style.display = 'none';
+                batchPreview.style.display = 'none';
+                batchDownloadContainer.style.display = 'none';
+            }
+            
+            // Show message if any files were skipped
+            if (validFiles < files.length) {
+                showToast(`Added ${validFiles} files. ${files.length - validFiles} files were skipped.`, 'success');
+            } else if (validFiles > 0) {
+                showToast(`Added ${validFiles} files.`, 'success');
+            }
+        }
+
+        // Remove file from upload list
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            
+            // Rebuild the files list
+            filesList.innerHTML = '';
+            uploadedFiles.forEach((file, i) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.dataset.index = i;
+                fileItem.innerHTML = `
+                    <div class="file-icon">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <div class="file-details">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatBytes(file.size)}</div>
+                    </div>
+                    <div class="file-remove" onclick="removeFile(${i})">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                filesList.appendChild(fileItem);
+            });
+            
+            updateFilesCount();
+            
+            if (uploadedFiles.length === 0) {
+                uploadedFilesSection.style.display = 'none';
+            }
+        }
+
+        // Clear all files
+        function clearAllFiles() {
+            uploadedFiles = [];
+            filesList.innerHTML = '';
+            updateFilesCount();
+            uploadedFilesSection.style.display = 'none';
+            showToast('All files have been removed.', 'success');
+        }
+
+        // Update files count display
+        function updateFilesCount() {
+            const count = uploadedFiles.length;
+            filesCount.textContent = `${count} file${count !== 1 ? 's' : ''}`;
+        }
 
         // Toggle advanced options
         function toggleAdvanced() {
@@ -1209,8 +1586,11 @@
 
         // Reset tool
         function resetTool() {
-            document.getElementById('imageInput').value = '';
+            imageInput.value = '';
+            clearAllFiles();
             previewSection.style.display = 'none';
+            batchPreview.style.display = 'none';
+            batchDownloadContainer.style.display = 'none';
             statsContainer.style.display = 'none';
             document.getElementById('originalPreview').innerHTML = `
                 <div style="text-align: center; color: #999; font-size: 0.9rem;">
@@ -1237,25 +1617,59 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
-        // Main compression function
+        // Compress a single image
         function compressImage() {
-            const input = document.getElementById('imageInput');
-            const file = input.files[0];
+            if (uploadedFiles.length > 1) {
+                showToast('You have multiple files selected. Use "Compress All" to process them.', 'error');
+                return;
+            }
             
-            if (!file) {
+            if (uploadedFiles.length === 0) {
                 showToast('Please select an image first!', 'error');
                 return;
             }
+            
+            processImage(uploadedFiles[0], 0, true);
+        }
 
-            if (file.size > 10 * 1024 * 1024) {
-                showToast('File size exceeds 10MB limit. Please choose a smaller image.', 'error');
+        // Compress all images
+        function compressAllImages() {
+            if (uploadedFiles.length === 0) {
+                showToast('Please select images first!', 'error');
                 return;
             }
-
-            // Show loading spinner
-            spinner.style.display = 'block';
+            
+            // Reset batch stats
+            totalOriginalSize = 0;
+            totalCompressedSize = 0;
+            compressedFiles = [];
+            batchPreviewGrid.innerHTML = '';
+            
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressText.textContent = `Processing: 0/${uploadedFiles.length}`;
+            
+            // Hide single preview section
             previewSection.style.display = 'none';
-            statsContainer.style.display = 'none';
+            
+            // Show batch preview section
+            batchPreview.style.display = 'block';
+            batchDownloadContainer.style.display = 'none';
+            
+            // Process first image
+            currentFileIndex = 0;
+            processImage(uploadedFiles[currentFileIndex], currentFileIndex, false);
+        }
+
+        // Process an image (compress and display)
+        function processImage(file, index, isSingle) {
+            // Show loading spinner for single image
+            if (isSingle) {
+                spinner.style.display = 'block';
+                previewSection.style.display = 'none';
+                statsContainer.style.display = 'none';
+            }
             
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -1330,66 +1744,164 @@
                     canvas.toBlob((blob) => {
                         const compressedUrl = URL.createObjectURL(blob);
                         
-                        // Display compressed image
-                        document.getElementById('compressedPreview').innerHTML = `
-                            <img src="${compressedUrl}" class="preview-image">
-                        `;
-                        
-                        // Update download link
-                        const downloadLink = document.getElementById('downloadLink');
-                        downloadLink.href = compressedUrl;
-                        downloadLink.download = `compressed-${file.name.split('.')[0]}.${outputFormat}`;
-                        
-                        // Update file information
-                        const originalSizeKB = (file.size / 1024).toFixed(2);
-                        const compressedSizeKB = (blob.size / 1024).toFixed(2);
-                        const savings = ((1 - blob.size / file.size) * 100).toFixed(2);
-                        
-                        document.getElementById('originalDimensions').textContent = 
-                            `${img.width} × ${img.height}px`;
-                        document.getElementById('compressedDimensions').textContent = 
-                            `${Math.round(newWidth)} × ${Math.round(newHeight)}px`;
-                            
-                        document.getElementById('originalSize').textContent = 
-                            formatBytes(file.size);
-                        document.getElementById('compressedSize').textContent = 
-                            formatBytes(blob.size);
-                        document.getElementById('reductionPercent').textContent = 
-                            `${savings}%`;
-                            
-                        document.getElementById('originalFormat').textContent = 
-                            file.type.split('/')[1].toUpperCase();
-                        document.getElementById('compressedFormat').textContent = 
-                            outputFormat.toUpperCase();
-                            
                         // Update stats
-                        document.getElementById('originalSizeStat').textContent = 
-                            `${originalSizeKB} KB`;
-                        document.getElementById('compressedSizeStat').textContent = 
-                            `${compressedSizeKB} KB`;
-                        document.getElementById('savingsStat').textContent = 
-                            `${savings}%`;
+                        totalOriginalSize += file.size;
+                        totalCompressedSize += blob.size;
                         
-                        // Show preview and stats sections
-                        previewSection.style.display = 'grid';
-                        statsContainer.style.display = 'grid';
-                        
-                        // Hide spinner
-                        spinner.style.display = 'none';
-                        
-                        // Show success toast
-                        showToast(`Image compressed successfully! Saved ${savings}%`, 'success');
-                        
+                        if (isSingle) {
+                            // Display compressed image for single file
+                            document.getElementById('compressedPreview').innerHTML = `
+                                <img src="${compressedUrl}" class="preview-image">
+                            `;
+                            
+                            // Update download link
+                            const downloadLink = document.getElementById('downloadLink');
+                            downloadLink.href = compressedUrl;
+                            downloadLink.download = `compressed-${file.name.split('.')[0]}.${outputFormat}`;
+                            
+                            // Update file information
+                            const originalSizeKB = (file.size / 1024).toFixed(2);
+                            const compressedSizeKB = (blob.size / 1024).toFixed(2);
+                            const savings = ((1 - blob.size / file.size) * 100).toFixed(2);
+                            
+                            document.getElementById('originalDimensions').textContent = 
+                                `${img.width} × ${img.height}px`;
+                            document.getElementById('compressedDimensions').textContent = 
+                                `${Math.round(newWidth)} × ${Math.round(newHeight)}px`;
+                                
+                            document.getElementById('originalSize').textContent = 
+                                formatBytes(file.size);
+                            document.getElementById('compressedSize').textContent = 
+                                formatBytes(blob.size);
+                            document.getElementById('reductionPercent').textContent = 
+                                `${savings}%`;
+                                
+                            document.getElementById('originalFormat').textContent = 
+                                file.type.split('/')[1].toUpperCase();
+                            document.getElementById('compressedFormat').textContent = 
+                                outputFormat.toUpperCase();
+                            
+                            // Show preview section
+                            previewSection.style.display = 'grid';
+                            statsContainer.style.display = 'grid';
+                            
+                            // Hide spinner
+                            spinner.style.display = 'none';
+                            
+                            // Show success toast
+                            showToast(`Image compressed successfully! Saved ${savings}%`, 'success');
+                        } else {
+                            // Add to compressed files array for batch processing
+                            compressedFiles.push({
+                                url: compressedUrl,
+                                blob: blob,
+                                name: `compressed-${file.name.split('.')[0]}.${outputFormat}`,
+                                originalSize: file.size,
+                                compressedSize: blob.size,
+                                width: Math.round(newWidth),
+                                height: Math.round(newHeight),
+                                format: outputFormat.toUpperCase()
+                            });
+                            
+                            // Update progress
+                            currentFileIndex++;
+                            const progress = (currentFileIndex / uploadedFiles.length) * 100;
+                            progressBar.style.width = `${progress}%`;
+                            progressText.textContent = `Processing: ${currentFileIndex}/${uploadedFiles.length}`;
+                            
+                            // Add preview card to batch preview
+                            const savings = ((1 - blob.size / file.size) * 100).toFixed(2);
+                            const previewCard = document.createElement('div');
+                            previewCard.className = 'batch-preview-card';
+                            previewCard.innerHTML = `
+                                <img src="${compressedUrl}" class="batch-preview-image">
+                                <div class="batch-preview-info">
+                                    <div class="batch-preview-info-row">
+                                        <span class="batch-preview-label">Name:</span>
+                                        <span class="batch-preview-value">${file.name}</span>
+                                    </div>
+                                    <div class="batch-preview-info-row">
+                                        <span class="batch-preview-label">Original:</span>
+                                        <span class="batch-preview-value">${formatBytes(file.size)}</span>
+                                    </div>
+                                    <div class="batch-preview-info-row">
+                                        <span class="batch-preview-label">Compressed:</span>
+                                        <span class="batch-preview-value">${formatBytes(blob.size)}</span>
+                                    </div>
+                                    <div class="batch-preview-info-row">
+                                        <span class="batch-preview-label">Reduction:</span>
+                                        <span class="batch-preview-value">${savings}%</span>
+                                    </div>
+                                    <a href="${compressedUrl}" download="compressed-${file.name}" class="batch-preview-download">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            `;
+                            batchPreviewGrid.appendChild(previewCard);
+                            
+                            // Update batch stats
+                            batchOriginalSize.textContent = formatBytes(totalOriginalSize);
+                            batchCompressedSize.textContent = formatBytes(totalCompressedSize);
+                            const totalSavings = ((1 - totalCompressedSize / totalOriginalSize) * 100).toFixed(2);
+                            batchSavings.textContent = `${totalSavings}%`;
+                            
+                            // Process next file or finish
+                            if (currentFileIndex < uploadedFiles.length) {
+                                setTimeout(() => {
+                                    processImage(uploadedFiles[currentFileIndex], currentFileIndex, false);
+                                }, 100);
+                            } else {
+                                // All files processed
+                                progressContainer.style.display = 'none';
+                                batchDownloadContainer.style.display = 'block';
+                                showToast(`All ${uploadedFiles.length} images compressed successfully! Total savings: ${totalSavings}%`, 'success');
+                            }
+                        }
                     }, mimeType, quality);
                 };
                 img.src = e.target.result;
                 
-                // Display original image
-                document.getElementById('originalPreview').innerHTML = `
-                    <img src="${e.target.result}" class="preview-image">
-                `;
+                if (isSingle) {
+                    // Display original image for single file
+                    document.getElementById('originalPreview').innerHTML = `
+                        <img src="${e.target.result}" class="preview-image">
+                    `;
+                }
             };
             reader.readAsDataURL(file);
+        }
+
+        // Download all compressed images as ZIP
+        function downloadAllCompressed() {
+            if (compressedFiles.length === 0) {
+                showToast('No compressed files available to download.', 'error');
+                return;
+            }
+            
+            showToast('Creating ZIP file, please wait...', 'success');
+            
+            const zip = new JSZip();
+            const folder = zip.folder("compressed_images");
+            
+            // Add all compressed files to the ZIP
+            compressedFiles.forEach((file, index) => {
+                folder.file(file.name, file.blob);
+            });
+            
+            // Generate the ZIP file
+            zip.generateAsync({ type: "blob" }).then((content) => {
+                // Create download link
+                const zipUrl = URL.createObjectURL(content);
+                const a = document.createElement("a");
+                a.href = zipUrl;
+                a.download = "compressed_images.zip";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(zipUrl);
+                
+                showToast('ZIP file downloaded successfully!', 'success');
+            });
         }
 
         // Initialize AdSense ads
