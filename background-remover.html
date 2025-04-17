@@ -685,6 +685,153 @@
             font-size: 0.9rem;
             color: var(--gray-color);
         }
+
+        /* Image gallery styles */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 1rem 0;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+
+        .gallery-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .gallery-btn {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Batch processing styles */
+        .batch-controls {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .batch-progress {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Download options */
+        .download-options {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .download-options label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .download-options select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray-color);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1rem;
+        }
+
+        /* Alert styles */
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+
+        /* Zoom controls */
+        .zoom-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 5;
+            display: flex;
+            gap: 5px;
+        }
+
+        .zoom-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            border: none;
+        }
+
+        /* Image info */
+        .image-info {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body>
@@ -725,10 +872,13 @@
                 
                 <div class="upload-area" id="uploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Drag & Drop Your Image</h3>
-                    <p>or click to browse files (JPG, PNG, WEBP - Max 10MB)</p>
-                    <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp">
+                    <h3>Drag & Drop Your Image(s)</h3>
+                    <p>or click to browse files (JPG, PNG, WEBP - Max 10MB each)</p>
+                    <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" multiple>
                 </div>
+
+                <!-- Image gallery for multiple files -->
+                <div class="image-gallery" id="imageGallery" style="display: none;"></div>
 
                 <!-- Mid-content Banner Ad -->
                 <div class="ad-container horizontal">
@@ -738,6 +888,11 @@
 
                 <div class="canvas-container" id="canvasContainer">
                     <canvas id="imageCanvas"></canvas>
+                    <div class="zoom-controls" id="zoomControls" style="display: none;">
+                        <button class="zoom-btn" id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn" id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn" id="zoomReset"><i class="fas fa-expand"></i></button>
+                    </div>
                     <div class="loading" id="loadingIndicator" style="display: none;">
                         <div class="spinner"></div>
                         <p>Processing your image...</p>
@@ -745,6 +900,11 @@
                             <div class="progress-bar" id="progressBar"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="image-info" id="imageInfo" style="display: none;">
+                    <span id="imageDimensions">0×0</span>
+                    <span id="imageSize">0 KB</span>
                 </div>
 
                 <div class="btn-group">
@@ -756,9 +916,34 @@
                     </button>
                 </div>
 
-                <button class="btn btn-block" id="downloadAfterChange" style="display: none; margin-top: 1rem;">
-                    <i class="fas fa-download"></i> Download Image
-                </button>
+                <div class="download-options" id="downloadOptions">
+                    <label for="downloadFormat">Download Format:</label>
+                    <select id="downloadFormat">
+                        <option value="png">PNG (Transparent)</option>
+                        <option value="jpeg">JPEG (High Quality)</option>
+                        <option value="webp">WebP (Balanced)</option>
+                    </select>
+                    <button class="btn btn-block" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Image
+                    </button>
+                    <button class="btn btn-outline btn-block" id="downloadAllBtn" style="margin-top: 0.5rem;">
+                        <i class="fas fa-download"></i> Download All Processed
+                    </button>
+                </div>
+
+                <!-- Batch processing controls -->
+                <div class="batch-controls" id="batchControls" style="display: none;">
+                    <h3 class="section-title"><i class="fas fa-layer-group"></i> Batch Processing</h3>
+                    <button class="btn btn-block" id="processAllBtn">
+                        <i class="fas fa-play-circle"></i> Process All Images
+                    </button>
+                    <div class="batch-progress" id="batchProgress">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="batchProgressBar"></div>
+                        </div>
+                        <p style="text-align: center; margin-top: 0.5rem;" id="batchStatus">Processing 1 of 5 images...</p>
+                    </div>
+                </div>
             </section>
 
             <section class="controls-section">
@@ -783,6 +968,7 @@
                         <option value="color">Solid Color</option>
                         <option value="image">Custom Image</option>
                         <option value="blur">Blur Effect</option>
+                        <option value="gradient">Gradient</option>
                     </select>
                 </div>
 
@@ -816,6 +1002,33 @@
                     <div class="range-slider">
                         <input type="range" id="blurAmount" min="0" max="20" value="5">
                         <div class="range-value">5px</div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="gradientControl" style="display: none;">
+                    <label for="gradientType">Gradient Type</label>
+                    <select id="gradientType">
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                    
+                    <label for="gradientColor1" style="margin-top: 1rem;">Color 1</label>
+                    <input type="color" id="gradientColor1" value="#4361ee">
+                    
+                    <label for="gradientColor2" style="margin-top: 0.5rem;">Color 2</label>
+                    <input type="color" id="gradientColor2" value="#f72585">
+                    
+                    <div class="preset-gradients" style="margin-top: 0.5rem;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #4361ee, #3a0ca3);" 
+                                 data-color1="#4361ee" data-color2="#3a0ca3"></div>
+                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #f72585, #b5179e);" 
+                                 data-color1="#f72585" data-color2="#b5179e"></div>
+                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #4cc9f0, #4895ef);" 
+                                 data-color1="#4cc9f0" data-color2="#4895ef"></div>
+                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #2b2d42, #4a4e69);" 
+                                 data-color1="#2b2d42" data-color2="#4a4e69"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -853,6 +1066,13 @@
                                 Keep Natural Shadows
                             </label>
                         </div>
+                        
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="autoEnhance" checked>
+                                Auto-Enhance Edges
+                            </label>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -887,6 +1107,18 @@
                     <i class="fas fa-palette"></i>
                     <h3>Advanced Editing</h3>
                     <p>Multiple background options and fine-tuning controls.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-images"></i>
+                    <h3>Batch Processing</h3>
+                    <p>Process multiple images at once with consistent settings.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-file-download"></i>
+                    <h3>Flexible Export</h3>
+                    <p>Download in PNG, JPEG, or WebP formats with quality options.</p>
                 </div>
             </div>
         </section>
@@ -954,36 +1186,65 @@
             // DOM Elements
             const uploadArea = document.getElementById('uploadArea');
             const fileInput = document.getElementById('fileInput');
+            const imageGallery = document.getElementById('imageGallery');
             const canvasContainer = document.getElementById('canvasContainer');
             const canvas = document.getElementById('imageCanvas');
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const zoomControls = document.getElementById('zoomControls');
+            const zoomInBtn = document.getElementById('zoomIn');
+            const zoomOutBtn = document.getElementById('zoomOut');
+            const zoomResetBtn = document.getElementById('zoomReset');
             const loadingIndicator = document.getElementById('loadingIndicator');
             const progressBar = document.getElementById('progressBar');
             const progressContainer = document.getElementById('progressContainer');
             const removeBgBtn = document.getElementById('removeBgBtn');
             const resetBtn = document.getElementById('resetBtn');
-            const downloadAfterChange = document.getElementById('downloadAfterChange');
+            const downloadOptions = document.getElementById('downloadOptions');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const downloadFormat = document.getElementById('downloadFormat');
+            const batchControls = document.getElementById('batchControls');
+            const processAllBtn = document.getElementById('processAllBtn');
+            const batchProgress = document.getElementById('batchProgress');
+            const batchProgressBar = document.getElementById('batchProgressBar');
+            const batchStatus = document.getElementById('batchStatus');
+            const imageInfo = document.getElementById('imageInfo');
+            const imageDimensions = document.getElementById('imageDimensions');
+            const imageSize = document.getElementById('imageSize');
             const bgType = document.getElementById('bgType');
             const bgColor = document.getElementById('bgColor');
             const colorPreview = document.getElementById('colorPreview');
             const colorControl = document.getElementById('colorControl');
             const imageControl = document.getElementById('imageControl');
             const blurControl = document.getElementById('blurControl');
+            const gradientControl = document.getElementById('gradientControl');
             const bgImage = document.getElementById('bgImage');
             const blurAmount = document.getElementById('blurAmount');
+            const gradientType = document.getElementById('gradientType');
+            const gradientColor1 = document.getElementById('gradientColor1');
+            const gradientColor2 = document.getElementById('gradientColor2');
             const applyChangesBtn = document.getElementById('applyChangesBtn');
             const advancedToggle = document.getElementById('advancedToggle');
             const advancedContent = document.getElementById('advancedContent');
             const edgePrecision = document.getElementById('edgePrecision');
             const transparencyThreshold = document.getElementById('transparencyThreshold');
             const keepShadows = document.getElementById('keepShadows');
+            const autoEnhance = document.getElementById('autoEnhance');
             const presetColors = document.querySelectorAll('.preset-color');
+            const presetGradients = document.querySelectorAll('.preset-gradient');
 
             // Variables
-            let originalImage = null;
-            let processedImage = null;
+            let originalImages = [];
+            let currentImageIndex = 0;
+            let processedImages = [];
             let originalImageData = null;
             let isProcessing = false;
+            let scale = 1;
+            let offsetX = 0;
+            let offsetY = 0;
+            let isDragging = false;
+            let lastX = 0;
+            let lastY = 0;
 
             // Event Listeners
             uploadArea.addEventListener('click', () => fileInput.click());
@@ -1009,13 +1270,13 @@
                 
                 if (e.dataTransfer.files.length) {
                     fileInput.files = e.dataTransfer.files;
-                    handleFileUpload(e.dataTransfer.files[0]);
+                    handleFileUpload(Array.from(e.dataTransfer.files));
                 }
             });
             
             fileInput.addEventListener('change', () => {
                 if (fileInput.files.length) {
-                    handleFileUpload(fileInput.files[0]);
+                    handleFileUpload(Array.from(fileInput.files));
                 }
             });
             
@@ -1023,6 +1284,7 @@
                 colorControl.style.display = bgType.value === 'color' ? 'block' : 'none';
                 imageControl.style.display = bgType.value === 'image' ? 'block' : 'none';
                 blurControl.style.display = bgType.value === 'blur' ? 'block' : 'none';
+                gradientControl.style.display = bgType.value === 'gradient' ? 'block' : 'none';
             });
             
             bgColor.addEventListener('input', () => {
@@ -1041,6 +1303,15 @@
                     const colorValue = this.getAttribute('data-color');
                     bgColor.value = colorValue;
                     colorPreview.style.backgroundColor = colorValue;
+                });
+            });
+            
+            presetGradients.forEach(gradient => {
+                gradient.addEventListener('click', function() {
+                    const color1 = this.getAttribute('data-color1');
+                    const color2 = this.getAttribute('data-color2');
+                    gradientColor1.value = color1;
+                    gradientColor2.value = color2;
                 });
             });
             
@@ -1069,62 +1340,174 @@
             removeBgBtn.addEventListener('click', removeBackground);
             resetBtn.addEventListener('click', resetImage);
             applyChangesBtn.addEventListener('click', applyBackgroundChanges);
-            downloadAfterChange.addEventListener('click', downloadImage);
-
+            downloadBtn.addEventListener('click', downloadImage);
+            downloadAllBtn.addEventListener('click', downloadAllImages);
+            processAllBtn.addEventListener('click', processAllImages);
+            
+            // Zoom controls
+            zoomInBtn.addEventListener('click', () => zoomImage(1.2));
+            zoomOutBtn.addEventListener('click', () => zoomImage(0.8));
+            zoomResetBtn.addEventListener('click', resetZoom);
+            
+            // Canvas panning
+            canvas.addEventListener('mousedown', startDrag);
+            canvas.addEventListener('mousemove', dragImage);
+            canvas.addEventListener('mouseup', endDrag);
+            canvas.addEventListener('mouseleave', endDrag);
+            canvas.addEventListener('wheel', handleWheel, { passive: false });
+            
             // Functions
-            function handleFileUpload(file) {
-                if (!file.type.match('image.*')) {
-                    showAlert('Please upload an image file (JPG, PNG, or WEBP)', 'error');
+            function handleFileUpload(files) {
+                // Filter only image files
+                const imageFiles = files.filter(file => file.type.match('image.*'));
+                
+                if (imageFiles.length === 0) {
+                    showAlert('Please upload image files (JPG, PNG, or WEBP)', 'error');
                     return;
                 }
                 
-                if (file.size > 10 * 1024 * 1024) {
-                    showAlert('File size should be less than 10MB', 'error');
-                    return;
+                // Check file sizes
+                const oversizedFiles = imageFiles.filter(file => file.size > 10 * 1024 * 1024);
+                if (oversizedFiles.length > 0) {
+                    showAlert('Some files are larger than 10MB and will be skipped', 'warning');
                 }
                 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    originalImage = new Image();
-                    originalImage.onload = function() {
-                        canvas.width = Math.min(originalImage.width, 1200);
-                        canvas.height = Math.min(originalImage.height, 1200);
-                        
-                        // Calculate scaling factors
-                        const scale = Math.min(
-                            canvas.width / originalImage.width,
-                            canvas.height / originalImage.height
-                        );
-                        
-                        // Draw the image scaled to fit the canvas
-                        ctx.drawImage(
-                            originalImage,
-                            0, 0, originalImage.width, originalImage.height,
-                            0, 0, originalImage.width * scale, originalImage.height * scale
-                        );
-                        
-                        // Store original dimensions for download
-                        originalImage.width = originalImage.width;
-                        originalImage.height = originalImage.height;
-                        
-                        canvasContainer.style.display = 'block';
-                        removeBgBtn.style.display = 'inline-flex';
-                        resetBtn.style.display = 'inline-flex';
-                        uploadArea.style.display = 'none';
-                        
-                        // Add fade-in animation
-                        canvasContainer.classList.add('fade-in');
-                        
-                        // Store original image data
-                        originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                // Process valid files
+                const validFiles = imageFiles.filter(file => file.size <= 10 * 1024 * 1024);
+                
+                // Clear previous images
+                originalImages = [];
+                processedImages = [];
+                currentImageIndex = 0;
+                imageGallery.innerHTML = '';
+                
+                // Process each file
+                validFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            // Store the original image
+                            originalImages.push({
+                                src: e.target.result,
+                                width: this.width,
+                                height: this.height,
+                                file: file
+                            });
+                            
+                            // Create thumbnail
+                            createThumbnail(e.target.result, index, file.name);
+                            
+                            // If this is the first image, display it
+                            if (index === 0) {
+                                displayImage(0);
+                            }
+                            
+                            // Show batch controls if multiple images
+                            if (validFiles.length > 1) {
+                                batchControls.style.display = 'block';
+                            } else {
+                                batchControls.style.display = 'none';
+                            }
+                        };
+                        img.src = e.target.result;
                     };
-                    originalImage.src = e.target.result;
+                    reader.readAsDataURL(file);
+                });
+            }
+            
+            function createThumbnail(src, index, filename) {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = src;
+                thumbnail.className = 'thumbnail';
+                thumbnail.alt = filename;
+                thumbnail.dataset.index = index;
+                
+                // Highlight first thumbnail by default
+                if (index === 0) {
+                    thumbnail.classList.add('active');
+                }
+                
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+                    
+                    // Display the selected image
+                    displayImage(parseInt(this.dataset.index));
+                });
+                
+                imageGallery.appendChild(thumbnail);
+                imageGallery.style.display = 'flex';
+            }
+            
+            function displayImage(index) {
+                if (index < 0 || index >= originalImages.length) return;
+                
+                currentImageIndex = index;
+                const imgData = originalImages[index];
+                
+                // Reset zoom and pan
+                scale = 1;
+                offsetX = 0;
+                offsetY = 0;
+                
+                // Set canvas dimensions (with max size constraints)
+                const maxWidth = Math.min(imgData.width, 1200);
+                const maxHeight = Math.min(imgData.height, 1200);
+                
+                // Calculate scaling to fit canvas
+                const scaleToFit = Math.min(
+                    maxWidth / imgData.width,
+                    maxHeight / imgData.height
+                );
+                
+                canvas.width = imgData.width * scaleToFit;
+                canvas.height = imgData.height * scaleToFit;
+                
+                // Draw the image
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Store original image data
+                    originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    
+                    // Update UI
+                    canvasContainer.style.display = 'block';
+                    removeBgBtn.style.display = 'inline-flex';
+                    resetBtn.style.display = 'inline-flex';
+                    uploadArea.style.display = 'none';
+                    downloadOptions.style.display = 'block';
+                    zoomControls.style.display = 'flex';
+                    
+                    // Update image info
+                    imageDimensions.textContent = `${imgData.width}×${imgData.height}`;
+                    imageSize.textContent = formatFileSize(imgData.file.size);
+                    imageInfo.style.display = 'flex';
+                    
+                    // Reset processed images array for this index if it exists
+                    if (processedImages[index]) {
+                        processedImages[index] = null;
+                    }
+                    
+                    // Add fade-in animation
+                    canvasContainer.classList.add('fade-in');
                 };
-                reader.readAsDataURL(file);
+                img.src = imgData.src;
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' bytes';
+                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                else return (bytes / 1048576).toFixed(1) + ' MB';
             }
             
             function removeBackground() {
-                if (!originalImage || isProcessing) return;
+                if (!originalImages.length || isProcessing) return;
                 
                 isProcessing = true;
                 loadingIndicator.style.display = 'flex';
@@ -1150,6 +1533,7 @@
                 const precision = parseInt(edgePrecision.value);
                 const threshold = parseInt(transparencyThreshold.value);
                 const keepShadowsValue = keepShadows.checked;
+                const autoEnhanceValue = autoEnhance.checked;
                 
                 // Get image data
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -1193,8 +1577,15 @@
                     }
                 }
                 
+                // Auto-enhance edges if enabled
+                if (autoEnhanceValue) {
+                    enhanceEdges(imageData);
+                }
+                
                 ctx.putImageData(imageData, 0, 0);
-                processedImage = canvas.toDataURL('image/png');
+                
+                // Store the processed image
+                processedImages[currentImageIndex] = canvas.toDataURL('image/png');
                 
                 // Hide loading indicator
                 setTimeout(() => {
@@ -1203,9 +1594,47 @@
                     progressBar.style.width = '0%';
                     removeBgBtn.disabled = false;
                     resetBtn.disabled = false;
-                    downloadAfterChange.style.display = 'block';
                     isProcessing = false;
                 }, 500);
+            }
+            
+            function enhanceEdges(imageData) {
+                const data = imageData.data;
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Create a copy of the original data for reference
+                const originalData = new Uint8ClampedArray(data);
+                
+                // Apply edge enhancement
+                for (let y = 1; y < height - 1; y++) {
+                    for (let x = 1; x < width - 1; x++) {
+                        const idx = (y * width + x) * 4;
+                        
+                        // Only enhance edges (partially transparent pixels)
+                        if (data[idx + 3] > 0 && data[idx + 3] < 255) {
+                            // Simple edge sharpening kernel
+                            for (let c = 0; c < 3; c++) {
+                                let sum = 0;
+                                sum -= originalData[idx - width * 4 - 4 + c] * 0.5;
+                                sum -= originalData[idx - width * 4 + c] * 0.5;
+                                sum -= originalData[idx - width * 4 + 4 + c] * 0.5;
+                                sum -= originalData[idx - 4 + c] * 0.5;
+                                sum += originalData[idx + c] * 4;
+                                sum -= originalData[idx + 4 + c] * 0.5;
+                                sum -= originalData[idx + width * 4 - 4 + c] * 0.5;
+                                sum -= originalData[idx + width * 4 + c] * 0.5;
+                                sum -= originalData[idx + width * 4 + 4 + c] * 0.5;
+                                
+                                // Clamp the value to 0-255
+                                data[idx + c] = Math.max(0, Math.min(255, sum));
+                            }
+                            
+                            // Make edge pixels more opaque
+                            data[idx + 3] = Math.min(255, data[idx + 3] * 1.2);
+                        }
+                    }
+                }
             }
             
             function getEdgeColor(imageData) {
@@ -1248,13 +1677,13 @@
             }
             
             function applyBackgroundChanges() {
-                if (!originalImage) {
+                if (!originalImages.length) {
                     showAlert('Please upload an image first', 'error');
                     return;
                 }
                 
                 // First, re-apply the background removal to have a clean slate
-                if (!processedImage) {
+                if (!processedImages[currentImageIndex]) {
                     showAlert('Please remove the background first', 'error');
                     return;
                 }
@@ -1299,10 +1728,10 @@
                                 ctx.drawImage(tempCanvas, 0, 0);
                                 
                                 // Update the processed image and show download button
-                                processedImage = canvas.toDataURL('image/png');
+                                processedImages[currentImageIndex] = canvas.toDataURL('image/png');
                                 loadingIndicator.style.display = 'none';
                             };
-                            processedImg.src = processedImage;
+                            processedImg.src = processedImages[currentImageIndex];
                         };
                         bgImg.src = e.target.result;
                     };
@@ -1311,8 +1740,44 @@
                 }
                 else if (bgType.value === 'blur') {
                     // Create a blurred version of the original
-                    tempCtx.drawImage(canvas, 0, 0);
-                    applyBlurEffect(tempCtx, tempCanvas, parseInt(blurAmount.value));
+                    const originalImg = new Image();
+                    originalImg.onload = function() {
+                        tempCtx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+                        applyBlurEffect(tempCtx, tempCanvas, parseInt(blurAmount.value));
+                        
+                        // Then draw the processed image
+                        const processedImg = new Image();
+                        processedImg.onload = function() {
+                            tempCtx.drawImage(processedImg, 0, 0);
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(tempCanvas, 0, 0);
+                            
+                            // Update the processed image
+                            processedImages[currentImageIndex] = canvas.toDataURL('image/png');
+                            loadingIndicator.style.display = 'none';
+                        };
+                        processedImg.src = processedImages[currentImageIndex];
+                    };
+                    originalImg.src = originalImages[currentImageIndex].src;
+                    return;
+                }
+                else if (bgType.value === 'gradient') {
+                    // Create gradient background
+                    if (gradientType.value === 'linear') {
+                        const gradient = tempCtx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                        gradient.addColorStop(0, gradientColor1.value);
+                        gradient.addColorStop(1, gradientColor2.value);
+                        tempCtx.fillStyle = gradient;
+                    } else {
+                        const gradient = tempCtx.createRadialGradient(
+                            canvas.width / 2, canvas.height / 2, 0,
+                            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
+                        );
+                        gradient.addColorStop(0, gradientColor1.value);
+                        gradient.addColorStop(1, gradientColor2.value);
+                        tempCtx.fillStyle = gradient;
+                    }
+                    tempCtx.fillRect(0, 0, canvas.width, canvas.height);
                 }
                 
                 // For transparent background, we don't need to draw anything first
@@ -1324,11 +1789,11 @@
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(tempCanvas, 0, 0);
                         
-                        // Update the processed image and show download button
-                        processedImage = canvas.toDataURL('image/png');
+                        // Update the processed image
+                        processedImages[currentImageIndex] = canvas.toDataURL('image/png');
                         loadingIndicator.style.display = 'none';
                     };
-                    processedImg.src = processedImage;
+                    processedImg.src = processedImages[currentImageIndex];
                 } else {
                     loadingIndicator.style.display = 'none';
                 }
@@ -1364,26 +1829,185 @@
             }
             
             function resetImage() {
-                if (!originalImage) return;
+                if (!originalImages.length) return;
                 
-                ctx.putImageData(originalImageData, 0, 0);
-                processedImage = null;
-                downloadAfterChange.style.display = 'none';
+                // Reset to original image
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // Reset processed image for this index
+                    processedImages[currentImageIndex] = null;
+                    
+                    // Reset zoom
+                    resetZoom();
+                };
+                img.src = originalImages[currentImageIndex].src;
             }
             
             function downloadImage() {
-                if (!processedImage) {
+                if (!processedImages[currentImageIndex]) {
                     showAlert('Please process the image first', 'error');
                     return;
                 }
                 
-                const link = document.createElement('a');
-                link.download = `background-removed-${new Date().getTime()}.png`;
-                link.href = processedImage;
-                link.click();
+                const format = downloadFormat.value;
+                let mimeType, extension;
                 
-                // Show download confirmation
-                showAlert('Download started!', 'success');
+                switch (format) {
+                    case 'jpeg':
+                        mimeType = 'image/jpeg';
+                        extension = 'jpg';
+                        break;
+                    case 'webp':
+                        mimeType = 'image/webp';
+                        extension = 'webp';
+                        break;
+                    default:
+                        mimeType = 'image/png';
+                        extension = 'png';
+                }
+                
+                // Create a temporary canvas to handle format conversion
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = originalImages[currentImageIndex].width;
+                tempCanvas.height = originalImages[currentImageIndex].height;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Draw the processed image at original size
+                const img = new Image();
+                img.onload = function() {
+                    tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.download = `background-removed-${new Date().getTime()}.${extension}`;
+                    
+                    // Convert to selected format
+                    if (format === 'png') {
+                        link.href = tempCanvas.toDataURL(mimeType);
+                    } else {
+                        // For JPEG, fill transparent areas with white
+                        if (format === 'jpeg') {
+                            const tempCtx2 = tempCanvas.getContext('2d');
+                            tempCtx2.globalCompositeOperation = 'destination-over';
+                            tempCtx2.fillStyle = '#ffffff';
+                            tempCtx2.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                        }
+                        link.href = tempCanvas.toDataURL(mimeType, format === 'jpeg' ? 0.92 : 0.8);
+                    }
+                    
+                    link.click();
+                    
+                    // Show download confirmation
+                    showAlert('Download started!', 'success');
+                };
+                img.src = processedImages[currentImageIndex];
+            }
+            
+            function downloadAllImages() {
+                if (processedImages.filter(img => img).length === 0) {
+                    showAlert('No processed images to download', 'error');
+                    return;
+                }
+                
+                const format = downloadFormat.value;
+                let mimeType, extension;
+                
+                switch (format) {
+                    case 'jpeg':
+                        mimeType = 'image/jpeg';
+                        extension = 'jpg';
+                        break;
+                    case 'webp':
+                        mimeType = 'image/webp';
+                        extension = 'webp';
+                        break;
+                    default:
+                        mimeType = 'image/png';
+                        extension = 'png';
+                }
+                
+                // Create a zip file for all processed images
+                showAlert('Preparing download... this may take a moment', 'warning');
+                
+                // For demo purposes, we'll download them one by one
+                // In a real app, you would use a library like JSZip
+                processedImages.forEach((img, index) => {
+                    if (img) {
+                        setTimeout(() => {
+                            const tempCanvas = document.createElement('canvas');
+                            tempCanvas.width = originalImages[index].width;
+                            tempCanvas.height = originalImages[index].height;
+                            const tempCtx = tempCanvas.getContext('2d');
+                            
+                            const imgElement = new Image();
+                            imgElement.onload = function() {
+                                tempCtx.drawImage(imgElement, 0, 0, tempCanvas.width, tempCanvas.height);
+                                
+                                // For JPEG, fill transparent areas with white
+                                if (format === 'jpeg') {
+                                    const tempCtx2 = tempCanvas.getContext('2d');
+                                    tempCtx2.globalCompositeOperation = 'destination-over';
+                                    tempCtx2.fillStyle = '#ffffff';
+                                    tempCtx2.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                                }
+                                
+                                const link = document.createElement('a');
+                                link.download = `image-${index+1}-${new Date().getTime()}.${extension}`;
+                                link.href = tempCanvas.toDataURL(mimeType, format === 'jpeg' ? 0.92 : 0.8);
+                                link.click();
+                            };
+                            imgElement.src = img;
+                        }, index * 500); // Stagger downloads to avoid browser blocking
+                    }
+                });
+                
+                showAlert(`Downloading ${processedImages.filter(img => img).length} images`, 'success');
+            }
+            
+            function processAllImages() {
+                if (isProcessing) return;
+                
+                batchProgress.style.display = 'block';
+                batchProgressBar.style.width = '0%';
+                isProcessing = true;
+                processAllBtn.disabled = true;
+                
+                let processedCount = 0;
+                const totalImages = originalImages.length;
+                
+                function processNextImage(index) {
+                    if (index >= totalImages) {
+                        // All images processed
+                        isProcessing = false;
+                        processAllBtn.disabled = false;
+                        batchStatus.textContent = 'All images processed!';
+                        return;
+                    }
+                    
+                    // Update status
+                    batchStatus.textContent = `Processing ${index + 1} of ${totalImages} images...`;
+                    batchProgressBar.style.width = `${(index / totalImages) * 100}%`;
+                    
+                    // Display the current image
+                    displayImage(index);
+                    
+                    // Process the image (simulated with setTimeout for demo)
+                    setTimeout(() => {
+                        removeBackground();
+                        
+                        // Wait for processing to complete (in a real app, you'd use proper callbacks)
+                        setTimeout(() => {
+                            processedCount++;
+                            processNextImage(index + 1);
+                        }, 1500);
+                    }, 100);
+                }
+                
+                // Start processing from the first image
+                processNextImage(0);
             }
             
             function showAlert(message, type) {
@@ -1395,14 +2019,12 @@
                 
                 const alert = document.createElement('div');
                 alert.className = `alert alert-${type}`;
-                alert.textContent = message;
+                alert.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'check-circle'}"></i> ${message}`;
                 alert.style.position = 'fixed';
                 alert.style.bottom = '20px';
                 alert.style.right = '20px';
                 alert.style.padding = '12px 20px';
                 alert.style.borderRadius = 'var(--border-radius-sm)';
-                alert.style.backgroundColor = type === 'error' ? '#f8d7da' : '#d1e7dd';
-                alert.style.color = type === 'error' ? '#842029' : '#0f5132';
                 alert.style.boxShadow = 'var(--shadow-md)';
                 alert.style.zIndex = '1000';
                 alert.style.animation = 'fadeIn 0.3s ease-out';
@@ -1415,7 +2037,93 @@
                     setTimeout(() => alert.remove(), 300);
                 }, 3000);
             }
+            
+            // Zoom and pan functions
+            function zoomImage(factor) {
+                scale *= factor;
+                drawImageWithZoom();
+            }
+            
+            function resetZoom() {
+                scale = 1;
+                offsetX = 0;
+                offsetY = 0;
+                drawImageWithZoom();
+            }
+            
+            function drawImageWithZoom() {
+                if (!originalImages.length) return;
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.scale(scale, scale);
+                ctx.translate(-canvas.width / 2 + offsetX, -canvas.height / 2 + offsetY);
+                
+                // Draw the appropriate image (original or processed)
+                const img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                };
+                
+                img.src = processedImages[currentImageIndex] || originalImages[currentImageIndex].src;
+                ctx.restore();
+            }
+            
+            function startDrag(e) {
+                if (scale <= 1) return;
+                isDragging = true;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                canvas.style.cursor = 'grabbing';
+            }
+            
+            function dragImage(e) {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - lastX;
+                const dy = e.clientY - lastY;
+                
+                offsetX += dx / scale;
+                offsetY += dy / scale;
+                
+                lastX = e.clientX;
+                lastY = e.clientY;
+                
+                drawImageWithZoom();
+            }
+            
+            function endDrag() {
+                isDragging = false;
+                canvas.style.cursor = 'default';
+            }
+            
+            function handleWheel(e) {
+                e.preventDefault();
+                
+                // Get mouse position relative to canvas
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Calculate mouse position in image coordinates
+                const imageX = (mouseX - canvas.width / 2) / scale + canvas.width / 2 - offsetX;
+                const imageY = (mouseY - canvas.height / 2) / scale + canvas.height / 2 - offsetY;
+                
+                // Apply zoom
+                const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+                scale *= zoomFactor;
+                
+                // Clamp scale
+                scale = Math.max(1, Math.min(scale, 5));
+                
+                // Adjust offset to zoom toward mouse position
+                offsetX = (mouseX - canvas.width / 2) / scale + canvas.width / 2 - imageX;
+                offsetY = (mouseY - canvas.height / 2) / scale + canvas.height / 2 - imageY;
+                
+                drawImageWithZoom();
+            }
         });
     </script>
 </body>
-</html>
+    </html>
