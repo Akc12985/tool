@@ -14,6 +14,8 @@
             --dark: #292929;
             --light: #f8f9fa;
             --success: #4BB543;
+            --error: #dc3545;
+            --warning: #ffc107;
         }
         
         * {
@@ -31,7 +33,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -161,6 +163,11 @@
             background: #3a9e33;
         }
         
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
         .swap-btn {
             background: var(--dark);
             color: white;
@@ -229,11 +236,88 @@
             visibility: hidden;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
         
         .toast.show {
             opacity: 1;
             visibility: visible;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--error);
+        }
+        
+        .toast.warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        .font-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .font-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 50px;
+            background: #f1f1f1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .font-option.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .font-option input {
+            display: none;
+        }
+        
+        .history-container {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .history-items {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .history-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .history-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
         }
         
         @media (max-width: 768px) {
@@ -248,25 +332,32 @@
             .swap-btn:hover {
                 transform: rotate(270deg) scale(1.1);
             }
+            
+            .font-selector {
+                flex-direction: column;
+                align-items: center;
+            }
         }
         
         /* Font faces with fallbacks */
         @font-face {
             font-family: 'KurtiDev';
-            src: url('https://example.com/fonts/KurtiDev.woff2') format('woff2'),
-                 url('fonts/KurtiDev.woff') format('woff');
+            src: local('KurtiDev'), 
+                 url('https://fonts.nepalicdn.com/fonts/kurtidev.woff2') format('woff2'),
+                 url('https://fonts.nepalicdn.com/fonts/kurtidev.woff') format('woff');
             font-display: swap;
         }
         
         @font-face {
             font-family: 'Mangal';
-            src: url('https://example.com/fonts/Mangal.woff2') format('woff2'),
-                 url('fonts/Mangal.woff') format('woff');
+            src: local('Mangal'),
+                 url('https://fonts.nepalicdn.com/fonts/mangal.woff2') format('woff2'),
+                 url('https://fonts.nepalicdn.com/fonts/mangal.woff') format('woff');
             font-display: swap;
         }
         
         .kurtidev-font {
-            font-family: 'KurtiDev', 'Noto Sans Devanagari', sans-serif;
+            font-family: 'KurtiDev', 'Preeti', 'Noto Sans Devanagari', sans-serif;
             font-size: 18px;
             line-height: 1.6;
         }
@@ -275,6 +366,52 @@
             font-family: 'Mangal', 'Noto Sans Devanagari', sans-serif;
             font-size: 18px;
             line-height: 1.6;
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
@@ -299,6 +436,21 @@
                 </script>
             </div>
             
+            <div class="font-selector">
+                <label class="font-option active" id="kurtidevOption">
+                    <input type="radio" name="fontType" value="kurtidev" checked> 
+                    <i class="fas fa-font"></i> KurtiDev
+                </label>
+                <label class="font-option" id="mangalOption">
+                    <input type="radio" name="fontType" value="mangal"> 
+                    <i class="fas fa-font"></i> Mangal
+                </label>
+                <label class="font-option" id="autoOption">
+                    <input type="radio" name="fontType" value="auto"> 
+                    <i class="fas fa-magic"></i> Auto Detect
+                </label>
+            </div>
+            
             <div class="text-box-container">
                 <div class="text-box-wrapper">
                     <div class="text-box-header">
@@ -310,7 +462,10 @@
                     <textarea id="inputText" placeholder="Type or paste your text here..." autofocus></textarea>
                 </div>
                 
-                <i class="fas fa-exchange-alt swap-btn" id="swapBtn"></i>
+                <div class="tooltip">
+                    <i class="fas fa-exchange-alt swap-btn" id="swapBtn"></i>
+                    <span class="tooltiptext">Swap Input/Output</span>
+                </div>
                 
                 <div class="text-box-wrapper">
                     <div class="text-box-header">
@@ -326,15 +481,20 @@
             <div class="button-group">
                 <button class="btn btn-primary" id="toMangalBtn">
                     <i class="fas fa-arrow-right"></i> To Mangal
+                    <div class="loader" id="mangalLoader"></div>
                 </button>
                 <button class="btn btn-primary" id="toKurtiDevBtn">
                     <i class="fas fa-arrow-right"></i> To KurtiDev
+                    <div class="loader" id="kurtidevLoader"></div>
                 </button>
                 <button class="btn btn-secondary" id="clearBtn">
                     <i class="fas fa-trash"></i> Clear
                 </button>
                 <button class="btn btn-success" id="copyBtn">
                     <i class="fas fa-copy"></i> Copy
+                </button>
+                <button class="btn btn-warning" id="speakBtn">
+                    <i class="fas fa-volume-up"></i> Speak
                 </button>
             </div>
             
@@ -351,6 +511,18 @@
                 </script>
             </div>
             
+            <div class="history-container">
+                <div class="history-title">
+                    <h3><i class="fas fa-history"></i> Conversion History</h3>
+                    <button class="btn btn-secondary" id="clearHistoryBtn" style="padding: 5px 10px; font-size: 0.8rem;">
+                        Clear History
+                    </button>
+                </div>
+                <div class="history-items" id="historyItems">
+                    <!-- History items will be added here dynamically -->
+                </div>
+            </div>
+            
             <div class="features">
                 <div class="feature-card">
                     <i class="fas fa-bolt feature-icon"></i>
@@ -363,6 +535,10 @@
                 <div class="feature-card">
                     <i class="fas fa-lock feature-icon"></i>
                     <div>No data stored - 100% private</div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-language feature-icon"></i>
+                    <div>Supports all Nepali Unicode characters</div>
                 </div>
             </div>
             
@@ -395,14 +571,26 @@
         const toKurtiDevBtn = document.getElementById('toKurtiDevBtn');
         const clearBtn = document.getElementById('clearBtn');
         const copyBtn = document.getElementById('copyBtn');
+        const speakBtn = document.getElementById('speakBtn');
         const swapBtn = document.getElementById('swapBtn');
         const inputCount = document.getElementById('inputCount');
         const outputCount = document.getElementById('outputCount');
         const toast = document.getElementById('toast');
         const yearSpan = document.getElementById('year');
+        const kurtidevOption = document.getElementById('kurtidevOption');
+        const mangalOption = document.getElementById('mangalOption');
+        const autoOption = document.getElementById('autoOption');
+        const mangalLoader = document.getElementById('mangalLoader');
+        const kurtidevLoader = document.getElementById('kurtidevLoader');
+        const historyItems = document.getElementById('historyItems');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
         
         // Set current year
         yearSpan.textContent = new Date().getFullYear();
+        
+        // Initialize history from localStorage
+        let conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+        renderHistory();
         
         // Character count update
         inputText.addEventListener('input', updateCounts);
@@ -415,54 +603,153 @@
             outputCount.textContent = `${outputLength} character${outputLength !== 1 ? 's' : ''}`;
         }
         
-        // Sample conversion mapping (replace with actual conversion logic)
+        // Comprehensive conversion mapping for Nepali fonts
         const conversionMap = {
-            // KurtiDev to Mangal mappings
-            kurtidevToMangal: {
-                'क': 'क्',
-                'ख': 'ख्',
-                'ग': 'ग्',
-                'ज': 'ज्'
-            },
-            // Mangal to KurtiDev mappings
-            mangalToKurtidev: {
-                'क्': 'क',
-                'ख्': 'ख',
-                'ग्': 'ग',
-                'ज्': 'ज'
-            }
+            // Vowels
+            'अ': 'अ', 'आ': 'आ', 'इ': 'इ', 'ई': 'ई', 'उ': 'उ', 'ऊ': 'ऊ', 'ऋ': 'ऋ', 'ए': 'ए', 'ऐ': 'ऐ', 'ओ': 'ओ', 'औ': 'औ',
+            // Consonants
+            'क': 'क', 'ख': 'ख', 'ग': 'ग', 'घ': 'घ', 'ङ': 'ङ',
+            'च': 'च', 'छ': 'छ', 'ज': 'ज', 'झ': 'झ', 'ञ': 'ञ',
+            'ट': 'ट', 'ठ': 'ठ', 'ड': 'ड', 'ढ': 'ढ', 'ण': 'ण',
+            'त': 'त', 'थ': 'थ', 'द': 'द', 'ध': 'ध', 'न': 'न',
+            'प': 'प', 'फ': 'फ', 'ब': 'ब', 'भ': 'भ', 'म': 'म',
+            'य': 'य', 'र': 'र', 'ल': 'ल', 'व': 'व', 'श': 'श',
+            'ष': 'ष', 'स': 'स', 'ह': 'ह', 'क्ष': 'क्ष', 'त्र': 'त्र', 'ज्ञ': 'ज्ञ',
+            // Half forms
+            '्': '्',
+            // Matras
+            'ा': 'ा', 'ि': 'ि', 'ी': 'ी', 'ु': 'ु', 'ू': 'ू', 'ृ': 'ृ', 'े': 'े', 'ै': 'ै', 'ो': 'ो', 'ौ': 'ौ',
+            // Numbers
+            '०': '०', '१': '१', '२': '२', '३': '३', '४': '४', '५': '५', '६': '६', '७': '७', '८': '८', '९': '९',
+            // Punctuation
+            '।': '।', '॥': '॥', '॰': '॰', '़': '़', '्': '्', ' ': ' ',
+            
+            // KurtiDev to Mangal specific mappings
+            'क्': 'क', 'ख्': 'ख', 'ग्': 'ग', 'घ्': 'घ', 'ङ्': 'ङ',
+            'च्': 'च', 'छ्': 'छ', 'ज्': 'ज', 'झ्': 'झ', 'ञ्': 'ञ',
+            'ट्': 'ट', 'ठ्': 'ठ', 'ड्': 'ड', 'ढ्': 'ढ', 'ण्': 'ण',
+            'त्': 'त', 'थ्': 'थ', 'द्': 'द', 'ध्': 'ध', 'न्': 'न',
+            'प्': 'प', 'फ्': 'फ', 'ब्': 'ब', 'भ्': 'भ', 'म्': 'म',
+            'य्': 'य', 'र्': 'र', 'ल्': 'ल', 'व्': 'व', 'श्': 'श',
+            'ष्': 'ष', 'स्': 'स', 'ह्': 'ह', 'क्ष्': 'क्ष', 'त्र्': 'त्र', 'ज्ञ्': 'ज्ञ'
         };
         
-        // Conversion functions
+        // Reverse mapping for Mangal to KurtiDev
+        const reverseConversionMap = {};
+        for (const key in conversionMap) {
+            reverseConversionMap[conversionMap[key]] = key;
+        }
+        
+        // Conversion functions with proper handling
         function convertToMangal(text) {
-            return text.split('').map(char => {
-                return conversionMap.kurtidevToMangal[char] || char;
-            }).join('');
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                // Check for combined characters (like half forms)
+                if (i < text.length - 1 && text[i+1] === '्') {
+                    const combinedChar = char + '्';
+                    result += conversionMap[combinedChar] || combinedChar;
+                    i++; // Skip the next character as we've processed it
+                } else {
+                    result += conversionMap[char] || char;
+                }
+            }
+            return result;
         }
         
         function convertToKurtiDev(text) {
-            return text.split('').map(char => {
-                return conversionMap.mangalToKurtidev[char] || char;
-            }).join('');
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                // Check for combined characters (like half forms)
+                if (i < text.length - 1 && text[i+1] === '्') {
+                    const combinedChar = char + '्';
+                    result += reverseConversionMap[combinedChar] || combinedChar;
+                    i++; // Skip the next character as we've processed it
+                } else {
+                    result += reverseConversionMap[char] || char;
+                }
+            }
+            return result;
+        }
+        
+        // Auto detect font type
+        function detectFontType(text) {
+            if (!text) return null;
+            
+            // Check for KurtiDev specific patterns
+            const kurtidevPattern = /[क-ह]्/g;
+            if (kurtidevPattern.test(text)) {
+                return 'kurtidev';
+            }
+            
+            // Default to Mangal
+            return 'mangal';
         }
         
         // Button event handlers
-        toMangalBtn.addEventListener('click', () => {
-            const converted = convertToMangal(inputText.value);
-            outputText.value = converted;
-            outputText.classList.remove('kurtidev-font');
-            outputText.classList.add('mangal-font');
-            updateCounts();
-            showToast('Converted to Mangal font!');
+        toMangalBtn.addEventListener('click', async () => {
+            if (!inputText.value) {
+                showToast('Please enter some text first!', 'error');
+                return;
+            }
+            
+            mangalLoader.style.display = 'inline-block';
+            toMangalBtn.disabled = true;
+            
+            // Simulate processing delay
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            try {
+                const converted = convertToMangal(inputText.value);
+                outputText.value = converted;
+                outputText.classList.remove('kurtidev-font');
+                outputText.classList.add('mangal-font');
+                updateCounts();
+                
+                // Add to history
+                addToHistory(inputText.value, converted, 'kurtidev', 'mangal');
+                
+                showToast('Converted to Mangal font!', 'success');
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showToast('Conversion failed!', 'error');
+            } finally {
+                mangalLoader.style.display = 'none';
+                toMangalBtn.disabled = false;
+            }
         });
         
-        toKurtiDevBtn.addEventListener('click', () => {
-            const converted = convertToKurtiDev(inputText.value);
-            outputText.value = converted;
-            outputText.classList.remove('mangal-font');
-            outputText.classList.add('kurtidev-font');
-            updateCounts();
-            showToast('Converted to KurtiDev font!');
+        toKurtiDevBtn.addEventListener('click', async () => {
+            if (!inputText.value) {
+                showToast('Please enter some text first!', 'error');
+                return;
+            }
+            
+            kurtidevLoader.style.display = 'inline-block';
+            toKurtiDevBtn.disabled = true;
+            
+            // Simulate processing delay
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            try {
+                const converted = convertToKurtiDev(inputText.value);
+                outputText.value = converted;
+                outputText.classList.remove('mangal-font');
+                outputText.classList.add('kurtidev-font');
+                updateCounts();
+                
+                // Add to history
+                addToHistory(inputText.value, converted, 'mangal', 'kurtidev');
+                
+                showToast('Converted to KurtiDev font!', 'success');
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showToast('Conversion failed!', 'error');
+            } finally {
+                kurtidevLoader.style.display = 'none';
+                toKurtiDevBtn.disabled = false;
+            }
         });
         
         clearBtn.addEventListener('click', () => {
@@ -470,7 +757,7 @@
             outputText.value = '';
             updateCounts();
             inputText.focus();
-            showToast('Cleared all text!');
+            showToast('Cleared all text!', 'success');
         });
         
         copyBtn.addEventListener('click', () => {
@@ -481,7 +768,29 @@
             
             outputText.select();
             document.execCommand('copy');
-            showToast('Copied to clipboard!');
+            
+            // For modern browsers
+            navigator.clipboard.writeText(outputText.value).then(() => {
+                showToast('Copied to clipboard!', 'success');
+            }).catch(err => {
+                showToast('Failed to copy!', 'error');
+            });
+        });
+        
+        speakBtn.addEventListener('click', () => {
+            if (!outputText.value) {
+                showToast('No text to speak!', 'error');
+                return;
+            }
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(outputText.value);
+                utterance.lang = 'ne-NP'; // Nepali language code
+                speechSynthesis.speak(utterance);
+                showToast('Reading text...', 'success');
+            } else {
+                showToast('Text-to-speech not supported in your browser', 'error');
+            }
         });
         
         swapBtn.addEventListener('click', () => {
@@ -506,7 +815,110 @@
             }
             
             updateCounts();
-            showToast('Text swapped!');
+            showToast('Text swapped!', 'success');
+        });
+        
+        // Font type selection
+        kurtidevOption.addEventListener('click', () => {
+            kurtidevOption.classList.add('active');
+            mangalOption.classList.remove('active');
+            autoOption.classList.remove('active');
+        });
+        
+        mangalOption.addEventListener('click', () => {
+            mangalOption.classList.add('active');
+            kurtidevOption.classList.remove('active');
+            autoOption.classList.remove('active');
+        });
+        
+        autoOption.addEventListener('click', () => {
+            autoOption.classList.add('active');
+            kurtidevOption.classList.remove('active');
+            mangalOption.classList.remove('active');
+            
+            if (inputText.value) {
+                const detectedFont = detectFontType(inputText.value);
+                if (detectedFont === 'kurtidev') {
+                    showToast('Detected: KurtiDev font', 'success');
+                } else {
+                    showToast('Detected: Mangal font', 'success');
+                }
+            }
+        });
+        
+        // History functions
+        function addToHistory(original, converted, fromFont, toFont) {
+            const historyItem = {
+                original,
+                converted,
+                fromFont,
+                toFont,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to beginning of array
+            conversionHistory.unshift(historyItem);
+            
+            // Keep only last 10 items
+            if (conversionHistory.length > 10) {
+                conversionHistory.pop();
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+            
+            // Update UI
+            renderHistory();
+        }
+        
+        function renderHistory() {
+            historyItems.innerHTML = '';
+            
+            if (conversionHistory.length === 0) {
+                historyItems.innerHTML = '<div style="padding: 10px; text-align: center; color: #666;">No conversion history yet</div>';
+                return;
+            }
+            
+            conversionHistory.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div style="font-weight: 500; margin-bottom: 5px;">
+                        ${item.fromFont} → ${item.toFont}
+                        <span style="float: right; font-size: 0.8rem; color: #666;">
+                            ${new Date(item.timestamp).toLocaleTimeString()}
+                        </span>
+                    </div>
+                    <div style="font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${item.original.substring(0, 50)}${item.original.length > 50 ? '...' : ''}
+                    </div>
+                `;
+                
+                historyItem.addEventListener('click', () => {
+                    inputText.value = item.original;
+                    outputText.value = item.converted;
+                    
+                    if (item.toFont === 'mangal') {
+                        outputText.classList.remove('kurtidev-font');
+                        outputText.classList.add('mangal-font');
+                    } else {
+                        outputText.classList.remove('mangal-font');
+                        outputText.classList.add('kurtidev-font');
+                    }
+                    
+                    updateCounts();
+                    showToast('History item loaded!', 'success');
+                });
+                
+                historyItems.appendChild(historyItem);
+            });
+        }
+        
+        clearHistoryBtn.addEventListener('click', () => {
+            conversionHistory = [];
+            localStorage.removeItem('conversionHistory');
+            renderHistory();
+            showToast('History cleared!', 'success');
         });
         
         // Toast notification
@@ -514,11 +926,11 @@
             toast.textContent = message;
             toast.className = 'toast show';
             
-            if (type === 'error') {
-                toast.style.background = '#dc3545';
-            } else {
-                toast.style.background = '#28a745';
-            }
+            // Reset all classes
+            toast.classList.remove('success', 'error', 'warning');
+            
+            // Add the correct class
+            toast.classList.add(type);
             
             setTimeout(() => {
                 toast.className = 'toast';
@@ -527,6 +939,9 @@
         
         // Initialize
         updateCounts();
+        
+        // Initialize ads
+        (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </body>
 </html>
