@@ -127,11 +127,60 @@
             background-color: rgba(0, 78, 137, 0.05);
             border-radius: 8px;
             border-left: 4px solid var(--secondary);
+            position: relative;
         }
         
         .file-info.show {
             display: block;
             animation: fadeIn 0.5s ease;
+        }
+        
+        .file-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-item-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .file-item-icon {
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+        
+        .file-item-name {
+            font-weight: 500;
+        }
+        
+        .file-item-size {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .file-item-remove {
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .file-item-remove:hover {
+            color: var(--primary-dark);
         }
         
         @keyframes fadeIn {
@@ -352,6 +401,26 @@
             transition: width 0.3s ease;
         }
         
+        .download-options {
+            margin-top: 1.5rem;
+        }
+        
+        .download-options-title {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .download-all-btn {
+            flex: 1;
+        }
+        
         .ad-space {
             width: 100%;
             text-align: center;
@@ -475,6 +544,10 @@
                 flex-direction: column;
                 gap: 0.5rem;
             }
+            
+            .download-buttons {
+                flex-direction: column;
+            }
         }
         
         /* Animation for file upload */
@@ -514,14 +587,14 @@
             <!-- Main Content -->
             <main class="content-area">
                 <div class="upload-area" id="uploadArea">
-                    <input type="file" id="pdfInput" accept="application/pdf">
+                    <input type="file" id="pdfInput" accept="application/pdf" multiple>
                     <div class="upload-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
-                    <h3 class="upload-text">Drag & Drop your PDF here</h3>
-                    <p class="upload-hint">or click to browse files</p>
+                    <h3 class="upload-text">Drag & Drop your PDFs here</h3>
+                    <p class="upload-hint">or click to browse files (multiple files allowed)</p>
                     <button class="btn btn-secondary" style="margin-top: 1.5rem; max-width: 200px;">
-                        <i class="fas fa-folder-open"></i> Select PDF
+                        <i class="fas fa-folder-open"></i> Select PDFs
                     </button>
                 </div>
 
@@ -529,13 +602,15 @@
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--primary);"></i>
                         <div>
-                            <h4 id="fileName" style="margin-bottom: 0.25rem;"></h4>
-                            <p id="fileSize" style="font-size: 0.9rem; color: var(--gray);"></p>
+                            <h4 id="fileCount" style="margin-bottom: 0.25rem;">0 files selected</h4>
+                            <p id="totalSize" style="font-size: 0.9rem; color: var(--gray);">0 MB total</p>
                         </div>
                     </div>
                     <button id="removeFile" style="background: none; border: none; color: var(--gray); position: absolute; top: 1rem; right: 1rem; cursor: pointer;">
                         <i class="fas fa-times"></i>
                     </button>
+                    
+                    <div class="file-list" id="fileList"></div>
                 </div>
 
                 <div class="settings-area">
@@ -575,7 +650,7 @@
                 </div>
 
                 <button class="btn" id="compressBtn" disabled>
-                    <i class="fas fa-compress-alt"></i> Compress PDF
+                    <i class="fas fa-compress-alt"></i> Compress PDFs
                 </button>
 
                 <div class="progress-container" id="progressContainer">
@@ -607,9 +682,18 @@
                                 <div class="stat-label">Reduction</div>
                             </div>
                         </div>
-                        <button class="btn" id="downloadBtn">
-                            <i class="fas fa-download"></i> Download Compressed PDF
-                        </button>
+                        
+                        <div class="download-options">
+                            <div class="download-options-title">Download Options:</div>
+                            <div class="download-buttons">
+                                <button class="btn download-all-btn" id="downloadAllBtn">
+                                    <i class="fas fa-file-archive"></i> Download All as ZIP
+                                </button>
+                                <button class="btn btn-secondary" id="downloadIndividualBtn">
+                                    <i class="fas fa-file-pdf"></i> Download Individual Files
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -688,8 +772,9 @@
         const uploadArea = document.getElementById('uploadArea');
         const pdfInput = document.getElementById('pdfInput');
         const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
+        const fileCount = document.getElementById('fileCount');
+        const totalSize = document.getElementById('totalSize');
+        const fileList = document.getElementById('fileList');
         const removeFile = document.getElementById('removeFile');
         const compressBtn = document.getElementById('compressBtn');
         const compressionLevel = document.getElementById('compressionLevel');
@@ -703,10 +788,12 @@
         const originalSize = document.getElementById('originalSize');
         const compressedSize = document.getElementById('compressedSize');
         const reductionPercent = document.getElementById('reductionPercent');
-        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
 
         // Variables
-        let currentFile = null;
+        let files = [];
+        let compressedFiles = [];
 
         // Event Listeners
         uploadArea.addEventListener('click', () => pdfInput.click());
@@ -717,11 +804,12 @@
         uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('pulse'));
         uploadArea.addEventListener('drop', handleDrop);
         pdfInput.addEventListener('change', handleFileSelect);
-        removeFile.addEventListener('click', resetFile);
+        removeFile.addEventListener('click', resetFiles);
         compressionLevel.addEventListener('change', toggleCustomSettings);
         qualitySlider.addEventListener('input', updateQualityValue);
-        compressBtn.addEventListener('click', compressPDF);
-        downloadBtn.addEventListener('click', downloadPDF);
+        compressBtn.addEventListener('click', compressPDFs);
+        downloadAllBtn.addEventListener('click', downloadAllAsZip);
+        downloadIndividualBtn.addEventListener('click', () => showIndividualDownloads());
 
         // Functions
         function handleDrop(e) {
@@ -729,35 +817,92 @@
             uploadArea.classList.remove('pulse');
             
             if (e.dataTransfer.files.length) {
-                const file = e.dataTransfer.files[0];
-                if (file.type === 'application/pdf') {
-                    handleFile(file);
+                const droppedFiles = Array.from(e.dataTransfer.files).filter(file => 
+                    file.type === 'application/pdf'
+                );
+                
+                if (droppedFiles.length > 0) {
+                    handleFiles(droppedFiles);
                 } else {
-                    alert('Please select a PDF file.');
+                    alert('Please select PDF files only.');
                 }
             }
         }
 
         function handleFileSelect(e) {
             if (e.target.files.length) {
-                const file = e.target.files[0];
-                handleFile(file);
+                const selectedFiles = Array.from(e.target.files).filter(file => 
+                    file.type === 'application/pdf'
+                );
+                
+                if (selectedFiles.length > 0) {
+                    handleFiles(selectedFiles);
+                } else {
+                    alert('Please select PDF files only.');
+                }
             }
         }
 
-        function handleFile(file) {
-            currentFile = file;
+        function handleFiles(newFiles) {
+            files = [...files, ...newFiles];
+            updateFileList();
             
-            // Display file info
-            fileName.textContent = file.name;
-            fileSize.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
-            fileInfo.classList.add('show');
-            uploadArea.classList.add('active');
-            compressBtn.disabled = false;
+            if (files.length > 0) {
+                fileInfo.classList.add('show');
+                uploadArea.classList.add('active');
+                compressBtn.disabled = false;
+            }
         }
 
-        function resetFile() {
-            currentFile = null;
+        function updateFileList() {
+            // Update file count and total size
+            fileCount.textContent = `${files.length} file${files.length !== 1 ? 's' : ''} selected`;
+            
+            const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+            totalSize.textContent = `${(totalBytes / 1024 / 1024).toFixed(2)} MB total`;
+            
+            // Update file list
+            fileList.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                fileItem.innerHTML = `
+                    <div class="file-item-info">
+                        <i class="fas fa-file-pdf file-item-icon"></i>
+                        <div>
+                            <div class="file-item-name">${file.name}</div>
+                            <div class="file-item-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-times file-item-remove" data-index="${index}"></i>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.file-item-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    removeFileAtIndex(index);
+                });
+            });
+        }
+
+        function removeFileAtIndex(index) {
+            files.splice(index, 1);
+            updateFileList();
+            
+            if (files.length === 0) {
+                resetFiles();
+            }
+        }
+
+        function resetFiles() {
+            files = [];
             pdfInput.value = '';
             fileInfo.classList.remove('show');
             uploadArea.classList.remove('active');
@@ -777,8 +922,8 @@
             qualityValue.textContent = qualitySlider.value;
         }
 
-        function compressPDF() {
-            if (!currentFile) return;
+        function compressPDFs() {
+            if (files.length === 0) return;
             
             // Show progress bar
             progressContainer.classList.add('show');
@@ -796,14 +941,14 @@
                 
                 if (progress === 100) {
                     clearInterval(interval);
-                    showResults();
+                    simulateCompressionResults();
                 }
             }, 200);
         }
 
-        function showResults() {
+        function simulateCompressionResults() {
             // Calculate compression results
-            const originalSizeMB = currentFile.size / 1024 / 1024;
+            const originalTotalBytes = files.reduce((sum, file) => sum + file.size, 0);
             let compressionRatio;
             
             switch (compressionLevel.value) {
@@ -821,12 +966,23 @@
                     break;
             }
             
-            const compressedSizeMB = originalSizeMB * compressionRatio;
-            const reduction = ((originalSizeMB - compressedSizeMB) / originalSizeMB) * 100;
+            // Store compressed file data for download
+            compressedFiles = files.map(file => {
+                const compressedSize = file.size * compressionRatio;
+                return {
+                    name: file.name,
+                    originalSize: file.size,
+                    compressedSize: compressedSize,
+                    reduction: ((file.size - compressedSize) / file.size) * 100
+                };
+            });
+            
+            const compressedTotalBytes = originalTotalBytes * compressionRatio;
+            const reduction = ((originalTotalBytes - compressedTotalBytes) / originalTotalBytes) * 100;
             
             // Display results
-            originalSize.textContent = `${originalSizeMB.toFixed(2)} MB`;
-            compressedSize.textContent = `${compressedSizeMB.toFixed(2)} MB`;
+            originalSize.textContent = `${(originalTotalBytes / 1024 / 1024).toFixed(2)} MB`;
+            compressedSize.textContent = `${(compressedTotalBytes / 1024 / 1024).toFixed(2)} MB`;
             reductionPercent.textContent = `${reduction.toFixed(0)}%`;
             
             // Show result area
@@ -834,25 +990,84 @@
             compressBtn.disabled = false;
         }
 
-        function downloadPDF() {
-            if (!currentFile) return;
+        function downloadAllAsZip() {
+            if (compressedFiles.length === 0) return;
             
-            // Create a dummy PDF file for demonstration
-            const dummyPDF = new Blob([new Uint8Array([0x25, 0x50, 0x44, 0x46])], { type: 'application/pdf' });
-            const url = URL.createObjectURL(dummyPDF);
+            // In a real implementation, you would:
+            // 1. Create a zip file containing all compressed PDFs
+            // 2. Generate a download link for the zip file
+            // 3. Trigger the download
             
-            // Create download link
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `compressed_${currentFile.name}`;
-            document.body.appendChild(a);
-            a.click();
+            // For this demo, we'll just show an alert
+            alert(`In a real implementation, this would download a ZIP file containing ${compressedFiles.length} compressed PDFs.`);
             
-            // Clean up
-            setTimeout(() => {
+            // Here's how it might work with JSZip (you'd need to include the JSZip library):
+            /*
+            const zip = new JSZip();
+            
+            compressedFiles.forEach(file => {
+                // Add each compressed file to the zip
+                // In a real app, you'd have the actual compressed file data
+                zip.file(`compressed_${file.name}`, new Uint8Array([0x25, 0x50, 0x44, 0x46])); // PDF magic number
+            });
+            
+            zip.generateAsync({type: 'blob'}).then(content => {
+                const url = URL.createObjectURL(content);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'compressed_pdfs.zip';
+                document.body.appendChild(a);
+                a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-            }, 100);
+            });
+            */
+        }
+
+        function showIndividualDownloads() {
+            if (compressedFiles.length === 0) return;
+            
+            // Create a modal or expand the result area to show individual download buttons
+            // For this demo, we'll just show an alert with the list
+            const fileList = compressedFiles.map(file => 
+                `- ${file.name} (reduced by ${file.reduction.toFixed(0)}%)`
+            ).join('\n');
+            
+            alert(`In a real implementation, this would show individual download buttons for:\n${fileList}`);
+            
+            // In a real implementation, you might do something like:
+            /*
+            const downloadContainer = document.createElement('div');
+            downloadContainer.className = 'individual-downloads';
+            
+            compressedFiles.forEach(file => {
+                const downloadItem = document.createElement('div');
+                downloadItem.className = 'download-item';
+                downloadItem.innerHTML = `
+                    <span>${file.name} (${(file.compressedSize / 1024 / 1024).toFixed(2)} MB)</span>
+                    <button class="btn btn-small download-btn" data-filename="${file.name}">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                `;
+                downloadContainer.appendChild(downloadItem);
+            });
+            
+            // Add this container to the result area
+            resultCard.appendChild(downloadContainer);
+            
+            // Add event listeners to download buttons
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filename = btn.getAttribute('data-filename');
+                    downloadSingleFile(filename);
+                });
+            });
+            */
+        }
+
+        function downloadSingleFile(filename) {
+            // In a real implementation, this would download the specific compressed file
+            alert(`In a real implementation, this would download: compressed_${filename}`);
         }
 
         // Initialize ads
