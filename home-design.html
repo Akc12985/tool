@@ -69,6 +69,7 @@
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             transition: all 0.3s ease;
+            min-height: 600px;
         }
         
         .design-panel:hover {
@@ -497,6 +498,34 @@
             visibility: visible;
             opacity: 1;
         }
+
+        /* Canvas styling */
+        #floorPlanCanvas {
+            width: 100%;
+            height: 400px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Room labels */
+        .room-label {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        /* Furniture icons */
+        .furniture-icon {
+            position: absolute;
+            font-size: 20px;
+            color: #333;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -516,7 +545,7 @@
                     <div class="loader" id="designLoader"></div>
                     
                     <div class="layout-image-container">
-                        <img id="layoutImage" class="layout-image" src="" alt="Home Layout">
+                        <canvas id="floorPlanCanvas"></canvas>
                     </div>
                     
                     <div class="layout-details">
@@ -720,6 +749,20 @@
     </div>
 
     <script>
+        // Initialize canvas
+        const canvas = document.getElementById('floorPlanCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas dimensions
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = Math.min(container.clientWidth * 0.6, 500);
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
         // Update slider values in real-time
         document.getElementById('length').addEventListener('input', function() {
             document.getElementById('lengthValue').textContent = this.value;
@@ -762,8 +805,330 @@
             setTimeout(function() {
                 loader.style.display = 'none';
                 layoutContainer.style.display = 'block';
+                drawFloorPlan();
                 updateDesign();
-            }, 1500);
+            }, 500);
+        }
+        
+        // Draw floor plan on canvas
+        function drawFloorPlan() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const bhkType = document.getElementById('bhkSelector').value;
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const color = document.getElementById('colorPicker').value;
+            const theme = document.getElementById('themeSelector').value;
+            const numRooms = parseInt(document.getElementById('roomSelector').value);
+            const includeKitchen = document.getElementById('includeKitchen').checked;
+            const includeLiving = document.getElementById('includeLiving').checked;
+            const includeBath = document.getElementById('includeBath').checked;
+            
+            // Calculate scale factor to fit the floor plan in canvas
+            const scale = Math.min(
+                (canvas.width * 0.8) / (length * 100),
+                (canvas.height * 0.8) / (width * 100)
+            );
+            
+            // Set drawing parameters based on theme
+            let wallColor, wallThickness, roomColors;
+            switch(theme) {
+                case 'modern':
+                    wallColor = '#333333';
+                    wallThickness = 3;
+                    roomColors = ['#E8F5E9', '#E3F2FD', '#F3E5F5', '#FFF8E1'];
+                    break;
+                case 'traditional':
+                    wallColor = '#5D4037';
+                    wallThickness = 4;
+                    roomColors = ['#EFEBE9', '#D7CCC8', '#BCAAA4', '#A1887F'];
+                    break;
+                case 'minimalist':
+                    wallColor = '#212121';
+                    wallThickness = 2;
+                    roomColors = ['#FFFFFF', '#FAFAFA', '#F5F5F5', '#EEEEEE'];
+                    break;
+                case 'industrial':
+                    wallColor = '#424242';
+                    wallThickness = 4;
+                    roomColors = ['#CFD8DC', '#B0BEC5', '#90A4AE', '#78909C'];
+                    break;
+                default:
+                    wallColor = '#333333';
+                    wallThickness = 3;
+                    roomColors = ['#E8F5E9', '#E3F2FD', '#F3E5F5', '#FFF8E1'];
+            }
+            
+            // Draw walls
+            ctx.strokeStyle = wallColor;
+            ctx.lineWidth = wallThickness;
+            
+            // Calculate center position
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Draw main rectangle (outer walls)
+            const rectWidth = length * 100 * scale;
+            const rectHeight = width * 100 * scale;
+            
+            ctx.strokeRect(
+                centerX - rectWidth / 2,
+                centerY - rectHeight / 2,
+                rectWidth,
+                rectHeight
+            );
+            
+            // Fill with wall color
+            ctx.fillStyle = color;
+            ctx.fillRect(
+                centerX - rectWidth / 2,
+                centerY - rectHeight / 2,
+                rectWidth,
+                rectHeight
+            );
+            
+            // Draw rooms based on BHK type
+            drawRooms(bhkType, centerX, centerY, rectWidth, rectHeight, roomColors);
+            
+            // Draw furniture if selected
+            drawFurniture(centerX, centerY, rectWidth, rectHeight);
+            
+            // Show dimensions if enabled
+            if (document.getElementById('showDimensions').checked) {
+                drawDimensions(centerX, centerY, rectWidth, rectHeight, length, width);
+            }
+        }
+        
+        function drawRooms(bhkType, centerX, centerY, rectWidth, rectHeight, roomColors) {
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            
+            // Draw rooms based on BHK type
+            switch(bhkType) {
+                case '1bhk':
+                    // Bedroom
+                    drawRoom(centerX - rectWidth * 0.3, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.6, rectHeight * 0.6, roomColors[0], 'Bedroom');
+                    
+                    // Living area
+                    if (document.getElementById('includeLiving').checked) {
+                        drawRoom(centerX - rectWidth * 0.4, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.8, rectHeight * 0.4, roomColors[1], 'Living Room');
+                    }
+                    
+                    // Kitchen
+                    if (document.getElementById('includeKitchen').checked) {
+                        drawRoom(centerX + rectWidth * 0.2, centerY - rectHeight * 0.3, 
+                                rectWidth * 0.3, rectHeight * 0.4, roomColors[2], 'Kitchen');
+                    }
+                    
+                    // Bathroom
+                    if (document.getElementById('includeBath').checked) {
+                        drawRoom(centerX - rectWidth * 0.3, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.2, rectHeight * 0.2, roomColors[3], 'Bathroom');
+                    }
+                    break;
+                    
+                case '2bhk':
+                    // Bedroom 1
+                    drawRoom(centerX - rectWidth * 0.4, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.4, rectHeight * 0.5, roomColors[0], 'Bedroom 1');
+                    
+                    // Bedroom 2
+                    drawRoom(centerX, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.4, rectHeight * 0.5, roomColors[0], 'Bedroom 2');
+                    
+                    // Living area
+                    if (document.getElementById('includeLiving').checked) {
+                        drawRoom(centerX - rectWidth * 0.4, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.8, rectHeight * 0.4, roomColors[1], 'Living Room');
+                    }
+                    
+                    // Kitchen
+                    if (document.getElementById('includeKitchen').checked) {
+                        drawRoom(centerX + rectWidth * 0.2, centerY - rectHeight * 0.3, 
+                                rectWidth * 0.2, rectHeight * 0.4, roomColors[2], 'Kitchen');
+                    }
+                    
+                    // Bathroom
+                    if (document.getElementById('includeBath').checked) {
+                        drawRoom(centerX - rectWidth * 0.4, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.2, rectHeight * 0.2, roomColors[3], 'Bathroom');
+                    }
+                    break;
+                    
+                case '3bhk':
+                    // Bedroom 1
+                    drawRoom(centerX - rectWidth * 0.45, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.3, rectHeight * 0.5, roomColors[0], 'Bedroom 1');
+                    
+                    // Bedroom 2
+                    drawRoom(centerX - rectWidth * 0.1, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.3, rectHeight * 0.5, roomColors[0], 'Bedroom 2');
+                    
+                    // Bedroom 3
+                    drawRoom(centerX + rectWidth * 0.25, centerY - rectHeight * 0.3, 
+                            rectWidth * 0.3, rectHeight * 0.5, roomColors[0], 'Bedroom 3');
+                    
+                    // Living area
+                    if (document.getElementById('includeLiving').checked) {
+                        drawRoom(centerX - rectWidth * 0.45, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.8, rectHeight * 0.4, roomColors[1], 'Living Room');
+                    }
+                    
+                    // Kitchen
+                    if (document.getElementById('includeKitchen').checked) {
+                        drawRoom(centerX + rectWidth * 0.35, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.2, rectHeight * 0.2, roomColors[2], 'Kitchen');
+                    }
+                    
+                    // Bathroom
+                    if (document.getElementById('includeBath').checked) {
+                        drawRoom(centerX - rectWidth * 0.45, centerY + rectHeight * 0.1, 
+                                rectWidth * 0.2, rectHeight * 0.2, roomColors[3], 'Bathroom');
+                    }
+                    break;
+                    
+                case 'custom':
+                    // Custom layout based on number of rooms
+                    const numRooms = parseInt(document.getElementById('roomSelector').value);
+                    const roomWidth = rectWidth * 0.8 / Math.ceil(Math.sqrt(numRooms));
+                    const roomHeight = rectHeight * 0.8 / Math.ceil(Math.sqrt(numRooms));
+                    
+                    for (let i = 0; i < numRooms; i++) {
+                        const row = Math.floor(i / Math.ceil(Math.sqrt(numRooms)));
+                        const col = i % Math.ceil(Math.sqrt(numRooms));
+                        
+                        const roomX = centerX - rectWidth * 0.4 + col * roomWidth * 1.1;
+                        const roomY = centerY - rectHeight * 0.4 + row * roomHeight * 1.1;
+                        
+                        let roomName = `Room ${i+1}`;
+                        if (i === 0 && document.getElementById('includeLiving').checked) roomName = 'Living Room';
+                        if (i === 1 && document.getElementById('includeKitchen').checked) roomName = 'Kitchen';
+                        if (i === 2 && document.getElementById('includeBath').checked) roomName = 'Bathroom';
+                        
+                        drawRoom(roomX, roomY, roomWidth * 0.9, roomHeight * 0.9, 
+                                roomColors[i % roomColors.length], roomName);
+                    }
+                    break;
+            }
+        }
+        
+        function drawRoom(x, y, width, height, color, label) {
+            // Draw room fill
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            
+            // Draw room border
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, width, height);
+            
+            // Add room label
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x + width / 2, y + height / 2);
+        }
+        
+        function drawFurniture(centerX, centerY, rectWidth, rectHeight) {
+            const selectedFurniture = document.querySelectorAll('.furniture-option.selected');
+            
+            selectedFurniture.forEach(item => {
+                const type = item.getAttribute('data-furniture');
+                let icon, x, y;
+                
+                // Position furniture based on type
+                switch(type) {
+                    case 'bed':
+                        icon = '🛏️';
+                        x = centerX - rectWidth * 0.2;
+                        y = centerY - rectHeight * 0.2;
+                        break;
+                    case 'sofa':
+                        icon = '🛋️';
+                        x = centerX;
+                        y = centerY + rectHeight * 0.2;
+                        break;
+                    case 'table':
+                        icon = '🍽️';
+                        x = centerX + rectWidth * 0.3;
+                        y = centerY;
+                        break;
+                    case 'wardrobe':
+                        icon = '👕';
+                        x = centerX - rectWidth * 0.35;
+                        y = centerY - rectHeight * 0.1;
+                        break;
+                    case 'desk':
+                        icon = '💻';
+                        x = centerX + rectWidth * 0.1;
+                        y = centerY - rectHeight * 0.25;
+                        break;
+                    case 'tv':
+                        icon = '📺';
+                        x = centerX;
+                        y = centerY + rectHeight * 0.15;
+                        break;
+                }
+                
+                // Draw furniture icon
+                ctx.font = '24px Arial';
+                ctx.fillText(icon, x, y);
+            });
+        }
+        
+        function drawDimensions(centerX, centerY, rectWidth, rectHeight, length, width) {
+            ctx.strokeStyle = '#FF6F00';
+            ctx.lineWidth = 1;
+            ctx.fillStyle = '#FF6F00';
+            ctx.font = '10px Arial';
+            
+            // Draw length dimension
+            ctx.beginPath();
+            ctx.moveTo(centerX - rectWidth / 2, centerY - rectHeight / 2 - 20);
+            ctx.lineTo(centerX + rectWidth / 2, centerY - rectHeight / 2 - 20);
+            ctx.stroke();
+            
+            // Draw arrows
+            drawArrow(centerX - rectWidth / 2, centerY - rectHeight / 2 - 20, -Math.PI/2);
+            drawArrow(centerX + rectWidth / 2, centerY - rectHeight / 2 - 20, Math.PI/2);
+            
+            // Add text
+            ctx.fillText(`${length}m`, centerX, centerY - rectHeight / 2 - 25);
+            
+            // Draw width dimension
+            ctx.beginPath();
+            ctx.moveTo(centerX - rectWidth / 2 - 20, centerY - rectHeight / 2);
+            ctx.lineTo(centerX - rectWidth / 2 - 20, centerY + rectHeight / 2);
+            ctx.stroke();
+            
+            // Draw arrows
+            drawArrow(centerX - rectWidth / 2 - 20, centerY - rectHeight / 2, 0);
+            drawArrow(centerX - rectWidth / 2 - 20, centerY + rectHeight / 2, Math.PI);
+            
+            // Add text
+            ctx.save();
+            ctx.translate(centerX - rectWidth / 2 - 30, centerY);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText(`${width}m`, 0, 0);
+            ctx.restore();
+        }
+        
+        function drawArrow(x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-5, -5);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-5, 5);
+            ctx.stroke();
+            
+            ctx.restore();
         }
         
         // Update design details
@@ -802,11 +1167,6 @@
             const areaSqFt = (area * 10.764).toFixed(2);
             document.getElementById('dimensionInfo').innerHTML = 
                 `Total area: ${area} sq.m (${areaSqFt} sq.ft) | Wall color: <span class="color-preview" style="background-color: ${color}"></span>`;
-            
-            // Set image based on selection (in a real app, this would be generated or fetched)
-            const layoutImage = document.getElementById('layoutImage');
-            layoutImage.src = `https://via.placeholder.com/800x500/cccccc/ffffff?text=${layoutTitle.replace(/ /g, '+')}`;
-            layoutImage.alt = layoutTitle;
             
             // Calculate beam placement
             calculateBeamPlacement();
@@ -882,6 +1242,9 @@
         
         // Set initial color preview
         document.getElementById('colorPreview').style.backgroundColor = document.getElementById('colorPicker').value;
+        
+        // Initialize with default values
+        updateDesign();
     </script>
 </body>
 </html>
