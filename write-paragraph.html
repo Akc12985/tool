@@ -3,34 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online paragraph writer tool. Generate 1000 to 10000 words paragraphs on any topic instantly. Perfect for essays, blogs, and content creation.">
-    <meta name="keywords" content="paragraph writer, essay generator, content writer, long paragraph generator, AI paragraph writer, free writing tool">
-    <meta name="author" content="ParagraphWriterTool">
+    <meta name="description" content="Advanced AI Paragraph Writer - Generate 100 to 10000 words content in multiple formats including stories, news, blogs, poetry and more. Free online writing tool.">
+    <meta name="keywords" content="AI writer, paragraph generator, story writer, poem generator, content creator, essay writer, blog post generator">
+    <meta name="author" content="AdvancedParagraphWriter">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Free Paragraph Writer Tool | Generate 1000-10000 Words Instantly">
-    <meta property="og:description" content="Generate long paragraphs on any topic with our free online tool. Perfect for essays, blogs, and content writing.">
+    <meta property="og:title" content="Advanced AI Paragraph Writer | Generate Stories, Poems, Essays">
+    <meta property="og:description" content="Generate 100-10000 words content in multiple formats with our AI-powered writing tool. Create stories, poems, essays, blogs and more.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourwebsite.com/paragraph-writer">
+    <meta property="og:url" content="https://yourwebsite.com/ai-paragraph-writer">
     
-    <title>Free Paragraph Writer Tool | Generate 1000-10000 Words Instantly</title>
+    <title>Advanced AI Paragraph Writer | Generate Stories, Poems, Essays (100-10000 Words)</title>
     
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://yourwebsite.com/paragraph-writer">
+    <link rel="canonical" href="https://yourwebsite.com/ai-paragraph-writer">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Highlight.js for code formatting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
     
     <style>
         :root {
             --primary-color: #4a6bff;
             --secondary-color: #2ecc71;
             --accent-color: #ff6b6b;
+            --creative-color: #9b59b6;
             --light-color: #f8f9fa;
             --dark-color: #2c3e50;
             --gray-color: #7f8c8d;
@@ -65,6 +69,9 @@
             box-shadow: var(--box-shadow);
             padding: 15px 0;
             margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-content {
@@ -94,6 +101,7 @@
         
         nav ul li {
             margin-left: 20px;
+            position: relative;
         }
         
         nav ul li a {
@@ -101,10 +109,51 @@
             color: var(--gray-color);
             font-weight: 500;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
         }
         
         nav ul li a:hover {
             color: var(--primary-color);
+        }
+        
+        nav ul li a i {
+            margin-right: 5px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            padding: 10px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 10;
+        }
+        
+        nav ul li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .dropdown-menu li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dropdown-menu a {
+            padding: 8px 15px;
+            display: block;
+            color: var(--dark-color);
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: var(--light-color);
         }
         
         .ad-banner {
@@ -114,6 +163,7 @@
             text-align: center;
             margin: 20px 0;
             border-radius: var(--border-radius);
+            overflow: hidden;
         }
         
         .main-content {
@@ -127,8 +177,20 @@
         h1 {
             color: var(--primary-color);
             margin-bottom: 20px;
-            font-size: 28px;
+            font-size: 32px;
             text-align: center;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            font-size: 20px;
         }
         
         .description {
@@ -153,7 +215,7 @@
             color: var(--dark-color);
         }
         
-        .text-input, .select-input {
+        .text-input, .select-input, .textarea-input {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -163,9 +225,10 @@
             transition: var(--transition);
         }
         
-        .text-input:focus, .select-input:focus {
+        .text-input:focus, .select-input:focus, .textarea-input:focus {
             border-color: var(--primary-color);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
         }
         
         .btn {
@@ -183,8 +246,12 @@
         }
         
         .btn:hover {
-            background-color: #3a5bef;
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn i {
+            margin-right: 8px;
         }
         
         .btn-secondary {
@@ -211,8 +278,17 @@
             background-color: #ff5252;
         }
         
+        .btn-creative {
+            background-color: var(--creative-color);
+        }
+        
+        .btn-creative:hover {
+            background-color: #8e44ad;
+        }
+        
         .output-container {
             margin-top: 30px;
+            position: relative;
         }
         
         .output-text {
@@ -225,12 +301,25 @@
             font-family: 'Poppins', sans-serif;
             resize: vertical;
             background-color: #f9f9f9;
+            line-height: 1.8;
+        }
+        
+        .poetry-output {
+            font-family: 'Merriweather', serif;
+            white-space: pre-line;
+            line-height: 2;
+        }
+        
+        .story-output {
+            font-family: 'Merriweather', serif;
         }
         
         .word-count {
             margin-top: 10px;
             font-size: 14px;
             color: var(--gray-color);
+            display: flex;
+            justify-content: space-between;
         }
         
         .status-message {
@@ -244,12 +333,21 @@
             background-color: rgba(46, 204, 113, 0.2);
             color: var(--secondary-color);
             display: block;
+            border-left: 4px solid var(--secondary-color);
         }
         
         .status-message.error {
             background-color: rgba(255, 107, 107, 0.2);
             color: var(--accent-color);
             display: block;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .status-message.info {
+            background-color: rgba(74, 107, 255, 0.2);
+            color: var(--primary-color);
+            display: block;
+            border-left: 4px solid var(--primary-color);
         }
         
         .how-to-use {
@@ -263,14 +361,116 @@
         .how-to-use h2 {
             color: var(--primary-color);
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
         }
         
-        .how-to-use ol {
+        .how-to-use h2 i {
+            margin-right: 10px;
+        }
+        
+        .how-to-use ol, .how-to-use ul {
             padding-left: 20px;
+            margin-bottom: 15px;
         }
         
         .how-to-use li {
             margin-bottom: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .format-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .format-option {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .format-option:hover {
+            background-color: #e9ecef;
+        }
+        
+        .format-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 107, 255, 0.1);
+        }
+        
+        .format-option i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .advanced-options {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .advanced-options.show {
+            display: block;
+        }
+        
+        .toggle-advanced {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .toggle-advanced i {
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+        
+        .toggle-advanced.rotated i {
+            transform: rotate(90deg);
         }
         
         footer {
@@ -278,10 +478,15 @@
             padding: 20px 0;
             color: var(--gray-color);
             font-size: 14px;
+            background-color: white;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
         }
         
         .footer-links {
             margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .footer-links a {
@@ -295,6 +500,39 @@
             color: var(--primary-color);
         }
         
+        .social-links {
+            margin-bottom: 15px;
+        }
+        
+        .social-links a {
+            color: var(--gray-color);
+            margin: 0 10px;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Loading animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
         /* Responsive styles */
         @media (max-width: 768px) {
             .header-content {
@@ -305,15 +543,47 @@
             nav ul {
                 margin-top: 15px;
                 justify-content: center;
+                flex-wrap: wrap;
             }
             
             nav ul li {
-                margin: 0 10px;
+                margin: 5px 10px;
+            }
+            
+            .dropdown-menu {
+                left: 50%;
+                transform: translateX(-50%);
             }
             
             .btn {
                 width: 100%;
                 margin: 5px 0;
+            }
+            
+            .format-options {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            header, footer, .ad-banner, .how-to-use, .button-group {
+                display: none !important;
+            }
+            
+            .main-content {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .output-text {
+                min-height: auto;
+                border: none;
+                background-color: white;
             }
         }
     </style>
@@ -322,15 +592,24 @@
     <header>
         <div class="container header-content">
             <a href="/" class="logo">
-                <i class="fas fa-pen-fancy"></i>
-                <span>ParagraphWriter</span>
+                <i class="fas fa-robot"></i>
+                <span>AI Writer Pro</span>
             </a>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/tools">Tools</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                    <li>
+                        <a href="#"><i class="fas fa-tools"></i> Tools <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/paragraph-writer"><i class="fas fa-paragraph"></i> Paragraph Writer</a></li>
+                            <li><a href="/story-generator"><i class="fas fa-book-open"></i> Story Generator</a></li>
+                            <li><a href="/poem-creator"><i class="fas fa-pen-alt"></i> Poem Creator</a></li>
+                            <li><a href="/essay-writer"><i class="fas fa-graduation-cap"></i> Essay Writer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/templates"><i class="fas fa-file-alt"></i> Templates</a></li>
+                    <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -339,11 +618,11 @@
     <div class="container">
         <!-- Top Ad Banner -->
         <div class="ad-banner">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-7057695873482887"></script>
-            <!-- ParagraphWriter Top Banner -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887"></script>
+            <!-- AIWriterPro Top Banner -->
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-app-pub-7057695873482887"
+                 data-ad-client="ca-pub-7057695873482887"
                  data-ad-slot="8167485814"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
@@ -353,26 +632,53 @@
         </div>
         
         <main class="main-content">
-            <h1>Free Paragraph Writer Tool</h1>
-            <p class="description">Generate 1000 to 10000 words paragraphs on any topic instantly. Perfect for essays, blogs, and content writing.</p>
+            <h1>Advanced AI Content Writer</h1>
+            <p class="description">Generate 100 to 10000 words in multiple formats including stories, poems, essays, news articles and more with our AI-powered writing tool.</p>
             
             <div id="statusMessage" class="status-message"></div>
             
             <div class="tool-container">
                 <div class="input-group">
-                    <label for="topic">Enter Topic or Keyword</label>
-                    <input type="text" id="topic" class="text-input" placeholder="e.g., Climate change, Artificial Intelligence, Healthy Lifestyle">
+                    <label for="topic">Enter Topic, Keyword or Prompt</label>
+                    <input type="text" id="topic" class="text-input" placeholder="e.g., Climate change, Love story set in Paris, Haiku about nature">
                 </div>
                 
                 <div class="input-group">
                     <label for="wordCount">Select Word Count</label>
-                    <select id="wordCount" class="select-input">
-                        <option value="1000">1000 Words</option>
-                        <option value="2000">2000 Words</option>
-                        <option value="3000">3000 Words</option>
-                        <option value="5000">5000 Words</option>
-                        <option value="10000">10000 Words</option>
-                    </select>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="wordCountRange" min="100" max="10000" value="1000" step="100" style="flex-grow: 1;">
+                        <input type="number" id="wordCount" min="100" max="10000" value="1000" style="width: 100px; padding: 10px;">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Select Content Format</label>
+                    <div class="format-options">
+                        <div class="format-option active" data-format="paragraph">
+                            <i class="fas fa-paragraph"></i>
+                            <div>Paragraph</div>
+                        </div>
+                        <div class="format-option" data-format="story">
+                            <i class="fas fa-book-open"></i>
+                            <div>Story</div>
+                        </div>
+                        <div class="format-option" data-format="poem">
+                            <i class="fas fa-pen-alt"></i>
+                            <div>Poem</div>
+                        </div>
+                        <div class="format-option" data-format="essay">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>Essay</div>
+                        </div>
+                        <div class="format-option" data-format="article">
+                            <i class="fas fa-newspaper"></i>
+                            <div>Article</div>
+                        </div>
+                        <div class="format-option" data-format="blog">
+                            <i class="fas fa-blog"></i>
+                            <div>Blog Post</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="input-group">
@@ -383,33 +689,93 @@
                         <option value="academic">Academic</option>
                         <option value="creative">Creative</option>
                         <option value="professional">Professional</option>
+                        <option value="humorous">Humorous</option>
+                        <option value="dramatic">Dramatic</option>
+                        <option value="poetic">Poetic</option>
                     </select>
                 </div>
                 
-                <div class="button-group">
+                <button class="toggle-advanced">
+                    <i class="fas fa-chevron-right"></i> Advanced Options
+                </button>
+                
+                <div class="advanced-options">
+                    <div class="input-group">
+                        <label for="style">Writing Style</label>
+                        <select id="style" class="select-input">
+                            <option value="default">Default</option>
+                            <option value="descriptive">Descriptive</option>
+                            <option value="persuasive">Persuasive</option>
+                            <option value="narrative">Narrative</option>
+                            <option value="expository">Expository</option>
+                            <option value="technical">Technical</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="keywords">Additional Keywords (comma separated)</label>
+                        <input type="text" id="keywords" class="text-input" placeholder="e.g., environment, future, technology">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="poemType" id="poemTypeLabel" style="display: none;">Poem Type</label>
+                        <select id="poemType" class="select-input" style="display: none;">
+                            <option value="free-verse">Free Verse</option>
+                            <option value="haiku">Haiku</option>
+                            <option value="sonnet">Sonnet</option>
+                            <option value="limerick">Limerick</option>
+                            <option value="ballad">Ballad</option>
+                            <option value="ode">Ode</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="storyGenre" id="storyGenreLabel" style="display: none;">Story Genre</label>
+                        <select id="storyGenre" class="select-input" style="display: none;">
+                            <option value="fantasy">Fantasy</option>
+                            <option value="sci-fi">Science Fiction</option>
+                            <option value="romance">Romance</option>
+                            <option value="mystery">Mystery</option>
+                            <option value="horror">Horror</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="historical">Historical</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="button-group" style="text-align: center;">
                     <button id="generateBtn" class="btn btn-success">
-                        <i class="fas fa-magic"></i> Generate Paragraph
+                        <i class="fas fa-magic"></i> Generate Content
                     </button>
                     <button id="copyBtn" class="btn btn-secondary" disabled>
                         <i class="fas fa-copy"></i> Copy Text
                     </button>
+                    <button id="downloadBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Download
+                    </button>
                     <button id="clearBtn" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Clear All
+                    </button>
+                    <button id="improveBtn" class="btn btn-creative" disabled>
+                        <i class="fas fa-wand-magic-sparkles"></i> Improve
                     </button>
                 </div>
             </div>
             
             <div class="output-container">
-                <label for="outputText">Generated Paragraph</label>
+                <label for="outputText">Generated Content</label>
                 <textarea id="outputText" class="output-text" readonly></textarea>
-                <div class="word-count" id="wordCountDisplay">0 words generated</div>
+                <div class="word-count">
+                    <span id="wordCountDisplay">0 words generated</span>
+                    <span id="readingTimeDisplay"></span>
+                </div>
             </div>
         </main>
         
         <!-- Middle Ad Banner -->
         <div class="ad-banner">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887"></script>
-            <!-- ParagraphWriter Middle Rectangle -->
+            <!-- AIWriterPro Middle Rectangle -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-7057695873482887"
@@ -422,30 +788,67 @@
         </div>
         
         <section class="how-to-use">
-            <h2>How to Use the Paragraph Writer Tool</h2>
+            <h2><i class="fas fa-question-circle"></i> How to Use the AI Content Writer</h2>
             <ol>
-                <li><strong>Enter a topic or keyword</strong> in the input field (e.g., "Artificial Intelligence")</li>
-                <li><strong>Select your desired word count</strong> (from 1000 to 10000 words)</li>
-                <li><strong>Choose a writing tone</strong> (formal, casual, academic, etc.)</li>
-                <li><strong>Click "Generate Paragraph"</strong> to create your content</li>
-                <li><strong>Copy or download</strong> the generated text for your use</li>
+                <li><strong>Enter your topic or prompt</strong> - Be as specific as you want (e.g., "Short story about a detective in 1920s Chicago")</li>
+                <li><strong>Select your desired word count</strong> - From 100 to 10000 words using the slider or input</li>
+                <li><strong>Choose a content format</strong> - Paragraph, story, poem, essay, article, or blog post</li>
+                <li><strong>Pick a writing tone</strong> - Formal, casual, academic, etc.</li>
+                <li><strong>Use advanced options</strong> - For more control over style, keywords, and format-specific options</li>
+                <li><strong>Click "Generate Content"</strong> - Let our AI create high-quality content for you</li>
+                <li><strong>Copy, download or improve</strong> - Use the generated content as-is or enhance it further</li>
             </ol>
             
-            <h3 style="margin-top: 20px;">Features:</h3>
+            <h2><i class="fas fa-star"></i> Features & Benefits</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast Generation</h3>
+                    <p>Generate 100-10000 words in seconds with our advanced AI technology.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-edit"></i>
+                    <h3>Multiple Formats</h3>
+                    <p>Create paragraphs, stories, poems, essays, articles and blog posts.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>Customizable</h3>
+                    <p>Control tone, style, word count and format-specific options.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lock-open"></i>
+                    <h3>No Restrictions</h3>
+                    <p>Generate content without watermarks or usage limits.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Works perfectly on all devices including smartphones and tablets.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>100% Free</h3>
+                    <p>No hidden charges - use our tool as much as you want for free.</p>
+                </div>
+            </div>
+            
+            <h2><i class="fas fa-lightbulb"></i> Content Ideas</h2>
+            <p>Need inspiration? Try these prompts:</p>
             <ul>
-                <li>Generate 1000-10000 words in seconds</li>
-                <li>Multiple writing tones for different needs</li>
-                <li>No sign-up required</li>
-                <li>100% free with no watermarks</li>
-                <li>Works on all devices (desktop, tablet, mobile)</li>
-                <li>SEO-friendly content generation</li>
+                <li>"Science fiction story about first contact with aliens"</li>
+                <li>"Persuasive essay about renewable energy benefits"</li>
+                <li>"Haiku poem about autumn leaves"</li>
+                <li>"Informative article about blockchain technology"</li>
+                <li>"Blog post about healthy meal prep for busy professionals"</li>
+                <li>"Romantic story set in Paris during spring"</li>
             </ul>
         </section>
         
         <!-- Bottom Ad Banner -->
         <div class="ad-banner">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887"></script>
-            <!-- ParagraphWriter Bottom Banner -->
+            <!-- AIWriterPro Bottom Banner -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-7057695873482887"
@@ -460,89 +863,244 @@
     
     <footer>
         <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
             <div class="footer-links">
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
                 <a href="/contact">Contact Us</a>
                 <a href="/blog">Blog</a>
+                <a href="/faq">FAQ</a>
+                <a href="/sitemap">Sitemap</a>
             </div>
-            <p>&copy; <span id="currentYear"></span> ParagraphWriter Tool. All rights reserved.</p>
+            <p>&copy; <span id="currentYear"></span> AI Writer Pro. All rights reserved.</p>
         </div>
     </footer>
     
     <script>
         // DOM elements
         const topicInput = document.getElementById('topic');
-        const wordCountSelect = document.getElementById('wordCount');
+        const wordCountInput = document.getElementById('wordCount');
+        const wordCountRange = document.getElementById('wordCountRange');
         const toneSelect = document.getElementById('tone');
+        const styleSelect = document.getElementById('style');
+        const poemTypeSelect = document.getElementById('poemType');
+        const storyGenreSelect = document.getElementById('storyGenre');
+        const keywordsInput = document.getElementById('keywords');
         const generateBtn = document.getElementById('generateBtn');
         const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const improveBtn = document.getElementById('improveBtn');
         const outputText = document.getElementById('outputText');
         const wordCountDisplay = document.getElementById('wordCountDisplay');
+        const readingTimeDisplay = document.getElementById('readingTimeDisplay');
         const statusMessage = document.getElementById('statusMessage');
+        const formatOptions = document.querySelectorAll('.format-option');
+        const toggleAdvancedBtn = document.querySelector('.toggle-advanced');
+        const advancedOptions = document.querySelector('.advanced-options');
+        const poemTypeLabel = document.getElementById('poemTypeLabel');
+        const storyGenreLabel = document.getElementById('storyGenreLabel');
+        
+        // Current content format
+        let currentFormat = 'paragraph';
         
         // Set current year in footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         
-        // Event listeners
-        generateBtn.addEventListener('click', generateParagraph);
-        copyBtn.addEventListener('click', copyToClipboard);
-        clearBtn.addEventListener('click', clearAll);
+        // Initialize tool
+        function init() {
+            // Sync word count inputs
+            wordCountRange.addEventListener('input', () => {
+                wordCountInput.value = wordCountRange.value;
+            });
+            
+            wordCountInput.addEventListener('input', () => {
+                if (wordCountInput.value < 100) wordCountInput.value = 100;
+                if (wordCountInput.value > 10000) wordCountInput.value = 10000;
+                wordCountRange.value = wordCountInput.value;
+            });
+            
+            // Format selection
+            formatOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    formatOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    currentFormat = option.dataset.format;
+                    
+                    // Show/hide format-specific options
+                    if (currentFormat === 'poem') {
+                        poemTypeSelect.style.display = 'block';
+                        poemTypeLabel.style.display = 'block';
+                        storyGenreSelect.style.display = 'none';
+                        storyGenreLabel.style.display = 'none';
+                    } else if (currentFormat === 'story') {
+                        storyGenreSelect.style.display = 'block';
+                        storyGenreLabel.style.display = 'block';
+                        poemTypeSelect.style.display = 'none';
+                        poemTypeLabel.style.display = 'none';
+                    } else {
+                        poemTypeSelect.style.display = 'none';
+                        poemTypeLabel.style.display = 'none';
+                        storyGenreSelect.style.display = 'none';
+                        storyGenreLabel.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Toggle advanced options
+            toggleAdvancedBtn.addEventListener('click', () => {
+                advancedOptions.classList.toggle('show');
+                toggleAdvancedBtn.classList.toggle('rotated');
+            });
+            
+            // Event listeners
+            generateBtn.addEventListener('click', generateContent);
+            copyBtn.addEventListener('click', copyToClipboard);
+            downloadBtn.addEventListener('click', downloadContent);
+            clearBtn.addEventListener('click', clearAll);
+            improveBtn.addEventListener('click', improveContent);
+            
+            // Check for saved content
+            const savedContent = localStorage.getItem('aiWriterContent');
+            if (savedContent) {
+                outputText.value = savedContent;
+                updateWordCount();
+                copyBtn.disabled = false;
+                improveBtn.disabled = false;
+            }
+        }
         
-        // Generate paragraph function
-        function generateParagraph() {
+        // Generate content function
+        async function generateContent() {
             const topic = topicInput.value.trim();
-            const wordCount = parseInt(wordCountSelect.value);
+            const wordCount = parseInt(wordCountInput.value);
             const tone = toneSelect.value;
+            const style = styleSelect.value;
+            const keywords = keywordsInput.value.trim();
+            const poemType = poemTypeSelect.value;
+            const storyGenre = storyGenreSelect.value;
             
             if (!topic) {
-                showStatus('Please enter a topic or keyword.', 'error');
+                showStatus('Please enter a topic or prompt.', 'error');
+                topicInput.focus();
                 return;
             }
             
-            showStatus('Generating your paragraph...', 'success');
+            showStatus('Generating your content... This may take a moment.', 'info');
             generateBtn.disabled = true;
-            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            generateBtn.innerHTML = '<span class="loading-spinner"></span> Generating...';
             
-            // Simulate paragraph generation (in a real app, this would call an API)
-            setTimeout(() => {
-                const generatedText = generateDummyText(topic, wordCount, tone);
+            try {
+                // In a real app, this would call an API
+                const generatedText = await simulateAPICall(topic, wordCount, tone, style, keywords, poemType, storyGenre);
                 outputText.value = generatedText;
                 
-                // Update word count
-                const actualWordCount = countWords(generatedText);
-                wordCountDisplay.textContent = `${actualWordCount} words generated`;
+                // Update output styling based on format
+                updateOutputStyle();
                 
-                // Enable copy button
+                // Update word count and reading time
+                updateWordCount();
+                
+                // Enable buttons
                 copyBtn.disabled = false;
+                improveBtn.disabled = false;
                 
-                showStatus('Paragraph generated successfully!', 'success');
+                // Save to local storage
+                localStorage.setItem('aiWriterContent', generatedText);
+                
+                showStatus('Content generated successfully!', 'success');
+            } catch (error) {
+                showStatus('Error generating content. Please try again.', 'error');
+                console.error('Generation error:', error);
+            } finally {
                 generateBtn.disabled = false;
-                generateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Paragraph';
-            }, 1500);
+                generateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Content';
+            }
         }
         
-        // Generate dummy text (replace with real API call in production)
-        function generateDummyText(topic, wordCount, tone) {
+        // Simulate API call with timeout
+        function simulateAPICall(topic, wordCount, tone, style, keywords, poemType, storyGenre) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const generatedText = generateContentBasedOnFormat(
+                        topic, 
+                        wordCount, 
+                        tone, 
+                        style, 
+                        keywords, 
+                        poemType, 
+                        storyGenre
+                    );
+                    resolve(generatedText);
+                }, 2000);
+            });
+        }
+        
+        // Generate content based on selected format
+        function generateContentBasedOnFormat(topic, wordCount, tone, style, keywords, poemType, storyGenre) {
+            switch(currentFormat) {
+                case 'story':
+                    return generateStory(topic, wordCount, tone, style, keywords, storyGenre);
+                case 'poem':
+                    return generatePoem(topic, wordCount, tone, style, keywords, poemType);
+                case 'essay':
+                    return generateEssay(topic, wordCount, tone, style, keywords);
+                case 'article':
+                    return generateArticle(topic, wordCount, tone, style, keywords);
+                case 'blog':
+                    return generateBlogPost(topic, wordCount, tone, style, keywords);
+                default:
+                    return generateParagraph(topic, wordCount, tone, style, keywords);
+            }
+        }
+        
+        // Generate paragraph
+        function generateParagraph(topic, wordCount, tone, style, keywords) {
             const tones = {
-                formal: "This comprehensive analysis will examine",
-                casual: "Let's talk about",
-                academic: "Recent scholarly research indicates that",
-                creative: "Imagine a world where",
-                professional: "In the current business landscape,"
+                formal: `This comprehensive analysis examines ${topic}.`,
+                casual: `Let's talk about ${topic}.`,
+                academic: `Recent scholarly research indicates that ${topic}`,
+                creative: `Imagine a world where ${topic}.`,
+                professional: `In the current landscape, ${topic}`,
+                humorous: `You won't believe this about ${topic}!`,
+                dramatic: `Little did they know that ${topic} would change everything.`,
+                poetic: `Like whispers in the wind, ${topic}`
             };
             
-            const intro = tones[tone] || tones.formal;
+            const styles = {
+                descriptive: `The intricate details of ${topic} reveal`,
+                persuasive: `There is compelling evidence that ${topic}`,
+                narrative: `I remember when I first encountered ${topic}.`,
+                expository: `${topic} can be understood by examining`,
+                technical: `From a technical perspective, ${topic}`
+            };
+            
+            const intro = styles[style] ? styles[style] + ' ' + tones[tone] : tones[tone] || tones.formal;
             
             // Base paragraph (repeated to reach word count)
-            const baseText = `
-            ${intro} ${topic}. ${topic} has become an increasingly important subject in modern discourse. The implications of ${topic} are far-reaching, affecting multiple aspects of contemporary society. 
+            let baseText = `
+            ${intro} ${topic} has become an increasingly important subject in modern discourse. The implications are far-reaching, affecting multiple aspects of contemporary society. 
 
-            When considering ${topic}, one must examine both the historical context and current developments. Many experts argue that ${topic} represents a significant shift in how we approach related fields. The impact of ${topic} can be observed in various sectors, including technology, education, and social dynamics.
-
-            Furthermore, ${topic} presents both opportunities and challenges. On one hand, it enables progress in innovative ways. On the other hand, concerns have been raised about potential drawbacks. A balanced perspective on ${topic} requires careful analysis of available data and diverse viewpoints.
-
+            When considering ${topic}, one must examine both historical context and current developments. Many experts argue that it represents a significant shift in how we approach related fields. The impact can be observed in various sectors, including technology, education, and social dynamics.
+            `;
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    baseText += `\n\nKey aspects include ${keywordList.join(', ')}. These elements contribute to our understanding of ${topic} and its broader implications.`;
+                }
+            }
+            
+            baseText += `
+            
+            Furthermore, ${topic} presents both opportunities and challenges. On one hand, it enables progress in innovative ways. On the other hand, concerns have been raised about potential drawbacks. A balanced perspective requires careful analysis of available data and diverse viewpoints.
+            
             In conclusion, ${topic} remains a crucial area for ongoing research and discussion. As our understanding evolves, so too will our approaches to addressing key questions surrounding this topic.
             `;
             
@@ -559,8 +1117,1298 @@
             return trimToWordCount(fullText, wordCount);
         }
         
+        // Generate story
+        function generateStory(topic, wordCount, tone, style, keywords, genre) {
+            const genres = {
+                fantasy: `In a realm of magic and wonder, ${topic}`,
+                'sci-fi': `In the year 2150, ${topic}`,
+                romance: `Their eyes met across the crowded room, ${topic}`,
+                mystery: `The detective examined the clue, realizing ${topic}`,
+                horror: `A chill ran down their spine as ${topic}`,
+                adventure: `The map led to uncharted territory where ${topic}`,
+                historical: `In the year 1892, ${topic}`
+            };
+            
+            const tones = {
+                formal: `This narrative explores how ${topic}.`,
+                casual: `So there was this time when ${topic}.`,
+                creative: `The story unfolds with ${topic}.`,
+                dramatic: `With bated breath, they discovered ${topic}.`,
+                humorous: `In a hilarious turn of events, ${topic}`
+            };
+            
+            const intro = genres[genre] || genres.fantasy;
+            const toneIntro = tones[tone] || '';
+            
+            // Base story structure
+            let story = `
+            ${intro} ${toneIntro}
+            
+            The protagonist, ${getRandomName()}, found themselves facing an unexpected challenge. ${getRandomEvent()}. This set in motion a series of events that would change ${getRandomPossessive()} life forever.
+            
+            Along the way, ${getRandomName()} encountered ${getRandomName()}, who would become ${getRandomRelationship()}. Together, they navigated ${getRandomChallenge()}, learning valuable lessons about ${topic} in the process.
+            `;
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    story += `\n\nThe story wove in elements of ${keywordList.join(', ')}, adding depth and complexity to the narrative.`;
+                }
+            }
+            
+            story += `
+            
+            As the climax approached, ${getRandomName()} faced the ultimate test: ${getRandomClimax()}. The resolution brought ${getRandomResolution()}, leaving readers with ${getRandomMoral()}.
+            
+            The end.
+            `;
+            
+            // Expand to reach word count
+            return expandStory(story, topic, wordCount);
+        }
+        
+        // Generate poem
+        function generatePoem(topic, wordCount, tone, style, keywords, poemType) {
+            const types = {
+                'free-verse': `About ${topic}\n\n`,
+                haiku: ``, // Special handling
+                sonnet: `Upon the Subject of ${topic.charAt(0).toUpperCase() + topic.slice(1)}\n\n`,
+                limerick: `There once was ${topic.split(' ')[0]} so bold\n`,
+                ballad: `Come gather 'round and I'll tell you true\nOf ${topic} and all that it grew\n`,
+                ode: `Ode to ${topic.charAt(0).toUpperCase() + topic.slice(1)}\n\n`
+            };
+            
+            let poem = types[poemType] || types['free-verse'];
+            
+            if (poemType === 'haiku') {
+                // Haiku has specific 5-7-5 syllable structure
+                const haikuLines = [
+                    getHaikuLine(5, topic),
+                    getHaikuLine(7, topic),
+                    getHaikuLine(5, topic)
+                ];
+                return haikuLines.join('\n');
+            }
+            
+            const tones = {
+                formal: `I contemplate with solemn grace\n`,
+                casual: `Let me tell you 'bout this place\n`,
+                creative: `Dancing shadows, whispered light\n`,
+                poetic: `As golden sun doth turn to night\n`,
+                dramatic: `Oh! The anguish, oh! The pain\n`
+            };
+            
+            poem += tones[tone] || tones.poetic;
+            
+            // Generate poem lines based on word count
+            const linesNeeded = Math.max(5, Math.floor(wordCount / 8));
+            const poemLines = [poem];
+            
+            for (let i = 0; i < linesNeeded; i++) {
+                poemLines.push(getPoemLine(topic, poemType, i % 2 === 0));
+            }
+            
+            if (poemType === 'sonnet' && poemLines.length < 14) {
+                // Sonnets have 14 lines
+                while (poemLines.length < 14) {
+                    poemLines.push(getPoemLine(topic, poemType, poemLines.length % 2 === 0));
+                }
+            }
+            
+            if (poemType === 'limerick') {
+                // Limerick has AABBA rhyme scheme
+                if (poemLines.length < 5) {
+                    while (poemLines.length < 5) {
+                        poemLines.push(getPoemLine(topic, poemType, poemLines.length >= 3));
+                    }
+                }
+                poemLines[3] = poemLines[0];
+                poemLines[4] = poemLines[1];
+            }
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    poemLines.push(`\nWith ${keywordList.join(' and ')} so bright`);
+                }
+            }
+            
+            return poemLines.join('\n');
+        }
+        
+        // Generate essay
+        function generateEssay(topic, wordCount, tone, style, keywords) {
+            const tones = {
+                formal: `This essay will examine ${topic} through`,
+                academic: `Scholarly discourse surrounding ${topic} suggests`,
+                professional: `An analysis of ${topic} reveals`,
+                creative: `Let us explore the fascinating world of ${topic}`
+            };
+            
+            const intro = tones[tone] || tones.formal;
+            
+            // Essay structure
+            let essay = `
+            ${intro} multiple perspectives. ${topic} has become increasingly relevant in contemporary society, with implications across various domains.
+            
+            The historical context of ${topic} dates back to ${getRandomYear()}, when ${getRandomHistoricalEvent()}. This established the foundation for modern understanding and applications.
+            `;
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    essay += `\n\nKey concepts include ${keywordList.join(', ')}, each contributing to our comprehensive understanding.`;
+                }
+            }
+            
+            essay += `
+            
+            Current research demonstrates that ${topic} impacts ${getRandomField()} in significant ways. Studies by ${getRandomName()} (${getRandomYear()}) revealed ${getRandomFinding()}. This aligns with earlier work by ${getRandomName()}, though some contradictions remain.
+            
+            Critics argue that ${getRandomCriticism()}. However, proponents counter that ${getRandomCounterArgument()}. This debate continues to shape the field.
+            
+            In conclusion, ${topic} represents ${getRandomConclusion()}. Future research should address ${getRandomFutureResearch()}, potentially yielding ${getRandomBenefit()}.
+            `;
+            
+            // Expand to reach word count
+            return expandEssay(essay, topic, wordCount);
+        }
+        
+        // Generate article
+        function generateArticle(topic, wordCount, tone, style, keywords) {
+            const tones = {
+                formal: `Recent developments in ${topic} indicate`,
+                casual: `Have you heard about ${topic}?`,
+                professional: `Industry analysis shows ${topic}`,
+                creative: `In a surprising twist, ${topic}`
+            };
+            
+            const intro = tones[tone] || tones.formal;
+            
+            // Article structure
+            let article = `
+            ${intro} significant changes are underway. ${getRandomName()}, an expert in the field, explains: "${getRandomQuote()}"
+
+            The background of this situation stems from ${getRandomEvent()}. According to ${getRandomName()}, this has led to ${getRandomOutcome()}.
+            `;
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    article += `\n\nCentral to this discussion are ${keywordList.join(', ')}, which play pivotal roles in the current scenario.`;
+                }
+            }
+            
+            article += `
+            
+            Data from ${getRandomOrganization()} shows ${getRandomStatistic()}. This represents a ${getRandomPercentage()}% change from previous figures. ${getRandomName()} attributes this to ${getRandomCause()}.
+            
+            Looking ahead, experts predict ${getRandomPrediction()}. However, challenges remain, particularly regarding ${getRandomChallenge()}. ${getRandomName()} suggests that ${getRandomSolution()} could address these issues.
+            
+            For now, stakeholders are focused on ${getRandomFocus()}, which may determine the future trajectory of ${topic}.
+            `;
+            
+            // Expand to reach word count
+            return expandArticle(article, topic, wordCount);
+        }
+        
+        // Generate blog post
+        function generateBlogPost(topic, wordCount, tone, style, keywords) {
+            const tones = {
+                casual: `Hey there! Today we're talking about ${topic}.`,
+                professional: `In this post, we'll explore ${topic} and its`,
+                creative: `Picture this: ${topic} in a whole new light.`,
+                humorous: `You'll never guess what I learned about ${topic}!`
+            };
+            
+            const intro = tones[tone] || tones.casual;
+            
+            // Blog post structure
+            let post = `
+            ${intro} ${getRandomPersonalExperience()}. I know, right? It got me thinking about how ${topic} affects our daily lives.
+
+            Let me share with you ${getRandomNumber()} key things I discovered about ${topic}. First, ${getRandomPoint()}. This was surprising because ${getRandomReason()}.
+            `;
+            
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                if (keywordList.length > 0) {
+                    post += `\n\nWe can't talk about this without mentioning ${keywordList.join(' and ')}, which totally changed my perspective.`;
+                }
+            }
+            
+            post += `
+            
+            The second thing is ${getRandomPoint()}. I tried this myself and ${getRandomResult()}. My friend ${getRandomName()} had a different experience though - they found ${getRandomContrast()}.
+            
+            Finally, the big takeaway is ${getRandomLesson()}. If you remember nothing else, remember this: ${getRandomQuote()}.
+            
+            What's your experience with ${topic}? Let me know in the comments below! Don't forget to like and share if you found this helpful.
+            `;
+            
+            // Expand to reach word count
+            return expandBlogPost(post, topic, wordCount);
+        }
+        
+        // Helper functions for content generation
+        function getRandomName() {
+            const firstNames = ['Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie', 'Dakota', 'Skyler', 'Avery'];
+            const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Rodriguez', 'Wilson'];
+            return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+        }
+        
+        function getRandomEvent() {
+            const events = [
+                'a mysterious discovery',
+                'an unexpected encounter',
+                'a sudden realization',
+                'a long-hidden secret revealed',
+                'a chance meeting',
+                'a twist of fate',
+                'an extraordinary coincidence',
+                'a life-changing decision'
+            ];
+            return events[Math.floor(Math.random() * events.length)];
+        }
+        
+        function getRandomRelationship() {
+            const relationships = [
+                'a trusted ally',
+                'an unexpected friend',
+                'a reluctant partner',
+                'a mysterious stranger',
+                'a bitter rival',
+                'a long-lost relative',
+                'a mentor figure',
+                'a complicated love interest'
+            ];
+            return relationships[Math.floor(Math.random() * relationships.length)];
+        }
+        
+        function getRandomChallenge() {
+            const challenges = [
+                'treacherous terrain',
+                'complex social dynamics',
+                'personal demons',
+                'unexpected obstacles',
+                'moral dilemmas',
+                'physical limitations',
+                'societal expectations',
+                'technological hurdles'
+            ];
+            return challenges[Math.floor(Math.random() * challenges.length)];
+        }
+        
+        function getRandomClimax() {
+            const climaxes = [
+                'confront their greatest fear',
+                'make the ultimate sacrifice',
+                'choose between two impossible options',
+                'discover a shocking truth',
+                'face their past mistakes',
+                'prove their worth against all odds',
+                'find strength they never knew they had',
+                'redefine their understanding of right and wrong'
+            ];
+            return climaxes[Math.floor(Math.random() * climaxes.length)];
+        }
+        
+        function getRandomResolution() {
+            const resolutions = [
+                'a bittersweet victory',
+                'a hard-won peace',
+                'a new beginning',
+                'a profound understanding',
+                'a transformed perspective',
+                'a mixture of joy and sorrow',
+                'a promise for the future',
+                'a circle completed'
+            ];
+            return resolutions[Math.floor(Math.random() * resolutions.length)];
+        }
+        
+        function getRandomMoral() {
+            const morals = [
+                'the true meaning of courage',
+                'the importance of perseverance',
+                'the value of human connection',
+                'the complexity of morality',
+                'the power of self-discovery',
+                'the beauty in imperfection',
+                'the strength found in vulnerability',
+                'the enduring nature of hope'
+            ];
+            return morals[Math.floor(Math.random() * morals.length)];
+        }
+        
+        function getRandomPossessive() {
+            const possessives = ['their', 'his', 'her'];
+            return possessives[Math.floor(Math.random() * possessives.length)];
+        }
+        
+        function getRandomYear() {
+            return Math.floor(Math.random() * 300) + 1700;
+        }
+        
+        function getRandomHistoricalEvent() {
+            const events = [
+                'a groundbreaking discovery',
+                'a pivotal invention',
+                'a revolutionary idea',
+                'a catastrophic event',
+                'a cultural renaissance',
+                'a scientific breakthrough',
+                'a political upheaval',
+                'an artistic movement'
+            ];
+            return events[Math.floor(Math.random() * events.length)];
+        }
+        
+        function getRandomField() {
+            const fields = [
+                'economics',
+                'education',
+                'technology',
+                'healthcare',
+                'environmental policy',
+                'social dynamics',
+                'cultural development',
+                'political systems'
+            ];
+            return fields[Math.floor(Math.random() * fields.length)];
+        }
+        
+        function getRandomFinding() {
+            const findings = [
+                'unexpected correlations',
+                'significant improvements',
+                'troubling trends',
+                'promising developments',
+                'counterintuitive results',
+                'groundbreaking insights',
+                'controversial conclusions',
+                'validating evidence'
+            ];
+            return findings[Math.floor(Math.random() * findings.length)];
+        }
+        
+        function getRandomCriticism() {
+            const criticisms = [
+                'methodological flaws',
+                'limited scope',
+                'cultural bias',
+                'oversimplification',
+                'unrealistic assumptions',
+                'inadequate sample sizes',
+                'confirmation bias',
+                'lack of reproducibility'
+            ];
+            return criticisms[Math.floor(Math.random() * criticisms.length)];
+        }
+        
+        function getRandomCounterArgument() {
+            const counters = [
+                'the benefits outweigh the drawbacks',
+                'new evidence supports the original claims',
+                'alternative interpretations exist',
+                'the criticism itself is flawed',
+                'contextual factors explain apparent inconsistencies',
+                'subsequent research has addressed these concerns',
+                'the theoretical framework accounts for these issues',
+                'the overall consensus remains unchanged'
+            ];
+            return counters[Math.floor(Math.random() * counters.length)];
+        }
+        
+        function getRandomConclusion() {
+            const conclusions = [
+                'a multifaceted phenomenon',
+                'an area ripe for further investigation',
+                'a transformative concept',
+                'a cautionary tale',
+                'a testament to human ingenuity',
+                'a complex interplay of factors',
+                'a foundational principle',
+                'a dynamic and evolving field'
+            ];
+            return conclusions[Math.floor(Math.random() * conclusions.length)];
+        }
+        
+        function getRandomFutureResearch() {
+            const research = [
+                'long-term effects',
+                'cross-cultural applications',
+                'practical implementations',
+                'theoretical underpinnings',
+                'interdisciplinary connections',
+                'ethical considerations',
+                'scalability challenges',
+                'measurement methodologies'
+            ];
+            return research[Math.floor(Math.random() * research.length)];
+        }
+        
+        function getRandomBenefit() {
+            const benefits = [
+                'improved outcomes',
+                'enhanced understanding',
+                'practical solutions',
+                'theoretical advancements',
+                'policy recommendations',
+                'technological innovations',
+                'social progress',
+                'economic benefits'
+            ];
+            return benefits[Math.floor(Math.random() * benefits.length)];
+        }
+        
+        function getRandomOrganization() {
+            const orgs = [
+                'the World Health Organization',
+                'the United Nations',
+                'the Pew Research Center',
+                'the Brookings Institution',
+                'NASA',
+                'the European Union',
+                'the World Bank',
+                'the International Monetary Fund'
+            ];
+            return orgs[Math.floor(Math.random() * orgs.length)];
+        }
+        
+        function getRandomStatistic() {
+            const stats = [
+                'a marked increase',
+                'a significant decline',
+                'a stable trend',
+                'an unprecedented shift',
+                'a gradual improvement',
+                'a worrying decrease',
+                'a promising uptick',
+                'a volatile pattern'
+            ];
+            return stats[Math.floor(Math.random() * stats.length)];
+        }
+        
+        function getRandomPercentage() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+        
+        function getRandomCause() {
+            const causes = [
+                'changing demographics',
+                'economic factors',
+                'technological advancements',
+                'policy changes',
+                'environmental conditions',
+                'social movements',
+                'global trends',
+                'market forces'
+            ];
+            return causes[Math.floor(Math.random() * causes.length)];
+        }
+        
+        function getRandomPrediction() {
+            const predictions = [
+                'continued growth',
+                'market correction',
+                'increased volatility',
+                'stabilization',
+                'disruptive changes',
+                'regulatory scrutiny',
+                'consumer shifts',
+                'technological convergence'
+            ];
+            return predictions[Math.floor(Math.random() * predictions.length)];
+        }
+        
+        function getRandomSolution() {
+            const solutions = [
+                'innovative approaches',
+                'policy reforms',
+                'technological solutions',
+                'behavioral changes',
+                'educational initiatives',
+                'regulatory frameworks',
+                'market mechanisms',
+                'community engagement'
+            ];
+            return solutions[Math.floor(Math.random() * solutions.length)];
+        }
+        
+        function getRandomFocus() {
+            const focuses = [
+                'immediate priorities',
+                'long-term strategies',
+                'risk mitigation',
+                'opportunity capitalization',
+                'stakeholder engagement',
+                'data collection',
+                'capacity building',
+                'public awareness'
+            ];
+            return focuses[Math.floor(Math.random() * focuses.length)];
+        }
+        
+        function getRandomPersonalExperience() {
+            const experiences = [
+                'I had this crazy experience',
+                'It all started when I noticed',
+                'You won't believe what happened',
+                'It was one of those moments',
+                'I stumbled upon something amazing',
+                'Life threw me a curveball',
+                'Everything changed when',
+                'I learned this the hard way'
+            ];
+            return experiences[Math.floor(Math.random() * experiences.length)];
+        }
+        
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 5) + 3;
+        }
+        
+        function getRandomPoint() {
+            const points = [
+                'the importance of context',
+                'how perception shapes reality',
+                'the hidden costs',
+                'unintended consequences',
+                'the power of small changes',
+                'what gets measured gets managed',
+                'the value of diverse perspectives',
+                'why first principles matter'
+            ];
+            return points[Math.floor(Math.random() * points.length)];
+        }
+        
+        function getRandomReason() {
+            const reasons = [
+                'it challenges conventional wisdom',
+                'the implications are far-reaching',
+                'most people overlook this',
+                'it's counterintuitive at first',
+                'the data tells a different story',
+                'experts often disagree',
+                'context changes everything',
+                'it reveals underlying patterns'
+            ];
+            return reasons[Math.floor(Math.random() * reasons.length)];
+        }
+        
+        function getRandomResult() {
+            const results = [
+                'the results blew me away',
+                'it was harder than I expected',
+                'the impact was immediate',
+                'I noticed gradual improvements',
+                'it transformed my perspective',
+                'the learning curve was steep',
+                'the benefits compounded over time',
+                'it created unexpected opportunities'
+            ];
+            return results[Math.floor(Math.random() * results.length)];
+        }
+        
+        function getRandomContrast() {
+            const contrasts = [
+                'a completely different outcome',
+                'similar results through different means',
+                'that timing was everything',
+                'how personality plays a role',
+                'that preparation made the difference',
+                'how environment affects results',
+                'that small tweaks created big changes',
+                'how mindset determines outcomes'
+            ];
+            return contrasts[Math.floor(Math.random() * contrasts.length)];
+        }
+        
+        function getRandomLesson() {
+            const lessons = [
+                'the journey matters more than the destination',
+                'small consistent actions create big results',
+                'context determines meaning',
+                'everything is connected',
+                'change starts with awareness',
+                'growth requires discomfort',
+                'clarity precedes mastery',
+                'simplicity is the ultimate sophistication'
+            ];
+            return lessons[Math.floor(Math.random() * lessons.length)];
+        }
+        
+        function getRandomQuote() {
+            const quotes = [
+                'The only constant in life is change',
+                'Knowledge is power',
+                'Actions speak louder than words',
+                'Where there's a will, there's a way',
+                'The journey of a thousand miles begins with a single step',
+                'Be the change you wish to see in the world',
+                'This too shall pass',
+                'The unexamined life is not worth living'
+            ];
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        
+        function getHaikuLine(syllables, topic) {
+            const haikuWords = {
+                nature: ['forest', 'river', 'mountain', 'blossom', 'sunrise', 'autumn', 'winter', 'spring'],
+                seasons: ['cherry blooms', 'snow melts', 'leaves fall', 'summer heat', 'spring rain', 'cold wind', 'golden sun'],
+                animals: ['frog jumps', 'bird sings', 'fish swims', 'butterfly', 'dragonfly', 'cricket chirps'],
+                elements: ['morning dew', 'silent pond', 'old stone', 'full moon', 'thin ice', 'hot sand']
+            };
+            
+            let line = '';
+            let currentSyllables = 0;
+            const categories = Object.keys(haikuWords);
+            
+            while (currentSyllables < syllables) {
+                const category = categories[Math.floor(Math.random() * categories.length)];
+                const word = haikuWords[category][Math.floor(Math.random() * haikuWords[category].length)];
+                const wordSyllables = Math.min(3, Math.max(1, word.split(' ').length));
+                
+                if (currentSyllables + wordSyllables <= syllables) {
+                    line += (line ? ' ' : '') + word;
+                    currentSyllables += wordSyllables;
+                }
+            }
+            
+            // Ensure we mention the topic at least once
+            if (Math.random() > 0.7) {
+                line = line.replace(/\b\w+\b/, topic.split(' ')[0]);
+            }
+            
+            return line;
+        }
+        
+        function getPoemLine(topic, poemType, evenLine) {
+            const rhymeWords = {
+                A: ['day', 'way', 'say', 'play', 'may', 'ray', 'stay', 'pray'],
+                B: ['night', 'light', 'bright', 'sight', 'fight', 'kite', 'right', 'tight'],
+                C: ['moon', 'tune', 'soon', 'noon', 'croon', 'boon', 'spoon', 'loon'],
+                D: ['star', 'far', 'car', 'bar', 'jar', 'scar', 'guitar', 'bizarre']
+            };
+            
+            const rhymeScheme = {
+                'free-verse': '',
+                sonnet: evenLine ? 'A' : 'B',
+                limerick: evenLine ? 'A' : 'B',
+                ballad: evenLine ? 'A' : 'B',
+                ode: evenLine ? 'C' : 'D'
+            };
+            
+            const rhymeGroup = rhymeScheme[poemType] || 'A';
+            const rhymeWord = rhymeWords[rhymeGroup][Math.floor(Math.random() * rhymeWords[rhymeGroup].length)];
+            
+            const starters = [
+                `The ${topic} ${evenLine ? 'shines' : 'glows'}`,
+                `Upon the ${topic} we ${evenLine ? 'gaze' : 'look'}`,
+                `Oh ${topic}, so ${evenLine ? 'bright' : 'fair'}`,
+                `Through ${topic} we ${evenLine ? 'find' : 'seek'}`,
+                `Like ${topic} in the ${evenLine ? 'day' : 'night'}`,
+                `With ${topic} comes ${evenLine ? 'joy' : 'pain'}`,
+                `Beneath the ${topic}'s ${evenLine ? 'light' : 'shade'}`,
+                `${topic.charAt(0).toUpperCase() + topic.slice(1)} ${evenLine ? 'calls' : 'whispers'}`
+            ];
+            
+            const line = starters[Math.floor(Math.random() * starters.length)];
+            return poemType === 'free-verse' ? line : `${line} ${rhymeWord}`;
+        }
+        
+        // Expand content to reach word count
+        function expandStory(baseStory, topic, wordCount) {
+            let expandedStory = baseStory;
+            const currentWords = countWords(baseStory);
+            
+            if (currentWords >= wordCount) {
+                return trimToWordCount(baseStory, wordCount);
+            }
+            
+            // Add more character development
+            expandedStory += `\n\n${getRandomName()}'s backstory revealed ${getRandomDetail()}. This explained ${getRandomBehavior()}, particularly when ${getRandomSituation()}.`;
+            
+            // Add more setting description
+            expandedStory += `\n\nThe ${getRandomSetting()} was ${getRandomAdjective()}, with ${getRandomFeature()} that ${getRandomEffect()}. This created an atmosphere of ${getRandomMood()}.`;
+            
+            // Add more plot points
+            expandedStory += `\n\nAs the story progressed, ${getRandomEvent()} occurred, leading to ${getRandomConsequence()}. This forced ${getRandomName()} to ${getRandomAction()}.`;
+            
+            // Add dialogue
+            expandedStory += `\n\n"${getRandomDialogue()}" ${getRandomName()} said, ${getRandomAdverb()}. "${getRandomResponse()}" replied ${getRandomName()}, ${getRandomAdverb()}.`;
+            
+            // If still not enough words, recursively expand
+            if (countWords(expandedStory) < wordCount) {
+                return expandStory(expandedStory, topic, wordCount);
+            }
+            
+            return trimToWordCount(expandedStory, wordCount);
+        }
+        
+        function expandEssay(baseEssay, topic, wordCount) {
+            let expandedEssay = baseEssay;
+            const currentWords = countWords(baseEssay);
+            
+            if (currentWords >= wordCount) {
+                return trimToWordCount(baseEssay, wordCount);
+            }
+            
+            // Add more examples
+            expandedEssay += `\n\nFor example, ${getRandomName()} (${getRandomYear()}) demonstrated that ${getRandomFinding()}. Specifically, ${getRandomDetail()}.`;
+            
+            // Add more analysis
+            expandedEssay += `\n\nThis suggests that ${getRandomImplication()}. When considering ${getRandomAspect()}, it becomes clear that ${getRandomConclusion()}.`;
+            
+            // Add counterarguments
+            expandedEssay += `\n\nSome might argue that ${getRandomCounterArgument()}. While this perspective has merit regarding ${getRandomPoint()}, it fails to account for ${getRandomOmission()}.`;
+            
+            // Add more references
+            expandedEssay += `\n\nAs ${getRandomName()} noted, "${getRandomQuote()}" (${getRandomYear()}). This aligns with the work of ${getRandomName()}, who found ${getRandomCorrelation()}.`;
+            
+            // If still not enough words, recursively expand
+            if (countWords(expandedEssay) < wordCount) {
+                return expandEssay(expandedEssay, topic, wordCount);
+            }
+            
+            return trimToWordCount(expandedEssay, wordCount);
+        }
+        
+        function expandArticle(baseArticle, topic, wordCount) {
+            let expandedArticle = baseArticle;
+            const currentWords = countWords(baseArticle);
+            
+            if (currentWords >= wordCount) {
+                return trimToWordCount(baseArticle, wordCount);
+            }
+            
+            // Add more expert quotes
+            expandedArticle += `\n\n${getRandomName()}, a ${getRandomTitle()} at ${getRandomInstitution()}, added: "${getRandomQuote()}"`;
+            
+            // Add more statistics
+            expandedArticle += `\n\nRecent data shows ${getRandomStatistic()} in ${getRandomArea()}, with ${getRandomPercentage()}% of ${getRandomGroup()} reporting ${getRandomExperience()}.`;
+            
+            // Add more background
+            expandedArticle += `\n\nThis situation stems from ${getRandomEvent()} in ${getRandomYear()}, when ${getRandomChange()} occurred. Since then, ${getRandomTrend()} has been observed.`;
+            
+            // Add more future implications
+            expandedArticle += `\n\nLooking ahead, analysts predict ${getRandomPrediction()}, which could lead to ${getRandomOutcome()}. However, ${getRandomChallenge()} remains a potential obstacle.`;
+            
+            // If still not enough words, recursively expand
+            if (countWords(expandedArticle) < wordCount) {
+                return expandArticle(expandedArticle, topic, wordCount);
+            }
+            
+            return trimToWordCount(expandedArticle, wordCount);
+        }
+        
+        function expandBlogPost(basePost, topic, wordCount) {
+            let expandedPost = basePost;
+            const currentWords = countWords(basePost);
+            
+            if (currentWords >= wordCount) {
+                return trimToWordCount(basePost, wordCount);
+            }
+            
+            // Add more personal anecdotes
+            expandedPost += `\n\nI remember when ${getRandomMemory()}. At the time, I didn't realize ${getRandomRealization()}, but now I see ${getRandomLesson()}.`;
+            
+            // Add more tips
+            expandedPost += `\n\nHere's a quick tip: ${getRandomTip()}. This works because ${getRandomExplanation()}. I've used this when ${getRandomSituation()} and it ${getRandomResult()}.`;
+            
+            // Add more reader engagement
+            expandedPost += `\n\nHave you ever ${getRandomQuestion()}? Share your thoughts in the comments! I'd love to hear about ${getRandomRequest()}.`;
+            
+            // Add more resources
+            expandedPost += `\n\nIf you want to learn more, check out ${getRandomResource()}. It covers ${getRandomCoverage()} and really helped me understand ${getRandomConcept()}.`;
+            
+            // If still not enough words, recursively expand
+            if (countWords(expandedPost) < wordCount) {
+                return expandBlogPost(expandedPost, topic, wordCount);
+            }
+            
+            return trimToWordCount(expandedPost, wordCount);
+        }
+        
+        function getRandomDetail() {
+            const details = [
+                'a childhood trauma',
+                'an unusual family dynamic',
+                'a secret passion',
+                'a hidden talent',
+                'a formative experience',
+                'a personal loss',
+                'an unexpected mentor',
+                'a life-altering decision'
+            ];
+            return details[Math.floor(Math.random() * details.length)];
+        }
+        
+        function getRandomBehavior() {
+            const behaviors = [
+                'their reluctance to trust others',
+                'their fierce independence',
+                'their unexpected kindness',
+                'their occasional recklessness',
+                'their dry sense of humor',
+                'their tendency to overthink',
+                'their impulsive nature',
+                'their quiet determination'
+            ];
+            return behaviors[Math.floor(Math.random() * behaviors.length)];
+        }
+        
+        function getRandomSituation() {
+            const situations = [
+                'faced with uncertainty',
+                'under pressure',
+                'in social settings',
+                'when alone',
+                'confronted with danger',
+                'presented with an opportunity',
+                'challenged by authority',
+                'protecting someone vulnerable'
+            ];
+            return situations[Math.floor(Math.random() * situations.length)];
+        }
+        
+        function getRandomSetting() {
+            const settings = [
+                'forest',
+                'city',
+                'castle',
+                'spaceship',
+                'small town',
+                'island',
+                'desert',
+                'mountain village'
+            ];
+            return settings[Math.floor(Math.random() * settings.length)];
+        }
+        
+        function getRandomAdjective() {
+            const adjectives = [
+                'dark and foreboding',
+                'bright and cheerful',
+                'strangely quiet',
+                'unexpectedly lively',
+                'eerily familiar',
+                'completely alien',
+                'deceptively simple',
+                'overwhelmingly complex'
+            ];
+            return adjectives[Math.floor(Math.random() * adjectives.length)];
+        }
+        
+        function getRandomFeature() {
+            const features = [
+                'ancient trees',
+                'towering spires',
+                'glowing crystals',
+                'whispering winds',
+                'hidden passages',
+                'forgotten ruins',
+                'strange markings',
+                'unusual architecture'
+            ];
+            return features[Math.floor(Math.random() * features.length)];
+        }
+        
+        function getRandomEffect() {
+            const effects = [
+                'cast long shadows',
+                'created an eerie atmosphere',
+                'seemed to watch silently',
+                'hummed with energy',
+                'appeared to shift when not observed',
+                'glowed faintly in the dark',
+                'whispered secrets to those who listened',
+                'bore scars of ancient battles'
+            ];
+            return effects[Math.floor(Math.random() * effects.length)];
+        }
+        
+        function getRandomMood() {
+            const moods = [
+                'mystery',
+                'anticipation',
+                'dread',
+                'wonder',
+                'nostalgia',
+                'excitement',
+                'melancholy',
+                'hope'
+            ];
+            return moods[Math.floor(Math.random() * moods.length)];
+        }
+        
+        function getRandomConsequence() {
+            const consequences = [
+                'a shift in power dynamics',
+                'an unexpected alliance',
+                'a terrible misunderstanding',
+                'a moment of clarity',
+                'a shocking betrayal',
+                'a long-awaited reunion',
+                'a tragic loss',
+                'a miraculous discovery'
+            ];
+            return consequences[Math.floor(Math.random() * consequences.length)];
+        }
+        
+        function getRandomAction() {
+            const actions = [
+                'reconsider their priorities',
+                'confront their fears',
+                'make a difficult choice',
+                'seek unlikely help',
+                'reveal a hidden truth',
+                'abandon old assumptions',
+                'embrace their destiny',
+                'question everything they knew'
+            ];
+            return actions[Math.floor(Math.random() * actions.length)];
+        }
+        
+        function getRandomDialogue() {
+            const dialogues = [
+                'I never expected this to happen',
+                'There's more to this than meets the eye',
+                'We're not alone in this',
+                'The truth is far stranger',
+                'This changes everything',
+                'I should have seen this coming',
+                'Trust me, I know what I'm doing',
+                'There's no going back now'
+            ];
+            return dialogues[Math.floor(Math.random() * dialogues.length)];
+        }
+        
+        function getRandomAdverb() {
+            const adverbs = [
+                'quietly',
+                'angrily',
+                'excitedly',
+                'wearily',
+                'suspiciously',
+                'hopefully',
+                'defiantly',
+                'softly'
+            ];
+            return adverbs[Math.floor(Math.random() * adverbs.length)];
+        }
+        
+        function getRandomResponse() {
+            const responses = [
+                'You don't understand the full picture',
+                'That's easier said than done',
+                'I wish it were that simple',
+                'You're not seeing what I'm seeing',
+                'There's another way to look at this',
+                'That's exactly what they want you to think',
+                'The past isn't always prologue',
+                'Sometimes the hardest choice is the right one'
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        function getRandomImplication() {
+            const implications = [
+                'the underlying mechanisms are more complex',
+                'cultural factors play a significant role',
+                'historical context is essential',
+                'individual differences cannot be ignored',
+                'theoretical frameworks need revision',
+                'practical applications may be limited',
+                'future research directions become clear',
+                'interdisciplinary approaches are warranted'
+            ];
+            return implications[Math.floor(Math.random() * implications.length)];
+        }
+        
+        function getRandomAspect() {
+            const aspects = [
+                'the methodological limitations',
+                'the broader implications',
+                'the ethical considerations',
+                'the historical precedents',
+                'the potential applications',
+                'the theoretical foundations',
+                'the contradictory evidence',
+                'the societal impact'
+            ];
+            return aspects[Math.floor(Math.random() * aspects.length)];
+        }
+        
+        function getRandomOmission() {
+            const omissions = [
+                'the longitudinal effects',
+                'cultural variability',
+                'alternative interpretations',
+                'confounding variables',
+                'real-world constraints',
+                'individual agency',
+                'systemic factors',
+                'the role of chance'
+            ];
+            return omissions[Math.floor(Math.random() * omissions.length)];
+        }
+        
+        function getRandomCorrelation() {
+            const correlations = [
+                'similar patterns across contexts',
+                'dose-response relationships',
+                'moderating effects',
+                'mediating variables',
+                'threshold effects',
+                'nonlinear associations',
+                'contextual dependencies',
+                'temporal sequences'
+            ];
+            return correlations[Math.floor(Math.random() * correlations.length)];
+        }
+        
+        function getRandomTitle() {
+            const titles = [
+                'Professor',
+                'Director of Research',
+                'Senior Analyst',
+                'Chief Scientist',
+                'Principal Investigator',
+                'Department Head',
+                'Research Fellow',
+                'Lead Consultant'
+            ];
+            return titles[Math.floor(Math.random() * titles.length)];
+        }
+        
+        function getRandomInstitution() {
+            const institutions = [
+                'Harvard University',
+                'MIT',
+                'Stanford University',
+                'the Max Planck Institute',
+                'Oxford University',
+                'the Brookings Institution',
+                'the World Health Organization',
+                'NASA'
+            ];
+            return institutions[Math.floor(Math.random() * institutions.length)];
+        }
+        
+        function getRandomArea() {
+            const areas = [
+                'urban centers',
+                'rural communities',
+                'developing nations',
+                'industrialized countries',
+                'coastal regions',
+                'mountainous areas',
+                'tropical climates',
+                'northern latitudes'
+            ];
+            return areas[Math.floor(Math.random() * areas.length)];
+        }
+        
+        function getRandomGroup() {
+            const groups = [
+                'respondents',
+                'participants',
+                'consumers',
+                'patients',
+                'students',
+                'employees',
+                'residents',
+                'users'
+            ];
+            return groups[Math.floor(Math.random() * groups.length)];
+        }
+        
+        function getRandomExperience() {
+            const experiences = [
+                'increased satisfaction',
+                'greater challenges',
+                'improved outcomes',
+                'unexpected difficulties',
+                'positive changes',
+                'mixed results',
+                'significant improvements',
+                'declining trends'
+            ];
+            return experiences[Math.floor(Math.random() * experiences.length)];
+        }
+        
+        function getRandomChange() {
+            const changes = [
+                'a policy shift',
+                'a technological breakthrough',
+                'a cultural transformation',
+                'an economic realignment',
+                'a demographic transition',
+                'an environmental crisis',
+                'a scientific discovery',
+                'a social movement'
+            ];
+            return changes[Math.floor(Math.random() * changes.length)];
+        }
+        
+        function getRandomTrend() {
+            const trends = [
+                'steady progress',
+                'cyclical patterns',
+                'volatile fluctuations',
+                'gradual decline',
+                'rapid growth',
+                'stabilization',
+                'polarization',
+                'convergence'
+            ];
+            return trends[Math.floor(Math.random() * trends.length)];
+        }
+        
+        function getRandomOutcome() {
+            const outcomes = [
+                'significant improvements',
+                'unintended consequences',
+                'market disruptions',
+                'quality of life enhancements',
+                'regulatory challenges',
+                'technological convergence',
+                'social fragmentation',
+                'economic opportunities'
+            ];
+            return outcomes[Math.floor(Math.random() * outcomes.length)];
+        }
+        
+        function getRandomMemory() {
+            const memories = [
+                'I first encountered this concept',
+                'everything clicked into place',
+                'I made a terrible mistake',
+                'I had an epiphany',
+                'someone gave me great advice',
+                'I read something that changed my perspective',
+                'I tried something completely new',
+                'I faced my biggest fear'
+            ];
+            return memories[Math.floor(Math.random() * memories.length)];
+        }
+        
+        function getRandomRealization() {
+            const realizations = [
+                'how profound the lesson was',
+                'this was just the beginning',
+                'the real meaning behind it all',
+                'how much I still had to learn',
+                'the connections to other areas',
+                'the universal truth it revealed',
+                'how it would shape my future',
+                'the irony of the situation'
+            ];
+            return realizations[Math.floor(Math.random() * realizations.length)];
+        }
+        
+        function getRandomTip() {
+            const tips = [
+                'start small and build gradually',
+                'focus on the process, not just the outcome',
+                'track your progress consistently',
+                'find an accountability partner',
+                'eliminate distractions first',
+                'schedule it like an important meeting',
+                'celebrate small wins along the way',
+                'reflect on what's working and what's not'
+            ];
+            return tips[Math.floor(Math.random() * tips.length)];
+        }
+        
+        function getRandomExplanation() {
+            const explanations = [
+                'it creates momentum',
+                'small steps reduce resistance',
+                'it builds positive habits',
+                'success breeds more success',
+                'it makes the task less daunting',
+                'you're more likely to stick with it',
+                'it provides immediate feedback',
+                'you can adjust course as needed'
+            ];
+            return explanations[Math.floor(Math.random() * explanations.length)];
+        }
+        
+        function getRandomQuestion() {
+            const questions = [
+                'experienced something similar',
+                'had a different perspective',
+                'found a better solution',
+                'faced unexpected challenges',
+                'discovered hidden benefits',
+                'learned valuable lessons',
+                'applied this in creative ways',
+                'shared this with others'
+            ];
+            return questions[Math.floor(Math.random() * questions.length)];
+        }
+        
+        function getRandomRequest() {
+            const requests = [
+                'your unique approach',
+                'what worked for you',
+                'your biggest takeaways',
+                'how you overcame obstacles',
+                'resources you found helpful',
+                'your personal experiences',
+                'tips you'd share with others',
+                'what you wish you knew earlier'
+            ];
+            return requests[Math.floor(Math.random() * requests.length)];
+        }
+        
+        function getRandomResource() {
+            const resources = [
+                'this excellent book',
+                'a insightful podcast',
+                'an in-depth course',
+                'a comprehensive study',
+                'a thought-provoking article',
+                'a detailed guide',
+                'a practical toolkit',
+                'a inspiring TED Talk'
+            ];
+            return resources[Math.floor(Math.random() * resources.length)];
+        }
+        
+        function getRandomCoverage() {
+            const coverages = [
+                'all the essential aspects',
+                'both theory and practice',
+                'common pitfalls to avoid',
+                'advanced techniques',
+                'beginner-friendly explanations',
+                'real-world applications',
+                'the historical context',
+                'future developments'
+            ];
+            return coverages[Math.floor(Math.random() * coverages.length)];
+        }
+        
+        function getRandomConcept() {
+            const concepts = [
+                'the fundamentals',
+                'nuanced distinctions',
+                'practical implications',
+                'underlying principles',
+                'broader connections',
+                'essential skills',
+                'key strategies',
+                'core concepts'
+            ];
+            return concepts[Math.floor(Math.random() * concepts.length)];
+        }
+        
         // Count words in text
         function countWords(text) {
+            if (!text.trim()) return 0;
             return text.trim().split(/\s+/).length;
         }
         
@@ -570,20 +2418,162 @@
             return words.slice(0, maxWords).join(' ');
         }
         
+        // Update output styling based on format
+        function updateOutputStyle() {
+            outputText.classList.remove('poetry-output', 'story-output');
+            
+            if (currentFormat === 'poem') {
+                outputText.classList.add('poetry-output');
+            } else if (currentFormat === 'story') {
+                outputText.classList.add('story-output');
+            }
+        }
+        
+        // Update word count and reading time
+        function updateWordCount() {
+            const wordCount = countWords(outputText.value);
+            wordCountDisplay.textContent = `${wordCount} words generated`;
+            
+            // Calculate reading time (average 200 words per minute)
+            const readingTime = Math.ceil(wordCount / 200);
+            readingTimeDisplay.textContent = readingTime > 0 ? `~${readingTime} min read` : '';
+        }
+        
         // Copy to clipboard
         function copyToClipboard() {
             outputText.select();
             document.execCommand('copy');
+            
+            // Show copied notification
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+            }, 2000);
+            
             showStatus('Text copied to clipboard!', 'success');
+        }
+        
+        // Download content
+        function downloadContent() {
+            if (!outputText.value.trim()) {
+                showStatus('No content to download.', 'error');
+                return;
+            }
+            
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            let fileName = 'content.txt';
+            if (currentFormat === 'poem') fileName = 'poem.txt';
+            else if (currentFormat === 'story') fileName = 'story.txt';
+            else if (currentFormat === 'essay') fileName = 'essay.txt';
+            else if (currentFormat === 'article') fileName = 'article.txt';
+            else if (currentFormat === 'blog') fileName = 'blog-post.txt';
+            
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus('Content downloaded!', 'success');
         }
         
         // Clear all fields
         function clearAll() {
             topicInput.value = '';
+            wordCountInput.value = '1000';
+            wordCountRange.value = '1000';
+            toneSelect.value = 'formal';
+            styleSelect.value = 'default';
+            keywordsInput.value = '';
             outputText.value = '';
-            wordCountDisplay.textContent = '0 words generated';
+            
+            // Reset format to paragraph
+            formatOptions.forEach(opt => opt.classList.remove('active'));
+            formatOptions[0].classList.add('active');
+            currentFormat = 'paragraph';
+            poemTypeSelect.style.display = 'none';
+            poemTypeLabel.style.display = 'none';
+            storyGenreSelect.style.display = 'none';
+            storyGenreLabel.style.display = 'none';
+            
+            updateWordCount();
             copyBtn.disabled = true;
+            improveBtn.disabled = true;
+            updateOutputStyle();
+            
             showStatus('All fields cleared.', 'success');
+        }
+        
+        // Improve existing content
+        function improveContent() {
+            if (!outputText.value.trim()) {
+                showStatus('No content to improve.', 'error');
+                return;
+            }
+            
+            showStatus('Improving your content...', 'info');
+            improveBtn.disabled = true;
+            improveBtn.innerHTML = '<span class="loading-spinner"></span> Improving...';
+            
+            // In a real app, this would call an API to improve the text
+            setTimeout(() => {
+                const improvedText = enhanceText(outputText.value);
+                outputText.value = improvedText;
+                
+                updateWordCount();
+                improveBtn.disabled = false;
+                improveBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Improve';
+                
+                // Save improved version
+                localStorage.setItem('aiWriterContent', improvedText);
+                
+                showStatus('Content improved successfully!', 'success');
+            }, 1500);
+        }
+        
+        // Enhance text (simulated improvement)
+        function enhanceText(text) {
+            // Simple enhancements for demonstration
+            let enhanced = text;
+            
+            // Add more vivid adjectives
+            enhanced = enhanced.replace(/\b(good)\b/g, 'excellent');
+            enhanced = enhanced.replace(/\b(bad)\b/g, 'suboptimal');
+            enhanced = enhanced.replace(/\b(important)\b/g, 'crucial');
+            enhanced = enhanced.replace(/\b(big)\b/g, 'substantial');
+            
+            // Improve sentence structure
+            enhanced = enhanced.replace(/\. ([a-z])/g, (match, p1) => `. ${p1.toUpperCase()}`);
+            
+            // Add more transition words
+            const sentences = enhanced.split('. ');
+            if (sentences.length > 3) {
+                for (let i = 3; i < sentences.length; i += 3) {
+                    const transitions = ['Furthermore, ', 'Moreover, ', 'Additionally, ', 'Consequently, '];
+                    const transition = transitions[Math.floor(Math.random() * transitions.length)];
+                    sentences[i] = transition + sentences[i].charAt(0).toLowerCase() + sentences[i].slice(1);
+                }
+                enhanced = sentences.join('. ');
+            }
+            
+            // Ensure proper paragraph breaks
+            if (currentFormat !== 'poem') {
+                const paragraphs = enhanced.split('\n\n');
+                if (paragraphs.length === 1 && countWords(enhanced) > 200) {
+                    // Split long single paragraph
+                    const midpoint = Math.floor(paragraphs[0].length / 2);
+                    const splitPoint = paragraphs[0].lastIndexOf('.', midpoint) + 1;
+                    enhanced = paragraphs[0].substring(0, splitPoint) + '\n\n' + paragraphs[0].substring(splitPoint);
+                }
+            }
+            
+            return enhanced;
         }
         
         // Show status message
@@ -592,11 +2582,16 @@
             statusMessage.className = 'status-message ' + type;
             statusMessage.style.display = 'block';
             
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
+            // Auto-hide after 5 seconds unless it's an error
+            if (type !== 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
         }
+        
+        // Initialize the tool when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
     
     <!-- Schema.org markup for Google -->
@@ -604,9 +2599,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Paragraph Writer Tool",
-      "url": "https://yourwebsite.com/paragraph-writer",
-      "description": "Free online tool to generate 1000 to 10000 words paragraphs on any topic instantly.",
+      "name": "Advanced AI Content Writer",
+      "url": "https://yourwebsite.com/ai-paragraph-writer",
+      "description": "Generate 100-10000 words in multiple formats including stories, poems, essays, news articles and more with our AI-powered writing tool.",
       "applicationCategory": "WritingApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -616,9 +2611,25 @@
       },
       "creator": {
         "@type": "Organization",
-        "name": "ParagraphWriter Tool"
-      }
+        "name": "AI Writer Pro"
+      },
+      "featureList": [
+        "Paragraph generation",
+        "Story writing",
+        "Poem creation",
+        "Essay writing",
+        "Article generation",
+        "Blog post creation",
+        "Multiple writing tones",
+        "Word count control"
+      ]
     }
     </script>
+    
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Advanced AI Content Writer | Generate Stories, Poems, Essays">
+    <meta name="twitter:description" content="Generate 100-10000 words in multiple formats with our AI-powered writing tool. Create stories, poems, essays, blogs and more.">
+    <meta name="twitter:image" content="https://yourwebsite.com/images/ai-writer-social.jpg">
 </body>
 </html>
