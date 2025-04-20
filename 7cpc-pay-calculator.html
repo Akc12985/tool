@@ -49,6 +49,7 @@
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
             --success-color: #27ae60;
+            --warning-color: #f39c12;
         }
         
         * {
@@ -252,6 +253,74 @@
             margin-top: 0.5rem;
         }
         
+        .error-message {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .input-error {
+            border-color: var(--accent-color);
+        }
+        
+        .custom-hra-container {
+            display: none;
+            margin-top: 0.5rem;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
         footer {
             background-color: var(--dark-color);
             color: white;
@@ -402,26 +471,46 @@
                             <option value="13A">Level 13A (₹1,31,100 - ₹2,16,600)</option>
                             <option value="14">Level 14 (₹1,44,200 - ₹2,18,200)</option>
                         </select>
+                        <div class="error-message" id="payLevelError">Please select your pay level</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="currentBasicPay">Current Basic Pay (₹)</label>
                         <input type="number" id="currentBasicPay" min="18000" step="100" required>
+                        <div class="error-message" id="basicPayError">Basic pay must be at least ₹18,000</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="currentDA">Current DA Rate (%)</label>
                         <input type="number" id="currentDA" value="50" min="0" max="100" step="0.1" required>
                         <p class="info-text">Current DA rate as of 2024 is 50%</p>
+                        <div class="error-message" id="daError">DA rate must be between 0% and 100%</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="currentHRA">Current HRA Rate (%)</label>
-                        <select id="currentHRA" required>
-                            <option value="27">X City (27%)</option>
-                            <option value="18">Y City (18%)</option>
-                            <option value="9">Z City (9%)</option>
-                        </select>
+                        <label for="hraType">HRA Calculation Method</label>
+                        <div class="toggle-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="hraToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span id="hraToggleLabel">Use Standard HRA Rates</span>
+                        </div>
+                        
+                        <div id="standardHraContainer">
+                            <label for="currentHRA">Current HRA Rate</label>
+                            <select id="currentHRA" required>
+                                <option value="30">X City (30%)</option>
+                                <option value="20">Y City (20%)</option>
+                                <option value="10">Z City (10%)</option>
+                            </select>
+                        </div>
+                        
+                        <div id="customHraContainer" class="custom-hra-container">
+                            <label for="customHRA">Custom HRA Rate (%)</label>
+                            <input type="number" id="customHRA" min="0" max="100" step="0.1" value="30">
+                            <div class="error-message" id="hraError">HRA rate must be between 0% and 100%</div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -437,9 +526,11 @@
                         <label for="otherAllowances">Other Allowances (₹)</label>
                         <input type="number" id="otherAllowances" min="0" value="0">
                         <p class="info-text">Enter total of any other allowances you receive</p>
+                        <div class="error-message" id="allowancesError">Allowances cannot be negative</div>
                     </div>
                     
                     <button type="button" id="calculateBtn">Calculate My Pay</button>
+                    <button type="reset" id="resetBtn" style="margin-left: 10px; background-color: var(--dark-color);">Reset</button>
                 </form>
                 
                 <div class="results" id="results" style="display: none;">
@@ -495,6 +586,11 @@
                         <span class="result-label">Increase in Salary:</span>
                         <span class="result-value" id="increaseResult">₹0 (0%)</span>
                     </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <button type="button" id="printBtn" style="background-color: var(--dark-color);">Print Results</button>
+                        <button type="button" id="downloadBtn" style="margin-left: 10px; background-color: var(--success-color);">Download as PDF</button>
+                    </div>
                 </div>
             </div>
             
@@ -523,7 +619,7 @@
                         <li>Minimum pay set at ₹18,000</li>
                         <li>Maximum pay at ₹2,50,000</li>
                         <li>Pay matrix with 18 levels</li>
-                        <li>HRA rates revised to 27%, 18% and 9%</li>
+                        <li>HRA rates revised to 30%, 20% and 10%</li>
                     </ul>
                 </div>
                 
@@ -605,6 +701,7 @@
             
             <div class="copyright">
                 <p>&copy; 2024 7th CPC Calculator. All rights reserved. This is not an official government website.</p>
+                <p>Disclaimer: This calculator provides estimates only. For official calculations, please refer to government notifications.</p>
             </div>
         </div>
     </footer>
@@ -630,13 +727,6 @@
                 '14': 144200
             };
             
-            // HRA rates as per 7th CPC
-            const hraRates = {
-                '27': 0.27,
-                '18': 0.18,
-                '9': 0.09
-            };
-            
             // Transport allowance as per 7th CPC
             const transportAllowance = {
                 '7200': 7200,
@@ -644,38 +734,136 @@
                 '0': 0
             };
             
-            // Calculate button click handler
-            document.getElementById('calculateBtn').addEventListener('click', calculatePay);
+            // DOM elements
+            const form = document.getElementById('payCalculatorForm');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const printBtn = document.getElementById('printBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resultsSection = document.getElementById('results');
+            const hraToggle = document.getElementById('hraToggle');
+            const hraToggleLabel = document.getElementById('hraToggleLabel');
+            const standardHraContainer = document.getElementById('standardHraContainer');
+            const customHraContainer = document.getElementById('customHraContainer');
             
+            // Error message elements
+            const payLevelError = document.getElementById('payLevelError');
+            const basicPayError = document.getElementById('basicPayError');
+            const daError = document.getElementById('daError');
+            const hraError = document.getElementById('hraError');
+            const allowancesError = document.getElementById('allowancesError');
+            
+            // Event listeners
+            calculateBtn.addEventListener('click', calculatePay);
+            resetBtn.addEventListener('click', resetForm);
+            printBtn.addEventListener('click', printResults);
+            downloadBtn.addEventListener('click', downloadAsPDF);
+            hraToggle.addEventListener('change', toggleHraMethod);
+            
+            // Toggle between standard and custom HRA
+            function toggleHraMethod() {
+                if (hraToggle.checked) {
+                    hraToggleLabel.textContent = 'Use Custom HRA Rate';
+                    standardHraContainer.style.display = 'none';
+                    customHraContainer.style.display = 'block';
+                } else {
+                    hraToggleLabel.textContent = 'Use Standard HRA Rates';
+                    standardHraContainer.style.display = 'block';
+                    customHraContainer.style.display = 'none';
+                }
+            }
+            
+            // Validate inputs
+            function validateInputs() {
+                let isValid = true;
+                
+                // Reset error states
+                document.getElementById('currentPayLevel').classList.remove('input-error');
+                document.getElementById('currentBasicPay').classList.remove('input-error');
+                document.getElementById('currentDA').classList.remove('input-error');
+                document.getElementById('customHRA').classList.remove('input-error');
+                document.getElementById('otherAllowances').classList.remove('input-error');
+                payLevelError.style.display = 'none';
+                basicPayError.style.display = 'none';
+                daError.style.display = 'none';
+                hraError.style.display = 'none';
+                allowancesError.style.display = 'none';
+                
+                // Validate pay level
+                const payLevel = document.getElementById('currentPayLevel').value;
+                if (!payLevel) {
+                    document.getElementById('currentPayLevel').classList.add('input-error');
+                    payLevelError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate basic pay
+                const basicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
+                if (basicPay < 18000) {
+                    document.getElementById('currentBasicPay').classList.add('input-error');
+                    basicPayError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate DA rate
+                const daRate = parseFloat(document.getElementById('currentDA').value) || 0;
+                if (daRate < 0 || daRate > 100) {
+                    document.getElementById('currentDA').classList.add('input-error');
+                    daError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate HRA rate if custom
+                if (hraToggle.checked) {
+                    const hraRate = parseFloat(document.getElementById('customHRA').value) || 0;
+                    if (hraRate < 0 || hraRate > 100) {
+                        document.getElementById('customHRA').classList.add('input-error');
+                        hraError.style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                // Validate other allowances
+                const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
+                if (otherAllowances < 0) {
+                    document.getElementById('otherAllowances').classList.add('input-error');
+                    allowancesError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Calculate pay
             function calculatePay() {
+                if (!validateInputs()) {
+                    return;
+                }
+                
                 // Get input values
                 const currentPayLevel = document.getElementById('currentPayLevel').value;
                 const currentBasicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
                 const currentDA = parseFloat(document.getElementById('currentDA').value) || 0;
-                const currentHRA = document.getElementById('currentHRA').value;
                 const transportAllowanceValue = document.getElementById('transportAllowance').value;
                 const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
                 
-                // Validate inputs
-                if (!currentPayLevel) {
-                    alert('Please select your current pay level');
-                    return;
-                }
-                
-                if (currentBasicPay < 18000) {
-                    alert('Basic pay cannot be less than ₹18,000 as per 7th CPC');
-                    return;
+                // Get HRA rate based on selection
+                let currentHRARate;
+                if (hraToggle.checked) {
+                    currentHRARate = parseFloat(document.getElementById('customHRA').value) || 0;
+                } else {
+                    currentHRARate = parseFloat(document.getElementById('currentHRA').value) || 0;
                 }
                 
                 // Calculate current salary components
                 const currentDAAmount = currentBasicPay * (currentDA / 100);
-                const currentHRAAmount = currentBasicPay * hraRates[currentHRA];
+                const currentHRAAmount = currentBasicPay * (currentHRARate / 100);
                 const currentTransportAllowance = transportAllowance[transportAllowanceValue] * (1 + (currentDA / 100));
                 const currentGrossSalary = currentBasicPay + currentDAAmount + currentHRAAmount + currentTransportAllowance + otherAllowances;
                 
                 // Calculate 7th CPC salary components
                 const newBasicPay = payMatrix[currentPayLevel];
-                const newHraRate = hraRates[currentHRA];
+                const newHraRate = currentHRARate / 100; // Keep same HRA rate as current
                 const newHraAmount = newBasicPay * newHraRate;
                 const newTransportAllowance = transportAllowance[transportAllowanceValue];
                 const newGrossSalary = newBasicPay + newHraAmount + newTransportAllowance + otherAllowances;
@@ -688,7 +876,7 @@
                 document.getElementById('currentBasicPayResult').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
                 document.getElementById('daRateResult').textContent = currentDA;
                 document.getElementById('currentDAResult').textContent = '₹' + currentDAAmount.toLocaleString('en-IN');
-                document.getElementById('hraRateResult').textContent = currentHRA;
+                document.getElementById('hraRateResult').textContent = currentHRARate;
                 document.getElementById('currentHRAResult').textContent = '₹' + currentHRAAmount.toLocaleString('en-IN');
                 document.getElementById('transportAllowanceResult').textContent = '₹' + currentTransportAllowance.toLocaleString('en-IN');
                 document.getElementById('otherAllowancesResult').textContent = '₹' + otherAllowances.toLocaleString('en-IN');
@@ -704,10 +892,45 @@
                     ' (' + increasePercentage.toFixed(2) + '%)';
                 
                 // Show results
-                document.getElementById('results').style.display = 'block';
+                resultsSection.style.display = 'block';
                 
                 // Scroll to results
-                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Reset form
+            function resetForm() {
+                form.reset();
+                resultsSection.style.display = 'none';
+                
+                // Reset toggle state
+                hraToggle.checked = false;
+                hraToggleLabel.textContent = 'Use Standard HRA Rates';
+                standardHraContainer.style.display = 'block';
+                customHraContainer.style.display = 'none';
+                
+                // Reset error states
+                document.getElementById('currentPayLevel').classList.remove('input-error');
+                document.getElementById('currentBasicPay').classList.remove('input-error');
+                document.getElementById('currentDA').classList.remove('input-error');
+                document.getElementById('customHRA').classList.remove('input-error');
+                document.getElementById('otherAllowances').classList.remove('input-error');
+                payLevelError.style.display = 'none';
+                basicPayError.style.display = 'none';
+                daError.style.display = 'none';
+                hraError.style.display = 'none';
+                allowancesError.style.display = 'none';
+            }
+            
+            // Print results
+            function printResults() {
+                window.print();
+            }
+            
+            // Download as PDF (simplified version - in production you'd use a library like jsPDF)
+            function downloadAsPDF() {
+                alert('In a production environment, this would generate a PDF using a library like jsPDF or a server-side solution.');
+                // Example implementation would go here
             }
             
             // Sample data for demo
