@@ -54,6 +54,9 @@
             --accent-color: #e74c3c;
             --light-color: #f8f9fa;
             --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
         }
         
         body {
@@ -138,14 +141,74 @@
             margin-top: 3rem;
         }
         
-        @media (max-width: 768px) {
-            .header {
-                padding: 1.5rem 0;
-            }
-            
-            .calculator-container {
-                padding: 1.5rem;
-            }
+        /* Custom HRA toggle styles */
+        .hra-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hra-toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        .hra-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .hra-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .hra-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .hra-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .hra-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .custom-hra-container {
+            display: none;
+            margin-top: 0.5rem;
+        }
+        
+        /* Error message styles */
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .is-invalid {
+            border-color: var(--danger-color);
         }
         
         /* Animation */
@@ -156,6 +219,16 @@
         
         .fade-in {
             animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .calculator-container {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -220,25 +293,44 @@
                                     <option value="13A">Level 13A (₹1,31,100 - ₹2,16,600)</option>
                                     <option value="14">Level 14 (₹1,44,200 - ₹2,18,200)</option>
                                 </select>
+                                <div class="error-message" id="payLevelError">Please select your pay level</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="currentBasicPay" class="form-label">Current Basic Pay (₹)</label>
-                                <input type="number" class="form-control" id="currentBasicPay" placeholder="Enter your current basic pay" required>
+                                <input type="number" class="form-control" id="currentBasicPay" placeholder="Enter your current basic pay" min="18000" required>
+                                <div class="error-message" id="basicPayError">Basic pay must be at least ₹18,000</div>
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="daRate" class="form-label">Current DA Rate (%)</label>
-                                <input type="number" class="form-control" id="daRate" value="46" required>
+                                <input type="number" class="form-control" id="daRate" value="46" min="0" max="100" step="0.1" required>
+                                <div class="error-message" id="daRateError">DA rate must be between 0% and 100%</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="hraRate" class="form-label">HRA Rate (%)</label>
-                                <select class="form-select" id="hraRate" required>
-                                    <option value="27">X City (27%)</option>
-                                    <option value="18" selected>Y City (18%)</option>
-                                    <option value="9">Z City (9%)</option>
-                                </select>
+                                <div class="hra-toggle-container">
+                                    <label class="hra-toggle-switch">
+                                        <input type="checkbox" id="hraToggle">
+                                        <span class="hra-slider"></span>
+                                    </label>
+                                    <span id="hraToggleLabel">Use Standard HRA Rates</span>
+                                </div>
+                                
+                                <div id="standardHraContainer">
+                                    <label for="hraRate" class="form-label">HRA Rate</label>
+                                    <select class="form-select" id="hraRate" required>
+                                        <option value="30">X City (30%)</option>
+                                        <option value="20" selected>Y City (20%)</option>
+                                        <option value="10">Z City (10%)</option>
+                                    </select>
+                                </div>
+                                
+                                <div id="customHraContainer" class="custom-hra-container">
+                                    <label for="customHraRate" class="form-label">Custom HRA Rate (%)</label>
+                                    <input type="number" class="form-control" id="customHraRate" min="0" max="100" step="0.1" value="20">
+                                    <div class="error-message" id="hraRateError">HRA rate must be between 0% and 100%</div>
+                                </div>
                             </div>
                         </div>
                         
@@ -254,18 +346,21 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="expectedIncrement" class="form-label">Expected Annual Increment (%)</label>
-                                <input type="number" class="form-control" id="expectedIncrement" value="3" required>
+                                <input type="number" class="form-control" id="expectedIncrement" value="3" min="0" max="20" step="0.1" required>
+                                <div class="error-message" id="incrementError">Increment must be between 0% and 20%</div>
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="transportAllowance" class="form-label">Transport Allowance (₹)</label>
-                                <input type="number" class="form-control" id="transportAllowance" value="3600">
+                                <input type="number" class="form-control" id="transportAllowance" value="3600" min="0" required>
+                                <div class="error-message" id="taError">Transport allowance cannot be negative</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="otherAllowances" class="form-label">Other Allowances (₹)</label>
-                                <input type="number" class="form-control" id="otherAllowances" value="0">
+                                <input type="number" class="form-control" id="otherAllowances" value="0" min="0" required>
+                                <div class="error-message" id="allowancesError">Allowances cannot be negative</div>
                             </div>
                         </div>
                         
@@ -361,6 +456,9 @@
                             <button class="btn btn-outline-success ms-2" id="shareResults">
                                 <i class="fas fa-share-alt me-2"></i> Share Results
                             </button>
+                            <button class="btn btn-outline-secondary ms-2" id="resetCalculator">
+                                <i class="fas fa-redo me-2"></i> Reset Calculator
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -373,7 +471,7 @@
                     <ul>
                         <li>Projected fitment factor (2.5x to 3.2x)</li>
                         <li>Current DA rate (46%)</li>
-                        <li>Standard HRA classification</li>
+                        <li>Standard HRA classification (30%, 20%, 10%) or custom HRA rate</li>
                         <li>Approximate deduction rates for NPS, taxes, etc.</li>
                     </ul>
                     <p class="text-muted"><small>Note: This is only an estimation tool. Actual 8th CPC recommendations may vary.</small></p>
@@ -407,7 +505,7 @@
                         <li class="list-group-item">Expected fitment factor between 2.8x to 3.2x</li>
                         <li class="list-group-item">Demand for minimum salary of ₹26,000</li>
                         <li class="list-group-item">NPS modifications under consideration</li>
-                        <li class="list-group-item">HRA rates may be revised</li>
+                        <li class="list-group-item">HRA rates may be revised to 30%, 20%, 10%</li>
                     </ul>
                     <a href="#" class="btn btn-sm btn-outline-primary mt-2">View All Updates</a>
                 </div>
@@ -448,12 +546,12 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                    When will 8th CPC be implemented?
+                                    Can I use a custom HRA rate?
                                 </button>
                             </h2>
                             <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    The 8th CPC is expected to be implemented from January 2026, but the official announcement is pending.
+                                    Yes! Simply toggle the switch above the HRA field to enter your own custom HRA percentage (0-100%).
                                 </div>
                             </div>
                         </div>
@@ -465,7 +563,7 @@
                             </h2>
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Estimates suggest a fitment factor between 2.5x to 3.2x. Our calculator allows you to adjust this parameter.
+                                    Estimates suggest a fitment factor between 2.5x to 3.2x. Our calculator allows you to adjust this parameter to see different scenarios.
                                 </div>
                             </div>
                         </div>
@@ -540,23 +638,170 @@
     <!-- Custom JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
             const form = document.getElementById('salaryCalculator');
             const resultSection = document.getElementById('resultSection');
+            const hraToggle = document.getElementById('hraToggle');
+            const hraToggleLabel = document.getElementById('hraToggleLabel');
+            const standardHraContainer = document.getElementById('standardHraContainer');
+            const customHraContainer = document.getElementById('customHraContainer');
+            const resetBtn = document.getElementById('resetCalculator');
             
+            // Error message elements
+            const errorMessages = {
+                payLevel: document.getElementById('payLevelError'),
+                basicPay: document.getElementById('basicPayError'),
+                daRate: document.getElementById('daRateError'),
+                hraRate: document.getElementById('hraRateError'),
+                increment: document.getElementById('incrementError'),
+                ta: document.getElementById('taError'),
+                allowances: document.getElementById('allowancesError')
+            };
+            
+            // Initialize form
+            initForm();
+            
+            // Form submission
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                calculateSalary();
+                if (validateForm()) {
+                    calculateSalary();
+                }
             });
             
+            // HRA toggle switch
+            hraToggle.addEventListener('change', function() {
+                toggleHraMethod();
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                resetForm();
+            });
+            
+            // Initialize form with default values
+            function initForm() {
+                // Set default pay level to Level 6
+                document.getElementById('currentPayLevel').value = '6';
+                document.getElementById('currentBasicPay').value = '35400';
+                
+                // Initialize HRA toggle
+                toggleHraMethod();
+            }
+            
+            // Toggle between standard and custom HRA
+            function toggleHraMethod() {
+                if (hraToggle.checked) {
+                    hraToggleLabel.textContent = 'Use Custom HRA Rate';
+                    standardHraContainer.style.display = 'none';
+                    customHraContainer.style.display = 'block';
+                } else {
+                    hraToggleLabel.textContent = 'Use Standard HRA Rates';
+                    standardHraContainer.style.display = 'block';
+                    customHraContainer.style.display = 'none';
+                }
+            }
+            
+            // Validate form inputs
+            function validateForm() {
+                let isValid = true;
+                
+                // Reset error states
+                resetErrorStates();
+                
+                // Validate pay level
+                const payLevel = document.getElementById('currentPayLevel').value;
+                if (!payLevel) {
+                    document.getElementById('currentPayLevel').classList.add('is-invalid');
+                    errorMessages.payLevel.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate basic pay
+                const basicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
+                if (basicPay < 18000) {
+                    document.getElementById('currentBasicPay').classList.add('is-invalid');
+                    errorMessages.basicPay.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate DA rate
+                const daRate = parseFloat(document.getElementById('daRate').value) || 0;
+                if (daRate < 0 || daRate > 100) {
+                    document.getElementById('daRate').classList.add('is-invalid');
+                    errorMessages.daRate.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate HRA rate
+                let hraRate;
+                if (hraToggle.checked) {
+                    hraRate = parseFloat(document.getElementById('customHraRate').value) || 0;
+                    if (hraRate < 0 || hraRate > 100) {
+                        document.getElementById('customHraRate').classList.add('is-invalid');
+                        errorMessages.hraRate.style.display = 'block';
+                        isValid = false;
+                    }
+                } else {
+                    hraRate = parseFloat(document.getElementById('hraRate').value) || 0;
+                }
+                
+                // Validate increment rate
+                const incrementRate = parseFloat(document.getElementById('expectedIncrement').value) || 0;
+                if (incrementRate < 0 || incrementRate > 20) {
+                    document.getElementById('expectedIncrement').classList.add('is-invalid');
+                    errorMessages.increment.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate transport allowance
+                const transportAllowance = parseFloat(document.getElementById('transportAllowance').value) || 0;
+                if (transportAllowance < 0) {
+                    document.getElementById('transportAllowance').classList.add('is-invalid');
+                    errorMessages.ta.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate other allowances
+                const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
+                if (otherAllowances < 0) {
+                    document.getElementById('otherAllowances').classList.add('is-invalid');
+                    errorMessages.allowances.style.display = 'block';
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Reset all error states
+            function resetErrorStates() {
+                const inputs = document.querySelectorAll('.form-control, .form-select');
+                inputs.forEach(input => {
+                    input.classList.remove('is-invalid');
+                });
+                
+                Object.values(errorMessages).forEach(message => {
+                    message.style.display = 'none';
+                });
+            }
+            
+            // Calculate salary
             function calculateSalary() {
                 // Get input values
                 const currentBasicPay = parseFloat(document.getElementById('currentBasicPay').value) || 0;
                 const daRate = parseFloat(document.getElementById('daRate').value) || 0;
-                const hraRate = parseFloat(document.getElementById('hraRate').value) || 0;
                 const fitmentFactor = parseFloat(document.getElementById('expectedFitment').value) || 1;
                 const incrementRate = parseFloat(document.getElementById('expectedIncrement').value) || 0;
-                const transportAllowance = parseFloat(document.getElementById('transportAllowance').value) || 0);
+                const transportAllowance = parseFloat(document.getElementById('transportAllowance').value) || 0;
                 const otherAllowances = parseFloat(document.getElementById('otherAllowances').value) || 0;
+                
+                // Get HRA rate based on selection
+                let hraRate;
+                if (hraToggle.checked) {
+                    hraRate = parseFloat(document.getElementById('customHraRate').value) || 0;
+                } else {
+                    hraRate = parseFloat(document.getElementById('hraRate').value) || 0;
+                }
                 
                 // Calculate current salary components
                 const currentDA = currentBasicPay * (daRate / 100);
@@ -586,30 +831,55 @@
                 const increasePercentage = ((projectedTakeHome - currentTakeHome) / currentTakeHome) * 100;
                 
                 // Display results
-                document.getElementById('currentBasicDisplay').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
-                document.getElementById('currentGrossDisplay').textContent = '₹' + Math.round(currentGross).toLocaleString('en-IN');
-                document.getElementById('currentTakeHomeDisplay').textContent = '₹' + Math.round(currentTakeHome).toLocaleString('en-IN');
+                displayResults({
+                    currentBasicPay,
+                    currentGross,
+                    currentTakeHome,
+                    projectedBasicWithIncrement,
+                    projectedGross,
+                    projectedTakeHome,
+                    increasePercentage,
+                    currentDA,
+                    currentHRA,
+                    transportAllowance,
+                    otherAllowances,
+                    projectedDA,
+                    projectedHRA,
+                    projectedTransportAllowance,
+                    projectedOtherAllowances
+                });
+            }
+            
+            // Display calculation results
+            function displayResults(data) {
+                // Format numbers with Indian rupee symbol
+                const formatCurrency = (amount) => '₹' + Math.round(amount).toLocaleString('en-IN');
                 
-                document.getElementById('projectedBasicDisplay').textContent = '₹' + Math.round(projectedBasicWithIncrement).toLocaleString('en-IN');
-                document.getElementById('projectedGrossDisplay').textContent = '₹' + Math.round(projectedGross).toLocaleString('en-IN');
-                document.getElementById('projectedTakeHomeDisplay').textContent = '₹' + Math.round(projectedTakeHome).toLocaleString('en-IN');
+                // Main results
+                document.getElementById('currentBasicDisplay').textContent = formatCurrency(data.currentBasicPay);
+                document.getElementById('currentGrossDisplay').textContent = formatCurrency(data.currentGross);
+                document.getElementById('currentTakeHomeDisplay').textContent = formatCurrency(data.currentTakeHome);
                 
-                document.getElementById('increasePercentage').textContent = Math.round(increasePercentage) + '%';
-                document.getElementById('increaseBar').style.width = Math.min(increasePercentage, 100) + '%';
-                document.getElementById('increaseBar').setAttribute('aria-valuenow', Math.round(increasePercentage));
+                document.getElementById('projectedBasicDisplay').textContent = formatCurrency(data.projectedBasicWithIncrement);
+                document.getElementById('projectedGrossDisplay').textContent = formatCurrency(data.projectedGross);
+                document.getElementById('projectedTakeHomeDisplay').textContent = formatCurrency(data.projectedTakeHome);
                 
-                // Display components
-                document.getElementById('currentBasicComponent').textContent = '₹' + currentBasicPay.toLocaleString('en-IN');
-                document.getElementById('currentDaComponent').textContent = '₹' + Math.round(currentDA).toLocaleString('en-IN');
-                document.getElementById('currentHraComponent').textContent = '₹' + Math.round(currentHRA).toLocaleString('en-IN');
-                document.getElementById('currentTaComponent').textContent = '₹' + transportAllowance.toLocaleString('en-IN');
-                document.getElementById('currentOtherComponent').textContent = '₹' + otherAllowances.toLocaleString('en-IN');
+                document.getElementById('increasePercentage').textContent = Math.round(data.increasePercentage) + '%';
+                document.getElementById('increaseBar').style.width = Math.min(data.increasePercentage, 100) + '%';
+                document.getElementById('increaseBar').setAttribute('aria-valuenow', Math.round(data.increasePercentage));
                 
-                document.getElementById('projectedBasicComponent').textContent = '₹' + Math.round(projectedBasicWithIncrement).toLocaleString('en-IN');
-                document.getElementById('projectedDaComponent').textContent = '₹' + Math.round(projectedDA).toLocaleString('en-IN');
-                document.getElementById('projectedHraComponent').textContent = '₹' + Math.round(projectedHRA).toLocaleString('en-IN');
-                document.getElementById('projectedTaComponent').textContent = '₹' + Math.round(projectedTransportAllowance).toLocaleString('en-IN');
-                document.getElementById('projectedOtherComponent').textContent = '₹' + Math.round(projectedOtherAllowances).toLocaleString('en-IN');
+                // Components
+                document.getElementById('currentBasicComponent').textContent = formatCurrency(data.currentBasicPay);
+                document.getElementById('currentDaComponent').textContent = formatCurrency(data.currentDA);
+                document.getElementById('currentHraComponent').textContent = formatCurrency(data.currentHRA);
+                document.getElementById('currentTaComponent').textContent = formatCurrency(data.transportAllowance);
+                document.getElementById('currentOtherComponent').textContent = formatCurrency(data.otherAllowances);
+                
+                document.getElementById('projectedBasicComponent').textContent = formatCurrency(data.projectedBasicWithIncrement);
+                document.getElementById('projectedDaComponent').textContent = formatCurrency(data.projectedDA);
+                document.getElementById('projectedHraComponent').textContent = formatCurrency(data.projectedHRA);
+                document.getElementById('projectedTaComponent').textContent = formatCurrency(data.projectedTransportAllowance);
+                document.getElementById('projectedOtherComponent').textContent = formatCurrency(data.projectedOtherAllowances);
                 
                 // Show results with animation
                 resultSection.style.display = 'block';
@@ -617,6 +887,23 @@
                 
                 // Scroll to results
                 resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Reset form
+            function resetForm() {
+                form.reset();
+                resultSection.style.display = 'none';
+                resultSection.classList.remove('fade-in');
+                
+                // Reset HRA toggle
+                hraToggle.checked = false;
+                toggleHraMethod();
+                
+                // Reset error states
+                resetErrorStates();
+                
+                // Reinitialize default values
+                initForm();
             }
             
             // Save as PDF button
