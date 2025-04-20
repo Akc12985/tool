@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online tax calculator tool to estimate your income tax liability based on current tax brackets. Calculate federal and state taxes easily.">
-    <meta name="keywords" content="tax calculator, income tax, tax estimator, tax planning, tax brackets, tax calculator 2023">
+    <meta name="description" content="Free online international tax calculator tool to estimate your income tax liability based on current tax brackets worldwide. Calculate federal, state, and local taxes easily.">
+    <meta name="keywords" content="tax calculator, income tax, international tax, tax estimator, tax planning, tax brackets, tax calculator 2024">
     <meta name="author" content="I Love Tools">
-    <title>Advanced Tax Calculator | Estimate Your Income Tax | I Love Tools</title>
+    <title>Global Tax Calculator | Estimate Your Income Tax Worldwide | I Love Tools</title>
     <link rel="canonical" href="https://www.ilovetools.com/tax-calculator" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -346,6 +346,59 @@
                 padding: 0;
             }
         }
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* Currency selector */
+        .currency-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .currency-selector select {
+            width: auto;
+            min-width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -368,8 +421,8 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Advanced Tax Calculator</h1>
-            <p>Estimate your federal income tax liability based on current tax brackets and filing status. Get accurate calculations for better financial planning.</p>
+            <h1>Global Tax Calculator</h1>
+            <p>Estimate your income tax liability worldwide based on current tax brackets and filing status. Get accurate calculations for better financial planning in any country.</p>
         </div>
     </section>
 
@@ -385,61 +438,117 @@
         <div class="main-content">
             <div class="calculator-container">
                 <h1 class="calculator-title">
-                    <i class="fas fa-calculator"></i>
-                    Tax Calculator
+                    <i class="fas fa-globe"></i>
+                    Global Tax Calculator
                 </h1>
                 
                 <div class="form-group">
-                    <label for="filing-status">Filing Status</label>
+                    <label for="country">Country <span class="tooltip">?
+                        <span class="tooltiptext">Select your country of tax residence</span>
+                    </span></label>
+                    <select id="country">
+                        <option value="">-- Select Country --</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="JP">Japan</option>
+                        <option value="IN">India</option>
+                        <option value="BR">Brazil</option>
+                        <option value="ZA">South Africa</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+                </div>
+
+                <div id="state-province-group" class="form-group" style="display:none;">
+                    <label for="state-province">State/Province <span class="tooltip">?
+                        <span class="tooltiptext">Select your state or province if applicable</span>
+                    </span></label>
+                    <select id="state-province">
+                        <!-- Will be populated dynamically based on country -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filing-status">Filing Status <span class="tooltip">?
+                        <span class="tooltiptext">Your marital status for tax purposes</span>
+                    </span></label>
                     <select id="filing-status">
                         <option value="single">Single</option>
                         <option value="married-joint">Married Filing Jointly</option>
                         <option value="married-separate">Married Filing Separately</option>
                         <option value="head-household">Head of Household</option>
+                        <option value="widower">Qualifying Widow(er)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="tax-year">Tax Year</label>
+                    <label for="tax-year">Tax Year <span class="tooltip">?
+                        <span class="tooltiptext">The year for which you're calculating taxes</span>
+                    </span></label>
                     <select id="tax-year">
+                        <option value="2024">2024</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="income">Taxable Income ($)</label>
-                    <input type="number" id="income" placeholder="Enter your taxable income">
+                    <label for="income">Taxable Income <span class="tooltip">?
+                        <span class="tooltiptext">Your total income after deductions and exemptions</span>
+                    </span></label>
+                    <div class="currency-selector">
+                        <select id="currency">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="CAD">CAD (C$)</option>
+                            <option value="AUD">AUD (A$)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="BRL">BRL (R$)</option>
+                            <option value="ZAR">ZAR (R)</option>
+                        </select>
+                        <input type="number" id="income" placeholder="Enter your taxable income">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Additional Options</label>
+                    <label>Deductions <span class="tooltip">?
+                        <span class="tooltiptext">Select your deduction preference</span>
+                    </span></label>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="checkbox" id="standard-deduction">
+                            <input type="radio" id="standard-deduction" name="deduction" checked>
                             <label for="standard-deduction">Standard Deduction</label>
                         </div>
                         <div class="radio-option">
-                            <input type="checkbox" id="itemized-deductions">
+                            <input type="radio" id="itemized-deductions" name="deduction">
                             <label for="itemized-deductions">Itemized Deductions</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="state">State</label>
-                    <select id="state">
-                        <option value="">-- Select State --</option>
-                        <option value="AL">Alabama</option>
-                        <option value="AK">Alaska</option>
-                        <!-- All other states -->
-                        <option value="WY">Wyoming</option>
-                    </select>
+                    <label for="additional-deductions">Additional Deductions <span class="tooltip">?
+                        <span class="tooltiptext">Any other deductions you qualify for</span>
+                    </span></label>
+                    <input type="number" id="additional-deductions" placeholder="Enter additional deductions">
+                </div>
+
+                <div class="form-group">
+                    <label for="tax-credits">Tax Credits <span class="tooltip">?
+                        <span class="tooltiptext">Credits that reduce your tax liability directly</span>
+                    </span></label>
+                    <input type="number" id="tax-credits" placeholder="Enter tax credits">
                 </div>
 
                 <button id="calculate-btn" class="btn">
                     <i class="fas fa-calculator"></i>
                     Calculate Tax
+                    <div id="spinner" class="spinner"></div>
                 </button>
                 <button id="reset-btn" class="btn btn-secondary">
                     <i class="fas fa-redo"></i>
@@ -456,16 +565,20 @@
                         <span id="result-income" class="result-value">$0.00</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">Federal Tax:</span>
+                        <span class="result-label">Federal/National Tax:</span>
                         <span id="result-federal" class="result-value">$0.00</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">State Tax:</span>
+                        <span class="result-label">State/Provincial Tax:</span>
                         <span id="result-state" class="result-value">$0.00</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">FICA Taxes (7.65%):</span>
-                        <span id="result-fica" class="result-value">$0.00</span>
+                        <span class="result-label">Local/Municipal Tax:</span>
+                        <span id="result-local" class="result-value">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Social Security/Health Taxes:</span>
+                        <span id="result-social" class="result-value">$0.00</span>
                     </div>
                     <div class="result-item total-tax">
                         <span class="result-label">Total Estimated Tax:</span>
@@ -474,6 +587,10 @@
                     <div class="result-item">
                         <span class="result-label">Effective Tax Rate:</span>
                         <span id="result-rate" class="result-value">0%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">After-Tax Income:</span>
+                        <span id="result-after-tax" class="result-value">$0.00</span>
                     </div>
                 </div>
             </div>
@@ -497,33 +614,46 @@
 
                 <div class="info-card">
                     <h3><i class="fas fa-info-circle"></i> About This Tool</h3>
-                    <p>Our tax calculator estimates your federal and state income tax liability based on current tax brackets and rates. Results are approximations and should not be considered tax advice.</p>
+                    <p>Our global tax calculator estimates your income tax liability based on current tax brackets and rates for countries worldwide. Results are approximations and should not be considered tax advice.</p>
                 </div>
 
                 <div class="info-card">
-                    <h3><i class="fas fa-lightbulb"></i> Tax Tips</h3>
+                    <h3><i class="fas fa-lightbulb"></i> International Tax Tips</h3>
                     <ul>
-                        <li><a href="#">Maximize your deductions</a></li>
-                        <li><a href="#">Understand tax brackets</a></li>
-                        <li><a href="#">Retirement account benefits</a></li>
-                        <li><a href="#">Tax credits you may qualify for</a></li>
+                        <li><a href="#">Understanding tax treaties</a></li>
+                        <li><a href="#">Foreign income exclusion</a></li>
+                        <li><a href="#">Tax credits for expats</a></li>
+                        <li><a href="#">Avoiding double taxation</a></li>
                     </ul>
                 </div>
 
-                <div class="ad-container">
-                    <!-- Second Ad Unit -->
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
-                            crossorigin="anonymous"></script>
-                    <!-- Tax Calculator Bottom Ad -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
-                         data-ad-slot="YOUR_SECOND_AD_SLOT_ID"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="info-card">
+                    <h3><i class="fas fa-exchange-alt"></i> Currency Converter</h3>
+                    <div class="form-group">
+                        <label for="convert-amount">Amount</label>
+                        <input type="number" id="convert-amount" placeholder="Enter amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="from-currency">From</label>
+                        <select id="from-currency">
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="to-currency">To</label>
+                        <select id="to-currency">
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <button id="convert-btn" class="btn">
+                        <i class="fas fa-exchange-alt"></i>
+                        Convert
+                    </button>
+                    <div id="conversion-result" style="margin-top: 1rem; font-weight: 500;"></div>
                 </div>
             </div>
         </div>
@@ -559,67 +689,128 @@
                         <li><a href="/sitemap">Sitemap</a></li>
                     </ul>
                 </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="/help">Help Center</a></li>
+                        <li><a href="/feedback">Feedback</a></li>
+                        <li><a href="/updates">Updates</a></li>
+                        <li><a href="/api">Developer API</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 I Love Tools. All rights reserved.</p>
+                <p>&copy; 2024 I Love Tools. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tax bracket data (2023 rates)
-            const taxBrackets = {
-                '2023': {
-                    'single': [
-                        { min: 0, max: 10275, rate: 0.10 },
-                        { min: 10276, max: 41775, rate: 0.12 },
-                        { min: 41776, max: 89075, rate: 0.22 },
-                        { min: 89076, max: 170050, rate: 0.24 },
-                        { min: 170051, max: 215950, rate: 0.32 },
-                        { min: 215951, max: 539900, rate: 0.35 },
-                        { min: 539901, max: Infinity, rate: 0.37 }
-                    ],
-                    'married-joint': [
-                        { min: 0, max: 20550, rate: 0.10 },
-                        { min: 20551, max: 83550, rate: 0.12 },
-                        { min: 83551, max: 178150, rate: 0.22 },
-                        { min: 178151, max: 340100, rate: 0.24 },
-                        { min: 340101, max: 431900, rate: 0.32 },
-                        { min: 431901, max: 647850, rate: 0.35 },
-                        { min: 647851, max: Infinity, rate: 0.37 }
-                    ],
-                    'married-separate': [
-                        { min: 0, max: 10275, rate: 0.10 },
-                        { min: 10276, max: 41775, rate: 0.12 },
-                        { min: 41776, max: 89075, rate: 0.22 },
-                        { min: 89076, max: 170050, rate: 0.24 },
-                        { min: 170051, max: 215950, rate: 0.32 },
-                        { min: 215951, max: 323925, rate: 0.35 },
-                        { min: 323926, max: Infinity, rate: 0.37 }
-                    ],
-                    'head-household': [
-                        { min: 0, max: 14650, rate: 0.10 },
-                        { min: 14651, max: 55900, rate: 0.12 },
-                        { min: 55901, max: 89050, rate: 0.22 },
-                        { min: 89051, max: 170050, rate: 0.24 },
-                        { min: 170051, max: 215950, rate: 0.32 },
-                        { min: 215951, max: 539900, rate: 0.35 },
-                        { min: 539901, max: Infinity, rate: 0.37 }
-                    ]
+            // Country and state/province data
+            const countryData = {
+                'US': {
+                    name: 'United States',
+                    states: ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'],
+                    currency: 'USD'
                 },
-                '2022': {
-                    // Similar structure for 2022 brackets
+                'CA': {
+                    name: 'Canada',
+                    provinces: ['AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK','YT'],
+                    currency: 'CAD'
+                },
+                'GB': {
+                    name: 'United Kingdom',
+                    regions: ['England','Scotland','Wales','Northern Ireland'],
+                    currency: 'GBP'
+                },
+                'AU': {
+                    name: 'Australia',
+                    states: ['ACT','NSW','NT','QLD','SA','TAS','VIC','WA'],
+                    currency: 'AUD'
+                },
+                // Add more countries with their subdivisions
+                'DE': { name: 'Germany', currency: 'EUR' },
+                'FR': { name: 'France', currency: 'EUR' },
+                'JP': { name: 'Japan', currency: 'JPY' },
+                'IN': { name: 'India', states: ['AN','AP','AR','AS','BR','CH','CT','DN','DD','DL','GA','GJ','HR','HP','JK','JH','KA','KL','LD','MP','MH','MN','ML','MZ','NL','OR','PY','PB','RJ','SK','TN','TG','TR','UP','UT','WB'], currency: 'INR' },
+                'BR': { name: 'Brazil', states: ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'], currency: 'BRL' },
+                'ZA': { name: 'South Africa', provinces: ['EC','FS','GP','KZN','LP','MP','NC','NW','WC'], currency: 'ZAR' }
+            };
+
+            // Tax bracket data (2024 rates)
+            const taxBrackets = {
+                '2024': {
+                    'US': {
+                        'single': [
+                            { min: 0, max: 11600, rate: 0.10 },
+                            { min: 11601, max: 47150, rate: 0.12 },
+                            { min: 47151, max: 100525, rate: 0.22 },
+                            { min: 100526, max: 191950, rate: 0.24 },
+                            { min: 191951, max: 243725, rate: 0.32 },
+                            { min: 243726, max: 609350, rate: 0.35 },
+                            { min: 609351, max: Infinity, rate: 0.37 }
+                        ],
+                        'married-joint': [
+                            { min: 0, max: 23200, rate: 0.10 },
+                            { min: 23201, max: 94300, rate: 0.12 },
+                            { min: 94301, max: 201050, rate: 0.22 },
+                            { min: 201051, max: 383900, rate: 0.24 },
+                            { min: 383901, max: 487450, rate: 0.32 },
+                            { min: 487451, max: 731200, rate: 0.35 },
+                            { min: 731201, max: Infinity, rate: 0.37 }
+                        ],
+                        // Other filing statuses
+                    },
+                    'CA': {
+                        'single': [
+                            { min: 0, max: 53359, rate: 0.15 },
+                            { min: 53360, max: 106717, rate: 0.205 },
+                            { min: 106718, max: 165430, rate: 0.26 },
+                            { min: 165431, max: 235675, rate: 0.29 },
+                            { min: 235676, max: Infinity, rate: 0.33 }
+                        ],
+                        // Other filing statuses
+                    },
+                    'GB': {
+                        'single': [
+                            { min: 0, max: 12570, rate: 0 }, // Personal allowance
+                            { min: 12571, max: 50270, rate: 0.20 },
+                            { min: 50271, max: 125140, rate: 0.40 },
+                            { min: 125141, max: Infinity, rate: 0.45 }
+                        ]
+                    },
+                    // Add tax brackets for other countries
+                },
+                '2023': {
+                    // Previous year's tax brackets
                 }
             };
 
-            // State tax rates (simplified examples)
+            // State/provincial tax rates (simplified examples)
             const stateTaxRates = {
-                'CA': { rate: 0.093, flat: false },
-                'TX': { rate: 0, flat: true },
-                'NY': { rate: 0.0882, flat: false },
-                'FL': { rate: 0, flat: true }
-                // Add all other states
+                'US': {
+                    'CA': { rate: 0.093, flat: false },
+                    'TX': { rate: 0, flat: true },
+                    'NY': { rate: 0.0882, flat: false },
+                    'FL': { rate: 0, flat: true }
+                    // Add all other states
+                },
+                'CA': {
+                    'ON': { rate: 0.0505, flat: false },
+                    'QC': { rate: 0.20, flat: false }
+                    // Add other provinces
+                }
+                // Add other countries' regional taxes
+            };
+
+            // Social security/health tax rates by country
+            const socialTaxRates = {
+                'US': { rate: 0.0765, cap: 147000 }, // Social Security + Medicare
+                'CA': { rate: 0.0525, cap: 61400 }, // CPP + EI
+                'GB': { rate: 0.12, cap: 50270 }, // National Insurance
+                'AU': { rate: 0.02, cap: Infinity } // Medicare Levy
+                // Add other countries
             };
 
             // DOM elements
@@ -627,80 +818,226 @@
             const resetBtn = document.getElementById('reset-btn');
             const resultsContainer = document.getElementById('results');
             const incomeInput = document.getElementById('income');
+            const countrySelect = document.getElementById('country');
+            const stateProvinceGroup = document.getElementById('state-province-group');
+            const stateProvinceSelect = document.getElementById('state-province');
             const filingStatusSelect = document.getElementById('filing-status');
             const taxYearSelect = document.getElementById('tax-year');
-            const stateSelect = document.getElementById('state');
+            const currencySelect = document.getElementById('currency');
+            const spinner = document.getElementById('spinner');
+
+            // Country change handler
+            countrySelect.addEventListener('change', function() {
+                const countryCode = this.value;
+                stateProvinceGroup.style.display = 'none';
+                stateProvinceSelect.innerHTML = '';
+                
+                if (countryCode && countryData[countryCode]) {
+                    // Set default currency for country
+                    currencySelect.value = countryData[countryCode].currency;
+                    
+                    // Populate states/provinces if available
+                    const subdivisions = countryData[countryCode].states || countryData[countryCode].provinces || countryData[countryCode].regions;
+                    if (subdivisions) {
+                        stateProvinceGroup.style.display = 'block';
+                        subdivisions.forEach(sub => {
+                            const option = document.createElement('option');
+                            option.value = sub;
+                            option.textContent = sub;
+                            stateProvinceSelect.appendChild(option);
+                        });
+                    }
+                }
+            });
 
             // Calculate tax function
             function calculateTax() {
                 const income = parseFloat(incomeInput.value) || 0;
+                const country = countrySelect.value;
+                const stateProvince = stateProvinceSelect.value;
                 const filingStatus = filingStatusSelect.value;
                 const taxYear = taxYearSelect.value;
-                const state = stateSelect.value;
+                const currency = currencySelect.value;
+                const additionalDeductions = parseFloat(document.getElementById('additional-deductions').value) || 0;
+                const taxCredits = parseFloat(document.getElementById('tax-credits').value) || 0;
+                
+                if (!country) {
+                    alert('Please select a country');
+                    return;
+                }
                 
                 if (income <= 0) {
                     alert('Please enter a valid income amount');
                     return;
                 }
 
-                // Calculate federal tax
-                const brackets = taxBrackets[taxYear][filingStatus];
-                let federalTax = 0;
-                let remainingIncome = income;
+                // Show loading spinner
+                spinner.style.display = 'inline-block';
+                calculateBtn.disabled = true;
 
-                for (const bracket of brackets) {
-                    if (remainingIncome <= 0) break;
-                    
-                    const taxableInBracket = Math.min(
-                        bracket.max === Infinity ? remainingIncome : bracket.max - bracket.min + 1,
-                        remainingIncome
-                    );
-                    
-                    federalTax += taxableInBracket * bracket.rate;
-                    remainingIncome -= taxableInBracket;
-                }
+                // Simulate API call delay
+                setTimeout(() => {
+                    try {
+                        // Calculate taxable income after deductions
+                        let taxableIncome = income;
+                        const standardDeduction = document.getElementById('standard-deduction').checked;
+                        
+                        // Apply standard deduction if selected (country-specific)
+                        if (standardDeduction) {
+                            // Example deductions by country
+                            const standardDeductions = {
+                                'US': 13850, // 2024 single filer
+                                'CA': 15000,
+                                'GB': 12570, // Personal allowance
+                                'AU': 18200
+                            };
+                            
+                            if (standardDeductions[country]) {
+                                taxableIncome = Math.max(0, taxableIncome - standardDeductions[country]);
+                            }
+                        }
+                        
+                        // Apply additional deductions
+                        taxableIncome = Math.max(0, taxableIncome - additionalDeductions);
 
-                // Calculate state tax
-                let stateTax = 0;
-                if (state && stateTaxRates[state]) {
-                    const stateRate = stateTaxRates[state];
-                    stateTax = stateRate.flat ? income * stateRate.rate : 0; // Simplified for demo
-                }
+                        // Calculate federal/national tax
+                        let federalTax = 0;
+                        if (taxBrackets[taxYear] && taxBrackets[taxYear][country] && taxBrackets[taxYear][country][filingStatus]) {
+                            const brackets = taxBrackets[taxYear][country][filingStatus];
+                            let remainingIncome = taxableIncome;
 
-                // Calculate FICA (Social Security + Medicare)
-                const ficaTax = income <= 147000 ? income * 0.0765 : 147000 * 0.0765;
+                            for (const bracket of brackets) {
+                                if (remainingIncome <= 0) break;
+                                
+                                const taxableInBracket = Math.min(
+                                    bracket.max === Infinity ? remainingIncome : bracket.max - bracket.min + 1,
+                                    remainingIncome
+                                );
+                                
+                                federalTax += taxableInBracket * bracket.rate;
+                                remainingIncome -= taxableInBracket;
+                            }
+                        } else {
+                            // Flat tax rate for countries without bracket data
+                            federalTax = taxableIncome * 0.20; // Default 20% if no brackets
+                        }
 
-                // Calculate total tax
-                const totalTax = federalTax + stateTax + ficaTax;
-                const effectiveRate = (totalTax / income) * 100;
+                        // Calculate state/provincial tax
+                        let stateTax = 0;
+                        if (stateProvince && stateTaxRates[country] && stateTaxRates[country][stateProvince]) {
+                            const stateRate = stateTaxRates[country][stateProvince];
+                            stateTax = stateRate.flat ? income * stateRate.rate : 0; // Simplified for demo
+                        }
 
-                // Display results
-                document.getElementById('result-income').textContent = formatCurrency(income);
-                document.getElementById('result-federal').textContent = formatCurrency(federalTax);
-                document.getElementById('result-state').textContent = formatCurrency(stateTax);
-                document.getElementById('result-fica').textContent = formatCurrency(ficaTax);
-                document.getElementById('result-total').textContent = formatCurrency(totalTax);
-                document.getElementById('result-rate').textContent = effectiveRate.toFixed(2) + '%';
+                        // Calculate local tax (simplified)
+                        const localTax = income * 0.01; // Example 1% local tax
 
-                // Show results
-                resultsContainer.style.display = 'block';
+                        // Calculate social/health taxes
+                        let socialTax = 0;
+                        if (socialTaxRates[country]) {
+                            const socialRate = socialTaxRates[country];
+                            const taxableAmount = Math.min(income, socialRate.cap || Infinity);
+                            socialTax = taxableAmount * socialRate.rate;
+                        }
+
+                        // Apply tax credits
+                        const totalTaxBeforeCredits = federalTax + stateTax + localTax + socialTax;
+                        const totalTax = Math.max(0, totalTaxBeforeCredits - taxCredits);
+                        const effectiveRate = (totalTax / income) * 100;
+                        const afterTaxIncome = income - totalTax;
+
+                        // Display results with currency symbol
+                        const currencySymbol = getCurrencySymbol(currency);
+                        
+                        document.getElementById('result-income').textContent = formatCurrency(taxableIncome, currencySymbol);
+                        document.getElementById('result-federal').textContent = formatCurrency(federalTax, currencySymbol);
+                        document.getElementById('result-state').textContent = formatCurrency(stateTax, currencySymbol);
+                        document.getElementById('result-local').textContent = formatCurrency(localTax, currencySymbol);
+                        document.getElementById('result-social').textContent = formatCurrency(socialTax, currencySymbol);
+                        document.getElementById('result-total').textContent = formatCurrency(totalTax, currencySymbol);
+                        document.getElementById('result-rate').textContent = effectiveRate.toFixed(2) + '%';
+                        document.getElementById('result-after-tax').textContent = formatCurrency(afterTaxIncome, currencySymbol);
+
+                        // Show results
+                        resultsContainer.style.display = 'block';
+                    } catch (error) {
+                        console.error('Error calculating tax:', error);
+                        alert('An error occurred during calculation. Please try again.');
+                    } finally {
+                        // Hide spinner
+                        spinner.style.display = 'none';
+                        calculateBtn.disabled = false;
+                    }
+                }, 800); // Simulate processing delay
+            }
+
+            // Get currency symbol
+            function getCurrencySymbol(currencyCode) {
+                const symbols = {
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£',
+                    'JPY': '¥',
+                    'CAD': 'C$',
+                    'AUD': 'A$',
+                    'INR': '₹',
+                    'BRL': 'R$',
+                    'ZAR': 'R'
+                };
+                return symbols[currencyCode] || '$';
             }
 
             // Format currency
-            function formatCurrency(amount) {
-                return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            function formatCurrency(amount, symbol = '$') {
+                return symbol + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
             }
 
             // Reset form
             function resetForm() {
-                incomeInput.value = '';
+                countrySelect.value = '';
+                stateProvinceGroup.style.display = 'none';
+                stateProvinceSelect.innerHTML = '';
                 filingStatusSelect.value = 'single';
-                taxYearSelect.value = '2023';
-                stateSelect.value = '';
+                taxYearSelect.value = '2024';
+                currencySelect.value = 'USD';
+                incomeInput.value = '';
+                document.getElementById('additional-deductions').value = '';
+                document.getElementById('tax-credits').value = '';
                 document.getElementById('standard-deduction').checked = true;
                 document.getElementById('itemized-deductions').checked = false;
                 resultsContainer.style.display = 'none';
             }
+
+            // Currency conversion (simplified)
+            document.getElementById('convert-btn').addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('convert-amount').value) || 0;
+                const fromCurrency = document.getElementById('from-currency').value;
+                const toCurrency = document.getElementById('to-currency').value;
+                
+                // Hardcoded exchange rates for demo (in real app, use API)
+                const exchangeRates = {
+                    'USD': { 'EUR': 0.93, 'GBP': 0.79, 'JPY': 151.34 },
+                    'EUR': { 'USD': 1.07, 'GBP': 0.85, 'JPY': 162.45 },
+                    'GBP': { 'USD': 1.26, 'EUR': 1.17, 'JPY': 190.82 }
+                };
+                
+                if (fromCurrency === toCurrency) {
+                    document.getElementById('conversion-result').textContent = 'Same currency selected';
+                    return;
+                }
+                
+                if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
+                    const convertedAmount = amount * exchangeRates[fromCurrency][toCurrency];
+                    const fromSymbol = getCurrencySymbol(fromCurrency);
+                    const toSymbol = getCurrencySymbol(toCurrency);
+                    
+                    document.getElementById('conversion-result').textContent = 
+                        `${fromSymbol}${amount.toFixed(2)} = ${toSymbol}${convertedAmount.toFixed(2)}`;
+                } else {
+                    document.getElementById('conversion-result').textContent = 
+                        'Conversion not available for selected currencies';
+                }
+            });
 
             // Event listeners
             calculateBtn.addEventListener('click', calculateTax);
@@ -730,9 +1067,9 @@
     {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Tax Calculator",
+        "name": "Global Tax Calculator",
         "url": "https://www.ilovetools.com/tax-calculator",
-        "description": "Free online tax calculator tool to estimate your income tax liability based on current tax brackets.",
+        "description": "Free online international tax calculator tool to estimate your income tax liability based on current tax brackets worldwide.",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web Browser",
         "offers": {
