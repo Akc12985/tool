@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF repair tool to fix corrupted or damaged PDF files. Easily upload and restore your documents with our advanced repair technology.">
+    <meta name="keywords" content="PDF repair, fix PDF, corrupted PDF, PDF recovery, PDF tool, online PDF fix">
+    <meta name="author" content="PDF Repair Tools">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Online PDF Repair Tool - Fix Corrupted PDF Files">
+    <meta property="og:description" content="Repair your damaged PDF files online for free. Our advanced tool can recover most PDF corruption issues.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourpdfrepairtool.com">
+    <meta property="og:image" content="https://yourpdfrepairtool.com/images/pdf-repair-og.jpg">
+    <link rel="canonical" href="https://yourpdfrepairtool.com">
+    
+    <title>PDF Repair Tool - Fix Corrupted PDF Files Online</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-text: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #f5f7ff;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .upload-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 3rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 107, 255, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5bef;
+            border-color: #3a5bef;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .ad-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 3rem;
+            height: 3rem;
+            border: 0.25em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+            margin: 0 auto;
+            color: var(--primary-color);
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        .progress {
+            height: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .file-info {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .upload-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-file-pdf me-2"></i>PDF Repair Tool
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Repair Your Corrupted PDF Files</h1>
+            <p class="lead mb-4">Upload your damaged PDF document and our advanced tool will attempt to repair it for you</p>
+            <a href="#upload" class="btn btn-light btn-lg px-4 me-2">Repair PDF Now</a>
+            <a href="#how-it-works" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Main Content Column -->
+            <div class="col-lg-8">
+                <!-- Ad Container (Top) -->
+                <div class="ad-container">
+                    <!-- Google AdSense Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                    <!-- PDFRepair_Top -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <!-- Upload Section -->
+                <section id="upload" class="upload-container">
+                    <h2 class="mb-4">Upload Your PDF File</h2>
+                    <p>Select your corrupted PDF file and we'll attempt to repair it for you. Our tool supports PDFs up to 100MB in size.</p>
+                    
+                    <div id="uploadArea" class="upload-area">
+                        <i class="fas fa-file-upload"></i>
+                        <h5>Drag & Drop Your PDF Here</h5>
+                        <p class="text-muted">or click to browse files</p>
+                        <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <button id="repairBtn" class="btn btn-primary" disabled>
+                                <i class="fas fa-tools me-2"></i>Repair PDF
+                            </button>
+                            <div class="loading-spinner" id="loadingSpinner"></div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" checked>
+                            <label class="form-check-label" for="termsCheck">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="progress" id="progressBar">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="file-info" id="fileInfo">
+                        <div class="d-flex justify-content-between">
+                            <span id="fileName"></span>
+                            <span id="fileSize"></span>
+                        </div>
+                    </div>
+                    
+                    <div id="resultContainer" class="mt-4" style="display: none;">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Repair Complete!</h4>
+                            <p>Your PDF file has been successfully repaired. Click the button below to download it.</p>
+                            <hr>
+                            <a id="downloadBtn" class="btn btn-success" href="#" download>
+                                <i class="fas fa-download me-2"></i>Download Repaired PDF
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Features Section -->
+                <section id="features" class="mb-5">
+                    <h2 class="mb-4">Why Choose Our PDF Repair Tool</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4>Secure Processing</h4>
+                                <p>Your files are processed securely and deleted from our servers after 24 hours. We don't store or share your documents.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h4>Fast Repair</h4>
+                                <p>Our advanced algorithms can repair most PDF files in seconds, saving you time and frustration.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>High Success Rate</h4>
+                                <p>We successfully repair over 95% of corrupted PDF files, including those with complex formatting issues.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- How It Works Section -->
+                <section id="how-it-works" class="mb-5">
+                    <h2 class="mb-4">How Our PDF Repair Tool Works</h2>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5><span class="badge bg-primary me-2">1</span> Upload Your PDF</h5>
+                            <p>Drag and drop your corrupted PDF file or click to browse your computer. We support PDFs up to 100MB in size.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5><span class="badge bg-primary me-2">2</span> Automatic Repair Process</h5>
+                            <p>Our tool will analyze your PDF file and attempt to repair any corruption issues automatically.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5><span class="badge bg-primary me-2">3</span> Download Repaired File</h5>
+                            <p>Once the repair is complete, you can download the fixed PDF file to your device immediately.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Ad Container (Middle) -->
+                <div class="ad-container">
+                    <!-- Adsterra Ad Unit -->
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'YOUR_ADSTERRA_KEY',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                        document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplaynetwork.com/YOUR_ADSTERRA_KEY/invoke.js"></scr' + 'ipt>');
+                    </script>
+                </div>
+                
+                <!-- FAQ Section -->
+                <section id="faq" class="mb-5">
+                    <h2 class="mb-4">Frequently Asked Questions</h2>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    What types of PDF corruption can this tool fix?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Our tool can fix various PDF corruption issues including header corruption, cross-reference table errors, object errors, formatting issues, and more. It works with PDFs that won't open, display incorrectly, or show error messages when opened.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    Is my PDF file secure when using this tool?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, your privacy and security are our top priorities. All uploaded files are processed securely and automatically deleted from our servers after 24 hours. We don't store, share, or analyze your documents beyond what's necessary for the repair process.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    How long does the repair process take?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The repair time depends on the size and complexity of your PDF file. Most standard PDFs (under 20MB) are repaired in under 30 seconds. Larger files (up to 100MB) may take a few minutes. You'll see a progress indicator during the repair process.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    Is there a file size limit for PDF repairs?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, the current maximum file size is 100MB. This limit ensures reasonable processing times for all users. If you need to repair larger files, consider splitting them into smaller parts using a PDF splitter tool first.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Sidebar Column -->
+            <div class="col-lg-4">
+                <!-- Sidebar Ad Container -->
+                <div class="ad-container mb-4">
+                    <!-- Google AdSense Sidebar Ad -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"></script>
+                    <!-- PDFRepair_Sidebar -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                         data-ad-slot="YOUR_SIDEBAR_AD_SLOT"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                
+                <!-- Tips Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>PDF Repair Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Make a backup</strong> - Always keep a copy of your original file before attempting repairs
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Try different viewers</strong> - Sometimes the issue is with your PDF reader, not the file itself
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Check for encryption</strong> - Password-protected files may require decryption first
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Update your software</strong> - Older PDF readers might have trouble with newer PDF versions
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Related Tools Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-tools me-2"></i>Related Tools</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-file-pdf me-2"></i>PDF Compressor
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-file-pdf me-2"></i>PDF Merger
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-file-pdf me-2"></i>PDF to Word Converter
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-file-pdf me-2"></i>PDF Splitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Ad Container -->
+                <div class="ad-container d-lg-none">
+                    <!-- AdMob Alternative for Web -->
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'YOUR_MOBILE_AD_KEY',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                        document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplaynetwork.com/YOUR_MOBILE_AD_KEY/invoke.js"></scr' + 'ipt>');
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-light py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-4">Need Help With Your PDF Files?</h2>
+                    <p class="lead mb-5">Contact our support team if you have any questions about repairing your PDF documents.</p>
+                    <div class="row">
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                                    <h5>Email Us</h5>
+                                    <p class="mb-0">support@pdfrepairtool.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="fas fa-comments fa-2x text-primary mb-3"></i>
+                                    <h5>Live Chat</h5>
+                                    <p class="mb-0">Available 9am-5pm EST</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <i class="fas fa-question-circle fa-2x text-primary mb-3"></i>
+                                    <h5>Help Center</h5>
+                                    <p class="mb-0">Browse our knowledge base</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">PDF Repair Tool</h5>
+                    <p>The most advanced online solution for repairing corrupted PDF files. Fast, secure, and free to use.</p>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50">Home</a></li>
+                        <li class="mb-2"><a href="#features" class="text-white-50">Features</a></li>
+                        <li class="mb-2"><a href="#how-it-works" class="text-white-50">How It Works</a></li>
+                        <li class="mb-2"><a href="#faq" class="text-white-50">FAQ</a></li>
+                        <li><a href="#contact" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Tools</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50">PDF Compressor</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50">PDF Merger</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50">PDF Splitter</a></li>
+                        <li><a href="#" class="text-white-50">PDF Converter</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white mb-4">Subscribe to Our Newsletter</h5>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your email" aria-label="Your email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                        <small class="text-white-50">Get updates on new tools and features.</small>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0 text-white-50">&copy; 2023 PDF Repair Tool. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white-50 me-3">Privacy Policy</a>
+                    <a href="#" class="text-white-50 me-3">Terms of Service</a>
+                    <a href="#" class="text-white-50">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms of Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Acceptance of Terms</h6>
+                    <p>By using our PDF Repair Tool, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.</p>
+                    
+                    <h6>2. Service Description</h6>
+                    <p>Our tool provides an online service to attempt repair of corrupted PDF files. We make no guarantees about the success of any repair attempt.</p>
+                    
+                    <h6>3. User Responsibilities</h6>
+                    <p>You are responsible for ensuring you have the rights to upload and process any files through our service. Do not upload sensitive or confidential information.</p>
+                    
+                    <h6>4. Privacy Policy</h6>
+                    <p>Uploaded files are automatically deleted after 24 hours. We do not access or store the content of your files beyond what is necessary for the repair process.</p>
+                    
+                    <h6>5. Limitations of Liability</h6>
+                    <p>We are not liable for any damages resulting from the use of our service or the inability to repair a file. Use of this service is at your own risk.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // File upload functionality
+            const uploadArea = document.getElementById('uploadArea');
+            const pdfInput = document.getElementById('pdfInput');
+            const repairBtn = document.getElementById('repairBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const progressBar = document.getElementById('progressBar');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const resultContainer = document.getElementById('resultContainer');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const termsCheck = document.getElementById('termsCheck');
+            
+            // Handle drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4a6bff';
+                uploadArea.style.backgroundColor = 'rgba(74, 107, 255, 0.05)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = 'transparent';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = 'transparent';
+                
+                if (e.dataTransfer.files.length) {
+                    pdfInput.files = e.dataTransfer.files;
+                    handleFileSelection();
+                }
+            });
+            
+            // Handle click to browse
+            uploadArea.addEventListener('click', () => {
+                pdfInput.click();
+            });
+            
+            // Handle file selection
+            pdfInput.addEventListener('change', handleFileSelection);
+            
+            function handleFileSelection() {
+                if (pdfInput.files.length) {
+                    const file = pdfInput.files[0];
+                    
+                    // Validate file type
+                    if (file.type !== 'application/pdf') {
+                        alert('Please select a PDF file.');
+                        return;
+                    }
+                    
+                    // Validate file size (100MB limit)
+                    if (file.size > 100 * 1024 * 1024) {
+                        alert('File size exceeds 100MB limit.');
+                        return;
+                    }
+                    
+                    // Display file info
+                    fileName.textContent = file.name;
+                    fileSize.textContent = formatFileSize(file.size);
+                    fileInfo.style.display = 'block';
+                    
+                    // Enable repair button if terms are checked
+                    repairBtn.disabled = !termsCheck.checked;
+                }
+            }
+            
+            // Handle terms checkbox change
+            termsCheck.addEventListener('change', function() {
+                repairBtn.disabled = !this.checked || !pdfInput.files.length;
+            });
+            
+            // Handle repair button click
+            repairBtn.addEventListener('click', function() {
+                if (!pdfInput.files.length) return;
+                
+                // Show loading state
+                repairBtn.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+                progressBar.style.display = 'block';
+                
+                // Simulate repair process (in a real app, this would be an API call)
+                simulateRepairProcess();
+            });
+            
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+            }
+            
+            // Simulate repair process (for demo purposes)
+            function simulateRepairProcess() {
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    
+                    document.querySelector('.progress-bar').style.width = progress + '%';
+                    
+                    if (progress === 100) {
+                        clearInterval(progressInterval);
+                        
+                        // Hide loading elements
+                        loadingSpinner.style.display = 'none';
+                        progressBar.style.display = 'none';
+                        
+                        // Show result
+                        resultContainer.style.display = 'block';
+                        
+                        // Set download link (in a real app, this would be the repaired file URL)
+                        downloadBtn.href = URL.createObjectURL(pdfInput.files[0]);
+                    }
+                }, 300);
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Repair Tool",
+      "url": "https://yourpdfrepairtool.com",
+      "description": "Online tool to repair corrupted or damaged PDF files. Fix PDFs that won't open or display correctly.",
+      "applicationCategory": "DocumentUtility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "PDF Repair Tools"
+      }
+    }
+    </script>
+</body>
+</html>
