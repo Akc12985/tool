@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive country information tool. Get details about any country including capital, population, and currency.">
+    <meta name="keywords" content="country information, world facts, capital cities, population data, currency converter">
+    <meta name="author" content="Country Info Tool">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Country Information Search Tool">
+    <meta property="og:description" content="Get detailed information about any country in the world">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/country-info">
+    <title>Country Information Search Tool | Get World Facts & Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .search-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        #country-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        #country-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        #search-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        #search-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .ad-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px dashed #ccc;
+            text-align: center;
+            border-radius: 4px;
+        }
+        
+        .result-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .country-flag {
+            width: 120px;
+            height: auto;
+            border: 1px solid #ddd;
+            margin-right: 20px;
+        }
+        
+        .country-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .country-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-card {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .info-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            text-align: center;
+            padding: 15px;
+            background-color: #fdecea;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .country-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .country-flag {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Country Information Search Tool</h1>
+            <p>Get comprehensive details about any country in the world</p>
+        </header>
+        
+        <!-- Top Ad Banner -->
+        <div class="ad-container">
+            <!-- Adsterra Ad Code -->
+            <div id="adsterra-top-banner">
+                <!-- Replace with your actual Adsterra ad unit code -->
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_ADSTERRA_AD_UNIT_ID',
+                        'format' : 'iframe',
+                        'height' : 90,
+                        'width' : 728,
+                        'params' : {}
+                    };
+                    document.write('<scr' + 'ipt type="text/javascript" src="//www.highcpmcreativeformat.com/YOUR_ADSTERRA_AD_UNIT_ID/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+            
+            <!-- Google Adsense Alternative -->
+            <div id="google-adsense-top" style="display: none;">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"></script>
+                <!-- Your ad unit name -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                     data-ad-slot="YOUR_AD_SLOT"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="country-input" placeholder="Enter country name (e.g., India, Japan, Brazil)...">
+                <button id="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <p>Search for any country to get information about its capital, population, currency and more.</p>
+        </div>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Fetching country data...</p>
+        </div>
+        
+        <div class="error-message" id="error-message">
+            Country not found. Please check the spelling and try again.
+        </div>
+        
+        <!-- Middle Ad Banner (Mobile) -->
+        <div class="ad-container mobile-ad">
+            <!-- Admob Alternative -->
+            <div id="admob-mobile-banner">
+                <!-- Admob ad code would go here -->
+                <script type="text/javascript">
+                    // Admob code would be inserted here
+                </script>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="country-header">
+                <img id="country-flag" class="country-flag" src="" alt="Country Flag">
+                <div>
+                    <h2 id="country-name"></h2>
+                    <p id="country-official-name"></p>
+                </div>
+            </div>
+            
+            <div class="country-info">
+                <div class="info-card">
+                    <h3>Capital</h3>
+                    <p id="country-capital"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Continent</h3>
+                    <p id="country-continent"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Population</h3>
+                    <p id="country-population"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Currency</h3>
+                    <p id="country-currency"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Official Language</h3>
+                    <p id="country-language"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Time Zone</h3>
+                    <p id="country-timezone"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Calling Code</h3>
+                    <p id="country-calling-code"></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Ad Banner -->
+        <div class="ad-container">
+            <!-- Adsterra Ad Code -->
+            <div id="adsterra-bottom-banner">
+                <!-- Replace with your actual Adsterra ad unit code -->
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_ADSTERRA_AD_UNIT_ID',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                    document.write('<scr' + 'ipt type="text/javascript" src="//www.highcpmcreativeformat.com/YOUR_ADSTERRA_AD_UNIT_ID/invoke.js"></scr' + 'ipt>');
+                </script>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; <span id="current-year"></span> Country Information Search Tool. All data is sourced from reliable public APIs.</p>
+            <p>This tool is designed to provide accurate country information for educational and reference purposes.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Country data API integration
+        document.getElementById('search-btn').addEventListener('click', searchCountry);
+        document.getElementById('country-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchCountry();
+            }
+        });
+        
+        function searchCountry() {
+            const countryName = document.getElementById('country-input').value.trim();
+            if (!countryName) return;
+            
+            // Show loading spinner
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            
+            // Fetch country data from REST Countries API
+            fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Country not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayCountryData(data[0]);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.querySelector('.loading').style.display = 'none';
+                    document.getElementById('error-message').style.display = 'block';
+                });
+        }
+        
+        function displayCountryData(country) {
+            // Hide loading spinner
+            document.querySelector('.loading').style.display = 'none';
+            
+            // Set basic country info
+            document.getElementById('country-name').textContent = country.name.common;
+            document.getElementById('country-official-name').textContent = country.name.official;
+            document.getElementById('country-flag').src = country.flags.png;
+            document.getElementById('country-flag').alt = `Flag of ${country.name.common}`;
+            
+            // Set capital
+            document.getElementById('country-capital').textContent = country.capital ? country.capital.join(', ') : 'N/A';
+            
+            // Set continent/region
+            document.getElementById('country-continent').textContent = country.region + (country.subregion ? ` (${country.subregion})` : '');
+            
+            // Set population (formatted with commas)
+            document.getElementById('country-population').textContent = country.population.toLocaleString();
+            
+            // Set currency
+            if (country.currencies) {
+                const currencyCode = Object.keys(country.currencies)[0];
+                const currency = country.currencies[currencyCode];
+                document.getElementById('country-currency').textContent = `${currency.name} (${currency.symbol || 'N/A'}) - ${currencyCode}`;
+            } else {
+                document.getElementById('country-currency').textContent = 'N/A';
+            }
+            
+            // Set official language
+            if (country.languages) {
+                document.getElementById('country-language').textContent = Object.values(country.languages).join(', ');
+            } else {
+                document.getElementById('country-language').textContent = 'N/A';
+            }
+            
+            // Set timezone
+            document.getElementById('country-timezone').textContent = country.timezones ? country.timezones.join(', ') : 'N/A';
+            
+            // Set calling code
+            document.getElementById('country-calling-code').textContent = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '');
+            
+            // Show results
+            document.getElementById('result-container').style.display = 'block';
+            
+            // Update page title for SEO
+            document.title = `${country.name.common} - Country Information | ${document.title.split('|')[1]}`;
+            
+            // Update meta description dynamically
+            const metaDescription = document.querySelector('meta[name="description"]');
+            metaDescription.setAttribute('content', 
+                `Detailed information about ${country.name.common}: capital city ${country.capital ? country.capital[0] : ''}, population ${country.population.toLocaleString()}, currency ${country.currencies ? Object.keys(country.currencies)[0] : ''} and more.`);
+        }
+        
+        // Function to rotate between different ad networks
+        function rotateAds() {
+            const adNetworks = ['adsterra', 'google-adsense', 'admob'];
+            const activeNetwork = adNetworks[Math.floor(Math.random() * adNetworks.length)];
+            
+            // Hide all ads first
+            document.querySelectorAll('.ad-container div').forEach(ad => {
+                ad.style.display = 'none';
+            });
+            
+            // Show selected ad network
+            if (activeNetwork === 'adsterra') {
+                document.getElementById('adsterra-top-banner').style.display = 'block';
+                document.getElementById('adsterra-bottom-banner').style.display = 'block';
+            } else if (activeNetwork === 'google-adsense') {
+                document.getElementById('google-adsense-top').style.display = 'block';
+            } else if (activeNetwork === 'admob') {
+                document.getElementById('admob-mobile-banner').style.display = 'block';
+            }
+        }
+        
+        // Initialize ads
+        rotateAds();
+        // Rotate ads every 30 seconds (adjust as needed)
+        setInterval(rotateAds, 30000);
+    </script>
+    
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Country Information Search Tool",
+        "url": "https://yourwebsite.com/country-info",
+        "description": "Comprehensive tool to search for detailed information about any country including capitals, populations and currencies.",
+        "applicationCategory": "Reference",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</body>
+</html>
