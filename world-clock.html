@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online world clock, stopwatch and timer tool. Check current time in any country with analog and digital displays.">
+    <meta name="keywords" content="world clock, timezone converter, stopwatch, timer, digital clock, analog clock">
+    <meta name="author" content="TimeTools">
+    <meta name="robots" content="index, follow">
+    <title>World Clock, Stopwatch & Timer | TimeTools</title>
+    <link rel="canonical" href="https://yoursite.com/time-tools" />
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h1 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .ad-banner {
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px dashed #ccc;
+            min-height: 90px;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .tool-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1 1 300px;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        /* Clock Styles */
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .analog-clock {
+            width: 200px;
+            height: 200px;
+            border: 10px solid var(--dark-color);
+            border-radius: 50%;
+            position: relative;
+            background: white;
+        }
+        
+        .clock-hand {
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+            transform-origin: 50% 100%;
+            background-color: var(--dark-color);
+        }
+        
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            margin-left: -3px;
+        }
+        
+        .minute-hand {
+            width: 4px;
+            height: 80px;
+            margin-left: -2px;
+        }
+        
+        .second-hand {
+            width: 2px;
+            height: 90px;
+            margin-left: -1px;
+            background-color: var(--accent-color);
+        }
+        
+        .clock-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        .digital-clock {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .date-display {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+        
+        .timezone-selector {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        /* Stopwatch Styles */
+        .stopwatch-display, .timer-display {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .stop-btn {
+            background-color: var(--accent-color);
+        }
+        
+        .stop-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Timer Styles */
+        .timer-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .timer-input {
+            width: 60px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .timer-label {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #ddd;
+            color: #777;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .analog-clock {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .hour-hand {
+                height: 45px;
+            }
+            
+            .minute-hand {
+                height: 60px;
+            }
+            
+            .second-hand {
+                height: 70px;
+            }
+            
+            .digital-clock {
+                font-size: 1.5rem;
+            }
+            
+            .stopwatch-display, .timer-display {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .tool-section {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>World Clock, Stopwatch & Timer</h1>
+        <p>Your comprehensive time management tool</p>
+    </header>
+    
+    <!-- Top Ad Banner -->
+    <div class="ad-banner">
+        <!-- Adsterra/Adsense/Admob Ad Code -->
+        <!-- Replace with your actual ad code -->
+        <script>
+            // Example Ad Code - Replace with your actual ad unit
+            // document.write('<script src="https://www.adsterra.com/adserve.js?id=YOUR_PUBLISHER_ID"><\/script>');
+        </script>
+        <p>Advertisement</p>
+    </div>
+    
+    <div class="container">
+        <!-- World Clock Section -->
+        <section class="tool-section">
+            <h2 class="section-title">World Clock</h2>
+            <select id="timezone-selector" class="timezone-selector">
+                <option value="local">Local Time</option>
+                <option value="UTC">UTC/GMT</option>
+                <option value="America/New_York">New York (EST/EDT)</option>
+                <option value="America/Chicago">Chicago (CST/CDT)</option>
+                <option value="America/Denver">Denver (MST/MDT)</option>
+                <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                <option value="Europe/London">London (GMT/BST)</option>
+                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                <option value="Asia/Shanghai">Shanghai (CST)</option>
+                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                <!-- More timezones can be added -->
+            </select>
+            
+            <div class="clock-container">
+                <div class="analog-clock">
+                    <div class="clock-hand hour-hand" id="hour-hand"></div>
+                    <div class="clock-hand minute-hand" id="minute-hand"></div>
+                    <div class="clock-hand second-hand" id="second-hand"></div>
+                    <div class="clock-center"></div>
+                </div>
+                
+                <div class="digital-clock" id="digital-clock"></div>
+                <div class="date-display" id="date-display"></div>
+            </div>
+        </section>
+        
+        <!-- Stopwatch Section -->
+        <section class="tool-section">
+            <h2 class="section-title">Stopwatch</h2>
+            <div class="stopwatch-display" id="stopwatch-display">00:00:00.00</div>
+            <div class="control-buttons">
+                <button id="start-stopwatch">Start</button>
+                <button id="stop-stopwatch" disabled>Stop</button>
+                <button id="reset-stopwatch">Reset</button>
+                <button id="lap-stopwatch" disabled>Lap</button>
+            </div>
+            <div id="lap-times" style="margin-top: 20px;"></div>
+        </section>
+        
+        <!-- Timer Section -->
+        <section class="tool-section">
+            <h2 class="section-title">Timer</h2>
+            <div class="timer-inputs">
+                <div>
+                    <input type="number" id="hours-input" class="timer-input" min="0" max="99" value="0">
+                    <div class="timer-label">Hours</div>
+                </div>
+                <div>
+                    <input type="number" id="minutes-input" class="timer-input" min="0" max="59" value="0">
+                    <div class="timer-label">Minutes</div>
+                </div>
+                <div>
+                    <input type="number" id="seconds-input" class="timer-input" min="0" max="59" value="0">
+                    <div class="timer-label">Seconds</div>
+                </div>
+            </div>
+            <div class="timer-display" id="timer-display">00:00:00</div>
+            <div class="control-buttons">
+                <button id="start-timer">Start</button>
+                <button id="pause-timer" disabled>Pause</button>
+                <button id="reset-timer">Reset</button>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Middle Ad Banner -->
+    <div class="ad-banner">
+        <!-- Adsterra/Adsense/Admob Ad Code -->
+        <!-- Replace with your actual ad code -->
+        <script>
+            // Example Ad Code - Replace with your actual ad unit
+            // document.write('<script src="https://www.adsterra.com/adserve.js?id=YOUR_PUBLISHER_ID"><\/script>');
+        </script>
+        <p>Advertisement</p>
+    </div>
+    
+    <footer>
+        <p>&copy; <span id="current-year"></span> TimeTools. All rights reserved.</p>
+        <p>This tool works in all modern browsers and is fully responsive.</p>
+    </footer>
+    
+    <script>
+        // SEO: Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // World Clock Functionality
+        const timezoneSelector = document.getElementById('timezone-selector');
+        const hourHand = document.getElementById('hour-hand');
+        const minuteHand = document.getElementById('minute-hand');
+        const secondHand = document.getElementById('second-hand');
+        const digitalClock = document.getElementById('digital-clock');
+        const dateDisplay = document.getElementById('date-display');
+        
+        function updateClock() {
+            const timezone = timezoneSelector.value;
+            let now;
+            
+            if (timezone === 'local') {
+                now = new Date();
+            } else {
+                const options = { timeZone: timezone, hour12: false };
+                const timeStr = new Date().toLocaleString('en-US', options);
+                now = new Date(timeStr);
+            }
+            
+            // Analog clock
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            const hourDegrees = (hours * 30) + (minutes * 0.5);
+            const minuteDegrees = minutes * 6;
+            const secondDegrees = seconds * 6;
+            
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+            secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+            
+            // Digital clock
+            const timeOptions = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: true 
+            };
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: timezone === 'local' ? undefined : timezone
+            };
+            
+            digitalClock.textContent = now.toLocaleTimeString('en-US', timeOptions);
+            dateDisplay.textContent = now.toLocaleDateString('en-US', dateOptions);
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        timezoneSelector.addEventListener('change', updateClock);
+        
+        // Stopwatch Functionality
+        const startStopwatchBtn = document.getElementById('start-stopwatch');
+        const stopStopwatchBtn = document.getElementById('stop-stopwatch');
+        const resetStopwatchBtn = document.getElementById('reset-stopwatch');
+        const lapStopwatchBtn = document.getElementById('lap-stopwatch');
+        const stopwatchDisplay = document.getElementById('stopwatch-display');
+        const lapTimesContainer = document.getElementById('lap-times');
+        
+        let stopwatchInterval;
+        let stopwatchStartTime;
+        let stopwatchElapsed = 0;
+        let stopwatchRunning = false;
+        let lapCount = 1;
+        
+        function formatStopwatchTime(ms) {
+            const date = new Date(ms);
+            const hours = date.getUTCHours().toString().padStart(2, '0');
+            const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+            const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+            const milliseconds = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+            
+            return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+        }
+        
+        function updateStopwatch() {
+            const currentTime = Date.now();
+            stopwatchElapsed = currentTime - stopwatchStartTime;
+            stopwatchDisplay.textContent = formatStopwatchTime(stopwatchElapsed);
+        }
+        
+        startStopwatchBtn.addEventListener('click', () => {
+            if (!stopwatchRunning) {
+                stopwatchStartTime = Date.now() - stopwatchElapsed;
+                stopwatchInterval = setInterval(updateStopwatch, 10);
+                stopwatchRunning = true;
+                
+                startStopwatchBtn.disabled = true;
+                stopStopwatchBtn.disabled = false;
+                lapStopwatchBtn.disabled = false;
+            }
+        });
+        
+        stopStopwatchBtn.addEventListener('click', () => {
+            if (stopwatchRunning) {
+                clearInterval(stopwatchInterval);
+                stopwatchRunning = false;
+                
+                startStopwatchBtn.disabled = false;
+                stopStopwatchBtn.disabled = true;
+            }
+        });
+        
+        resetStopwatchBtn.addEventListener('click', () => {
+            clearInterval(stopwatchInterval);
+            stopwatchRunning = false;
+            stopwatchElapsed = 0;
+            stopwatchDisplay.textContent = '00:00:00.00';
+            lapTimesContainer.innerHTML = '';
+            lapCount = 1;
+            
+            startStopwatchBtn.disabled = false;
+            stopStopwatchBtn.disabled = true;
+            lapStopwatchBtn.disabled = true;
+        });
+        
+        lapStopwatchBtn.addEventListener('click', () => {
+            if (stopwatchRunning) {
+                const lapTime = document.createElement('div');
+                lapTime.textContent = `Lap ${lapCount++}: ${stopwatchDisplay.textContent}`;
+                lapTimesContainer.prepend(lapTime);
+            }
+        });
+        
+        // Timer Functionality
+        const startTimerBtn = document.getElementById('start-timer');
+        const pauseTimerBtn = document.getElementById('pause-timer');
+        const resetTimerBtn = document.getElementById('reset-timer');
+        const timerDisplay = document.getElementById('timer-display');
+        const hoursInput = document.getElementById('hours-input');
+        const minutesInput = document.getElementById('minutes-input');
+        const secondsInput = document.getElementById('seconds-input');
+        
+        let timerInterval;
+        let timerEndTime;
+        let timerRemaining = 0;
+        let timerRunning = false;
+        
+        function formatTimerTime(ms) {
+            const totalSeconds = Math.ceil(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+            const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+            const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+            
+            return `${hours}:${minutes}:${seconds}`;
+        }
+        
+        function updateTimer() {
+            timerRemaining = timerEndTime - Date.now();
+            
+            if (timerRemaining <= 0) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerDisplay.textContent = '00:00:00';
+                startTimerBtn.disabled = false;
+                pauseTimerBtn.disabled = true;
+                alert('Timer finished!');
+                return;
+            }
+            
+            timerDisplay.textContent = formatTimerTime(timerRemaining);
+        }
+        
+        function getTimerDuration() {
+            const hours = parseInt(hoursInput.value) || 0;
+            const minutes = parseInt(minutesInput.value) || 0;
+            const seconds = parseInt(secondsInput.value) || 0;
+            
+            return (hours * 3600 + minutes * 60 + seconds) * 1000;
+        }
+        
+        startTimerBtn.addEventListener('click', () => {
+            if (!timerRunning) {
+                const duration = getTimerDuration();
+                
+                if (duration <= 0) {
+                    alert('Please set a valid time');
+                    return;
+                }
+                
+                timerEndTime = Date.now() + duration;
+                timerInterval = setInterval(updateTimer, 1000);
+                timerRunning = true;
+                
+                startTimerBtn.disabled = true;
+                pauseTimerBtn.disabled = false;
+                hoursInput.disabled = true;
+                minutesInput.disabled = true;
+                secondsInput.disabled = true;
+                
+                updateTimer();
+            }
+        });
+        
+        pauseTimerBtn.addEventListener('click', () => {
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                
+                startTimerBtn.disabled = false;
+                pauseTimerBtn.disabled = true;
+            }
+        });
+        
+        resetTimerBtn.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerDisplay.textContent = formatTimerTime(getTimerDuration());
+            
+            startTimerBtn.disabled = false;
+            pauseTimerBtn.disabled = true;
+            hoursInput.disabled = false;
+            minutesInput.disabled = false;
+            secondsInput.disabled = false;
+        });
+        
+        // Initialize timer display
+        timerDisplay.textContent = formatTimerTime(getTimerDuration());
+        
+        // Input validation for timer
+        [hoursInput, minutesInput, secondsInput].forEach(input => {
+            input.addEventListener('change', () => {
+                if (!timerRunning) {
+                    timerDisplay.textContent = formatTimerTime(getTimerDuration());
+                }
+                
+                // Validate inputs
+                if (input === minutesInput || input === secondsInput) {
+                    if (parseInt(input.value) > 59) input.value = 59;
+                    if (parseInt(input.value) < 0) input.value = 0;
+                }
+                
+                if (input.value < 0) input.value = 0;
+            });
+        });
+    </script>
+    
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "World Clock, Stopwatch & Timer",
+        "description": "Free online world clock with timezone converter, stopwatch and countdown timer tools.",
+        "url": "https://yoursite.com/time-tools",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</body>
+</html>
