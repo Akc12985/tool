@@ -265,6 +265,13 @@
             }
         }
 
+        // Dynamically change background color on mousemove
+        backgroundColorInput.addEventListener('mousemove', function(event) {
+            const color = backgroundColorInput.value;
+            resultImage.style.backgroundColor = color;
+        });
+
+        // Show OK button when color is selected
         backgroundColorInput.addEventListener('input', showOkButton);
         backgroundUploadInput.addEventListener('change', updateBackground);
 
