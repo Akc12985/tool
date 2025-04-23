@@ -166,8 +166,8 @@
 
     <div class="container">
         <h1>Background Removal Tool</h1>
-        <div class="upload-box">
-            <input type="file" id="image-upload" accept="image/*">
+        <div class="upload-box" onclick="document.getElementById('image-upload').click();">
+            <input type="file" id="image-upload" accept="image/*" onchange="handleImageUpload(event)">
             <span>Click to upload an image</span>
         </div>
         <div class="loading" id="loading">Processing... Please wait</div>
@@ -211,13 +211,7 @@
         const apiKey = 'p6ueRdW9hcZKbuJixRMgBKV2';
         const apiUrl = `https://api.remove.bg/v1.0/removebg`;
 
-        uploadInput.addEventListener('change', handleImageUpload);
-        backgroundColorInput.addEventListener('input', updateBackground);
-        backgroundUploadInput.addEventListener('change', updateBackground);
-
-        let finalImageUrl = '';
-
-        async function handleImageUpload(event) {
+        function handleImageUpload(event) {
             const file = event.target.files[0];
 
             if (file) {
@@ -226,28 +220,31 @@
                 formData.append('image_file', file);
                 formData.append('size', 'auto');
                 
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'X-Api-Key': apiKey,
-                        },
-                        body: formData,
-                    });
-
-                    const data = await response.blob();
-                    finalImageUrl = URL.createObjectURL(data);
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key': apiKey,
+                    },
+                    body: formData,
+                })
+                .then(response => response.blob())
+                .then(data => {
+                    const finalImageUrl = URL.createObjectURL(data);
                     resultImage.src = finalImageUrl;
                     resultBox.style.display = 'block';
                     downloadLink.href = finalImageUrl;
                     downloadBtn.style.display = 'block';
                     loadingText.style.display = 'none';
-                } catch (error) {
+                })
+                .catch(error => {
                     console.error('Error:', error);
                     loadingText.style.display = 'none';
-                }
+                });
             }
         }
+
+        backgroundColorInput.addEventListener('input', updateBackground);
+        backgroundUploadInput.addEventListener('change', updateBackground);
 
         function updateBackground() {
             const backgroundColor = backgroundColorInput.value;
@@ -257,7 +254,7 @@
             let ctx = canvas.getContext('2d');
             
             const img = new Image();
-            img.src = finalImageUrl;
+            img.src = resultImage.src;
             
             img.onload = function() {
                 canvas.width = img.width;
