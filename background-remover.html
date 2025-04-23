@@ -109,6 +109,17 @@
             background-color: #fda085;
         }
 
+        .background-options {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .background-options input {
+            cursor: pointer;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -131,6 +142,19 @@
         <div class="result-box" id="result-box">
             <h2>Processed Image:</h2>
             <img id="result-image" src="" alt="Processed Image">
+            
+            <!-- Option to upload new background image -->
+            <div class="background-options">
+                <label for="background-color">Choose Background Color:</label>
+                <input type="color" id="background-color">
+            </div>
+
+            <div class="background-options">
+                <label for="background-upload">Upload Background Image:</label>
+                <input type="file" id="background-upload" accept="image/*">
+            </div>
+
+            <!-- Download Button -->
             <a id="download-link" href="" download>
                 <button class="download-btn" id="download-btn">Download Image</button>
             </a>
@@ -144,11 +168,17 @@
         const downloadBtn = document.getElementById('download-btn');
         const downloadLink = document.getElementById('download-link');
         const loadingText = document.getElementById('loading');
+        const backgroundColorInput = document.getElementById('background-color');
+        const backgroundUploadInput = document.getElementById('background-upload');
 
         const apiKey = 'p6ueRdW9hcZKbuJixRMgBKV2';
         const apiUrl = `https://api.remove.bg/v1.0/removebg`;
 
         uploadInput.addEventListener('change', handleImageUpload);
+        backgroundColorInput.addEventListener('input', updateBackground);
+        backgroundUploadInput.addEventListener('change', updateBackground);
+
+        let finalImageUrl = '';
 
         async function handleImageUpload(event) {
             const file = event.target.files[0];
@@ -169,11 +199,10 @@
                     });
 
                     const data = await response.blob();
-                    const imageUrl = URL.createObjectURL(data);
-
-                    resultImage.src = imageUrl;
+                    finalImageUrl = URL.createObjectURL(data);
+                    resultImage.src = finalImageUrl;
                     resultBox.style.display = 'block';
-                    downloadLink.href = imageUrl;
+                    downloadLink.href = finalImageUrl;
                     downloadBtn.style.display = 'block';
                     loadingText.style.display = 'none';
                 } catch (error) {
@@ -181,6 +210,47 @@
                     loadingText.style.display = 'none';
                 }
             }
+        }
+
+        function updateBackground() {
+            const backgroundColor = backgroundColorInput.value;
+            const backgroundImage = backgroundUploadInput.files[0];
+
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            
+            const img = new Image();
+            img.src = finalImageUrl;
+            
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Set background color or image
+                if (backgroundColor) {
+                    ctx.fillStyle = backgroundColor;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                if (backgroundImage) {
+                    const bgImg = new Image();
+                    bgImg.src = URL.createObjectURL(backgroundImage);
+                    bgImg.onload = function() {
+                        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0);
+                        updateImageDownload(canvas);
+                    };
+                } else {
+                    ctx.drawImage(img, 0, 0);
+                    updateImageDownload(canvas);
+                }
+            };
+        }
+
+        function updateImageDownload(canvas) {
+            const dataUrl = canvas.toDataURL('image/png');
+            resultImage.src = dataUrl;
+            downloadLink.href = dataUrl;
         }
     </script>
 
