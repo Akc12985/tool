@@ -3,219 +3,576 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Background Remover | AI-Powered Image Editing</title>
-    <meta name="description" content="Free online tool to remove backgrounds from images instantly. Change background colors, add custom images, and download high-quality transparent PNGs.">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057695873482887" crossorigin="anonymous"></script>
+    <title>BG Magic | Professional Background Removal Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary-color: #f8f9fa;
-            --accent-color: #f72585;
-            --dark-color: #212529;
-            --light-color: #ffffff;
-            --gray-color: #6c757d;
-            --light-gray: #e9ecef;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --border-radius: 12px;
-            --border-radius-sm: 8px;
+            --primary: #6c63ff;
+            --primary-dark: #564fd1;
+            --secondary: #ff6584;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --gray: #e2e8f0;
+            --success: #48bb78;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        @supports (font-variation-settings: normal) {
-            * {
-                font-family: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            }
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--secondary-color);
-            color: var(--dark-color);
+            background-color: var(--light);
+            color: var(--dark);
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 0;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* Header Styles */
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header-content {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px 0;
         }
 
         .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
         }
 
         .logo i {
-            font-size: 1.8rem;
-            color: var(--accent-color);
+            margin-right: 10px;
+            font-size: 28px;
         }
 
-        nav ul {
+        .nav-links {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
         }
 
-        nav a {
-            color: white;
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
             text-decoration: none;
+            color: var(--dark);
             font-weight: 500;
-            transition: var(--transition);
-            opacity: 0.9;
+            transition: color 0.3s;
         }
 
-        nav a:hover {
-            opacity: 1;
-            text-decoration: underline;
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #4a5568;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        /* Tool Section */
+        .tool-section {
+            padding: 80px 0;
+            background-color: white;
         }
 
         .tool-container {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            margin-bottom: 3rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
         }
 
-        @media (min-width: 992px) {
-            .tool-container {
-                flex-direction: row;
-            }
-        }
-
-        .editor-section {
-            flex: 2;
-            background-color: var(--light-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            padding: 1.5rem;
+        .upload-area {
+            width: 100%;
+            border: 2px dashed var(--gray);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
             position: relative;
-            overflow: hidden;
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark-color);
+        .upload-area:hover {
+            border-color: var(--primary);
+        }
+
+        .upload-area.active {
+            border-color: var(--primary);
+            background-color: rgba(108, 99, 255, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .upload-area p {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .upload-area input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .process-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .process-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .process-button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result-container {
+            display: none;
+            width: 100%;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .result-box {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+
+        .result-box h4 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-button {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .download-button:hover {
+            background-color: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .bg-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bg-option {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .bg-option:hover, .bg-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .color-picker {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .section-title i {
-            color: var(--primary-color);
-        }
-
-        .upload-area {
-            border: 2px dashed var(--gray-color);
-            border-radius: var(--border-radius);
-            padding: 3rem 2rem;
-            text-align: center;
+        .color-picker input {
+            width: 30px;
+            height: 30px;
+            border: none;
             cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-            background-color: var(--light-gray);
-            position: relative;
         }
 
-        .upload-area:hover {
-            border-color: var(--primary-color);
-            background-color: rgba(67, 97, 238, 0.05);
-            transform: translateY(-2px);
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: #f8fafc;
         }
 
-        .upload-area i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
-        .upload-area h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
         }
 
-        .upload-area p {
-            color: var(--gray-color);
-            font-size: 0.9rem;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .canvas-container {
-            position: relative;
-            margin: 1.5rem 0;
-            display: none;
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            background: 
-                linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 75%, #e5e5e5 75%),
-                linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 75%, #e5e5e5 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-        }
-
-        #imageCanvas {
-            max-width: 100%;
-            display: block;
+        .section-title p {
+            color: #718096;
+            max-width: 700px;
             margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: #718096;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
             background-color: white;
         }
 
-        .loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10;
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary-color);
+        .pricing-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 1px solid var(--gray);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .price span {
+            font-size: 16px;
+            font-weight: normal;
+            color: #718096;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            margin-bottom: 10px;
+            color: #718096;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .pricing-features li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--success);
+        }
+
+        .pricing-button {
+            display: block;
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .pricing-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .pricing-card.popular .pricing-button {
+            background-color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
             width: 50px;
             height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
+            margin: 20px auto;
         }
 
         @keyframes spin {
@@ -223,934 +580,238 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading p {
-            font-weight: 500;
-            color: var(--dark-color);
-            margin-top: 0.5rem;
-        }
-
-        .controls-section {
-            flex: 1;
-            background-color: var(--light-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            padding: 1.5rem;
-        }
-
-        .control-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .control-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            font-size: 0.95rem;
-        }
-
-        .control-group input,
-        .control-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            font-size: 1rem;
-            transition: var(--transition);
-            background-color: var(--secondary-color);
-        }
-
-        .control-group input:focus,
-        .control-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .color-preview {
-            width: 35px;
-            height: 35px;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .color-preview:hover {
-            transform: scale(1.05);
-        }
-
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-block {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-        }
-
-        .btn-accent {
-            background-color: var(--accent-color);
-        }
-
-        .btn-accent:hover {
-            background-color: #e5177b;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background-color: rgba(67, 97, 238, 0.1);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 1.5rem;
-        }
-
-        .btn-group .btn {
-            flex: 1;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            margin: 1rem 0;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 10px;
-            border-radius: var(--border-radius-sm);
-            background-color: var(--primary-color);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .preset-colors {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 0.5rem;
-        }
-
-        .preset-color {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--transition);
-        }
-
-        .preset-color:hover {
-            transform: scale(1.1);
-        }
-
-        .preset-color.active {
-            border-color: var(--dark-color);
-            transform: scale(1.1);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-
-        .feature-card {
-            background-color: var(--light-color);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .feature-card i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-        }
-
-        .feature-card p {
-            color: var(--gray-color);
-            font-size: 0.9rem;
-        }
-
-        footer {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: space-between;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-column a {
-            color: var(--light-gray);
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .footer-column a:hover {
-            color: white;
-            text-decoration: underline;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: var(--light-gray);
-        }
-
-        /* Ad container styles */
-        .ad-container {
-            width: 100%;
-            margin: 1.5rem 0;
-            display: flex;
-            justify-content: center;
-            background-color: var(--light-gray);
-            padding: 10px;
-            border-radius: var(--border-radius-sm);
-            min-height: 90px;
-        }
-
-        .ad-container.horizontal {
-            height: 90px;
-        }
-
-        .ad-container.vertical {
-            height: 250px;
-        }
-
+        /* Responsive Styles */
         @media (max-width: 768px) {
-            .ad-container.vertical {
-                height: 200px;
+            .hero h1 {
+                font-size: 36px;
             }
             
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
+            .hero p {
+                font-size: 18px;
             }
             
-            nav ul {
-                gap: 1rem;
+            .nav-links {
+                display: none;
             }
-        }
-
-        /* Tooltip styles */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-        }
-
-        .tooltip i {
-            color: var(--gray-color);
-            font-size: 0.9rem;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: var(--dark-color);
-            color: #fff;
-            text-align: center;
-            border-radius: var(--border-radius-sm);
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.8rem;
-            font-weight: normal;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 576px) {
-            .btn-group {
+            
+            .result-row {
                 flex-direction: column;
             }
             
-            .section-title {
-                font-size: 1.3rem;
+            .pricing-card.popular {
+                transform: none;
             }
-            
-            .upload-area {
-                padding: 2rem 1rem;
-            }
-        }
-
-        /* Animation for uploaded image */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-
-        /* Toggle switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-            margin-left: 10px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* Advanced controls */
-        .advanced-controls {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .advanced-toggle {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .advanced-toggle i {
-            margin-right: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .advanced-toggle.collapsed i {
-            transform: rotate(-90deg);
-        }
-
-        .advanced-content {
-            display: none;
-        }
-
-        .advanced-content.show {
-            display: block;
-        }
-
-        /* Range slider */
-        .range-slider {
-            width: 100%;
-            margin: 1rem 0;
-        }
-
-        .range-slider input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: var(--light-gray);
-            outline: none;
-        }
-
-        .range-slider input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .range-slider input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        .range-value {
-            text-align: right;
-            font-size: 0.9rem;
-            color: var(--gray-color);
-        }
-
-        /* Image gallery styles */
-        .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 1rem 0;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--transition);
-        }
-
-        .thumbnail:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .thumbnail.active {
-            border-color: var(--primary-color);
-        }
-
-        .gallery-controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .gallery-btn {
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Batch processing styles */
-        .batch-controls {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .batch-progress {
-            margin-top: 1rem;
-            display: none;
-        }
-
-        /* Download options */
-        .download-options {
-            display: none;
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius-sm);
-        }
-
-        .download-options label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .download-options select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--gray-color);
-            border-radius: var(--border-radius-sm);
-            margin-bottom: 1rem;
-        }
-
-        /* Alert styles */
-        .alert {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: var(--border-radius-sm);
-            box-shadow: var(--shadow-md);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease-out;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-success {
-            background-color: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #842029;
-        }
-
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #664d03;
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; }
-        }
-
-        /* Zoom controls */
-        .zoom-controls {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            z-index: 5;
-            display: flex;
-            gap: 5px;
-        }
-
-        .zoom-btn {
-            width: 30px;
-            height: 30px;
-            background-color: var(--light-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            border: none;
-        }
-
-        /* Image info */
-        .image-info {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--gray-color);
-            display: flex;
-            justify-content: space-between;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="container header-content">
-            <div class="logo">
-                <i class="fas fa-magic"></i>
-                <span>Pro Background Remover</span>
-            </div>
+        <div class="container">
             <nav>
-                <ul>
+                <div class="logo">
+                    <i class="fas fa-magic"></i>
+                    <span>BG Magic</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#tool">Tool</a></li>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="#pricing" class="cta-button">Get Started</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Top Banner Ad -->
-        <div class="ad-container horizontal">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7057695873482887" data-ad-slot="8167485814" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Remove Backgrounds Like Magic</h1>
+            <p>Upload your image and instantly remove the background with AI-powered precision. No skills required, just perfect results every time.</p>
+            <a href="#tool" class="cta-button">Try It Now</a>
         </div>
+    </section>
 
-        <h1 class="section-title" style="margin-bottom: 1rem; font-size: 2rem;">
-            <i class="fas fa-camera-retro"></i> Remove Backgrounds in Seconds
-        </h1>
-        <p style="margin-bottom: 2rem; color: var(--gray-color);">Upload your image and let our AI remove the background automatically. Perfect for product photos, portraits, and more.</p>
-
-        <div class="tool-container">
-            <section class="editor-section">
-                <h2 class="section-title"><i class="fas fa-edit"></i> Image Editor</h2>
-                
+    <!-- Tool Section -->
+    <section class="tool-section" id="tool">
+        <div class="container">
+            <div class="tool-container">
                 <div class="upload-area" id="uploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Drag & Drop Your Image(s)</h3>
-                    <p>or click to browse files (JPG, PNG, WEBP - Max 10MB each)</p>
-                    <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" multiple>
+                    <h3>Upload Your Image</h3>
+                    <p>Drag & drop your image here or click to browse</p>
+                    <p class="file-info" id="fileInfo"></p>
+                    <input type="file" id="fileInput" accept="image/*">
                 </div>
-
-                <!-- Image gallery for multiple files -->
-                <div class="image-gallery" id="imageGallery" style="display: none;"></div>
-
-                <!-- Mid-content Banner Ad -->
-                <div class="ad-container horizontal">
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7057695873482887" data-ad-slot="6255638346" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                </div>
-
-                <div class="canvas-container" id="canvasContainer">
-                    <canvas id="imageCanvas"></canvas>
-                    <div class="zoom-controls" id="zoomControls" style="display: none;">
-                        <button class="zoom-btn" id="zoomIn"><i class="fas fa-search-plus"></i></button>
-                        <button class="zoom-btn" id="zoomOut"><i class="fas fa-search-minus"></i></button>
-                        <button class="zoom-btn" id="zoomReset"><i class="fas fa-expand"></i></button>
-                    </div>
-                    <div class="loading" id="loadingIndicator" style="display: none;">
-                        <div class="spinner"></div>
-                        <p>Processing your image...</p>
-                        <div class="progress-container" id="progressContainer">
-                            <div class="progress-bar" id="progressBar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="image-info" id="imageInfo" style="display: none;">
-                    <span id="imageDimensions">0×0</span>
-                    <span id="imageSize">0 KB</span>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-accent" id="removeBgBtn" style="display: none;">
-                        <i class="fas fa-robot"></i> Remove Background
-                    </button>
-                    <button class="btn btn-outline" id="resetBtn" style="display: none;">
-                        <i class="fas fa-redo"></i> Reset
-                    </button>
-                </div>
-
-                <div class="download-options" id="downloadOptions">
-                    <label for="downloadFormat">Download Format:</label>
-                    <select id="downloadFormat">
-                        <option value="png">PNG (Transparent)</option>
-                        <option value="jpeg">JPEG (High Quality)</option>
-                        <option value="webp">WebP (Balanced)</option>
-                    </select>
-                    <button class="btn btn-block" id="downloadBtn">
-                        <i class="fas fa-download"></i> Download Image
-                    </button>
-                    <button class="btn btn-outline btn-block" id="downloadAllBtn" style="margin-top: 0.5rem;">
-                        <i class="fas fa-download"></i> Download All Processed
-                    </button>
-                </div>
-
-                <!-- Batch processing controls -->
-                <div class="batch-controls" id="batchControls" style="display: none;">
-                    <h3 class="section-title"><i class="fas fa-layer-group"></i> Batch Processing</h3>
-                    <button class="btn btn-block" id="processAllBtn">
-                        <i class="fas fa-play-circle"></i> Process All Images
-                    </button>
-                    <div class="batch-progress" id="batchProgress">
-                        <div class="progress-container">
-                            <div class="progress-bar" id="batchProgressBar"></div>
-                        </div>
-                        <p style="text-align: center; margin-top: 0.5rem;" id="batchStatus">Processing 1 of 5 images...</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="controls-section">
-                <h2 class="section-title"><i class="fas fa-sliders-h"></i> Background Options</h2>
                 
-                <!-- Vertical Ad in Controls Section -->
-                <div class="ad-container vertical">
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7057695873482887" data-ad-slot="5680923275" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                </div>
-
-                <div class="control-group">
-                    <label for="bgType">
-                        Background Type
-                        <span class="tooltip">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="tooltiptext">Choose what type of background you want to replace with</span>
-                        </span>
-                    </label>
-                    <select id="bgType">
-                        <option value="transparent">Transparent</option>
-                        <option value="color">Solid Color</option>
-                        <option value="image">Custom Image</option>
-                        <option value="blur">Blur Effect</option>
-                        <option value="gradient">Gradient</option>
-                    </select>
-                </div>
-
-                <div class="control-group" id="colorControl">
-                    <label for="bgColor">Background Color</label>
-                    <div style="display: flex; align-items: center;">
-                        <input type="color" id="bgColor" value="#ffffff">
-                        <span class="color-preview" id="colorPreview" style="background-color: #ffffff;"></span>
-                    </div>
-                    
-                    <div class="preset-colors">
-                        <div class="preset-color" style="background-color: #ffffff;" data-color="#ffffff"></div>
-                        <div class="preset-color" style="background-color: #f8f9fa;" data-color="#f8f9fa"></div>
-                        <div class="preset-color" style="background-color: #e9ecef;" data-color="#e9ecef"></div>
-                        <div class="preset-color" style="background-color: #4361ee;" data-color="#4361ee"></div>
-                        <div class="preset-color" style="background-color: #3a0ca3;" data-color="#3a0ca3"></div>
-                        <div class="preset-color" style="background-color: #f72585;" data-color="#f72585"></div>
-                        <div class="preset-color" style="background-color: #4cc9f0;" data-color="#4cc9f0"></div>
-                        <div class="preset-color" style="background-color: #2b2d42;" data-color="#2b2d42"></div>
-                    </div>
-                </div>
-
-                <div class="control-group" id="imageControl" style="display: none;">
-                    <label for="bgImage">Background Image</label>
-                    <input type="file" id="bgImage" accept="image/jpeg, image/png, image/webp">
-                    <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Upload a custom background image</p>
-                </div>
-
-                <div class="control-group" id="blurControl" style="display: none;">
-                    <label for="blurAmount">Blur Intensity</label>
-                    <div class="range-slider">
-                        <input type="range" id="blurAmount" min="0" max="20" value="5">
-                        <div class="range-value">5px</div>
-                    </div>
-                </div>
-
-                <div class="control-group" id="gradientControl" style="display: none;">
-                    <label for="gradientType">Gradient Type</label>
-                    <select id="gradientType">
-                        <option value="linear">Linear</option>
-                        <option value="radial">Radial</option>
-                    </select>
-                    
-                    <label for="gradientColor1" style="margin-top: 1rem;">Color 1</label>
-                    <input type="color" id="gradientColor1" value="#4361ee">
-                    
-                    <label for="gradientColor2" style="margin-top: 0.5rem;">Color 2</label>
-                    <input type="color" id="gradientColor2" value="#f72585">
-                    
-                    <div class="preset-gradients" style="margin-top: 0.5rem;">
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #4361ee, #3a0ca3);" 
-                                 data-color1="#4361ee" data-color2="#3a0ca3"></div>
-                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #f72585, #b5179e);" 
-                                 data-color1="#f72585" data-color2="#b5179e"></div>
-                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #4cc9f0, #4895ef);" 
-                                 data-color1="#4cc9f0" data-color2="#4895ef"></div>
-                            <div class="preset-gradient" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg, #2b2d42, #4a4e69);" 
-                                 data-color1="#2b2d42" data-color2="#4a4e69"></div>
+                <button class="process-button" id="processButton" disabled>Remove Background</button>
+                
+                <div class="loader" id="loader"></div>
+                
+                <div class="result-container" id="resultContainer">
+                    <div class="result-row">
+                        <div class="result-box">
+                            <h4>Original Image</h4>
+                            <img id="originalImage" class="image-preview" src="" alt="Original Image">
                         </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-block" id="applyChangesBtn">
-                    <i class="fas fa-check"></i> Apply Changes
-                </button>
-
-                <!-- Advanced Controls -->
-                <div class="advanced-controls">
-                    <div class="advanced-toggle collapsed" id="advancedToggle">
-                        <i class="fas fa-chevron-down"></i>
-                        <span>Advanced Settings</span>
-                    </div>
-                    
-                    <div class="advanced-content" id="advancedContent">
-                        <div class="control-group">
-                            <label for="edgePrecision">Edge Precision</label>
-                            <div class="range-slider">
-                                <input type="range" id="edgePrecision" min="1" max="10" value="5">
-                                <div class="range-value">5/10</div>
+                        <div class="result-box">
+                            <h4>Result</h4>
+                            <img id="resultImage" class="image-preview" src="" alt="Result Image">
+                            <div class="bg-options">
+                                <div class="bg-option active" data-bg="transparent">Transparent</div>
+                                <div class="bg-option" data-bg="white">White</div>
+                                <div class="bg-option" data-bg="black">Black</div>
+                                <div class="color-picker">
+                                    <span>Custom:</span>
+                                    <input type="color" id="customColor" value="#6c63ff">
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="control-group">
-                            <label for="transparencyThreshold">Transparency Threshold</label>
-                            <div class="range-slider">
-                                <input type="range" id="transparencyThreshold" min="0" max="100" value="30">
-                                <div class="range-value">30%</div>
-                            </div>
-                        </div>
-                        
-                        <div class="control-group">
-                            <label>
-                                <input type="checkbox" id="keepShadows" checked>
-                                Keep Natural Shadows
-                            </label>
-                        </div>
-                        
-                        <div class="control-group">
-                            <label>
-                                <input type="checkbox" id="autoEnhance" checked>
-                                Auto-Enhance Edges
-                            </label>
+                            <a href="#" class="download-button" id="downloadButton">
+                                <i class="fas fa-download"></i> Download
+                            </a>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
+    </section>
 
-        <!-- Features Section -->
-        <section id="features" style="margin-top: 4rem;">
-            <h2 class="section-title" style="text-align: center; font-size: 1.8rem;">
-                <i class="fas fa-star"></i> Why Choose Our Tool
-            </h2>
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose BG Magic?</h2>
+                <p>Our AI-powered background remover delivers professional results in seconds with these amazing features</p>
+            </div>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <i class="fas fa-bolt"></i>
-                    <h3>Lightning Fast</h3>
-                    <p>Remove backgrounds in seconds with our optimized AI algorithm.</p>
+                    <h3>Instant Processing</h3>
+                    <p>Get results in seconds with our high-speed AI processing. No waiting in queues or delays.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <i class="fas fa-cloud"></i>
-                    <h3>No Installation</h3>
-                    <p>Works directly in your browser - no software to download.</p>
+                    <i class="fas fa-cut"></i>
+                    <h3>Precision Cutting</h3>
+                    <p>Perfect edges around hair, fur, and complex shapes with our advanced algorithms.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-image"></i>
+                    <h3>Multiple Formats</h3>
+                    <p>Supports JPG, PNG, and more. Download with transparent background or custom colors.</p>
                 </div>
                 
                 <div class="feature-card">
                     <i class="fas fa-lock"></i>
-                    <h3>Privacy Focused</h3>
-                    <p>Your images are processed locally and never uploaded to our servers.</p>
+                    <h3>Secure Processing</h3>
+                    <p>Your images are processed securely and never stored permanently on our servers.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <i class="fas fa-palette"></i>
-                    <h3>Advanced Editing</h3>
-                    <p>Multiple background options and fine-tuning controls.</p>
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Works perfectly on all devices from smartphones to desktop computers.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <i class="fas fa-images"></i>
-                    <h3>Batch Processing</h3>
-                    <p>Process multiple images at once with consistent settings.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-file-download"></i>
-                    <h3>Flexible Export</h3>
-                    <p>Download in PNG, JPEG, or WebP formats with quality options.</p>
+                    <i class="fas fa-infinity"></i>
+                    <h3>No Limits</h3>
+                    <p>Process as many images as you need with our flexible pricing plans.</p>
                 </div>
             </div>
-        </section>
-
-        <!-- Bottom Banner Ad -->
-        <div class="ad-container horizontal">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7057695873482887" data-ad-slot="5134128362" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-    </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that fits your needs. No hidden fees, cancel anytime.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price">$0 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li>10 images per month</li>
+                        <li>Low resolution (0.25MP)</li>
+                        <li>Basic background removal</li>
+                        <li>Watermarked results</li>
+                    </ul>
+                    <a href="#" class="pricing-button">Get Started</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-tag">Most Popular</div>
+                    <h3>Starter</h3>
+                    <div class="price">$10 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li>100 images per month</li>
+                        <li>High resolution (5MP)</li>
+                        <li>Advanced edge refinement</li>
+                        <li>No watermarks</li>
+                        <li>Priority processing</li>
+                    </ul>
+                    <a href="#" class="pricing-button">Choose Plan</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Professional</h3>
+                    <div class="price">$20 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li>500 images per month</li>
+                        <li>Full resolution (25MP)</li>
+                        <li>Premium edge refinement</li>
+                        <li>Batch processing (5 images)</li>
+                        <li>API access</li>
+                    </ul>
+                    <a href="#" class="pricing-button">Choose Plan</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$30 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li>Unlimited images</li>
+                        <li>Full resolution (no limit)</li>
+                        <li>Ultimate edge refinement</li>
+                        <li>Batch processing (20 images)</li>
+                        <li>Priority API access</li>
+                        <li>Dedicated support</li>
+                    </ul>
+                    <a href="#" class="pricing-button">Choose Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-links">
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BG Magic</h3>
+                    <p>The easiest way to remove backgrounds from your images with AI-powered precision.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
                 <div class="footer-column">
                     <h3>Product</h3>
                     <ul>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#tool">Background Remover</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#">API</a></li>
-                        <li><a href="#">Integrations</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Support</a></li>
                     </ul>
                 </div>
                 
@@ -1159,24 +820,24 @@
                     <ul>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Connect</h3>
+                    <h3>Support</h3>
                     <ul>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
             
-            <div class="copyright">
-                &copy; 2023 Pro Background Remover. All rights reserved.
+            <div class="footer-bottom">
+                <p>&copy; 2023 BG Magic. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1186,944 +847,213 @@
             // DOM Elements
             const uploadArea = document.getElementById('uploadArea');
             const fileInput = document.getElementById('fileInput');
-            const imageGallery = document.getElementById('imageGallery');
-            const canvasContainer = document.getElementById('canvasContainer');
-            const canvas = document.getElementById('imageCanvas');
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
-            const zoomControls = document.getElementById('zoomControls');
-            const zoomInBtn = document.getElementById('zoomIn');
-            const zoomOutBtn = document.getElementById('zoomOut');
-            const zoomResetBtn = document.getElementById('zoomReset');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const progressBar = document.getElementById('progressBar');
-            const progressContainer = document.getElementById('progressContainer');
-            const removeBgBtn = document.getElementById('removeBgBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const downloadOptions = document.getElementById('downloadOptions');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const downloadAllBtn = document.getElementById('downloadAllBtn');
-            const downloadFormat = document.getElementById('downloadFormat');
-            const batchControls = document.getElementById('batchControls');
-            const processAllBtn = document.getElementById('processAllBtn');
-            const batchProgress = document.getElementById('batchProgress');
-            const batchProgressBar = document.getElementById('batchProgressBar');
-            const batchStatus = document.getElementById('batchStatus');
-            const imageInfo = document.getElementById('imageInfo');
-            const imageDimensions = document.getElementById('imageDimensions');
-            const imageSize = document.getElementById('imageSize');
-            const bgType = document.getElementById('bgType');
-            const bgColor = document.getElementById('bgColor');
-            const colorPreview = document.getElementById('colorPreview');
-            const colorControl = document.getElementById('colorControl');
-            const imageControl = document.getElementById('imageControl');
-            const blurControl = document.getElementById('blurControl');
-            const gradientControl = document.getElementById('gradientControl');
-            const bgImage = document.getElementById('bgImage');
-            const blurAmount = document.getElementById('blurAmount');
-            const gradientType = document.getElementById('gradientType');
-            const gradientColor1 = document.getElementById('gradientColor1');
-            const gradientColor2 = document.getElementById('gradientColor2');
-            const applyChangesBtn = document.getElementById('applyChangesBtn');
-            const advancedToggle = document.getElementById('advancedToggle');
-            const advancedContent = document.getElementById('advancedContent');
-            const edgePrecision = document.getElementById('edgePrecision');
-            const transparencyThreshold = document.getElementById('transparencyThreshold');
-            const keepShadows = document.getElementById('keepShadows');
-            const autoEnhance = document.getElementById('autoEnhance');
-            const presetColors = document.querySelectorAll('.preset-color');
-            const presetGradients = document.querySelectorAll('.preset-gradient');
-
-            // Variables
-            let originalImages = [];
-            let currentImageIndex = 0;
-            let processedImages = [];
-            let originalImageData = null;
-            let isProcessing = false;
-            let scale = 1;
-            let offsetX = 0;
-            let offsetY = 0;
-            let isDragging = false;
-            let lastX = 0;
-            let lastY = 0;
-
+            const fileInfo = document.getElementById('fileInfo');
+            const processButton = document.getElementById('processButton');
+            const loader = document.getElementById('loader');
+            const resultContainer = document.getElementById('resultContainer');
+            const originalImage = document.getElementById('originalImage');
+            const resultImage = document.getElementById('resultImage');
+            const downloadButton = document.getElementById('downloadButton');
+            const bgOptions = document.querySelectorAll('.bg-option');
+            const customColor = document.getElementById('customColor');
+            
+            // API Key
+            const API_KEY = 'p6ueRdW9hcZKbuJixRMgBKV2';
+            let processedImageUrl = '';
+            let originalImageUrl = '';
+            
             // Event Listeners
-            uploadArea.addEventListener('click', () => fileInput.click());
-            
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = 'var(--primary-color)';
-                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
-                uploadArea.style.transform = 'translateY(-5px)';
+            uploadArea.addEventListener('click', function(e) {
+                if (e.target !== fileInput) {
+                    fileInput.click();
+                }
             });
             
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.style.borderColor = 'var(--gray-color)';
-                uploadArea.style.backgroundColor = 'var(--light-gray)';
-                uploadArea.style.transform = 'translateY(0)';
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('active');
             });
             
-            uploadArea.addEventListener('drop', (e) => {
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.classList.remove('active');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
                 e.preventDefault();
-                uploadArea.style.borderColor = 'var(--gray-color)';
-                uploadArea.style.backgroundColor = 'var(--light-gray)';
-                uploadArea.style.transform = 'translateY(0)';
+                uploadArea.classList.remove('active');
                 
                 if (e.dataTransfer.files.length) {
                     fileInput.files = e.dataTransfer.files;
-                    handleFileUpload(Array.from(e.dataTransfer.files));
+                    handleFileSelection();
                 }
             });
             
-            fileInput.addEventListener('change', () => {
-                if (fileInput.files.length) {
-                    handleFileUpload(Array.from(fileInput.files));
+            fileInput.addEventListener('change', handleFileSelection);
+            
+            processButton.addEventListener('click', processImage);
+            
+            downloadButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (processedImageUrl) {
+                    const link = document.createElement('a');
+                    link.href = processedImageUrl;
+                    link.download = 'bg-removed-image.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 }
             });
             
-            bgType.addEventListener('change', () => {
-                colorControl.style.display = bgType.value === 'color' ? 'block' : 'none';
-                imageControl.style.display = bgType.value === 'image' ? 'block' : 'none';
-                blurControl.style.display = bgType.value === 'blur' ? 'block' : 'none';
-                gradientControl.style.display = bgType.value === 'gradient' ? 'block' : 'none';
-            });
-            
-            bgColor.addEventListener('input', () => {
-                colorPreview.style.backgroundColor = bgColor.value;
-            });
-            
-            presetColors.forEach(color => {
-                color.addEventListener('click', function() {
-                    // Remove active class from all colors
-                    presetColors.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active class to clicked color
+            bgOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    bgOptions.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Set the color picker value
-                    const colorValue = this.getAttribute('data-color');
-                    bgColor.value = colorValue;
-                    colorPreview.style.backgroundColor = colorValue;
+                    if (processedImageUrl) {
+                        applyBackground(this.dataset.bg);
+                    }
                 });
             });
             
-            presetGradients.forEach(gradient => {
-                gradient.addEventListener('click', function() {
-                    const color1 = this.getAttribute('data-color1');
-                    const color2 = this.getAttribute('data-color2');
-                    gradientColor1.value = color1;
-                    gradientColor2.value = color2;
-                });
+            customColor.addEventListener('input', function() {
+                if (processedImageUrl) {
+                    applyBackground(this.value);
+                }
             });
-            
-            // Set first color as active by default
-            if (presetColors.length > 0) {
-                presetColors[0].classList.add('active');
-            }
-            
-            blurAmount.addEventListener('input', function() {
-                document.querySelector('#blurControl .range-value').textContent = this.value + 'px';
-            });
-            
-            edgePrecision.addEventListener('input', function() {
-                document.querySelector('#edgePrecision + .range-value').textContent = this.value + '/10';
-            });
-            
-            transparencyThreshold.addEventListener('input', function() {
-                document.querySelector('#transparencyThreshold + .range-value').textContent = this.value + '%';
-            });
-            
-            advancedToggle.addEventListener('click', function() {
-                this.classList.toggle('collapsed');
-                advancedContent.classList.toggle('show');
-            });
-            
-            removeBgBtn.addEventListener('click', removeBackground);
-            resetBtn.addEventListener('click', resetImage);
-            applyChangesBtn.addEventListener('click', applyBackgroundChanges);
-            downloadBtn.addEventListener('click', downloadImage);
-            downloadAllBtn.addEventListener('click', downloadAllImages);
-            processAllBtn.addEventListener('click', processAllImages);
-            
-            // Zoom controls
-            zoomInBtn.addEventListener('click', () => zoomImage(1.2));
-            zoomOutBtn.addEventListener('click', () => zoomImage(0.8));
-            zoomResetBtn.addEventListener('click', resetZoom);
-            
-            // Canvas panning
-            canvas.addEventListener('mousedown', startDrag);
-            canvas.addEventListener('mousemove', dragImage);
-            canvas.addEventListener('mouseup', endDrag);
-            canvas.addEventListener('mouseleave', endDrag);
-            canvas.addEventListener('wheel', handleWheel, { passive: false });
             
             // Functions
-            function handleFileUpload(files) {
-                // Filter only image files
-                const imageFiles = files.filter(file => file.type.match('image.*'));
-                
-                if (imageFiles.length === 0) {
-                    showAlert('Please upload image files (JPG, PNG, or WEBP)', 'error');
-                    return;
-                }
-                
-                // Check file sizes
-                const oversizedFiles = imageFiles.filter(file => file.size > 10 * 1024 * 1024);
-                if (oversizedFiles.length > 0) {
-                    showAlert('Some files are larger than 10MB and will be skipped', 'warning');
-                }
-                
-                // Process valid files
-                const validFiles = imageFiles.filter(file => file.size <= 10 * 1024 * 1024);
-                
-                // Clear previous images
-                originalImages = [];
-                processedImages = [];
-                currentImageIndex = 0;
-                imageGallery.innerHTML = '';
-                
-                // Process each file
-                validFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = new Image();
-                        img.onload = function() {
-                            // Store the original image
-                            originalImages.push({
-                                src: e.target.result,
-                                width: this.width,
-                                height: this.height,
-                                file: file
-                            });
-                            
-                            // Create thumbnail
-                            createThumbnail(e.target.result, index, file.name);
-                            
-                            // If this is the first image, display it
-                            if (index === 0) {
-                                displayImage(0);
-                            }
-                            
-                            // Show batch controls if multiple images
-                            if (validFiles.length > 1) {
-                                batchControls.style.display = 'block';
-                            } else {
-                                batchControls.style.display = 'none';
-                            }
-                        };
-                        img.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-            
-            function createThumbnail(src, index, filename) {
-                const thumbnail = document.createElement('img');
-                thumbnail.src = src;
-                thumbnail.className = 'thumbnail';
-                thumbnail.alt = filename;
-                thumbnail.dataset.index = index;
-                
-                // Highlight first thumbnail by default
-                if (index === 0) {
-                    thumbnail.classList.add('active');
-                }
-                
-                thumbnail.addEventListener('click', function() {
-                    // Remove active class from all thumbnails
-                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked thumbnail
-                    this.classList.add('active');
-                    
-                    // Display the selected image
-                    displayImage(parseInt(this.dataset.index));
-                });
-                
-                imageGallery.appendChild(thumbnail);
-                imageGallery.style.display = 'flex';
-            }
-            
-            function displayImage(index) {
-                if (index < 0 || index >= originalImages.length) return;
-                
-                currentImageIndex = index;
-                const imgData = originalImages[index];
-                
-                // Reset zoom and pan
-                scale = 1;
-                offsetX = 0;
-                offsetY = 0;
-                
-                // Set canvas dimensions (with max size constraints)
-                const maxWidth = Math.min(imgData.width, 1200);
-                const maxHeight = Math.min(imgData.height, 1200);
-                
-                // Calculate scaling to fit canvas
-                const scaleToFit = Math.min(
-                    maxWidth / imgData.width,
-                    maxHeight / imgData.height
-                );
-                
-                canvas.width = imgData.width * scaleToFit;
-                canvas.height = imgData.height * scaleToFit;
-                
-                // Draw the image
-                const img = new Image();
-                img.onload = function() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    
-                    // Store original image data
-                    originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    
-                    // Update UI
-                    canvasContainer.style.display = 'block';
-                    removeBgBtn.style.display = 'inline-flex';
-                    resetBtn.style.display = 'inline-flex';
-                    uploadArea.style.display = 'none';
-                    downloadOptions.style.display = 'block';
-                    zoomControls.style.display = 'flex';
-                    
-                    // Update image info
-                    imageDimensions.textContent = `${imgData.width}×${imgData.height}`;
-                    imageSize.textContent = formatFileSize(imgData.file.size);
-                    imageInfo.style.display = 'flex';
-                    
-                    // Reset processed images array for this index if it exists
-                    if (processedImages[index]) {
-                        processedImages[index] = null;
-                    }
-                    
-                    // Add fade-in animation
-                    canvasContainer.classList.add('fade-in');
-                };
-                img.src = imgData.src;
-            }
-            
-            function formatFileSize(bytes) {
-                if (bytes < 1024) return bytes + ' bytes';
-                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-                else return (bytes / 1048576).toFixed(1) + ' MB';
-            }
-            
-            function removeBackground() {
-                if (!originalImages.length || isProcessing) return;
-                
-                isProcessing = true;
-                loadingIndicator.style.display = 'flex';
-                progressContainer.style.display = 'block';
-                removeBgBtn.disabled = true;
-                resetBtn.disabled = true;
-                
-                // Simulate progress for demo purposes
-                let progress = 0;
-                const progressInterval = setInterval(() => {
-                    progress += 5;
-                    progressBar.style.width = progress + '%';
-                    
-                    if (progress >= 100) {
-                        clearInterval(progressInterval);
-                        processImage();
-                    }
-                }, 100);
-            }
-            
-            function processImage() {
-                // Get advanced settings values
-                const precision = parseInt(edgePrecision.value);
-                const threshold = parseInt(transparencyThreshold.value);
-                const keepShadowsValue = keepShadows.checked;
-                const autoEnhanceValue = autoEnhance.checked;
-                
-                // Get image data
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                
-                // Get the dominant color from the edges (assuming it's the background)
-                const edgeColor = getEdgeColor(imageData);
-                
-                // Process each pixel
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i + 1];
-                    const b = data[i + 2];
-                    
-                    // Calculate color difference from edge color
-                    const colorDiff = Math.sqrt(
-                        Math.pow(r - edgeColor.r, 2) +
-                        Math.pow(g - edgeColor.g, 2) +
-                        Math.pow(b - edgeColor.b, 2)
-                    );
-                    
-                    // Calculate distance from edge (for edge precision)
-                    const x = (i / 4) % canvas.width;
-                    const y = Math.floor((i / 4) / canvas.width);
-                    const edgeDistance = Math.min(
-                        x, canvas.width - x,
-                        y, canvas.height - y
-                    );
-                    
-                    // Calculate threshold based on edge distance and precision
-                    const dynamicThreshold = threshold * (1 + (10 - precision) * 0.05);
-                    
-                    // Make pixel transparent if it matches the background within threshold
-                    if (colorDiff < dynamicThreshold) {
-                        // For shadows, we might keep some transparency
-                        if (keepShadowsValue && (r + g + b) / 3 < 200) {
-                            data[i + 3] = 150; // Semi-transparent for shadows
-                        } else {
-                            data[i + 3] = 0; // Fully transparent
-                        }
-                    }
-                }
-                
-                // Auto-enhance edges if enabled
-                if (autoEnhanceValue) {
-                    enhanceEdges(imageData);
-                }
-                
-                ctx.putImageData(imageData, 0, 0);
-                
-                // Store the processed image
-                processedImages[currentImageIndex] = canvas.toDataURL('image/png');
-                
-                // Hide loading indicator
-                setTimeout(() => {
-                    loadingIndicator.style.display = 'none';
-                    progressContainer.style.display = 'none';
-                    progressBar.style.width = '0%';
-                    removeBgBtn.disabled = false;
-                    resetBtn.disabled = false;
-                    isProcessing = false;
-                }, 500);
-            }
-            
-            function enhanceEdges(imageData) {
-                const data = imageData.data;
-                const width = canvas.width;
-                const height = canvas.height;
-                
-                // Create a copy of the original data for reference
-                const originalData = new Uint8ClampedArray(data);
-                
-                // Apply edge enhancement
-                for (let y = 1; y < height - 1; y++) {
-                    for (let x = 1; x < width - 1; x++) {
-                        const idx = (y * width + x) * 4;
-                        
-                        // Only enhance edges (partially transparent pixels)
-                        if (data[idx + 3] > 0 && data[idx + 3] < 255) {
-                            // Simple edge sharpening kernel
-                            for (let c = 0; c < 3; c++) {
-                                let sum = 0;
-                                sum -= originalData[idx - width * 4 - 4 + c] * 0.5;
-                                sum -= originalData[idx - width * 4 + c] * 0.5;
-                                sum -= originalData[idx - width * 4 + 4 + c] * 0.5;
-                                sum -= originalData[idx - 4 + c] * 0.5;
-                                sum += originalData[idx + c] * 4;
-                                sum -= originalData[idx + 4 + c] * 0.5;
-                                sum -= originalData[idx + width * 4 - 4 + c] * 0.5;
-                                sum -= originalData[idx + width * 4 + c] * 0.5;
-                                sum -= originalData[idx + width * 4 + 4 + c] * 0.5;
-                                
-                                // Clamp the value to 0-255
-                                data[idx + c] = Math.max(0, Math.min(255, sum));
-                            }
-                            
-                            // Make edge pixels more opaque
-                            data[idx + 3] = Math.min(255, data[idx + 3] * 1.2);
-                        }
-                    }
-                }
-            }
-            
-            function getEdgeColor(imageData) {
-                const data = imageData.data;
-                const edgePixels = [];
-                const sampleSize = 10;
-                
-                // Sample pixels from all four edges
-                for (let i = 0; i < sampleSize; i++) {
-                    // Top edge
-                    let idx = (i * canvas.width) * 4;
-                    edgePixels.push({ r: data[idx], g: data[idx + 1], b: data[idx + 2] });
-                    
-                    // Bottom edge
-                    idx = ((canvas.height - 1) * canvas.width + i) * 4;
-                    edgePixels.push({ r: data[idx], g: data[idx + 1], b: data[idx + 2] });
-                    
-                    // Left edge
-                    idx = (i * canvas.width) * 4;
-                    edgePixels.push({ r: data[idx], g: data[idx + 1], b: data[idx + 2] });
-                    
-                    // Right edge
-                    idx = (i * canvas.width + (canvas.width - 1)) * 4;
-                    edgePixels.push({ r: data[idx], g: data[idx + 1], b: data[idx + 2] });
-                }
-                
-                // Calculate average color
-                let avgR = 0, avgG = 0, avgB = 0;
-                edgePixels.forEach(pixel => {
-                    avgR += pixel.r;
-                    avgG += pixel.g;
-                    avgB += pixel.b;
-                });
-                
-                avgR = Math.round(avgR / edgePixels.length);
-                avgG = Math.round(avgG / edgePixels.length);
-                avgB = Math.round(avgB / edgePixels.length);
-                
-                return { r: avgR, g: avgG, b: avgB };
-            }
-            
-            function applyBackgroundChanges() {
-                if (!originalImages.length) {
-                    showAlert('Please upload an image first', 'error');
-                    return;
-                }
-                
-                // First, re-apply the background removal to have a clean slate
-                if (!processedImages[currentImageIndex]) {
-                    showAlert('Please remove the background first', 'error');
-                    return;
-                }
-                
-                loadingIndicator.style.display = 'flex';
-                
-                // Create a temporary canvas for compositing
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = canvas.width;
-                tempCanvas.height = canvas.height;
-                const tempCtx = tempCanvas.getContext('2d');
-                
-                // Apply the selected background
-                if (bgType.value === 'color') {
-                    tempCtx.fillStyle = bgColor.value;
-                    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                } 
-                else if (bgType.value === 'image' && bgImage.files.length) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const bgImg = new Image();
-                        bgImg.onload = function() {
-                            // Draw the background image to fill the canvas
-                            const hRatio = tempCanvas.width / bgImg.width;
-                            const vRatio = tempCanvas.height / bgImg.height;
-                            const ratio = Math.max(hRatio, vRatio);
-                            const centerShiftX = (tempCanvas.width - bgImg.width * ratio) / 2;
-                            const centerShiftY = (tempCanvas.height - bgImg.height * ratio) / 2;
-                            
-                            tempCtx.drawImage(
-                                bgImg, 
-                                0, 0, bgImg.width, bgImg.height,
-                                centerShiftX, centerShiftY, 
-                                bgImg.width * ratio, bgImg.height * ratio
-                            );
-                            
-                            // Then draw the processed image
-                            const processedImg = new Image();
-                            processedImg.onload = function() {
-                                tempCtx.drawImage(processedImg, 0, 0);
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                ctx.drawImage(tempCanvas, 0, 0);
-                                
-                                // Update the processed image and show download button
-                                processedImages[currentImageIndex] = canvas.toDataURL('image/png');
-                                loadingIndicator.style.display = 'none';
-                            };
-                            processedImg.src = processedImages[currentImageIndex];
-                        };
-                        bgImg.src = e.target.result;
-                    };
-                    reader.readAsDataURL(bgImage.files[0]);
-                    return;
-                }
-                else if (bgType.value === 'blur') {
-                    // Create a blurred version of the original
-                    const originalImg = new Image();
-                    originalImg.onload = function() {
-                        tempCtx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
-                        applyBlurEffect(tempCtx, tempCanvas, parseInt(blurAmount.value));
-                        
-                        // Then draw the processed image
-                        const processedImg = new Image();
-                        processedImg.onload = function() {
-                            tempCtx.drawImage(processedImg, 0, 0);
-                            ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            ctx.drawImage(tempCanvas, 0, 0);
-                            
-                            // Update the processed image
-                            processedImages[currentImageIndex] = canvas.toDataURL('image/png');
-                            loadingIndicator.style.display = 'none';
-                        };
-                        processedImg.src = processedImages[currentImageIndex];
-                    };
-                    originalImg.src = originalImages[currentImageIndex].src;
-                    return;
-                }
-                else if (bgType.value === 'gradient') {
-                    // Create gradient background
-                    if (gradientType.value === 'linear') {
-                        const gradient = tempCtx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                        gradient.addColorStop(0, gradientColor1.value);
-                        gradient.addColorStop(1, gradientColor2.value);
-                        tempCtx.fillStyle = gradient;
-                    } else {
-                        const gradient = tempCtx.createRadialGradient(
-                            canvas.width / 2, canvas.height / 2, 0,
-                            canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2
-                        );
-                        gradient.addColorStop(0, gradientColor1.value);
-                        gradient.addColorStop(1, gradientColor2.value);
-                        tempCtx.fillStyle = gradient;
-                    }
-                    tempCtx.fillRect(0, 0, canvas.width, canvas.height);
-                }
-                
-                // For transparent background, we don't need to draw anything first
-                if (bgType.value !== 'transparent') {
-                    // Draw the processed image on top
-                    const processedImg = new Image();
-                    processedImg.onload = function() {
-                        tempCtx.drawImage(processedImg, 0, 0);
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        ctx.drawImage(tempCanvas, 0, 0);
-                        
-                        // Update the processed image
-                        processedImages[currentImageIndex] = canvas.toDataURL('image/png');
-                        loadingIndicator.style.display = 'none';
-                    };
-                    processedImg.src = processedImages[currentImageIndex];
-                } else {
-                    loadingIndicator.style.display = 'none';
-                }
-            }
-            
-            function applyBlurEffect(context, canvas, radius) {
-                // Simple box blur implementation
-                for (let i = 0; i < radius; i++) {
-                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = imageData.data;
-                    const tempData = new Uint8ClampedArray(data);
-                    
-                    for (let y = 1; y < canvas.height - 1; y++) {
-                        for (let x = 1; x < canvas.width - 1; x++) {
-                            const idx = (y * canvas.width + x) * 4;
-                            
-                            // Average with surrounding pixels
-                            for (let c = 0; c < 3; c++) {
-                                let sum = 0;
-                                for (let ky = -1; ky <= 1; ky++) {
-                                    for (let kx = -1; kx <= 1; kx++) {
-                                        const kidx = ((y + ky) * canvas.width + (x + kx)) * 4 + c;
-                                        sum += tempData[kidx];
-                                    }
-                                }
-                                data[idx + c] = sum / 9;
-                            }
-                        }
-                    }
-                    
-                    context.putImageData(imageData, 0, 0);
-                }
-            }
-            
-            function resetImage() {
-                if (!originalImages.length) return;
-                
-                // Reset to original image
-                const img = new Image();
-                img.onload = function() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    
-                    // Reset processed image for this index
-                    processedImages[currentImageIndex] = null;
-                    
-                    // Reset zoom
-                    resetZoom();
-                };
-                img.src = originalImages[currentImageIndex].src;
-            }
-            
-            function downloadImage() {
-                if (!processedImages[currentImageIndex]) {
-                    showAlert('Please process the image first', 'error');
-                    return;
-                }
-                
-                const format = downloadFormat.value;
-                let mimeType, extension;
-                
-                switch (format) {
-                    case 'jpeg':
-                        mimeType = 'image/jpeg';
-                        extension = 'jpg';
-                        break;
-                    case 'webp':
-                        mimeType = 'image/webp';
-                        extension = 'webp';
-                        break;
-                    default:
-                        mimeType = 'image/png';
-                        extension = 'png';
-                }
-                
-                // Create a temporary canvas to handle format conversion
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = originalImages[currentImageIndex].width;
-                tempCanvas.height = originalImages[currentImageIndex].height;
-                const tempCtx = tempCanvas.getContext('2d');
-                
-                // Draw the processed image at original size
-                const img = new Image();
-                img.onload = function() {
-                    tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
-                    
-                    // Create download link
-                    const link = document.createElement('a');
-                    link.download = `background-removed-${new Date().getTime()}.${extension}`;
-                    
-                    // Convert to selected format
-                    if (format === 'png') {
-                        link.href = tempCanvas.toDataURL(mimeType);
-                    } else {
-                        // For JPEG, fill transparent areas with white
-                        if (format === 'jpeg') {
-                            const tempCtx2 = tempCanvas.getContext('2d');
-                            tempCtx2.globalCompositeOperation = 'destination-over';
-                            tempCtx2.fillStyle = '#ffffff';
-                            tempCtx2.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                        }
-                        link.href = tempCanvas.toDataURL(mimeType, format === 'jpeg' ? 0.92 : 0.8);
-                    }
-                    
-                    link.click();
-                    
-                    // Show download confirmation
-                    showAlert('Download started!', 'success');
-                };
-                img.src = processedImages[currentImageIndex];
-            }
-            
-            function downloadAllImages() {
-                if (processedImages.filter(img => img).length === 0) {
-                    showAlert('No processed images to download', 'error');
-                    return;
-                }
-                
-                const format = downloadFormat.value;
-                let mimeType, extension;
-                
-                switch (format) {
-                    case 'jpeg':
-                        mimeType = 'image/jpeg';
-                        extension = 'jpg';
-                        break;
-                    case 'webp':
-                        mimeType = 'image/webp';
-                        extension = 'webp';
-                        break;
-                    default:
-                        mimeType = 'image/png';
-                        extension = 'png';
-                }
-                
-                // Create a zip file for all processed images
-                showAlert('Preparing download... this may take a moment', 'warning');
-                
-                // For demo purposes, we'll download them one by one
-                // In a real app, you would use a library like JSZip
-                processedImages.forEach((img, index) => {
-                    if (img) {
-                        setTimeout(() => {
-                            const tempCanvas = document.createElement('canvas');
-                            tempCanvas.width = originalImages[index].width;
-                            tempCanvas.height = originalImages[index].height;
-                            const tempCtx = tempCanvas.getContext('2d');
-                            
-                            const imgElement = new Image();
-                            imgElement.onload = function() {
-                                tempCtx.drawImage(imgElement, 0, 0, tempCanvas.width, tempCanvas.height);
-                                
-                                // For JPEG, fill transparent areas with white
-                                if (format === 'jpeg') {
-                                    const tempCtx2 = tempCanvas.getContext('2d');
-                                    tempCtx2.globalCompositeOperation = 'destination-over';
-                                    tempCtx2.fillStyle = '#ffffff';
-                                    tempCtx2.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-                                }
-                                
-                                const link = document.createElement('a');
-                                link.download = `image-${index+1}-${new Date().getTime()}.${extension}`;
-                                link.href = tempCanvas.toDataURL(mimeType, format === 'jpeg' ? 0.92 : 0.8);
-                                link.click();
-                            };
-                            imgElement.src = img;
-                        }, index * 500); // Stagger downloads to avoid browser blocking
-                    }
-                });
-                
-                showAlert(`Downloading ${processedImages.filter(img => img).length} images`, 'success');
-            }
-            
-            function processAllImages() {
-                if (isProcessing) return;
-                
-                batchProgress.style.display = 'block';
-                batchProgressBar.style.width = '0%';
-                isProcessing = true;
-                processAllBtn.disabled = true;
-                
-                let processedCount = 0;
-                const totalImages = originalImages.length;
-                
-                function processNextImage(index) {
-                    if (index >= totalImages) {
-                        // All images processed
-                        isProcessing = false;
-                        processAllBtn.disabled = false;
-                        batchStatus.textContent = 'All images processed!';
+            function handleFileSelection() {
+                const file = fileInput.files[0];
+                if (file) {
+                    if (!file.type.match('image.*')) {
+                        fileInfo.textContent = 'Please select an image file (JPEG, PNG, etc.)';
                         return;
                     }
                     
-                    // Update status
-                    batchStatus.textContent = `Processing ${index + 1} of ${totalImages} images...`;
-                    batchProgressBar.style.width = `${(index / totalImages) * 100}%`;
+                    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                        fileInfo.textContent = 'File size exceeds 10MB limit';
+                        return;
+                    }
                     
-                    // Display the current image
-                    displayImage(index);
+                    fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    processButton.disabled = false;
                     
-                    // Process the image (simulated with setTimeout for demo)
-                    setTimeout(() => {
-                        removeBackground();
-                        
-                        // Wait for processing to complete (in a real app, you'd use proper callbacks)
-                        setTimeout(() => {
-                            processedCount++;
-                            processNextImage(index + 1);
-                        }, 1500);
-                    }, 100);
+                    // Display original image preview
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        originalImageUrl = e.target.result;
+                        originalImage.src = originalImageUrl;
+                    };
+                    reader.readAsDataURL(file);
+                    
+                    // Hide previous results
+                    resultContainer.style.display = 'none';
                 }
-                
-                // Start processing from the first image
-                processNextImage(0);
             }
             
-            function showAlert(message, type) {
-                // Remove any existing alerts
-                const existingAlert = document.querySelector('.alert');
-                if (existingAlert) {
-                    existingAlert.remove();
-                }
+            function processImage() {
+                const file = fileInput.files[0];
+                if (!file) return;
                 
-                const alert = document.createElement('div');
-                alert.className = `alert alert-${type}`;
-                alert.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'check-circle'}"></i> ${message}`;
-                alert.style.position = 'fixed';
-                alert.style.bottom = '20px';
-                alert.style.right = '20px';
-                alert.style.padding = '12px 20px';
-                alert.style.borderRadius = 'var(--border-radius-sm)';
-                alert.style.boxShadow = 'var(--shadow-md)';
-                alert.style.zIndex = '1000';
-                alert.style.animation = 'fadeIn 0.3s ease-out';
+                // Show loading animation
+                loader.style.display = 'block';
+                processButton.disabled = true;
                 
-                document.body.appendChild(alert);
+                // Prepare form data
+                const formData = new FormData();
+                formData.append('image_file', file);
+                formData.append('size', 'auto');
                 
-                // Remove after 3 seconds
-                setTimeout(() => {
-                    alert.style.animation = 'fadeOut 0.3s ease-out';
-                    setTimeout(() => alert.remove(), 300);
-                }, 3000);
+                // Call Remove.bg API
+                fetch('https://api.remove.bg/v1.0/removebg', {
+                    method: 'POST',
+                    headers: {
+                        'X-Api-Key': API_KEY
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Create URL for the processed image
+                    processedImageUrl = URL.createObjectURL(blob);
+                    resultImage.src = processedImageUrl;
+                    
+                    // Show results
+                    resultContainer.style.display = 'block';
+                    loader.style.display = 'none';
+                    
+                    // Scroll to results
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    fileInfo.textContent = 'Error processing image. Please try again.';
+                    loader.style.display = 'none';
+                    processButton.disabled = false;
+                });
             }
             
-            // Zoom and pan functions
-            function zoomImage(factor) {
-                scale *= factor;
-                drawImageWithZoom();
-            }
-            
-            function resetZoom() {
-                scale = 1;
-                offsetX = 0;
-                offsetY = 0;
-                drawImageWithZoom();
-            }
-            
-            function drawImageWithZoom() {
-                if (!originalImages.length) return;
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.translate(canvas.width / 2, canvas.height / 2);
-                ctx.scale(scale, scale);
-                ctx.translate(-canvas.width / 2 + offsetX, -canvas.height / 2 + offsetY);
-                
-                // Draw the appropriate image (original or processed)
+            function applyBackground(bgType) {
+                // Create a canvas to apply the background
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
                 const img = new Image();
+                
                 img.onload = function() {
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    // Fill with selected background
+                    if (bgType === 'transparent') {
+                        // For transparent, just draw the image
+                        ctx.drawImage(img, 0, 0);
+                    } else {
+                        // For solid colors, fill then draw image
+                        if (bgType === 'white') {
+                            ctx.fillStyle = '#ffffff';
+                        } else if (bgType === 'black') {
+                            ctx.fillStyle = '#000000';
+                        } else {
+                            // Custom color
+                            ctx.fillStyle = bgType;
+                        }
+                        
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0);
+                    }
+                    
+                    // Update result image
+                    resultImage.src = canvas.toDataURL('image/png');
+                    
+                    // Update download URL
+                    processedImageUrl = canvas.toDataURL('image/png');
                 };
                 
-                img.src = processedImages[currentImageIndex] || originalImages[currentImageIndex].src;
-                ctx.restore();
+                img.src = processedImageUrl;
             }
             
-            function startDrag(e) {
-                if (scale <= 1) return;
-                isDragging = true;
-                lastX = e.clientX;
-                lastY = e.clientY;
-                canvas.style.cursor = 'grabbing';
-            }
-            
-            function dragImage(e) {
-                if (!isDragging) return;
-                
-                const dx = e.clientX - lastX;
-                const dy = e.clientY - lastY;
-                
-                offsetX += dx / scale;
-                offsetY += dy / scale;
-                
-                lastX = e.clientX;
-                lastY = e.clientY;
-                
-                drawImageWithZoom();
-            }
-            
-            function endDrag() {
-                isDragging = false;
-                canvas.style.cursor = 'default';
-            }
-            
-            function handleWheel(e) {
-                e.preventDefault();
-                
-                // Get mouse position relative to canvas
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-                
-                // Calculate mouse position in image coordinates
-                const imageX = (mouseX - canvas.width / 2) / scale + canvas.width / 2 - offsetX;
-                const imageY = (mouseY - canvas.height / 2) / scale + canvas.height / 2 - offsetY;
-                
-                // Apply zoom
-                const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-                scale *= zoomFactor;
-                
-                // Clamp scale
-                scale = Math.max(1, Math.min(scale, 5));
-                
-                // Adjust offset to zoom toward mouse position
-                offsetX = (mouseX - canvas.width / 2) / scale + canvas.width / 2 - imageX;
-                offsetY = (mouseY - canvas.height / 2) / scale + canvas.height / 2 - imageY;
-                
-                drawImageWithZoom();
-            }
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
-    </html>
+</html>
