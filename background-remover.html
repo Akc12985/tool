@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(to right, #f6d365, #fda085);
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,12 +24,12 @@
 
         .container {
             text-align: center;
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             padding: 40px;
             background: #fff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
             animation: fadeIn 1s ease-out;
         }
 
@@ -44,16 +44,16 @@
             display: inline-block;
             width: 100%;
             height: 300px;
-            border: 2px dashed #f6d365;
-            border-radius: 8px;
+            border: 2px dashed #2575fc;
+            border-radius: 10px;
             padding: 20px;
-            overflow: hidden;
             background: #f9f9f9;
             transition: background 0.3s ease;
+            cursor: pointer;
         }
 
         .upload-box:hover {
-            background: #f3e1a1;
+            background: #e3f7fe;
         }
 
         .upload-box input {
@@ -63,7 +63,6 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            cursor: pointer;
         }
 
         .upload-box span {
@@ -74,16 +73,28 @@
             transform: translate(-50%, -50%);
             font-size: 18px;
             color: #888;
+            transition: color 0.3s ease;
+        }
+
+        .upload-box:hover span {
+            color: #2575fc;
         }
 
         .result-box {
             margin-top: 20px;
             display: none;
+            position: relative;
         }
 
         .result-box img {
             max-width: 100%;
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .result-box img:hover {
+            transform: scale(1.05);
         }
 
         .loading {
@@ -93,31 +104,52 @@
             margin-top: 20px;
         }
 
+        .background-options {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .background-options label {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .background-options input {
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        .background-options input:hover {
+            border-color: #2575fc;
+        }
+
         .download-btn {
             margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #f6d365;
+            padding: 12px 25px;
+            background-color: #2575fc;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 18px;
             display: none;
+            transition: background-color 0.3s ease;
         }
 
         .download-btn:hover {
-            background-color: #fda085;
+            background-color: #6a11cb;
         }
 
-        .background-options {
+        .info-text {
             margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .background-options input {
-            cursor: pointer;
+            color: #888;
+            font-size: 14px;
         }
 
         @keyframes fadeIn {
@@ -145,19 +177,24 @@
             
             <!-- Option to upload new background image -->
             <div class="background-options">
-                <label for="background-color">Choose Background Color:</label>
-                <input type="color" id="background-color">
-            </div>
+                <div>
+                    <label for="background-color">Choose Background Color:</label>
+                    <input type="color" id="background-color">
+                </div>
 
-            <div class="background-options">
-                <label for="background-upload">Upload Background Image:</label>
-                <input type="file" id="background-upload" accept="image/*">
+                <div>
+                    <label for="background-upload">Upload Background Image:</label>
+                    <input type="file" id="background-upload" accept="image/*">
+                </div>
             </div>
 
             <!-- Download Button -->
             <a id="download-link" href="" download>
                 <button class="download-btn" id="download-btn">Download Image</button>
             </a>
+        </div>
+        <div class="info-text">
+            <p>Note: You can upload a background image or choose a background color after removing the original background.</p>
         </div>
     </div>
 
