@@ -93,6 +93,22 @@
             margin-top: 20px;
         }
 
+        .download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f6d365;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+        }
+
+        .download-btn:hover {
+            background-color: #fda085;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -115,6 +131,9 @@
         <div class="result-box" id="result-box">
             <h2>Processed Image:</h2>
             <img id="result-image" src="" alt="Processed Image">
+            <a id="download-link" href="" download>
+                <button class="download-btn" id="download-btn">Download Image</button>
+            </a>
         </div>
     </div>
 
@@ -122,6 +141,8 @@
         const uploadInput = document.getElementById('image-upload');
         const resultBox = document.getElementById('result-box');
         const resultImage = document.getElementById('result-image');
+        const downloadBtn = document.getElementById('download-btn');
+        const downloadLink = document.getElementById('download-link');
         const loadingText = document.getElementById('loading');
 
         const apiKey = 'p6ueRdW9hcZKbuJixRMgBKV2';
@@ -152,6 +173,8 @@
 
                     resultImage.src = imageUrl;
                     resultBox.style.display = 'block';
+                    downloadLink.href = imageUrl;
+                    downloadBtn.style.display = 'block';
                     loadingText.style.display = 'none';
                 } catch (error) {
                     console.error('Error:', error);
