@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photo Enhancer | Transform Blurry & Old Photos to HD Quality</title>
+    <meta name="description" content="Free online AI-powered photo enhancer tool that improves image quality, sharpens blurry photos, and restores old pictures to high definition.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #f8f9fa;
+            --accent-color: #fd79a8;
+            --dark-color: #2d3436;
+            --light-text: #636e72;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        header p {
+            color: var(--light-text);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .main-tool {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-tool {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .upload-box, .result-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .box-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .box-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .box-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .drop-area {
+            border: 2px dashed #dfe6e9;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .drop-area:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .drop-area.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .drop-text {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 15px;
+        }
+        
+        .browse-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .browse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: var(--border-radius);
+            display: none;
+            margin: 0 auto;
+        }
+        
+        .result-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: var(--border-radius);
+            display: none;
+            margin: 0 auto;
+        }
+        
+        .enhance-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 25px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
+        }
+        
+        .enhance-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+        
+        .enhance-btn:disabled {
+            background: #b2bec3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .download-btn {
+            display: none;
+            width: 100%;
+            padding: 15px;
+            background: #00b894;
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+        
+        .download-btn:hover {
+            background: #00a884;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+        
+        .features-section {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--dark-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-desc {
+            color: var(--light-text);
+        }
+        
+        .ads-container {
+            display: flex;
+            justify-content: center;
+            margin: 50px 0;
+            min-height: 90px;
+            background-color: #f0f2f5;
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+        
+        .how-to-use {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            margin: 60px 0;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .step-content p {
+            color: var(--light-text);
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #b2bec3;
+            margin-bottom: 15px;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-column a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(108, 92, 231, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Photo Enhancer</h1>
+            <p>Transform your blurry, pixelated, or old photos into high-quality images with our powerful AI technology</p>
+        </header>
+        
+        <div class="ads-container">
+            <!-- Google AdSense Code Goes Here -->
+            <div style="width: 728px; height: 90px; background: #e9ecef; display: flex; align-items: center; justify-content: center;">
+                <span>Advertisement</span>
+            </div>
+        </div>
+        
+        <div class="main-tool">
+            <div class="upload-box">
+                <div class="box-header">
+                    <div class="box-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="box-title">Original Photo</div>
+                </div>
+                <div class="drop-area" id="drop-area">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <div class="drop-text">Drag & drop your photo here or click to browse</div>
+                    <button class="browse-btn">Select Image</button>
+                    <input type="file" id="file-input" accept="image/*">
+                    <img id="preview-image" class="preview-image" alt="Preview">
+                    <div class="file-info" id="file-info"></div>
+                </div>
+            </div>
+            
+            <div class="result-box">
+                <div class="box-header">
+                    <div class="box-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="box-title">Enhanced Result</div>
+                </div>
+                <div class="drop-area">
+                    <i class="fas fa-image upload-icon" id="result-icon"></i>
+                    <div class="drop-text" id="result-text">Your enhanced photo will appear here</div>
+                    <img id="result-image" class="result-image" alt="Enhanced Result">
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Enhancing your photo...</p>
+                    </div>
+                    <a href="#" class="download-btn" id="download-btn" download="enhanced-photo.jpg">
+                        <i class="fas fa-download"></i> Download Enhanced Photo
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <button class="enhance-btn" id="enhance-btn" disabled>
+            <i class="fas fa-bolt"></i> Enhance Photo
+        </button>
+        
+        <div class="features-section">
+            <h2 class="section-title">Why Choose Our Photo Enhancer</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Enhancement</h3>
+                    <p class="feature-desc">Our advanced AI algorithms analyze and enhance every pixel of your photo for stunning results.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Processing</h3>
+                    <p class="feature-desc">Get high-quality enhanced photos in seconds without any complicated software.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="feature-title">Privacy Guaranteed</h3>
+                    <p class="feature-desc">Your photos are processed securely and never stored on our servers after enhancement.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ads-container">
+            <!-- Google AdSense Code Goes Here -->
+            <div style="width: 468px; height: 60px; background: #e9ecef; display: flex; align-items: center; justify-content: center;">
+                <span>Advertisement</span>
+            </div>
+        </div>
+        
+        <div class="how-to-use">
+            <h2 class="section-title">How to Enhance Your Photos</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Upload Your Photo</h3>
+                        <p>Drag and drop your image or click to browse files from your device. We support JPG, PNG, and other common formats.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Enhance Automatically</h3>
+                        <p>Click the "Enhance Photo" button and our AI will automatically improve your image quality, sharpness, and colors.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Download Result</h3>
+                        <p>Preview the enhanced photo and download it in high resolution with just one click.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>AI Photo Enhancer</h3>
+                        <p>Transform your blurry, pixelated, or old photos into high-quality images with our powerful AI technology.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <a href="#">Home</a>
+                        <a href="#">How It Works</a>
+                        <a href="#">Features</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Support</h3>
+                        <a href="#">Help Center</a>
+                        <a href="#">Contact Us</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Feedback</a>
+                    </div>
+                </div>
+                <div class="copyright">
+                    &copy; 2023 AI Photo Enhancer. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // DOM elements
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const previewImage = document.getElementById('preview-image');
+        const resultImage = document.getElementById('result-image');
+        const enhanceBtn = document.getElementById('enhance-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const resultIcon = document.getElementById('result-icon');
+        const resultText = document.getElementById('result-text');
+        const loading = document.getElementById('loading');
+        const fileInfo = document.getElementById('file-info');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('active');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('active');
+        }
+
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle selected files
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        // Browse button click
+        dropArea.querySelector('.browse-btn').addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        // Handle files
+        function handleFiles(files) {
+            if (files.length) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                        dropArea.querySelector('.upload-icon').style.display = 'none';
+                        dropArea.querySelector('.drop-text').style.display = 'none';
+                        dropArea.querySelector('.browse-btn').style.display = 'none';
+                        
+                        // Show file info
+                        fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                        fileInfo.style.display = 'block';
+                        
+                        // Enable enhance button
+                        enhanceBtn.disabled = false;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please select an image file (JPG, PNG, etc.)');
+                }
+            }
+        }
+
+        // Enhance button click
+        enhanceBtn.addEventListener('click', function() {
+            if (!previewImage.src) return;
+            
+            // Show loading
+            loading.style.display = 'block';
+            resultIcon.style.display = 'none';
+            resultText.style.display = 'none';
+            
+            // Simulate AI processing (in a real app, you would call an API here)
+            setTimeout(function() {
+                // For demo purposes, we'll just use the same image
+                // In a real app, you would receive the enhanced image from your API
+                resultImage.src = previewImage.src;
+                resultImage.style.display = 'block';
+                loading.style.display = 'none';
+                
+                // Show download button
+                downloadBtn.style.display = 'block';
+                downloadBtn.href = previewImage.src;
+            }, 2000);
+        });
+
+        // Download button click
+        downloadBtn.addEventListener('click', function(e) {
+            // In a real app, you would trigger the download of the enhanced image
+            console.log('Downloading enhanced image...');
+        });
+    </script>
+</body>
+</html>
