@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - ToolMaster</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+  <div class="max-w-4xl mx-auto px-6 py-10">
+    
+    <!-- Toggle Dark Mode Button -->
+    <div class="flex justify-end mb-6">
+      <button id="toggleDark" class="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Toggle Dark Mode
+      </button>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-8">
+      <h1 class="text-4xl font-bold text-center text-blue-700 dark:text-blue-400 mb-8">Privacy Policy</h1>
+      <p class="mb-6">At <span class="font-semibold">ToolMaster</span>, your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information. By using our website and services, you consent to the practices described in this policy.</p>
+
+      <!-- Accordion Sections -->
+      <div class="space-y-4">
+
+        <!-- Accordion Item -->
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">1. Information We Collect</button>
+          <div class="accordion-content hidden pb-4">
+            <ul class="list-disc list-inside">
+              <li><strong>Personal Information:</strong> Name, email, phone, collected via forms.</li>
+              <li><strong>Non-Personal Information:</strong> IP address, browser info, via cookies/analytics.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">2. How We Use Your Information</button>
+          <div class="accordion-content hidden pb-4">
+            <ul class="list-disc list-inside">
+              <li>Provide and improve services</li>
+              <li>Respond to your feedback</li>
+              <li>Send newsletters/promotions (opt-in only)</li>
+              <li>Analyze website usage</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">3. Data Security</button>
+          <div class="accordion-content hidden pb-4">
+            <p>We use appropriate measures to protect your data, but no method is 100% secure.</p>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">4. Sharing of Information</button>
+          <div class="accordion-content hidden pb-4">
+            <ul class="list-disc list-inside">
+              <li><strong>Service Providers:</strong> Bound by confidentiality.</li>
+              <li><strong>Legal Compliance:</strong> Disclosed when required by law.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">5. Cookies and Tracking</button>
+          <div class="accordion-content hidden pb-4">
+            <p>We use cookies to enhance functionality and user experience. You can disable them in browser settings.</p>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">6. Your Choices and Rights</button>
+          <div class="accordion-content hidden pb-4">
+            <ul class="list-disc list-inside">
+              <li>Access/update your information</li>
+              <li>Opt out of emails</li>
+              <li>Request data deletion</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">7. Third-Party Links</button>
+          <div class="accordion-content hidden pb-4">
+            <p>We are not responsible for the privacy practices of external websites. Please review their policies.</p>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">8. Children’s Privacy</button>
+          <div class="accordion-content hidden pb-4">
+            <p>We do not knowingly collect information from users under 13. Such data is deleted if discovered.</p>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">9. Changes to This Policy</button>
+          <div class="accordion-content hidden pb-4">
+            <p>This policy may be updated periodically. Please check this page regularly for changes.</p>
+          </div>
+        </div>
+
+        <div class="border-b border-gray-300 dark:border-gray-600">
+          <button class="w-full text-left text-xl font-semibold py-3 focus:outline-none accordion-toggle">10. Contact Us</button>
+          <div class="accordion-content hidden pb-4">
+            <p>For questions, email us at <a href="mailto:akc12985@gmail.com" class="text-blue-600 dark:text-blue-400 underline">akc12985@gmail.com</a></p>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">Thank you for trusting ToolMaster. We are committed to protecting your data.</p>
+    </div>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    document.getElementById("toggleDark").addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+    });
+
+    // Accordion toggle functionality
+    const toggles = document.querySelectorAll(".accordion-toggle");
+    toggles.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        content.classList.toggle("hidden");
+      });
+    });
+  </script>
+</body>
+</html>
