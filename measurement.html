@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Measurement Converter Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      color: #00FFAB;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 1s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+    
+    .container {
+      background: #1e1e2f;
+      border-radius: 15px;
+      padding: 30px;
+      display: inline-block;
+      box-shadow: 0 0 20px rgba(0, 255, 171, 0.5);
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      width: 80%;
+      max-width: 300px;
+      background: #333;
+      color: #fff;
+    }
+
+    button {
+      background-color: #4CAF50;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #FFD700;
+    }
+
+    .language-toggle {
+      margin-top: 15px;
+    }
+
+    select#language {
+      width: auto;
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="title">🌍 Measurement Converter Pro</h1>
+
+  <div class="container">
+    <input type="number" id="meterInput" placeholder="Enter meters" step="any">
+    <br>
+    <select id="unitSelect">
+      <option value="centimeter">Centimeter (cm)</option>
+      <option value="millimeter">Millimeter (mm)</option>
+      <option value="kilometer">Kilometer (km)</option>
+      <option value="inch">Inch (in)</option>
+      <option value="foot">Foot (ft)</option>
+      <option value="yard">Yard (yd)</option>
+      <option value="mile">Mile (mi)</option>
+      <option value="nautical">Nautical Mile (NM)</option>
+      <option value="lightyear">Light Year (ly)</option>
+    </select>
+    <br>
+    <button onclick="convert()">Convert</button>
+
+    <div id="result">Result will appear here!</div>
+
+    <div class="language-toggle">
+      <label for="language">🌐 Language:</label>
+      <select id="language" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    function convert() {
+      const meter = parseFloat(document.getElementById("meterInput").value);
+      const unit = document.getElementById("unitSelect").value;
+      let result = 0;
+      let unitLabel = "";
+
+      if (isNaN(meter)) {
+        document.getElementById("result").textContent = "❗ Please enter a valid number.";
+        return;
+      }
+
+      switch (unit) {
+        case "centimeter": result = meter * 100; unitLabel = currentLanguage === 'hi' ? "सेंटीमीटर" : "centimeters"; break;
+        case "millimeter": result = meter * 1000; unitLabel = currentLanguage === 'hi' ? "मिलीमीटर" : "millimeters"; break;
+        case "kilometer": result = meter / 1000; unitLabel = currentLanguage === 'hi' ? "किलोमीटर" : "kilometers"; break;
+        case "inch": result = meter * 39.3701; unitLabel = currentLanguage === 'hi' ? "इंच" : "inches"; break;
+        case "foot": result = meter * 3.28084; unitLabel = currentLanguage === 'hi' ? "फुट" : "feet"; break;
+        case "yard": result = meter * 1.09361; unitLabel = currentLanguage === 'hi' ? "गज" : "yards"; break;
+        case "mile": result = meter * 0.000621371; unitLabel = currentLanguage === 'hi' ? "मील" : "miles"; break;
+        case "nautical": result = meter * 0.000539957; unitLabel = currentLanguage === 'hi' ? "समुद्री मील" : "nautical miles"; break;
+        case "lightyear": result = meter * 1.057e-16; unitLabel = currentLanguage === 'hi' ? "प्रकाश वर्ष" : "light years"; break;
+      }
+
+      const resultText = currentLanguage === 'hi'
+        ? `परिणाम: ${meter} मीटर = ${result.toFixed(10)} ${unitLabel}`
+        : `Result: ${meter} meters = ${result.toFixed(10)} ${unitLabel}`;
+
+      document.getElementById("result").textContent = resultText;
+    }
+
+    let currentLanguage = 'en';
+
+    function changeLanguage() {
+      currentLanguage = document.getElementById('language').value;
+      document.getElementById('title').textContent = currentLanguage === 'hi' 
+        ? '🌍 मापन कन्वर्टर प्रो' 
+        : '🌍 Measurement Converter Pro';
+      document.getElementById('meterInput').placeholder = currentLanguage === 'hi'
+        ? 'मीटर दर्ज करें'
+        : 'Enter meters';
+      convert();  // update result if already present
+    }
+  </script>
+
+</body>
+</html>
