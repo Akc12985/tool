@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>आकर्षक PDF एन्क्रिप्टर - सुरक्षित करें और डाउनलोड करें</title>
     <meta name="description" content="एक आकर्षक ऑनलाइन PDF एन्क्रिप्टर टूल जो आपकी PDF फ़ाइलों को पासवर्ड से सुरक्षित करता है और तुरंत डाउनलोड करने की सुविधा देता है।">
-    <meta name="keywords" content="आकर्षक PDF एन्क्रिप्ट, PDF पासवर्ड सुरक्षा, ऑनलाइन PDF सुरक्षा, मुफ्त PDF एन्क्रिप्टर, PDF डाउनलोड">
+    <meta name="keywords" content="आकर्षक PDF एन्क्रिप्ट, PDF पासवर्ड सुरक्षा, ऑनलाइन PDF एन्क्रिप्शन, मुफ्त PDF टूल, PDF डाउनलोड">
     <link rel="canonical" href="https://आपकी-वेबसाइट.कॉम/attractive-pdf-encryptor">
     <style>
         body {
@@ -22,36 +22,54 @@
             background-color: #fff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
         }
         h1 {
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
         }
         p {
             color: #555;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            font-size: 1.1em;
         }
         input[type="file"], input[type="password"], button {
-            width: calc(100% - 24px);
-            padding: 12px;
+            width: calc(100% - 30px);
+            padding: 15px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 16px;
+            font-size: 1em;
         }
-        button {
+        input[type="file"]::file-selector-button {
             background-color: #3498db;
             color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        button:hover {
+        input[type="file"]::file-selector-button:hover {
             background-color: #2980b9;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #219653;
         }
         #ad-container {
             margin-top: 30px;
@@ -61,23 +79,32 @@
             margin-top: 30px;
             padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 6px;
+            border-radius: 8px;
             background-color: #f9f9f9;
             text-align: center;
-            display: none;
+            font-size: 1.1em;
         }
-        #result a {
+        #downloadLink {
             color: #3498db;
             text-decoration: none;
             font-weight: bold;
         }
-        #result a:hover {
+        #downloadLink:hover {
             text-decoration: underline;
         }
-        .upload-icon {
-            font-size: 2em;
-            color: #777;
-            margin-bottom: 10px;
+        .loader {
+            border: 5px solid #f3f3f3; /* Light grey */
+            border-top: 5px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
@@ -85,17 +112,14 @@
 </head>
 <body>
     <div class="container">
-        <h1><i class="upload-icon"></i> PDF एन्क्रिप्ट करें</h1>
-        <p>अपनी PDF फ़ाइल को सुरक्षित करने के लिए एक पासवर्ड दर्ज करें और एन्क्रिप्टेड फ़ाइल को तुरंत डाउनलोड करें!</p>
+        <h1>अपनी PDF फ़ाइल को सुरक्षित करें</h1>
+        <p>एक मजबूत पासवर्ड के साथ अपनी PDF फ़ाइल को एन्क्रिप्ट करें और एन्क्रिप्टेड फ़ाइल को तुरंत डाउनलोड करें। यह प्रक्रिया आपकी संवेदनशील जानकारी को सुरक्षित रखती है।</p>
 
         <input type="file" id="pdfFile" accept=".pdf">
-        <input type="password" id="password" placeholder="मज़बूत पासवर्ड दर्ज करें">
-        <button onclick="encryptAndDownload()">एन्क्रिप्ट करें और डाउनलोड करें</button>
+        <input type="password" id="password" placeholder="सुरक्षा के लिए पासवर्ड दर्ज करें">
+        <button onclick="encryptAndDownloadPdf()">एन्क्रिप्ट करें और डाउनलोड करें</button>
 
-        <div id="result">
-            <p id="resultMessage"></p>
-            <a id="downloadLink" href="#" style="display: none;" download="encrypted_file.pdf">एन्क्रिप्टेड PDF डाउनलोड करें</a>
-        </div>
+        <div id="result" style="display: none;"></div>
 
         <div id="ad-container">
             <ins class="adsbygoogle"
@@ -111,12 +135,10 @@
     </div>
 
     <script>
-        function encryptAndDownload() {
+        async function encryptAndDownloadPdf() {
             const fileInput = document.getElementById('pdfFile');
             const passwordInput = document.getElementById('password');
             const resultDiv = document.getElementById('result');
-            const resultMessage = document.getElementById('resultMessage');
-            const downloadLink = document.getElementById('downloadLink');
             const file = fileInput.files[0];
             const password = passwordInput.value;
 
@@ -131,20 +153,36 @@
             }
 
             resultDiv.style.display = 'block';
-            resultMessage.textContent = 'एन्क्रिप्ट किया जा रहा है...';
-            downloadLink.style.display = 'none';
+            resultDiv.innerHTML = '<div class="loader"></div><p>आपकी PDF फ़ाइल एन्क्रिप्ट की जा रही है...</p>';
 
-            // **महत्वपूर्ण:** यह क्लाइंट-साइड कोड वास्तविक एन्क्रिप्शन नहीं करता है।
-            // आपको फ़ाइल और पासवर्ड को सर्वर पर भेजना होगा।
-            // सर्वर-साइड स्क्रिप्ट एन्क्रिप्शन करेगी और एन्क्रिप्टेड फ़ाइल का एक अस्थायी URL
-            // वापस भेजेगी जिसका उपयोग डाउनलोड लिंक में किया जा सकता है।
+            const formData = new FormData();
+            formData.append('pdfFile', file);
+            formData.append('password', password);
 
-            // उदाहरण के लिए (वास्तविक एन्क्रिप्शन और सर्वर इंटरैक्शन नहीं):
-            setTimeout(() => {
-                resultMessage.textContent = 'एन्क्रिप्शन सफल!';
-                downloadLink.href = '#'; // यहाँ सर्वर से प्राप्त एन्क्रिप्टेड फ़ाइल का URL आएगा
-                downloadLink.style.display = 'block';
-            }, 2000);
+            try {
+                const response = await fetch('/api/encrypt-pdf', { // अपनी सर्वर-साइड स्क्रिप्ट का एंडपॉइंट
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'encrypted_file.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    resultDiv.innerHTML = '<p>PDF सफलतापूर्वक एन्क्रिप्ट और डाउनलोड की गई!</p>';
+                } else {
+                    const error = await response.json();
+                    resultDiv.innerHTML = `<p class="error">एन्क्रिप्शन विफल: ${error.message || 'एक अज्ञात त्रुटि हुई।'}</p>`;
+                }
+            } catch (error) {
+                console.error('एन्क्रिप्शन त्रुटि:', error);
+                resultDiv.innerHTML = '<p class="error">फ़ाइल अपलोड या एन्क्रिप्शन के दौरान कोई त्रुटि हुई।</p>';
+            }
         }
     </script>
 </body>
