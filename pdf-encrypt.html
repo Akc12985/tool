@@ -1,614 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online PDF encryption tool. Protect your PDF files with password security in seconds. No installation required.">
-    <meta name="keywords" content="PDF encrypt, PDF password, secure PDF, PDF protection, online PDF tool">
-    <meta name="author" content="PDF Tools">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Free Online PDF Encryption Tool">
-    <meta property="og:description" content="Protect your PDF files with password security in seconds">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourwebsite.com/pdf-encrypt">
-    <link rel="canonical" href="https://yourwebsite.com/pdf-encrypt">
-    
-    <title>Free Online PDF Encryption Tool | Secure Your Documents</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>PDF एन्क्रिप्ट करें - अपनी PDF फ़ाइलों को सुरक्षित करें</title>
+    <meta name="description" content="मुफ्त ऑनलाइन PDF एन्क्रिप्टर टूल का उपयोग करके अपनी PDF फ़ाइलों को पासवर्ड से सुरक्षित करें। अपनी संवेदनशील जानकारी को सुरक्षित रखें।">
+    <meta name="keywords" content="PDF एन्क्रिप्ट, PDF पासवर्ड, PDF सुरक्षा, ऑनलाइन एन्क्रिप्टर, मुफ्त PDF टूल">
+    <link rel="canonical" href="https://आपकी-वेबसाइट.कॉम/pdf-encryptor">
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: sans-serif;
+            margin: 20px;
             line-height: 1.6;
+            background-color: #f4f4f4;
             color: #333;
-            background-color: #f8f9fa;
         }
-        
-        .navbar {
-            background-color: var(--secondary-color);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
-        .navbar-brand {
-            font-weight: 700;
-            color: white;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 10px 10px;
-        }
-        
-        .tool-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .ad-container {
-            background-color: #f1f1f1;
-            border: 1px dashed #ccc;
-            padding: 1rem;
+        h1, h2 {
+            color: #333;
             text-align: center;
-            margin: 1rem 0;
-            border-radius: 5px;
         }
-        
-        footer {
-            background-color: var(--secondary-color);
+        input[type="file"], input[type="password"], button {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
             color: white;
-            padding: 2rem 0;
-            margin-top: 2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        
-        .loading-spinner {
-            display: none;
+        button:hover {
+            background-color: #0056b3;
+        }
+        #ad-container {
+            margin-top: 20px;
             text-align: center;
-            margin: 1rem 0;
         }
-        
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            text-align: center;
         }
-        
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 2rem 0;
-            }
-            
-            .tool-container {
-                padding: 1.5rem;
-            }
+        #result a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        #result a:hover {
+            text-decoration: underline;
         }
     </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">PDF Secure</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Tools</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">PDF Encryption Tool</h1>
-            <p class="lead mb-4">Protect your sensitive PDF documents with strong password encryption in seconds</p>
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="d-flex justify-content-center">
-                        <a href="#tool-section" class="btn btn-light btn-lg me-2">Encrypt PDF Now</a>
-                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Content -->
     <div class="container">
-        <!-- Top Ad Banner -->
-        <div class="row mb-4">
-            <div class="col-12 ad-container">
-                <!-- Replace with your AdSense code -->
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_CLIENT_ID"></script>
-                <!-- Top Banner Ad -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
-                     data-ad-slot="YOUR_AD_SLOT_ID"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-        </div>
-        
-        <!-- Tool Section -->
-        <section id="tool-section" class="tool-container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2 class="text-center mb-4">Encrypt Your PDF File</h2>
-                    
-                    <div id="upload-container" class="text-center p-4 border rounded mb-4" style="cursor: pointer;">
-                        <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
-                        <h4>Drag & Drop your PDF here</h4>
-                        <p class="text-muted">or click to browse files</p>
-                        <input type="file" id="pdf-upload" accept=".pdf" class="d-none">
-                    </div>
-                    
-                    <div id="file-info" class="mb-4 d-none">
-                        <div class="alert alert-success d-flex justify-content-between align-items-center">
-                            <span id="file-name"></span>
-                            <button id="clear-file" class="btn btn-sm btn-outline-danger">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="password" class="form-label">Set Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="Enter password">
-                            <button class="btn btn-outline-secondary" type="button" id="toggle-password">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="form-text">Use a strong password with at least 8 characters</div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password">
-                    </div>
-                    
-                    <div class="d-grid gap-2">
-                        <button id="encrypt-btn" class="btn btn-primary btn-lg" disabled>
-                            <i class="fas fa-lock me-2"></i>Encrypt PDF
-                        </button>
-                    </div>
-                    
-                    <div id="loading-spinner" class="loading-spinner">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="mt-2">Encrypting your PDF... Please wait</p>
-                    </div>
-                    
-                    <div id="download-container" class="text-center mt-4 d-none">
-                        <a id="download-btn" class="btn btn-success btn-lg" download>
-                            <i class="fas fa-download me-2"></i>Download Encrypted PDF
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Middle Ad Banner -->
-        <div class="row my-4">
-            <div class="col-12 ad-container">
-                <!-- Replace with your Adsterra or other ad code -->
-                <div id="container-adsterra" style="width: 100%; height: auto;"></div>
-                <script>
-                    // Adsterra ad code would go here
-                    // Replace with your actual Adsterra code
-                </script>
-            </div>
-        </div>
-        
-        <!-- How It Works Section -->
-        <section id="how-it-works" class="tool-container mt-4">
-            <h2 class="text-center mb-5">How It Works</h2>
-            <div class="row g-4">
-                <div class="col-md-4 text-center">
-                    <div class="feature-icon">
-                        <i class="fas fa-upload"></i>
-                    </div>
-                    <h3>Upload PDF</h3>
-                    <p>Drag and drop your PDF file or click to browse your device. We support files up to 50MB.</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>Set Password</h3>
-                    <p>Create a strong password to protect your PDF. Remember this password as it can't be recovered.</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="feature-icon">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <h3>Download</h3>
-                    <p>Download your encrypted PDF file instantly. Your file is processed securely in your browser.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Features Section -->
-        <section class="tool-container mt-4">
-            <h2 class="text-center mb-5">Why Choose Our PDF Encryption Tool</h2>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="d-flex">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-shield-alt fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>Secure Encryption</h4>
-                            <p>We use industry-standard 256-bit AES encryption to ensure your PDF files are protected with military-grade security.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-bolt fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>Fast Processing</h4>
-                            <p>Your files are processed quickly in your browser without uploading to our servers, ensuring privacy and speed.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-mobile-alt fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>Mobile Friendly</h4>
-                            <p>Our tool works perfectly on all devices including smartphones and tablets with our responsive design.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-ban fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>No Watermarks</h4>
-                            <p>We don't add any watermarks or limitations to your encrypted PDF files. What you see is what you get.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Bottom Ad Banner -->
-        <div class="row my-4">
-            <div class="col-12 ad-container">
-                <!-- Replace with your AdMob or other ad code -->
-                <script>
-                    // AdMob ad code would go here
-                    // Replace with your actual AdMob code
-                </script>
-            </div>
+        <h1>PDF एन्क्रिप्ट करें</h1>
+        <p>अपनी PDF फ़ाइल को एक पासवर्ड के साथ सुरक्षित करें ताकि अनधिकृत पहुंच को रोका जा सके। बस एक PDF फ़ाइल अपलोड करें और एक पासवर्ड दर्ज करें।</p>
+
+        <input type="file" id="pdfFile" accept=".pdf">
+        <input type="password" id="password" placeholder="पासवर्ड दर्ज करें">
+        <button onclick="encryptPdf()">एन्क्रिप्ट करें</button>
+
+        <div id="result" style="display: none;"></div>
+
+        <div id="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                 data-ad-slot="yyyyyyyyyyyyyyy"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h5>PDF Tools</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">PDF Merge</a></li>
-                        <li><a href="#" class="text-white">PDF Split</a></li>
-                        <li><a href="#" class="text-white">PDF Compress</a></li>
-                        <li><a href="#" class="text-white">PDF to Word</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h5>Resources</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Help Center</a></li>
-                        <li><a href="#" class="text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="text-white">Terms of Service</a></li>
-                        <li><a href="#" class="text-white">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Connect With Us</h5>
-                    <div class="social-icons mt-3">
-                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f fa-lg"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4 bg-light">
-            <p class="mb-0">&copy; 2023 PDF Secure. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <!-- PDF-lib for PDF manipulation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM elements
-            const uploadContainer = document.getElementById('upload-container');
-            const pdfUpload = document.getElementById('pdf-upload');
-            const fileInfo = document.getElementById('file-info');
-            const fileName = document.getElementById('file-name');
-            const clearFileBtn = document.getElementById('clear-file');
+        function encryptPdf() {
+            const fileInput = document.getElementById('pdfFile');
             const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirm-password');
-            const togglePasswordBtn = document.getElementById('toggle-password');
-            const encryptBtn = document.getElementById('encrypt-btn');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            const downloadContainer = document.getElementById('download-container');
-            const downloadBtn = document.getElementById('download-btn');
-            
-            let selectedFile = null;
-            
-            // Event listeners
-            uploadContainer.addEventListener('click', () => pdfUpload.click());
-            
-            pdfUpload.addEventListener('change', handleFileSelect);
-            
-            clearFileBtn.addEventListener('click', clearSelectedFile);
-            
-            togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
-            
-            [passwordInput, confirmPasswordInput].forEach(input => {
-                input.addEventListener('input', validateForm);
-            });
-            
-            encryptBtn.addEventListener('click', encryptPDF);
-            
-            // Drag and drop functionality
-            uploadContainer.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadContainer.style.border = '2px dashed #3498db';
-                uploadContainer.style.backgroundColor = '#f8f9fa';
-            });
-            
-            uploadContainer.addEventListener('dragleave', () => {
-                uploadContainer.style.border = '2px dashed #ced4da';
-                uploadContainer.style.backgroundColor = '';
-            });
-            
-            uploadContainer.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadContainer.style.border = '2px dashed #ced4da';
-                uploadContainer.style.backgroundColor = '';
-                
-                if (e.dataTransfer.files.length) {
-                    const file = e.dataTransfer.files[0];
-                    if (file.type === 'application/pdf') {
-                        selectedFile = file;
-                        updateFileInfo(file.name);
-                    } else {
-                        showAlert('Please select a PDF file.', 'danger');
-                    }
-                }
-            });
-            
-            // Functions
-            function handleFileSelect(e) {
-                const file = e.target.files[0];
-                if (file && file.type === 'application/pdf') {
-                    selectedFile = file;
-                    updateFileInfo(file.name);
-                } else {
-                    showAlert('Please select a PDF file.', 'danger');
-                }
+            const resultDiv = document.getElementById('result');
+            const file = fileInput.files[0];
+            const password = passwordInput.value;
+
+            if (!file) {
+                alert('कृपया एक PDF फ़ाइल चुनें।');
+                return;
             }
-            
-            function clearSelectedFile() {
-                selectedFile = null;
-                pdfUpload.value = '';
-                fileInfo.classList.add('d-none');
-                validateForm();
+
+            if (!password) {
+                alert('कृपया एक पासवर्ड दर्ज करें।');
+                return;
             }
-            
-            function updateFileInfo(name) {
-                fileName.textContent = name;
-                fileInfo.classList.remove('d-none');
-                validateForm();
-            }
-            
-            function togglePasswordVisibility() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                confirmPasswordInput.setAttribute('type', type);
-                togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            }
-            
-            function validateForm() {
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                
-                if (!selectedFile) {
-                    encryptBtn.disabled = true;
-                    return;
-                }
-                
-                if (password.length < 8) {
-                    encryptBtn.disabled = true;
-                    return;
-                }
-                
-                if (password !== confirmPassword) {
-                    encryptBtn.disabled = true;
-                    return;
-                }
-                
-                encryptBtn.disabled = false;
-            }
-            
-            async function encryptPDF() {
-                if (!selectedFile) return;
-                
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                
-                if (password !== confirmPassword) {
-                    showAlert('Passwords do not match.', 'danger');
-                    return;
-                }
-                
-                if (password.length < 8) {
-                    showAlert('Password must be at least 8 characters long.', 'danger');
-                    return;
-                }
-                
-                try {
-                    // Show loading spinner
-                    loadingSpinner.style.display = 'block';
-                    encryptBtn.disabled = true;
-                    
-                    // Read the PDF file
-                    const arrayBuffer = await selectedFile.arrayBuffer();
-                    
-                    // Load the PDF document
-                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-                    
-                    // Encrypt the PDF with the password
-                    const encryptedPdfBytes = await pdfDoc.save({
-                        userPassword: password,
-                        ownerPassword: password,
-                        permissions: {
-                            printing: 'allowAll',
-                            copying: 'allowAll',
-                            modifying: 'allowAll',
-                            annotating: 'allowAll',
-                            fillingForms: 'allowAll',
-                            contentAccessibility: 'allowAll',
-                            documentAssembly: 'allowAll'
-                        }
-                    });
-                    
-                    // Create a blob from the encrypted PDF
-                    const blob = new Blob([encryptedPdfBytes], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    // Set up the download link
-                    downloadBtn.href = url;
-                    downloadBtn.setAttribute('download', `encrypted_${selectedFile.name}`);
-                    
-                    // Hide loading spinner and show download button
-                    loadingSpinner.style.display = 'none';
-                    downloadContainer.classList.remove('d-none');
-                    
-                    // Show success message
-                    showAlert('PDF encrypted successfully!', 'success');
-                    
-                } catch (error) {
-                    console.error('Error encrypting PDF:', error);
-                    loadingSpinner.style.display = 'none';
-                    encryptBtn.disabled = false;
-                    showAlert('An error occurred while encrypting the PDF. Please try again.', 'danger');
-                }
-            }
-            
-            function showAlert(message, type) {
-                const alertDiv = document.createElement('div');
-                alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
-                alertDiv.role = 'alert';
-                alertDiv.innerHTML = `
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                `;
-                
-                const container = document.querySelector('.tool-container');
-                container.insertBefore(alertDiv, container.firstChild);
-                
-                // Auto-dismiss after 5 seconds
-                setTimeout(() => {
-                    const bsAlert = new bootstrap.Alert(alertDiv);
-                    bsAlert.close();
-                }, 5000);
-            }
-        });
-    </script>
-    
-    <!-- Structured data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "PDF Encryption Tool",
-      "url": "https://yourwebsite.com/pdf-encrypt",
-      "description": "Free online tool to encrypt and password protect your PDF files with strong security.",
-      "applicationCategory": "DocumentUtility",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Organization",
-        "name": "PDF Tools"
-      }
-    }
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>एन्क्रिप्ट किया जा रहा है...</p>';
+
+            // **ध्यान दें:** ब्राउज़र सीधे PDF फ़ाइलों को एन्क्रिप्ट नहीं कर सकते हैं।
+            // आपको सर्वर-साइड लॉजिक (जैसे Node.js, Python, PHP, आदि) का उपयोग करने की आवश्यकता होगी
+            // एक लाइब्रेरी (जैसे PDF-lib in Node.js) के साथ PDF को एन्क्रिप्ट करने और
+            // एन्क्रिप्टेड फ़ाइल को वापस उपयोगकर्ता को भेजने के लिए।
+
+            // यह क्लाइंट-साइड कोड केवल फ़ाइल और पासवर्ड प्राप्त करता है।
+            // आपको इस डेटा को सर्वर पर भेजना होगा।
+
+            // उदाहरण के लिए (वास्तविक एन्क्रिप्शन नहीं):
+            setTimeout(() => {
+                resultDiv.innerHTML = `<p>एन्क्रिप्टेड PDF डाउनलोड करें: <a href="#">encrypted_file.pdf</a> (यह वास्तविक फ़ाइल नहीं है)</p>`;
+                // यहाँ आपको सर्वर से जेनरेट की गई एन्क्रिप्टेड फ़ाइल का लिंक डालना होगा।
+            }, 2000);
+        }
     </script>
 </body>
 </html>
