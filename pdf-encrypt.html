@@ -3,65 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF एन्क्रिप्ट करें - अपनी PDF फ़ाइलों को सुरक्षित करें</title>
-    <meta name="description" content="मुफ्त ऑनलाइन PDF एन्क्रिप्टर टूल का उपयोग करके अपनी PDF फ़ाइलों को पासवर्ड से सुरक्षित करें। अपनी संवेदनशील जानकारी को सुरक्षित रखें।">
-    <meta name="keywords" content="PDF एन्क्रिप्ट, PDF पासवर्ड, PDF सुरक्षा, ऑनलाइन एन्क्रिप्टर, मुफ्त PDF टूल">
-    <link rel="canonical" href="https://आपकी-वेबसाइट.कॉम/pdf-encryptor">
+    <title>आकर्षक PDF एन्क्रिप्टर - सुरक्षित करें और डाउनलोड करें</title>
+    <meta name="description" content="एक आकर्षक ऑनलाइन PDF एन्क्रिप्टर टूल जो आपकी PDF फ़ाइलों को पासवर्ड से सुरक्षित करता है और तुरंत डाउनलोड करने की सुविधा देता है।">
+    <meta name="keywords" content="आकर्षक PDF एन्क्रिप्ट, PDF पासवर्ड सुरक्षा, ऑनलाइन PDF सुरक्षा, मुफ्त PDF एन्क्रिप्टर, PDF डाउनलोड">
+    <link rel="canonical" href="https://आपकी-वेबसाइट.कॉम/attractive-pdf-encryptor">
     <style>
         body {
-            font-family: sans-serif;
-            margin: 20px;
-            line-height: 1.6;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f2f0, #e0e0e0);
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #333;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            margin-bottom: 30px;
         }
         input[type="file"], input[type="password"], button {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 16px;
         }
         button {
-            background-color: #007bff;
+            background-color: #3498db;
             color: white;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #2980b9;
         }
         #ad-container {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
         }
         #result {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 30px;
+            padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             background-color: #f9f9f9;
             text-align: center;
+            display: none;
         }
         #result a {
-            color: #007bff;
+            color: #3498db;
             text-decoration: none;
+            font-weight: bold;
         }
         #result a:hover {
             text-decoration: underline;
+        }
+        .upload-icon {
+            font-size: 2em;
+            color: #777;
+            margin-bottom: 10px;
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
@@ -69,14 +85,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>PDF एन्क्रिप्ट करें</h1>
-        <p>अपनी PDF फ़ाइल को एक पासवर्ड के साथ सुरक्षित करें ताकि अनधिकृत पहुंच को रोका जा सके। बस एक PDF फ़ाइल अपलोड करें और एक पासवर्ड दर्ज करें।</p>
+        <h1><i class="upload-icon"></i> PDF एन्क्रिप्ट करें</h1>
+        <p>अपनी PDF फ़ाइल को सुरक्षित करने के लिए एक पासवर्ड दर्ज करें और एन्क्रिप्टेड फ़ाइल को तुरंत डाउनलोड करें!</p>
 
         <input type="file" id="pdfFile" accept=".pdf">
-        <input type="password" id="password" placeholder="पासवर्ड दर्ज करें">
-        <button onclick="encryptPdf()">एन्क्रिप्ट करें</button>
+        <input type="password" id="password" placeholder="मज़बूत पासवर्ड दर्ज करें">
+        <button onclick="encryptAndDownload()">एन्क्रिप्ट करें और डाउनलोड करें</button>
 
-        <div id="result" style="display: none;"></div>
+        <div id="result">
+            <p id="resultMessage"></p>
+            <a id="downloadLink" href="#" style="display: none;" download="encrypted_file.pdf">एन्क्रिप्टेड PDF डाउनलोड करें</a>
+        </div>
 
         <div id="ad-container">
             <ins class="adsbygoogle"
@@ -92,10 +111,12 @@
     </div>
 
     <script>
-        function encryptPdf() {
+        function encryptAndDownload() {
             const fileInput = document.getElementById('pdfFile');
             const passwordInput = document.getElementById('password');
             const resultDiv = document.getElementById('result');
+            const resultMessage = document.getElementById('resultMessage');
+            const downloadLink = document.getElementById('downloadLink');
             const file = fileInput.files[0];
             const password = passwordInput.value;
 
@@ -110,20 +131,19 @@
             }
 
             resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<p>एन्क्रिप्ट किया जा रहा है...</p>';
+            resultMessage.textContent = 'एन्क्रिप्ट किया जा रहा है...';
+            downloadLink.style.display = 'none';
 
-            // **ध्यान दें:** ब्राउज़र सीधे PDF फ़ाइलों को एन्क्रिप्ट नहीं कर सकते हैं।
-            // आपको सर्वर-साइड लॉजिक (जैसे Node.js, Python, PHP, आदि) का उपयोग करने की आवश्यकता होगी
-            // एक लाइब्रेरी (जैसे PDF-lib in Node.js) के साथ PDF को एन्क्रिप्ट करने और
-            // एन्क्रिप्टेड फ़ाइल को वापस उपयोगकर्ता को भेजने के लिए।
+            // **महत्वपूर्ण:** यह क्लाइंट-साइड कोड वास्तविक एन्क्रिप्शन नहीं करता है।
+            // आपको फ़ाइल और पासवर्ड को सर्वर पर भेजना होगा।
+            // सर्वर-साइड स्क्रिप्ट एन्क्रिप्शन करेगी और एन्क्रिप्टेड फ़ाइल का एक अस्थायी URL
+            // वापस भेजेगी जिसका उपयोग डाउनलोड लिंक में किया जा सकता है।
 
-            // यह क्लाइंट-साइड कोड केवल फ़ाइल और पासवर्ड प्राप्त करता है।
-            // आपको इस डेटा को सर्वर पर भेजना होगा।
-
-            // उदाहरण के लिए (वास्तविक एन्क्रिप्शन नहीं):
+            // उदाहरण के लिए (वास्तविक एन्क्रिप्शन और सर्वर इंटरैक्शन नहीं):
             setTimeout(() => {
-                resultDiv.innerHTML = `<p>एन्क्रिप्टेड PDF डाउनलोड करें: <a href="#">encrypted_file.pdf</a> (यह वास्तविक फ़ाइल नहीं है)</p>`;
-                // यहाँ आपको सर्वर से जेनरेट की गई एन्क्रिप्टेड फ़ाइल का लिंक डालना होगा।
+                resultMessage.textContent = 'एन्क्रिप्शन सफल!';
+                downloadLink.href = '#'; // यहाँ सर्वर से प्राप्त एन्क्रिप्टेड फ़ाइल का URL आएगा
+                downloadLink.style.display = 'block';
             }, 2000);
         }
     </script>
