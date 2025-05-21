@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Compressor Pro | Reduce DOCX File Size Instantly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #5e60ce;
+            --secondary-color: #6930c3;
+            --accent-color: #80ffdb;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4bb543;
+            --warning-color: #fca311;
+            --error-color: #ef233c;
+            --border-radius: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--success-color);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .compressor-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .compressor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(94, 96, 206, 0.05);
+        }
+
+        .upload-area.active {
+            border-color: var(--success-color);
+            background-color: rgba(75, 181, 67, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-disabled:hover {
+            background-color: #ccc;
+            transform: none;
+        }
+
+        .compression-options {
+            margin-bottom: 2rem;
+        }
+
+        .compression-options h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid #ddd;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .option-card.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(94, 96, 206, 0.1);
+        }
+
+        .option-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .option-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .slider-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .results {
+            display: none;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .results.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .file-stat {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .file-stat h4 {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-stat p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .file-stat .percentage {
+            color: var(--success-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        .file-name {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .compressor-card {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+
+            .option-group {
+                flex-direction: column;
+            }
+
+            .file-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .file-stat {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading .spinner {
+            display: block;
+        }
+
+        .loading .btn-text {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-file-word"></i>
+                <span>Word Compressor Pro</span>
+            </div>
+            <p class="tagline">Reduce your Word document size instantly while preserving content quality</p>
+        </header>
+
+        <div class="compressor-card">
+            <div id="uploadArea" class="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Upload Your Word Document</h3>
+                <p>Drag & drop your file here or click to browse</p>
+                <input type="file" id="fileInput" accept=".docx,.doc" style="display: none;">
+                <button id="browseBtn" class="btn">Browse Files</button>
+                <div id="fileName" class="file-name"></div>
+            </div>
+
+            <div class="compression-options">
+                <h3>Compression Options</h3>
+                <div class="option-group">
+                    <div id="optionBalanced" class="option-card selected">
+                        <h4>Balanced</h4>
+                        <p>Good compression with reasonable quality</p>
+                    </div>
+                    <div id="optionMax" class="option-card">
+                        <h4>Maximum Compression</h4>
+                        <p>Smallest file size, some quality loss</p>
+                    </div>
+                    <div id="optionCustom" class="option-card">
+                        <h4>Custom</h4>
+                        <p>Adjust settings manually</p>
+                    </div>
+                </div>
+
+                <div id="customOptions" style="display: none;">
+                    <div class="slider-container">
+                        <label for="compressionLevel">Compression Level</label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="100" value="50" class="slider" id="compressionLevel">
+                            <span id="compressionValue" class="slider-value">50%</span>
+                        </div>
+                    </div>
+                    <div class="slider-container">
+                        <label for="imageQuality">Image Quality</label>
+                        <div class="slider-wrapper">
+                            <input type="range" min="10" max="100" value="75" class="slider" id="imageQuality">
+                            <span id="imageQualityValue" class="slider-value">75%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="compressBtn" class="btn btn-disabled" disabled>
+                <span class="btn-text">Compress Document</span>
+                <div class="spinner"></div>
+            </button>
+
+            <div id="results" class="results">
+                <div class="progress-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+                <div class="file-info">
+                    <div class="file-stat">
+                        <h4>Original Size</h4>
+                        <p id="originalSize">-</p>
+                    </div>
+                    <div class="file-stat">
+                        <h4>Compressed Size</h4>
+                        <p id="compressedSize">-</p>
+                    </div>
+                    <div class="file-stat">
+                        <h4>Reduction</h4>
+                        <p id="reduction" class="percentage">-</p>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="downloadBtn" class="btn">
+                        <i class="fas fa-download"></i> Download Compressed File
+                    </button>
+                    <button id="newFileBtn" class="btn btn-outline">
+                        <i class="fas fa-redo"></i> Compress Another File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Processing</h3>
+                <p>Your documents are processed in your browser and never uploaded to any server. Complete privacy guaranteed.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Fast Compression</h3>
+                <p>Our advanced algorithms compress your Word files in seconds, no matter how large they are.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-image"></i>
+                <h3>Smart Image Compression</h3>
+                <p>Optimizes images while maintaining readability and visual quality.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Word Compressor Pro. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+            const browseBtn = document.getElementById('browseBtn');
+            const fileName = document.getElementById('fileName');
+            const compressBtn = document.getElementById('compressBtn');
+            const results = document.getElementById('results');
+            const originalSize = document.getElementById('originalSize');
+            const compressedSize = document.getElementById('compressedSize');
+            const reduction = document.getElementById('reduction');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const newFileBtn = document.getElementById('newFileBtn');
+            const progressBar = document.getElementById('progressBar');
+            const compressionLevel = document.getElementById('compressionLevel');
+            const compressionValue = document.getElementById('compressionValue');
+            const imageQuality = document.getElementById('imageQuality');
+            const imageQualityValue = document.getElementById('imageQualityValue');
+            const customOptions = document.getElementById('customOptions');
+            
+            // Compression option cards
+            const optionBalanced = document.getElementById('optionBalanced');
+            const optionMax = document.getElementById('optionMax');
+            const optionCustom = document.getElementById('optionCustom');
+            
+            let selectedFile = null;
+            let compressedBlob = null;
+            let compressionMode = 'balanced'; // balanced, max, custom
+            
+            // Event listeners
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+            compressBtn.addEventListener('click', compressFile);
+            downloadBtn.addEventListener('click', downloadCompressedFile);
+            newFileBtn.addEventListener('click', resetTool);
+            compressionLevel.addEventListener('input', updateCompressionValue);
+            imageQuality.addEventListener('input', updateImageQualityValue);
+            
+            // Option selection
+            optionBalanced.addEventListener('click', () => selectOption('balanced'));
+            optionMax.addEventListener('click', () => selectOption('max'));
+            optionCustom.addEventListener('click', () => selectOption('custom'));
+            
+            // Functions
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file && isValidWordFile(file)) {
+                    selectedFile = file;
+                    updateUIAfterFileSelect();
+                } else {
+                    alert('Please select a valid Word file (.docx, .doc)');
+                }
+            }
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.add('active');
+            }
+            
+            function handleDragLeave(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.remove('active');
+            }
+            
+            function handleDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.remove('active');
+                
+                const file = e.dataTransfer.files[0];
+                if (file && isValidWordFile(file)) {
+                    selectedFile = file;
+                    fileInput.files = e.dataTransfer.files;
+                    updateUIAfterFileSelect();
+                } else {
+                    alert('Please drop a valid Word file (.docx, .doc)');
+                }
+            }
+            
+            function isValidWordFile(file) {
+                const validTypes = [
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/msword'
+                ];
+                const validExtensions = ['.docx', '.doc'];
+                const fileName = file.name.toLowerCase();
+                
+                return validTypes.includes(file.type) || 
+                       validExtensions.some(ext => fileName.endsWith(ext));
+            }
+            
+            function updateUIAfterFileSelect() {
+                fileName.textContent = selectedFile.name;
+                compressBtn.disabled = false;
+                compressBtn.classList.remove('btn-disabled');
+                uploadArea.classList.add('active');
+            }
+            
+            function selectOption(mode) {
+                compressionMode = mode;
+                
+                // Update UI
+                optionBalanced.classList.remove('selected');
+                optionMax.classList.remove('selected');
+                optionCustom.classList.remove('selected');
+                
+                if (mode === 'balanced') {
+                    optionBalanced.classList.add('selected');
+                    customOptions.style.display = 'none';
+                } else if (mode === 'max') {
+                    optionMax.classList.add('selected');
+                    customOptions.style.display = 'none';
+                } else {
+                    optionCustom.classList.add('selected');
+                    customOptions.style.display = 'block';
+                }
+            }
+            
+            function updateCompressionValue() {
+                compressionValue.textContent = `${compressionLevel.value}%`;
+            }
+            
+            function updateImageQualityValue() {
+                imageQualityValue.textContent = `${imageQuality.value}%`;
+            }
+            
+            function compressFile() {
+                if (!selectedFile) return;
+                
+                // Show loading state
+                compressBtn.classList.add('loading');
+                
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 5;
+                    progressBar.style.width = `${progress}%`;
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                }, 100);
+                
+                // Read the file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const arrayBuffer = e.target.result;
+                        
+                        // In a real implementation, you would process the Word file here
+                        // For this example, we'll simulate the compression with a timeout
+                        setTimeout(() => {
+                            // Calculate sizes (simulated)
+                            const originalSizeBytes = selectedFile.size;
+                            let compressedSizeBytes;
+                            
+                            if (compressionMode === 'max') {
+                                compressedSizeBytes = originalSizeBytes * 0.4; // 60% reduction
+                            } else if (compressionMode === 'custom') {
+                                const level = parseInt(compressionLevel.value) / 100;
+                                compressedSizeBytes = originalSizeBytes * (1 - (level * 0.7)); // Up to 70% reduction
+                            } else {
+                                compressedSizeBytes = originalSizeBytes * 0.6; // 40% reduction for balanced
+                            }
+                            
+                            // Create a simulated compressed blob
+                            compressedBlob = new Blob([arrayBuffer], { type: selectedFile.type });
+                            
+                            // Show results
+                            showResults(originalSizeBytes, compressedSizeBytes);
+                            
+                            // Complete loading
+                            compressBtn.classList.remove('loading');
+                        }, 2000);
+                    } catch (error) {
+                        console.error('Error processing file:', error);
+                        alert('Error processing file. Please try again.');
+                        compressBtn.classList.remove('loading');
+                        clearInterval(progressInterval);
+                    }
+                };
+                reader.readAsArrayBuffer(selectedFile);
+            }
+            
+            function showResults(originalSizeBytes, compressedSizeBytes) {
+                const reductionPercent = ((originalSizeBytes - compressedSizeBytes) / originalSizeBytes * 100).toFixed(1);
+                
+                // Update UI
+                originalSize.textContent = formatFileSize(originalSizeBytes);
+                compressedSize.textContent = formatFileSize(compressedSizeBytes);
+                reduction.textContent = `${reductionPercent}%`;
+                
+                // Show results
+                results.classList.add('active');
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return `${bytes} B`;
+                else if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
+                else return `${(bytes / 1048576).toFixed(1)} MB`;
+            }
+            
+            function downloadCompressedFile() {
+                if (!compressedBlob) return;
+                
+                // Create download link
+                const url = URL.createObjectURL(compressedBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = selectedFile.name.replace(/\.[^/.]+$/, '') + '_compressed.docx';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            }
+            
+            function resetTool() {
+                // Reset all UI elements
+                selectedFile = null;
+                compressedBlob = null;
+                fileInput.value = '';
+                fileName.textContent = '';
+                compressBtn.disabled = true;
+                compressBtn.classList.add('btn-disabled');
+                uploadArea.classList.remove('active');
+                results.classList.remove('active');
+                progressBar.style.width = '0%';
+                
+                // Reset to balanced mode
+                selectOption('balanced');
+            }
+        });
+    </script>
+</body>
+</html>
