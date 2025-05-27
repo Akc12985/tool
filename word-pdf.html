@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to PDF Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--dark-gray);
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--light-gray);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 107, 255, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--dark-gray);
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 30px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .file-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .file-name {
+            font-weight: 500;
+        }
+
+        .file-status {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .file-actions {
+            display: flex;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-gray);
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: var(--border-radius);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .batch-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .instructions {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+
+        .instructions h2 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .file-actions {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Font Awesome icons (using Unicode as fallback) */
+        .icon-upload::before {
+            content: "↑";
+            font-family: Arial, sans-serif;
+        }
+
+        .icon-file::before {
+            content: "📄";
+            font-family: Arial, sans-serif;
+        }
+
+        .icon-download::before {
+            content: "↓";
+            font-family: Arial, sans-serif;
+        }
+
+        .icon-delete::before {
+            content: "×";
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .icon-convert::before {
+            content: "↻";
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Word to PDF Converter</h1>
+        
+        <div class="instructions">
+            <h2>How to Convert Word to PDF</h2>
+            <ol>
+                <li>Click "Choose Files" or drag and drop Word documents into the upload area</li>
+                <li>Files will appear in the list below (you can remove any if needed)</li>
+                <li>Click "Convert All" to process all files or convert individually</li>
+                <li>Download your PDF files individually or all at once</li>
+            </ol>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="icon-upload"></div>
+            <p>Drag & Drop your Word files here or</p>
+            <button class="btn" id="selectFilesBtn">Choose Files</button>
+            <input type="file" id="fileInput" multiple accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+
+        <div class="batch-actions">
+            <button class="btn" id="convertAllBtn">Convert All</button>
+            <button class="btn btn-secondary" id="downloadAllBtn" disabled>Download All</button>
+            <button class="btn btn-secondary" id="clearAllBtn">Clear All</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const fileList = document.getElementById('fileList');
+            const convertAllBtn = document.getElementById('convertAllBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+
+            let files = [];
+            let convertedFiles = [];
+
+            // Event listeners
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('drop', handleDrop);
+            convertAllBtn.addEventListener('click', convertAllFiles);
+            downloadAllBtn.addEventListener('click', downloadAllFiles);
+            clearAllBtn.addEventListener('click', clearAllFiles);
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.style.borderColor = 'var(--primary-color)';
+                uploadArea.style.backgroundColor = 'rgba(74, 107, 255, 0.1)';
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.style.borderColor = 'var(--dark-gray)';
+                uploadArea.style.backgroundColor = 'var(--light-gray)';
+
+                const droppedFiles = Array.from(e.dataTransfer.files);
+                addFilesToQueue(droppedFiles);
+            }
+
+            function handleFileSelect(e) {
+                const selectedFiles = Array.from(e.target.files);
+                addFilesToQueue(selectedFiles);
+                fileInput.value = ''; // Reset to allow selecting same files again
+            }
+
+            function addFilesToQueue(newFiles) {
+                // Filter for Word documents only
+                const validFiles = newFiles.filter(file => 
+                    file.name.endsWith('.doc') || 
+                    file.name.endsWith('.docx') ||
+                    file.type === 'application/msword' ||
+                    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                );
+
+                if (validFiles.length === 0) {
+                    alert('Please select Word documents (.doc or .docx)');
+                    return;
+                }
+
+                files = [...files, ...validFiles];
+                renderFileList();
+            }
+
+            function renderFileList() {
+                fileList.innerHTML = '';
+                
+                if (files.length === 0) {
+                    fileList.innerHTML = '<p>No files selected</p>';
+                    return;
+                }
+
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'file-info';
+                    
+                    const fileIcon = document.createElement('span');
+                    fileIcon.className = 'file-icon icon-file';
+                    
+                    const fileName = document.createElement('span');
+                    fileName.className = 'file-name';
+                    fileName.textContent = file.name;
+                    
+                    const fileStatus = document.createElement('span');
+                    fileStatus.className = 'file-status';
+                    
+                    const convertedFile = convertedFiles.find(f => f.originalName === file.name);
+                    if (convertedFile) {
+                        fileStatus.textContent = 'Ready for download';
+                        fileStatus.style.color = 'green';
+                    } else {
+                        fileStatus.textContent = 'Pending conversion';
+                        fileStatus.style.color = 'var(--dark-gray)';
+                    }
+                    
+                    fileInfo.appendChild(fileIcon);
+                    fileInfo.appendChild(fileName);
+                    fileInfo.appendChild(fileStatus);
+                    
+                    const fileActions = document.createElement('div');
+                    fileActions.className = 'file-actions';
+                    
+                    if (convertedFile) {
+                        const downloadBtn = document.createElement('button');
+                        downloadBtn.className = 'action-btn icon-download';
+                        downloadBtn.title = 'Download PDF';
+                        downloadBtn.addEventListener('click', () => downloadFile(convertedFile));
+                        fileActions.appendChild(downloadBtn);
+                    } else {
+                        const convertBtn = document.createElement('button');
+                        convertBtn.className = 'action-btn icon-convert';
+                        convertBtn.title = 'Convert to PDF';
+                        convertBtn.addEventListener('click', () => convertFile(file, index));
+                        fileActions.appendChild(convertBtn);
+                    }
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'action-btn icon-delete';
+                    deleteBtn.title = 'Remove file';
+                    deleteBtn.addEventListener('click', () => removeFile(index));
+                    fileActions.appendChild(deleteBtn);
+                    
+                    fileItem.appendChild(fileInfo);
+                    fileItem.appendChild(fileActions);
+                    
+                    fileList.appendChild(fileItem);
+                });
+
+                // Update batch buttons state
+                downloadAllBtn.disabled = convertedFiles.length === 0 || convertedFiles.length !== files.length;
+            }
+
+            function removeFile(index) {
+                files.splice(index, 1);
+                // Also remove from convertedFiles if exists
+                convertedFiles = convertedFiles.filter(f => f.originalName !== files[index]?.name);
+                renderFileList();
+            }
+
+            async function convertFile(file, index) {
+                try {
+                    // Show progress
+                    const fileItem = fileList.children[index];
+                    const statusElement = fileItem.querySelector('.file-status');
+                    statusElement.textContent = 'Converting...';
+                    statusElement.style.color = 'var(--primary-color)';
+
+                    // Read the Word file
+                    const arrayBuffer = await file.arrayBuffer();
+                    
+                    // Convert to HTML using mammoth.js
+                    const result = await mammoth.extractRawText({arrayBuffer});
+                    const text = result.value;
+                    
+                    // Create PDF (simplified version - in a real app you'd want better formatting)
+                    const { PDFDocument, rgb } = PDFLib;
+                    const pdfDoc = await PDFDocument.create();
+                    const page = pdfDoc.addPage([600, 800]);
+                    const { height } = page.getSize();
+                    
+                    const fontSize = 12;
+                    const lineHeight = fontSize * 1.2;
+                    let y = height - 50;
+                    
+                    const lines = text.split('\n');
+                    for (const line of lines) {
+                        if (y < 50) {
+                            // Add new page if we run out of space
+                            y = height - 50;
+                            page = pdfDoc.addPage([600, 800]);
+                        }
+                        
+                        page.drawText(line, {
+                            x: 50,
+                            y,
+                            size: fontSize,
+                            color: rgb(0, 0, 0),
+                        });
+                        
+                        y -= lineHeight;
+                    }
+                    
+                    const pdfBytes = await pdfDoc.save();
+                    
+                    // Add to converted files
+                    convertedFiles.push({
+                        originalName: file.name,
+                        pdfName: file.name.replace(/\.[^/.]+$/, '') + '.pdf',
+                        pdfData: pdfBytes
+                    });
+                    
+                    // Update UI
+                    statusElement.textContent = 'Ready for download';
+                    statusElement.style.color = 'green';
+                    
+                    // Update download all button state
+                    downloadAllBtn.disabled = convertedFiles.length !== files.length;
+                    
+                } catch (error) {
+                    console.error('Conversion error:', error);
+                    const fileItem = fileList.children[index];
+                    const statusElement = fileItem.querySelector('.file-status');
+                    statusElement.textContent = 'Error converting';
+                    statusElement.style.color = 'red';
+                }
+            }
+
+            async function convertAllFiles() {
+                if (files.length === 0) return;
+                
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                
+                const totalFiles = files.length;
+                let convertedCount = 0;
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    // Skip if already converted
+                    if (convertedFiles.some(f => f.originalName === file.name)) {
+                        convertedCount++;
+                        updateProgress(convertedCount, totalFiles);
+                        continue;
+                    }
+                    
+                    await convertFile(file, i);
+                    convertedCount++;
+                    updateProgress(convertedCount, totalFiles);
+                }
+                
+                progressContainer.style.display = 'none';
+            }
+
+            function updateProgress(current, total) {
+                const percentage = Math.round((current / total) * 100);
+                progressBar.style.width = `${percentage}%`;
+            }
+
+            function downloadFile(convertedFile) {
+                const blob = new Blob([convertedFile.pdfData], { type: 'application/pdf' });
+                saveAs(blob, convertedFile.pdfName);
+            }
+
+            function downloadAllFiles() {
+                if (convertedFiles.length === 0) return;
+                
+                // Create a ZIP file with all PDFs (simulated in this example)
+                // Note: In a real implementation, you'd use a library like JSZip
+                if (convertedFiles.length === 1) {
+                    downloadFile(convertedFiles[0]);
+                } else {
+                    alert('Starting download of multiple files...');
+                    convertedFiles.forEach((file, index) => {
+                        // Add slight delay to prevent browser blocking multiple downloads
+                        setTimeout(() => {
+                            downloadFile(file);
+                        }, index * 500);
+                    });
+                }
+            }
+
+            function clearAllFiles() {
+                files = [];
+                convertedFiles = [];
+                renderFileList();
+                downloadAllBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
