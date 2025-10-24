@@ -1,66 +1,129 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video Downloader</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Website with YouTube Downloader</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
         }
         .container {
+            max-width: 700px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #cc0000;
+        }
+        form {
             background: #fff;
             padding: 30px;
-            max-width: 500px;
-            margin: auto;
-            box-shadow: 0 0 10px #ccc;
             border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
         }
         input[type="text"], select {
             width: 100%;
             padding: 10px;
-            margin: 15px 0;
+            margin-top: 8px;
             border-radius: 4px;
             border: 1px solid #aaa;
         }
         button {
-            background-color: #ff0000;
-            color: #fff;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
             width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #cc0000;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
         }
         button:hover {
-            background-color: #cc0000;
+            background-color: #a30000;
         }
-        h2 {
-            text-align: center;
-            color: #222;
+        .result {
+            margin-top: 25px;
+            word-wrap: break-word;
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>YouTube Video Downloader</h2>
-        <form action="/download" method="POST">
-            <label for="youtubeLink">YouTube Video Link</label>
-            <input type="text" id="youtubeLink" name="youtubeLink" placeholder="YouTube ka URL yahaan paste kare" required>
 
-            <label for="quality">Video Quality</label>
-            <select id="quality" name="quality" required>
-                <option value="360p">360p</option>
-                <option value="480p">480p</option>
-                <option value="720p">720p HD</option>
-                <option value="1080p">1080p Full HD</option>
-            </select>
+<!-- Navigation Menu -->
+<nav>
+    <ul>
+        <li><a href="pdf-compress.html">PDF Compressor</a></li>
+        <li><a href="img-compress.html">Image Compressor</a></li>
+        <li><a href="emi-calculator.html">EMI Calculator</a></li>
+        <li><a href="7cpc-pay.html">7th CPC Pay</a></li>
+        <li><a href="background-remover.html">Background Remover</a></li>
+        <li><a href="youtube-downloader.html">YouTube Downloader</a></li>
+    </ul>
+</nav>
 
-            <button type="submit">Download Kare</button>
-        </form>
+<!-- YouTube Downloader Form -->
+<div class="container">
+    <h1>YouTube Video Downloader</h1>
+    <form action="/download" method="POST">
+        <label for="url">YouTube Video Link डालें</label>
+        <input type="text" name="url" id="url" placeholder="https://www.youtube.com/watch?v=xxxx" required />
+
+        <label for="quality">Quality चुने</label>
+        <select name="quality" id="quality" required>
+            <option value="360p">360p</option>
+            <option value="480p">480p</option>
+            <option value="720p">720p HD</option>
+            <option value="1080p">1080p Full HD</option>
+        </select>
+
+        <button type="submit">डाउनलोड करें</button>
+    </form>
+
+    <div class="result">
+        <!-- Download link yahan show hoga -->
+        {% if download_link %}
+            <p>यहाँ से डाउनलोड करें: <a href="{{ download_link }}" download>Download Video</a></p>
+        {% endif %}
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
     </div>
+</div>
+
 </body>
 </html>
