@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 0 10px #ccc;
+            border-radius: 8px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+        }
+        button {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #cc0000;
+        }
+        h2 {
+            text-align: center;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>YouTube Video Downloader</h2>
+        <form action="/download" method="POST">
+            <label for="youtubeLink">YouTube Video Link</label>
+            <input type="text" id="youtubeLink" name="youtubeLink" placeholder="YouTube ka URL yahaan paste kare" required>
+
+            <label for="quality">Video Quality</label>
+            <select id="quality" name="quality" required>
+                <option value="360p">360p</option>
+                <option value="480p">480p</option>
+                <option value="720p">720p HD</option>
+                <option value="1080p">1080p Full HD</option>
+            </select>
+
+            <button type="submit">Download Kare</button>
+        </form>
+    </div>
+</body>
+</html>
